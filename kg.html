@@ -427,6 +427,9 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 .xnav a{min-height:44px;display:inline-flex;align-items:center}
 .exc .exb.cut{color:var(--ink-3);font-size:12.5px;line-height:1.8;background:var(--line2);border-radius:7px;padding:8px 10px}
 
+/* 筛选 chip 也保证 44px 触控高度 */
+#kgdom .chip{min-height:44px}
+
 /* ================= 背卡 ================= */
 #p-card{--cw:100%;--ch:clamp(320px,56vh,460px)}
 @media(min-width:821px){#p-card{--cw:420px;--ch:460px}}
@@ -619,6 +622,26 @@ body.fs-on{overflow:hidden}
 .fs-empty{padding:40px 20px;text-align:center;color:var(--ink-3,#6f685f);font-size:14px}
 .fs-empty button{margin-top:12px;font-family:inherit;padding:7px 14px;border-radius:9px;border:1px solid var(--line,#e3dfd8);background:#fff}
 
+/* ---------- 卡背里的「原文篇目 / 我的解读 / 整理图」 ---------- */
+.cdet{margin:14px 0 0;padding:12px 0 0;border-top:1px dashed var(--line)}
+.cdet .kdh{margin:0 0 8px;font-size:12px;color:var(--ink-3);display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}
+.cdet .kdh+.kdh{margin-top:14px}
+.cdet .kdhint{font-size:11.5px;color:var(--ink-3)}
+.cdet .cex{display:block;padding:6px 0;border-bottom:1px solid var(--line2)}
+.cdet .cex:last-of-type{border-bottom:0}
+.cdet .cexh{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-bottom:3px}
+.cdet .cexf .src{font-size:12px}
+.cdet .cext,.cdet .cex.none{font-size:12px;color:var(--ink-3)}
+.cdet .cexgrp{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--line2)}
+.cdet .cexdep{font-size:13px;font-weight:600;color:var(--ink-2);border-bottom:1px dashed var(--ink-3);cursor:pointer}
+.cdet .knote{margin:0 0 4px}
+.cdet .kfig{margin:12px 0 0}
+.cdet .kfig svg{max-height:320px;object-fit:contain}
+/* 手机上图像太小：允许横向拖动看细节 */
+@media(max-width:640px){
+  .kfig,.cdet .kfig{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .kfig svg,.cdet .kfig svg{min-width:660px;max-height:none}
+}
 </style>
 <script>window.__KG_PUBLISH__=1;</script></head>
 <body>
@@ -1340,6 +1363,8 @@ body.fs-on{overflow:hidden}
   var doms = DATA.domains || [], nodes = DATA.nodes || [];
   var PQA = DATA.pqa || { projects: [], items: [] };
   var APPQ = DATA.appq || { groups: [], items: [] };
+  var DETAILS = DATA.details || {};
+  var FIGS = DATA.figs || {};
   var appItems = APPQ.items || [];
   var appGroups = APPQ.groups || [];
   var projs = PQA.projects || [], pitems = PQA.items || [];
@@ -1482,6 +1507,72 @@ body.fs-on{overflow:hidden}
     }).join('') + '</span></span>';
   }
 
+  /* 出处链接/文字：与 srcChips 同一套 PUB 规则 */
+  function srcRef(title, file) {
+    var href = docHref(file);
+    if (!href) return '<span class="src" title="' + esc(file) + '（原文在本地；线上设置「原文服务」后可点开）">' + esc(title) + '</span>';
+    return '<a class="src" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(file) + '">' + esc(title) + '</a>';
+  }
+
+  /* 「原文篇目 + 我的解读 + 整理图」——知识点与项目题都在卡背里给全，卡内可下滑 */
+  function detailBlock(c) {
+    var h = '';
+    if (c.kind === 'kp') {
+      var n = c.n, d = DETAILS[n.id] || { ex: [], note: '' };
+      var exs = d.ex || [];
+      var seen = {}, list = [];
+      exs.forEach(function (e) {
+        var key = (e.file || '') + '|' + (e.head || '');
+        if (seen[key]) return;
+        seen[key] = 1; list.push(e);
+      });
+      h += '<div class="cdet">';
+      h += '<div class="kdh">原文篇目<span class="kdhint">标题可核对，点开看原文件</span></div>';
+      if (list.length) {
+        h += list.map(function (e) {
+          var head = String(e.head || '').replace(/[*#`]/g, '').trim();
+          return '<div class="cex">'
+            + (head ? '<span class="cexh">' + esc(head) + '</span>' : '')
+            + '<span class="cexf">' + srcRef(e.title || '', e.file || '') + '</span>'
+            + (e.cut ? '<span class="cext">（摘录正文在本地版）</span>' : '')
+            + '</div>';
+        }).join('');
+      } else {
+        h += '<div class="cex none">这一类语料里没有可检索的原文段落（标「语料未覆盖」），下面只有我的解读。</div>';
+      }
+      if (d.note) {
+        h += '<div class="kdh">我的解读<span class="kdhint">基于原文的整理，不是原文</span></div>'
+          + '<div class="knote">' + esc(d.note).split(/\n{2,}/).map(function (x) { return '<p>' + x.replace(/\n/g, '<br>') + '</p>'; }).join('') + '</div>';
+      }
+      if (FIGS[n.id]) {
+        h += '<figure class="kfig">' + FIGS[n.id] + '<figcaption>整理图 · 非原文（按原文逻辑重画）</figcaption></figure>';
+      }
+      h += '</div>';
+      return h;
+    }
+    if (c.kind === 'pj') {
+      var it2 = c.it;
+      var ids = it2.pts || [];
+      if (!ids.length) return '';
+      h += '<div class="cdet">';
+      h += '<div class="kdh">用到知识点的原文篇目<span class="kdhint">标题可核对，点开看原文件</span></div>';
+      ids.forEach(function (id) {
+        var nn = byId[id];
+        if (!nn) return;
+        var dd = DETAILS[id] || { ex: [] };
+        var exs2 = (dd.ex || []).slice(0, 2);
+        h += '<div class="cexgrp"><span class="cexdep" data-jump="' + esc(id) + '">' + esc(nn.t) + '</span>';
+        h += exs2.length
+          ? exs2.map(function (e) { return '<span class="cexf">' + srcRef(e.title || '', e.file || '') + '</span>'; }).join('')
+          : '<span class="cext">语料未覆盖</span>';
+        h += '</div>';
+      });
+      h += '</div>';
+      return h;
+    }
+    return '';
+  }
+
   /* 答案正文（卡背与全屏共用） */
   function answerInner(c) {
     if (c.kind === 'ap') {
@@ -1513,7 +1604,8 @@ body.fs-on{overflow:hidden}
       else docHtml = '<a class="src" href="' + esc(isLocal ? localHref(it.doc) : 'jd-interview.html') + '" target="_blank" rel="noopener">' + esc(it.doc) + '</a>';
       return '<p class="kone2">' + esc(it.a) + '</p>'
         + '<div class="krow2"><span class="kk">用到</span><span class="vv">' + pts + '</span></div>'
-        + '<div class="krow2"><span class="kk">文档</span><span class="vv pdocs2">' + docHtml + '</span></div>';
+        + '<div class="krow2"><span class="kk">文档</span><span class="vv pdocs2">' + docHtml + '</span></div>'
+        + detailBlock(c);
     }
     var n = c.n;
     var deps = (n.deps || []).map(function (id) {
@@ -1523,7 +1615,8 @@ body.fs-on{overflow:hidden}
     return '<p class="kone2">' + esc(n.one) + '</p>'
       + '<div class="krow2"><span class="kk">为什么考</span><span class="vv">' + esc(n.why) + '</span></div>'
       + '<div class="krow2"><span class="kk">出处</span><span class="vv">' + srcChips(n) + '</span></div>'
-      + '<div class="krow2"><span class="kk">前置</span><span class="vv">' + deps + '</span></div>';
+      + '<div class="krow2"><span class="kk">前置</span><span class="vv">' + deps + '</span></div>'
+      + detailBlock(c);
   }
   function backHtml(c, no) {
     return '<div class="face back hide" data-face="back">'
