@@ -449,6 +449,19 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 .kblk .ktxt .pp:last-child{margin-bottom:0}
 /* 搜索框触控区 */
 .search input[type=search],.filt .search input{min-height:44px}
+/* 相关原文题目：可点跳转 */
+.oqrefs{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}
+.oqref{display:block;text-align:left;width:100%;background:#fff;border:1px solid var(--line);border-radius:9px;
+  padding:9px 11px;font:inherit;font-size:14px;line-height:1.7;color:var(--ink);cursor:pointer}
+.oqref:hover{border-color:var(--accent);color:var(--accent)}
+.oqref .oqs{display:block;font-size:12px;color:var(--ink-3);margin-top:3px}
+.appc.flash{box-shadow:0 0 0 2px var(--accent-soft),0 8px 24px rgba(180,68,31,.12);border-color:var(--accent)}
+.vv .oqref{display:inline-block;width:auto;padding:2px 8px;margin:2px 4px 2px 0;font-size:13px;border-radius:999px}
+/* 相关原文题目：右侧跳转提示 */
+.oqref{position:relative;padding-right:34px}
+.oqref:after{content:"↗";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink-3);font-size:13px;line-height:1}
+.vv .oqref{padding-right:8px}
+.vv .oqref:after{content:none}
 /* ================= 背卡 ================= */
 #p-card{--cw:100%;--ch:clamp(320px,56vh,460px)}
 @media(min-width:821px){#p-card{--cw:420px;--ch:460px}}
@@ -964,6 +977,7 @@ body.fs-on{overflow:hidden}
     if (FIGS[n.id]) {
       h += '<figure class="kfig">' + FIGS[n.id] + '<figcaption>整理图 · 非原文（按原文逻辑重画）</figcaption></figure>';
     }
+    h += oqRefsForNode(n);
     h += '</div>';
     return h;
   }
@@ -1165,11 +1179,49 @@ body.fs-on{overflow:hidden}
   /* ---------- 学习路径 ---------- */
   /* ---------- 应用题 ---------- */
   var fapp = 'all', appqText = '';
+
+  /* 原文题目（用例：被哪些知识点/应用题引用，可互相跳转） */
+  var OQ_LIST = (APPQ.items || []).filter(function (it) { return !!it.src; });
+  var OQ_BY_NODE = {};
+  OQ_LIST.forEach(function (it) {
+    (it.pts || []).forEach(function (id) {
+      (OQ_BY_NODE[id] = OQ_BY_NODE[id] || []).push(it);
+    });
+  });
+  function oqLink(it, withSrc) {
+    return '<button class="oqref" data-jumpq="' + esc(it.id) + '">' + esc(it.q)
+      + (withSrc ? '<span class="oqs">原文 · ' + esc(String(it.src[0]).slice(0, 20)) + '</span>' : '')
+      + '</button>';
+  }
+  function oqRefsForNode(n) {
+    var arr = OQ_BY_NODE[n.id] || [];
+    if (!arr.length) return '';
+    return '<div class="kdh">相关的原文题目<span class="kdhint">点一条跳过去看「原文方案 + 我的回答」</span></div>'
+      + '<div class="oqrefs">' + arr.map(function (it) { return oqLink(it, true); }).join('') + '</div>';
+  }
+  function openApp(id) {
+    var it = (APPQ.items || []).filter(function (x) { return x.id === id; })[0];
+    if (!it) return;
+    fapp = 'all';
+    appqText = '';
+    var q = document.getElementById('appq'); if (q) q.value = '';
+    renderAppMode();
+    renderApp();
+    showPanel('app');
+    setTimeout(function () {
+      var card = document.querySelector('#applist [data-aid="' + id + '"]');
+      if (!card) return;
+      card.classList.add('open', 'flash');
+      var b = card.querySelector('[data-app-q]'); if (b) b.textContent = '收起答案';
+      try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { card.scrollIntoView(); }
+      setTimeout(function () { card.classList.remove('flash'); }, 1800);
+    }, 60);
+  }
   function appItems() {
     return (APPQ.items || []).filter(function (it) {
       if (fapp !== 'all' && it.g !== fapp) return false;
       if (!appqText) return true;
-      var s2 = (it.s + ' ' + it.q + ' ' + it.a).toLowerCase();
+      var s2 = ((it.s || '') + ' ' + it.q + ' ' + it.a + ' ' + (it.orig || '')).toLowerCase();
       return s2.indexOf(appqText) >= 0;
     });
   }
@@ -1178,7 +1230,16 @@ body.fs-on{overflow:hidden}
     var on = !!mastered[akey];
     var g = (APPQ.groups || []).filter(function (x) { return x.id === it.g; })[0] || { name: it.g };
     var isOq = !!it.src;
-    var h = '<div class="qcard appc' + (on ? ' done' : '') + (isOq ? ' oqc' : '') + '">'
+    var rel = !isOq && (it.pts || []).length
+      ? OQ_LIST.filter(function (o) {
+          return (o.pts || []).some(function (id) { return (it.pts || []).indexOf(id) >= 0; });
+        }).slice(0, 3)
+      : [];
+    var relHtml = rel.length
+      ? '<div class="krow2"><span class="k2">同知识点的原文题目</span><span class="vv">'
+        + rel.map(function (o) { return oqLink(o, false); }).join('') + '</span></div>'
+      : '';
+    var h = '<div class="qcard appc' + (on ? ' done' : '') + (isOq ? ' oqc' : '') + '" data-aid="' + esc(it.id || '') + '">'
       + (isOq
           ? '<div class="qs"><span class="qlv oq">原文题目</span><b>' + esc(it.q) + '</b></div>'
           : '<div class="qs"><span class="qlv">场景</span><b>' + esc(it.s) + '</b></div>'
@@ -1198,7 +1259,8 @@ body.fs-on{overflow:hidden}
           return '<span class="dep" data-jump="' + esc(id) + '">' + esc(t) + '</span>';
         }).join('、')
       + '</span></div>'
-      + (isOq ? '<div class="krow2"><span class="k2">原文</span><span class="vv">' + srcTag(it.src[0], it.src[1]) + '</span></div>' : '')
+      + relHtml
+      + (isOq ? '<div class="krow2"><span class="k2">原文</span><span class="vv">' + esc(it.src[0]) + '</span></div>' : '')
       + '</div></div>';
     return h;
   }
@@ -1329,6 +1391,8 @@ body.fs-on{overflow:hidden}
       try { window.dispatchEvent(new CustomEvent('kg-mastered-changed', { detail: { key: id, on: !!mastered[id] } })); } catch (e3) {}
       return;
     }
+    var jq = t.closest ? t.closest('[data-jumpq]') : null;
+    if (jq) { openApp(jq.getAttribute('data-jumpq')); return; }
     var jp = t.closest ? t.closest('[data-jump]') : null;
     if (jp) { gotoNode(jp.getAttribute('data-jump')); return; }
     var qq = t.closest ? t.closest('[data-qa]') : null;
@@ -1623,7 +1687,7 @@ body.fs-on{overflow:hidden}
           + '<div class="kblk"><span class="klab">我的回答</span><div class="ktxt">' + para2(a.a) + '</div></div>'
           + (a.avoid ? '<div class="krow2"><span class="kk">别说</span><span class="vv">' + esc(String(a.avoid).replace(/^别说[：:，,。\s]*/, '')) + '</span></div>' : '')
           + '<div class="krow2"><span class="kk">用到</span><span class="vv">' + pts2 + '</span></div>'
-          + '<div class="krow2"><span class="kk">原文</span><span class="vv">' + srcRef(a.src[0], a.src[1]) + '</span></div>';
+          + '<div class="krow2"><span class="kk">原文</span><span class="vv">' + esc(a.src[0]) + '</span></div>';
       }
       return '<p class="kone2">' + esc(a.a) + '</p>'
         + (a.avoid ? '<div class="krow2"><span class="kk">别说</span><span class="vv">' + esc(String(a.avoid).replace(/^别说[：:，,。\s]*/, '')) + '</span></div>' : '')
