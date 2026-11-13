@@ -1,0 +1,2773 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 产品经理 · 面试问答手册</title>
+<style>
+  :root{
+    --bg:#FBFAF7;
+    --paper:#FFFFFF;
+    --ink:#1A1A18;
+    --ink2:#4A4741;
+    --ink3:#6B6862;
+    --line:#E2DED4;
+    --line2:#EFEBE3;
+    --accent:#A33A27;
+    --accent-soft:#F5EDE9;
+    --ok:#3D6B4F;
+    --ok-soft:#EDF3EE;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+    font-size:16px;
+    line-height:1.75;
+    font-feature-settings:"tnum" 1;
+    -webkit-font-smoothing:antialiased;
+  }
+  .num{font-variant-numeric:tabular-nums}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(163,58,39,.28)}
+  a:hover{border-bottom-color:var(--accent)}
+
+  /* ---------- 版心 ---------- */
+  .shell{max-width:1160px;margin:0 auto;padding:0 24px}
+  .layout{display:block}
+  @media(min-width:1080px){
+    .layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:56px;align-items:start}
+  }
+
+  /* ---------- 页头 ---------- */
+  header.top{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-size:12px;letter-spacing:.18em;color:var(--accent);
+    text-transform:uppercase;font-weight:600;margin:0 0 18px
+  }
+  h1{
+    font-size:clamp(28px,4.2vw,42px);line-height:1.25;margin:0 0 16px;
+    font-weight:700;letter-spacing:-.01em
+  }
+  h1 em{font-style:normal;color:var(--accent)}
+  .lede{font-size:16px;color:var(--ink2);margin:0 0 28px;max-width:62ch;line-height:1.8}
+  .meta{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:12px;color:var(--ink3)}
+  .meta b{color:var(--ink);font-weight:600}
+
+  /* ---------- 目录 ---------- */
+  nav.toc{padding:28px 0}
+  @media(min-width:1080px){
+    nav.toc{position:sticky;top:0;max-height:100vh;overflow-y:auto;padding:40px 0}
+  }
+  nav.toc h3{
+    font-size:12px;letter-spacing:.16em;color:var(--ink3);font-weight:600;
+    margin:0 0 14px;text-transform:uppercase
+  }
+  nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+  nav.toc li{margin:0 0 2px}
+  nav.toc a{
+    display:block;padding:7px 10px 7px 12px;border:0;border-left:2px solid transparent;
+    font-size:14px;color:var(--ink2);line-height:1.5;border-radius:0 4px 4px 0
+  }
+  nav.toc a:hover{background:var(--paper);color:var(--ink);border-left-color:var(--accent)}
+  nav.toc a .n{display:inline-block;width:26px;color:var(--ink3);font-size:12px}
+
+  /* ---------- 章节 ---------- */
+  section{padding:56px 0 8px;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .ch-head{display:flex;align-items:baseline;gap:16px;margin:0 0 10px}
+  .ch-head .big{
+    font-size:34px;line-height:1;font-weight:700;color:var(--accent);
+    letter-spacing:-.02em;flex:0 0 auto
+  }
+  .ch-head h2{font-size:24px;line-height:1.35;margin:0;font-weight:700;letter-spacing:-.01em}
+  .ch-sub{font-size:14px;color:var(--ink3);margin:0 0 32px}
+
+  /* ---------- 题目 ---------- */
+  details.q{
+    background:var(--paper);border:1px solid var(--line);
+    border-radius:3px;margin:0 0 14px;overflow:hidden
+  }
+  details.q[open]{border-color:#D6CFC1}
+  details.q > summary{
+    list-style:none;cursor:pointer;padding:18px 22px 18px 22px;
+    display:flex;gap:14px;align-items:flex-start;min-height:44px;
+    border-left:3px solid transparent;transition:border-color .15s, background .15s
+  }
+  details.q > summary::-webkit-details-marker{display:none}
+  details.q > summary:hover{background:#FDFCFA}
+  details.q[open] > summary{border-left-color:var(--accent);background:#FDFCFA}
+  details.q > summary .qid{
+    flex:0 0 auto;font-size:12px;font-weight:600;color:var(--ink3);
+    letter-spacing:.06em;padding-top:4px;width:30px
+  }
+  details.q[open] > summary .qid{color:var(--accent)}
+  details.q > summary .qtxt{
+    flex:1 1 auto;font-size:16px;line-height:1.55;font-weight:600;color:var(--ink)
+  }
+  details.q > summary .chev{
+    flex:0 0 auto;color:var(--ink3);font-size:14px;padding-top:3px;transition:transform .18s
+  }
+  details.q[open] > summary .chev{transform:rotate(90deg);color:var(--accent)}
+  .star{color:var(--accent);font-weight:400;margin-left:2px}
+  details.q:not([open]) > .qbody{display:none}
+  details.q[open] > .qbody{display:block}
+
+  .qbody{padding:0 22px 26px 22px;border-top:1px solid var(--line2)}
+  .who{
+    display:inline-block;font-size:12px;letter-spacing:.08em;font-weight:600;
+    padding:3px 9px;border-radius:2px;margin:18px 8px 14px 0;
+    vertical-align:middle
+  }
+  .who.hr{background:#EFEDE7;color:#5C564B}
+  .who.biz{background:var(--accent-soft);color:var(--accent)}
+  .who.x{background:#E8EEF0;color:#3A5D6B}
+  .who.you{background:var(--ok-soft);color:var(--ok)}
+  .ask{font-size:14px;color:var(--ink3);font-style:italic;line-height:1.6}
+
+  .core{
+    background:var(--accent-soft);border-left:3px solid var(--accent);
+    padding:13px 18px;margin:16px 0 20px;font-size:15px;line-height:1.72;
+    color:#6B2B1D;border-radius:0 3px 3px 0;max-width:44em
+  }
+  .core b{color:var(--accent);font-weight:700}
+
+  .qbody p{margin:0 0 14px;font-size:16px;line-height:1.78;color:var(--ink2);max-width:44em}
+  .qbody p strong{color:var(--ink);font-weight:600}
+  .qbody ul,.qbody ol{margin:0 0 16px;padding-left:22px;max-width:44em}
+  .qbody li{margin:0 0 8px;font-size:15px;line-height:1.75;color:var(--ink2)}
+  .qbody li strong{color:var(--ink);font-weight:600}
+  .qbody h4{
+    font-size:12px;letter-spacing:.1em;color:var(--ink3);font-weight:600;
+    margin:24px 0 10px;text-transform:uppercase
+  }
+
+  /* 追问链 */
+  .chain{margin:20px 0 0;border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+  .chain .hd{
+    background:#F7F5F0;padding:9px 16px;font-size:12px;letter-spacing:.1em;
+    color:var(--ink3);font-weight:600
+  }
+  .chain .item{padding:13px 16px;border-top:1px solid var(--line2)}
+  .chain .item:first-of-type{border-top:0}
+  .chain .qq{font-size:14px;font-weight:600;color:var(--ink);margin:0 0 6px;line-height:1.6}
+  .chain .aa{font-size:14px;color:var(--ink2);margin:0;line-height:1.7}
+  .chain .aa b{color:var(--accent);font-weight:600}
+  .muted{display:block;margin-top:4px;font-size:13px;color:var(--ink3);font-weight:400}
+
+  /* 别说 */
+  .avoid{
+    margin:18px 0 0;padding:12px 16px;background:#FBF4F2;
+    border-left:3px solid #C97A63;border-radius:0 3px 3px 0;
+    font-size:14px;line-height:1.72;color:#7A3B29;max-width:46em
+  }
+  .avoid b{color:#8C3520;font-weight:700}
+
+  /* ---------- 表格 ---------- */
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 20px}
+  .tbl{width:100%;border-collapse:collapse;margin:8px 0 20px;font-size:14px}
+  .tbl caption{
+    text-align:left;font-size:12px;letter-spacing:.1em;color:var(--ink3);
+    font-weight:600;padding:0 0 10px;text-transform:uppercase
+  }
+  .tbl th{
+    text-align:left;padding:10px 12px;background:#F2F0EA;color:var(--ink);
+    font-weight:600;font-size:12px;border-bottom:1px solid var(--line);
+    white-space:nowrap
+  }
+  .tbl td.nw{white-space:nowrap}
+  .tbl td{
+    padding:11px 12px;border-bottom:1px solid var(--line2);
+    color:var(--ink2);vertical-align:top;line-height:1.65
+  }
+  .tbl td.nowrap{white-space:nowrap}
+  .tbl td.k{color:var(--ink);font-weight:600}
+  .tbl tr:last-child td{border-bottom:1px solid var(--line)}
+
+  /* ---------- 提示块 ---------- */
+  .note{
+    border:1px solid var(--line);background:var(--paper);padding:20px 22px;
+    border-radius:3px;margin:0 0 20px
+  }
+  .note h4{margin:0 0 10px;font-size:12px;letter-spacing:.1em;color:var(--accent);font-weight:600}
+  .note p{margin:0 0 10px;font-size:15px;color:var(--ink2);line-height:1.75;max-width:44em}
+  .note p:last-child{margin-bottom:0}
+  .note ul{margin:0 0 10px;padding-left:20px}
+  .note li{font-size:15px;line-height:1.75;color:var(--ink2);margin-bottom:6px;max-width:44em}
+  .dim{color:var(--ink3);font-size:12px;font-weight:400}
+  #fit .tbl th:nth-child(1){width:6%}
+  #fit .tbl th:nth-child(2){width:17%}
+  #fit .tbl th:nth-child(3){width:19%}
+  #fit .tbl th:nth-child(4){width:11%}
+  #fit .tbl th:nth-child(5){width:6%}
+  #fit .tbl th:nth-child(6){width:41%}
+  h3.sub{font-size:16px;font-weight:600;color:var(--ink);margin:36px 0 14px;letter-spacing:.01em}
+  h3.sub:first-of-type{margin-top:24px}
+  ul.plain{margin:0 0 20px;padding-left:20px;max-width:44em}
+  ul.plain li{font-size:15px;line-height:1.75;color:var(--ink2);margin-bottom:8px}
+
+  /* ---------- 三步练法 ---------- */
+  .drill{display:grid;gap:0;border:1px solid var(--line);background:var(--paper);border-radius:3px;overflow:hidden}
+  @media(min-width:760px){.drill{grid-template-columns:repeat(3,1fr)}}
+  .drill > div{padding:22px 20px;border-top:1px solid var(--line2)}
+  @media(min-width:760px){
+    .drill > div{border-top:0;border-left:1px solid var(--line2)}
+    .drill > div:first-child{border-left:0}
+  }
+  .drill .step{
+    font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin:0 0 8px
+  }
+  .drill h5{margin:0 0 8px;font-size:15px;font-weight:700;color:var(--ink)}
+  .drill p{margin:0;font-size:14px;line-height:1.7;color:var(--ink3)}
+
+  /* ---------- 速查卡 ---------- */
+  .cards{display:grid;gap:14px;margin:0 0 24px}
+  @media(min-width:700px){.cards{grid-template-columns:repeat(2,1fr)}}
+  .card{border:1px solid var(--line);background:var(--paper);padding:18px 20px;border-radius:3px}
+  .card h5{margin:0 0 10px;font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+  .card ul{margin:0;padding-left:18px}
+  .card li{font-size:14px;line-height:1.7;color:var(--ink2);margin:0 0 5px}
+
+  footer{
+    margin-top:64px;padding:32px 0 72px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--ink3);line-height:1.8
+  }
+  footer p{margin:0 0 6px;max-width:44em}
+
+  @media(max-width:860px){
+    .shell{padding:0 18px}
+    header.top{padding:44px 0 32px}
+    section{padding:44px 0 6px}
+    details.q > summary{padding:15px 16px;gap:10px}
+    details.q > summary .qtxt{font-size:15px}
+    .qbody{padding:0 16px 22px}
+    .ch-head .big{font-size:26px}
+    .ch-head h2{font-size:20px}
+    .tbl{min-width:0;width:100%;margin:0}
+    .tbl-wrap{margin:8px 0 20px}
+    .tbl thead{display:none}
+    .tbl tbody tr{display:block;padding:12px 0;border-bottom:1px solid var(--line2)}
+    .tbl tbody tr:last-child{border-bottom:0}
+    .tbl td{display:block;padding:2px 0;border:0;white-space:normal}
+    .tbl td.k,.tbl td.nw{white-space:normal}
+    .tbl td:first-child{font-weight:700;color:var(--ink);font-size:15px;margin-bottom:4px}
+    .tbl td::before{display:block;font-size:12px;letter-spacing:.1em;color:var(--ink3);margin-bottom:1px}
+    .tbl td:first-child::before{display:none}
+    #map .tbl td:nth-child(2)::before{content:"谁在问"}
+    #map .tbl td:nth-child(3)::before{content:"验什么"}
+    #map .tbl td:nth-child(4)::before{content:"死法"}
+    #q19 .tbl td:nth-child(2)::before{content:"查什么"}
+    #q19 .tbl td:nth-child(3)::before{content:"怎么判断"}
+    #q22 .tbl td:nth-child(2)::before{content:"指标"}
+    #q22 .tbl td:nth-child(3)::before{content:"实际数"}
+    #q22 .tbl td:nth-child(4)::before{content:"谁负责"}
+    #fit .tbl td:nth-child(2)::before{content:"用人单位"}
+    #fit .tbl td:nth-child(3)::before{content:"岗位"}
+    #fit .tbl td:nth-child(4)::before{content:"薪资"}
+    #fit .tbl td:nth-child(5)::before{content:"匹配分"}
+    #fit .tbl td:nth-child(6)::before{content:"判断"}
+  }
+  @media print{
+    body{background:#fff;font-size:11pt}
+    nav.toc{display:none}
+    details.q{break-inside:avoid;border-color:#ccc}
+    details.q > .qbody{display:block !important}
+    details.q > summary .chev{display:none}
+  }
+  .xlink{margin:0 0 16px; padding:10px 13px; background:var(--accent-soft); border-left:3px solid var(--accent); font-size:13px; line-height:1.6; color:var(--ink2)}
+  .xlink a{color:var(--accent); text-decoration:none; border-bottom:1px solid currentColor}
+  .xlink a:hover{background:var(--accent); color:#fff}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="shell">
+    <nav style="max-width:1160px; margin:0 auto 18px; padding:0 24px; display:flex; gap:18px; font-size:13px; letter-spacing:.02em"><a href="jd-interview.html" style="color:#6B6862; text-decoration:none; border-bottom:1px solid #E2DED4; padding-bottom:2px">项目深挖 Q&amp;A</a><a href="interview-sim.html" style="color:#6B6862; text-decoration:none; border-bottom:1px solid #E2DED4; padding-bottom:2px">模拟面试</a><a href="site/index.html" style="color:#6B6862; text-decoration:none; border-bottom:1px solid #E2DED4; padding-bottom:2px">个人网站</a></nav>
+    <p class="kicker">Interview Playbook · 2026</p>
+    <h1>AI 产品经理面试问答手册<br><em>端侧 Agent × 行业解决方案</em></h1>
+    <p class="lede">68 组问题——36 组主干、12 组对照原始截图补的、20 组按 JD 词表补的，全部从 15 条深圳 JD 的原文反推而来。每题给出提问者身份与原话、一句话结论、可讲的正文、两层追问链、以及不该说的话。不是标准答案库——是让你在被追问第二层时仍然站得住的推演路径。</p>
+    <div class="meta">
+      <span><b>候选人</b>　胡迪</span>
+      <span><b>目标岗</b>　AI 产品经理 / 资深产品经理</span>
+      <span><b>依据</b>　15 条 JD · 精简版简历</span>
+      <span><b>题量</b>　68 组 / 80 条追问</span>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+<div class="layout">
+
+  <nav class="toc">
+    <h3>目录</h3>
+    <ol>
+      <li><a href="#howto"><span class="n">—</span>怎么用这本手册</a></li>
+      <li><a href="#map"><span class="n">00</span>面试全景：四轮各考什么</a></li>
+      <li><a href="#ch1"><span class="n">01</span>开场与动机</a></li>
+      <li><a href="#ch2"><span class="n">02</span>项目深挖</a></li>
+      <li><a href="#ch3"><span class="n">03</span>技术边界判断</a></li>
+      <li><a href="#ch4"><span class="n">04</span>指标与评测</a></li>
+      <li><a href="#ch5"><span class="n">05</span>协作与推动</a></li>
+      <li><a href="#ch6"><span class="n">06</span>短板与风险</a></li>
+      <li><a href="#ch7"><span class="n">07</span>反问与收尾</a></li>
+      <li><a href="#gap"><span class="n">08</span>对照原始 JD：补的 12 问</a></li>
+      <li><a href="#fit"><span class="n">09</span>投哪家：逐家打分</a></li>
+      <li><a href="#more"><span class="n">10</span>补 20 问：缺口补齐</a></li>
+      <li><a href="#quick"><span class="n">—</span>速查与模板</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- ============ 怎么用 ============ -->
+  <section id="howto">
+    <div class="ch-head"><span class="big">·</span><h2>怎么用这本手册</h2></div>
+    <p class="ch-sub">先说清楚它不是什么：不是背稿。背稿的人在第二层追问就会露馅。</p>
+
+    <div class="drill">
+      <div>
+        <p class="step">第一遍 · 只看结论</p>
+        <h5>十分钟过一遍</h5>
+        <p>把 68 条砖红色的「一句话结论」读一遍。这些是你每次回答都必须落地的判断句。读完你应该能感到：我对每个问题都有立场。</p>
+      </div>
+      <div>
+        <p class="step">第二遍 · 出声讲</p>
+        <h5>录音，卡 90 秒</h5>
+        <p>挑出你被问概率最高的 13 题（后面标了 ★），用手机录音讲。超过 90 秒就是没想清楚。回放时只挑一个毛病改：有没有先给结论。</p>
+      </div>
+      <div>
+        <p class="step">第三遍 · 只练追问</p>
+        <h5>折叠正文，只看追问链</h5>
+        <p>把每题正文折起来，只读追问链。追问才是面试真正的战场——第一层答案网上都有，第二层才是你和别人的差。</p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:24px">
+      <h4>三条硬规则</h4>
+      <p><strong>一、先结论后论证。</strong>每题第一句必须是判断句，不是背景。面试官在你说完第一句时就决定了要不要认真听。</p>
+      <p><strong>二、所有数字只用一处口径。</strong>同一场面试里，同一个数字不能说两个版本。本手册所有数字与你简历一致，别临场改。</p>
+      <p><strong>三、不知道就说边界。</strong>「这块我只有概念，没实操过，我的理解是……如果我判断错了请您纠正」——这句话救过的人比任何话术都多。硬编的人在第三层一定崩。</p>
+    </div>
+  </section>
+
+  <!-- ============ 面试全景 ============ -->
+  <section id="map">
+    <div class="ch-head"><span class="big">00</span><h2>面试全景：四轮各考什么</h2></div>
+    <p class="ch-sub">15 条 JD 的流程高度一致。知道每一轮谁在考什么，比多背十道题有用。</p>
+
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <caption>四轮分工</caption>
+      <thead>
+        <tr><th>轮次</th><th>谁</th><th>真正在验什么</th><th>死法</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k nowrap">HR 初筛<br>20–30 分钟</td>
+          <td class="nw">招聘 HR</td>
+          <td>年限学历地点是否硬匹配、稳定性、薪资带、动机是否自洽</td>
+          <td>答不出"为什么现在转"、薪资报超带、跳槽理由负面</td>
+        </tr>
+        <tr>
+          <td class="k nowrap">业务一面<br>45–60 分钟</td>
+          <td class="nw">产品负责人 / 用人经理</td>
+          <td>项目真伪、你在这件事里的具体动作、判断力、AI 边界感</td>
+          <td>讲成团队成果、说不出自己做了什么决定、技术问题全靠"研发说"</td>
+        </tr>
+        <tr>
+          <td class="k nowrap">交叉面 / 技术面<br>45 分钟</td>
+          <td class="nw">算法 / 工程 / 交付负责人</td>
+          <td>你会不会被技术团队带着走、能不能对话、方案是否可行</td>
+          <td>术语用错、被问 RAG 细节答不出、把"模型能力"当万能</td>
+        </tr>
+        <tr>
+          <td class="k nowrap">终面<br>30–45 分钟</td>
+          <td class="nw">事业部负责人 / VP</td>
+          <td>商业判断、能否独立扛一条线、性价比</td>
+          <td>只会讲功能不会讲生意、没有取舍观、气场不匹配</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="note">
+      <h4>你的结构性优势，请在每一轮都用上</h4>
+      <p>这批 JD 里有 <strong>11 条要 Agent、9 条要 RAG/知识库、6 条要评测体系</strong>，但同时要"端侧约束 + 政企验收 + 硬件量产"的极少。你的稀缺性不在"会用大模型"，在于<strong>你能在一个算力和预算都被卡死的场景里，把模型能力收敛成一份能签字的东西</strong>。这句话是你整场面试的主线，每轮都要以不同形式回去一次。</p>
+    </div>
+  </section>
+
+  <!-- ============ 第一章 开场 ============ -->
+  <section id="ch1">
+    <div class="ch-head"><span class="big">01</span><h2>开场与动机</h2></div>
+    <p class="ch-sub">前五个问题决定后面四十分钟的基调。HR 轮不筛能力，筛"这个人靠不靠谱"。</p>
+
+    <details class="q" id="q01" open>
+      <summary><span class="qid">Q01</span><span class="qtxt">先做个自我介绍吧。<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR 初筛</span>
+        <p class="ask">"简单介绍一下你自己，重点讲跟这个岗位相关的。"</p>
+
+        <div class="core"><b>结论：</b>用"一条主线 + 三段升级 + 一句落点"讲 90 秒。主线不是"我做过 AI"，是"<b>我一直往责任更重的那一层走</b>"——从卖一颗模组，到扛一条产品线，到扛一个能被签字的交付。三段各一个动词（卖 / 扛 / 负责）+ 一个数，落点对着对方 JD 里那句最具体的要求。</div>
+
+        <p><strong>开口第一句定调，不要从 2017 年开始报时间线。</strong></p>
+        <p>"我是胡迪，9 年 B 端产品。换过三家公司，做的其实是同一件事：<strong>把一个还不确定的技术，变成客户愿意签字的东西</strong>。只是负责的范围一次比一次大。"</p>
+        <p>然后三段，每段一个动词、一个数：</p>
+        <ul>
+          <li><strong>卖（2017–2021，致远）：</strong>IoT 通信模组，四年。卖的是别人系统里的一个零件，所以必须先搞懂客户整机要什么——新能源、医疗、电力三个行业跑下来，储备 100+ 个项目机会，发起 20+ 款衍生产品立项。<span class="muted">这一段教我的：产品不是我想做什么，是客户的系统缺哪一块。</span></li>
+          <li><strong>扛（2021–2023，涂鸦）：</strong>从零件做到整机和 SaaS，第一次对完整产品负责。两年 5 款 0 到量产、累计营收 2000 多万，进了锦江、尚美、华住、亚朵，中控屏打到墨西哥和澳洲。<span class="muted">这一段教我的：云边怎么分工——哪一层放本地、哪一层放云，是成本和可靠性的分水岭。</span></li>
+          <li><strong>负责（2023–2026，云锦微）：</strong>第一次不是交功能，是交一个能被签字的东西。三件事：定义（海图 12 条可判定条款、120+ 副专题图、单条核对 2.5 分钟压到 40 秒）、取舍（人防判定交规则、模型只做识别，复合配筋 52% 提到 74%）、度量（220 例评测集、意图路由 96.8%，也顺手测出关键词兜底只有 54.1%）。<span class="muted">这一段教我的：模型不确定的时候，产品要替它把责任接住。</span></li>
+        </ul>
+        <p>收尾一句，对着 JD 说："三次的活看起来不一样，其实是同一件事往前挪：<strong>零件要对整机负责，整机要对场景负责，AI 要对判定负责</strong>。责任范围一直在扩，这是我一直往这边走的原因。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"为什么从模组做到整机，再做到 AI？是追风口吗？"</p>
+            <p class="aa">不是追风口，是每次选"正在变厚的那一层"。模组时代卖硬件，客户买的是兼容性；云边协同时代卖系统，客户买的是本地不可靠时还能跑；AI 时代卖判定，客户买的是"错了谁负责"。<b>三次都在处理同一个矛盾：技术不确定，客户要确定。</b>我的能力是连续的，换的是那层不确定从哪来。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你刚才说的三个项目，哪个是你主导的？"</p>
+            <p class="aa">都主导。<b>海图我是产品第一负责人</b>，从客户走访到判定条款到验收口径；人防也是。但要区分：我是产品决策的主导，不是技术实现的主导——模型选型是算法同学定，我给约束条件和验收标准。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"9 年经验，为什么项目经历只写了 AI 这几个？"</p>
+            <p class="aa">因为项目经历我按"<b>能不能被追问三层</b>"来选，不按时间堆。致远和涂鸦是我能力的来源，放在工作经历里；海图、人防、工厂是我方法的展示，放在项目里。<b>面试时反过来了——能力来源要先讲，因为那决定了方法是怎么长出来的。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"说一个你失败的。"</p>
+            <p class="aa">转这里：<b>"失败的比成功的多。"</b>然后在 Q13 或 Q35 里挑一个讲。不要在自我介绍里塞失败案例，会打乱节奏。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我是一个热爱学习、善于沟通的人"——这类词在 HR 每天听 30 遍的耳朵里等于没说话。也别把三段讲成三家公司加三个时间段（"2017 到 2021 我在致远，2021 到 2023 在涂鸦……"）——那是简历，不是介绍。<b>每段只说一个动词和一个数，剩下的等他们问。</b></div>
+      </div>
+    </details>
+
+    <details class="q" id="q02">
+      <summary><span class="qid">Q02</span><span class="qtxt">为什么现在想做 AI 产品经理？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR 初筛</span>
+        <p class="ask">"是跟风吗？还是你本来就在做？"</p>
+
+        <div class="core"><b>结论：</b>不是转型，是延续。把"AI 产品经理"定义成"在约束下把模型能力变成可交付物的人"，然后证明你三年前就在干这件事。</div>
+
+        <p>这个问题背后是一个真实怀疑：<strong>你是被风口吸引，还是被问题吸引。</strong>回答要消解它。</p>
+        <p>"我不太把它叫转型。2023 年我在云锦微接手的第一件事，是公司有一批边缘算力硬件，得判断它能被讲成什么生意——那会儿没有'AI 产品经理'这个说法，我做的是同一件事：<strong>手上有一个不确定能力的技术资产，我要判断它值多少钱、卖给谁、怎么验收。</strong>"</p>
+        <p>然后给一个"我早就这样想"的证据：</p>
+        <p>"真正的转折点是 2025 年做海图。客户说'你们的 AI 能不能审图'，我发现这句话没法回答——因为'审'有 12 种意思。<strong>从那天起我的工作就变成了：把模糊的 AI 期待翻译成可判定的条款。</strong>这就是我现在理解的 AI 产品经理的核心工作，不是调 prompt。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那你觉得自己是 AI 产品经理，还是传统产品经理加了个 AI 标签？"</p>
+            <p class="aa">区别在<b>不确定性怎么处理</b>。传统产品，需求定了，剩下的主要是工程和执行；AI 产品，需求定了之后还有一层不确定性——模型在这个场景到底能不能做到 80%。所以我工作里多了两件传统 PM 没有的事：<b>做可行性验证（先跑一版再说）</b>，和<b>做评测（用数据证明它到了 80% 还是 60%）</b>。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果模型能力再涨两代，你这个岗位还有必要吗？"</p>
+            <p class="aa">更有必要，但工作内容会变。模型越强，<b>能做的事越多，选择做哪件、不做哪件就越值钱</b>。现在我还得花时间解决"模型做不到"，将来那部分会消失，剩下的全是"该不该做、做到什么程度、错了谁负责"——这三件模型永远替不了。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"AI 是未来趋势，我想抓住这个机会。"（所有人都这么说，且暴露你是外部视角）／"我做产品很多年了，想换个赛道试试。"（试试 = 不稳定）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q03">
+      <summary><span class="qid">Q03</span><span class="qtxt">你现在是产品总监，来投资深产品经理，怎么想的？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR 初筛</span>
+        <p class="ask">"是降级吗？会不会干一阵子觉得委屈？我们能给你什么？"</p>
+
+        <div class="core"><b>结论：</b>承认这是主动选择，用"我更想要的是一手信息而不是管理半径"来解释，并明确说清你要什么——不要含糊成"我不在意职级"。</div>
+
+        <p>这是你最高概率被问、也最容易答砸的一题。答砸的两种方式：一是硬撑"我不觉得是降级"（不诚实），二是"我完全服从安排"（没主见，且显得没议价能力）。</p>
+        <p>我的答法分三层：</p>
+        <p><strong>第一层，先说清事实。</strong>"在云锦微我是产品总监，带产品线，也管过交付。这次出来我确实是在看资深产品经理 / 产品专家的岗位，不是总监岗。"</p>
+        <p><strong>第二层，说清为什么这是主动选择。</strong>"我在上一家公司的处境是：一人多岗，战略、产品、交付、融资 BP 都做。好处是看得全，坏处是<strong>每一件都不够深</strong>。我这两年在端侧 Agent 上遇到的问题，比如长任务怎么保证可控、评测怎么做成常态，靠一个人在小公司是解不深的——因为没有足够多的场景量和足够强的技术同伴。"</p>
+        <p><strong>第三层，说清我要什么。</strong>"所以我看岗位看三件事：一是有真实场景量，二是有能对话的技术团队，三是这个岗位对结果负责而不是只写 PRD。职级上我要的是能独立扛一条线，不是带多少人。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那你为什么不找一个总监岗？"</p>
+            <p class="aa">因为在 AI 这个阶段，<b>总监岗容易离一线太远</b>。我见过太多总监在 AI 项目上做决策，但没跑过一次评测、没看过一次 badcase，判断全靠汇报。我不想变成那样。等我在这条线上再扎实两年，回去带团队才有底气。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果半年后有个总监岗，你会走吗？"</p>
+            <p class="aa">不会因为title走，会因为<b>没东西可做</b>走。我的判断标准是这条产品线还在不在长——如果它一直在长，我在什么职级上都待得住。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"薪资上你能接受多少？"</p>
+            <p class="aa">见 Q05，别在这里展开。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我不在乎职级，主要是想学习。"——招聘方会翻译成"这人没议价能力，也可能干三个月就走"。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q04">
+      <summary><span class="qid">Q04</span><span class="qtxt">为什么想离开现在的公司？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR 初筛</span>
+        <p class="ask">"是公司的问题，还是你的问题？"</p>
+
+        <div class="core"><b>结论：</b>把原因归到"我想做的事在这家公司的结构里做不成"，不评价人、不评价公司好坏，给一个客观的结构性理由。</div>
+
+        <p>HR 真正在测的是：<strong>你会不会在下一家也说同样的话。</strong>所以理由必须是"结构性的、下家能解决的"，不能是"人际""钱""老板不行"。</p>
+        <p>"云锦微是一家很好的公司，我在这三年做的四代产品都是公司级的战略项目，老板也给了很大空间。<strong>我要走的原因很具体：这家公司的客户结构是政企和制造的单点大项目</strong>，一个项目做两年，交付完就是下一个客户。这种结构很适合做深一个行业，但不适合把 Agent 能力做成可复用的产品——因为<strong>没有足够的并发场景来喂评测、喂迭代</strong>。"</p>
+        <p>"我想去的地方是：有大量同类场景、能持续拿到使用数据、有一个技术团队一起把能力沉淀下来的环境。这和贵司这个岗位的描述是一致的。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"你老板知道你要走吗？"</p>
+            <p class="aa">知道，我已经跟他沟通过。<b>手上的项目我会做到交接到位</b>——人防一期已经终验，海图一期也交付了，剩下的迭代我能保证走之前有完整文档和接手人。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果给你加薪/升职，你会留下吗？"</p>
+            <p class="aa">不会。<b>我要换的不是价格，是场景结构。</b>这个在现公司加钱也变不出来。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"公司管理混乱""老板想法变来变去""团队能力不行"——任何一句都会让 HR 记一笔"这人会抱怨前东家"。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q05">
+      <summary><span class="qid">Q05</span><span class="qtxt">你期望薪资多少？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR 初筛</span>
+        <p class="ask">"我们现在这个岗位大概 30 到 45，你能接受吗？"</p>
+
+        <div class="core"><b>结论：</b>先要区间信息再报数。必须报时，报一个带宽而不是一个点，并把"总包结构"摆到桌面上谈。</div>
+
+        <p>这批 JD 的薪资带很明确：<strong>30–60K，13–18 薪，头部到 70K</strong>。但别报到带的顶端——<strong>面试报 35–42K，落在中段而不是顶端</strong>。理由：有 9 年经验、独立负责过交付型项目，但缺大厂背景和团队规模；报到 50K 以上，HR 会当场按"超带"筛掉，反而失去议价空间。</p>
+        <p>话术分两步：</p>
+        <p><strong>第一步，把问题推回去一次（只推一次，推两次会显得滑）。</strong>"方便的话，我想先了解一下这个岗位的薪资带宽和结构——是 13 薪还是更多，有没有项目奖或期权？我这边的期望会跟着总包结构变。"</p>
+        <p><strong>第二步，必须报时给带宽 + 依据。</strong>"按我现在的情况，现金部分期望在 35 到 42 之间，具体看几薪和奖金结构。我给这个数的依据是：我做过从 0 到 1 也做过交付验收，能独立对一条产品线的结果负责，不是只做需求文档。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"你现在的薪资是多少？"</p>
+            <p class="aa">如实报。<b>虚报在这一步风险极高</b>——很多公司要流水。如果现薪偏低，补一句："我知道这个数低于市场，这也是我看新机会的原因之一，我想让薪资和我在做的事匹配上。"</p>
+          </div>
+          <div class="item">
+            <p class="qq">"我们只能给到 35，你能来吗？"</p>
+            <p class="aa">不要当场答应也不要当场拒绝。"35 我理解，如果总包结构好（比如 16 薪 + 项目奖），可以聊。我更关心的是这个岗位负责的范围——如果范围比我想的大，薪资上我可以更灵活。"<b>用范围换价格，是这里唯一有效的杠杆。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"都可以，看公司安排。"（会被压到带的下限）／报一个远高于带宽的数（如 60+）而不给依据（会被判定不了解市场）。</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 第二章 项目深挖 ============ -->
+  <section id="ch2">
+    <div class="ch-head"><span class="big">02</span><h2>项目深挖</h2></div>
+    <p class="ch-sub">这一章是胜负手。业务面 45 分钟里，有 30 分钟在问项目。所有 JD 都写着"能讲清从需求到落地的完整过程"。</p>
+
+    <details class="q" id="q06" open>
+      <summary><span class="qid">Q06</span><span class="qtxt">挑一个你最得意的项目，从头讲一遍。<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"不用讲太细，就讲清楚：当时什么问题、你怎么想的、做了什么、结果怎么样。"</p>
+
+        <div class="core"><b>结论：</b>用四段结构讲海图，但把重心放在"我怎么把一句模糊的话变成 12 条判定"上——因为那一段才是 AI 产品经理的动作，其余都是执行。</div>
+
+        <p><strong>第一段 · 问题（30 秒）。</strong>"海图这个场景，一线制图员要在几百页的航行通告、航道公告、水文资料里找和某片海域相关的信息，然后手工画到图上。一条要 2.5 分钟，一天几百条。<strong>客户的原始需求是'能不能做个 AI 帮我们审图'。</strong>"</p>
+        <p><strong>第二段 · 判断（60 秒，重点）。</strong>"我第一反应是这句话没法做，因为'审'至少有 12 种意思——是查资料全不全、是查符号规范不规范、是查和通告对不对得上。<strong>所以我做了三轮客户走访，把'审'拆成了 12 条可判定的条款</strong>，每条都写清：输入是什么、判什么、什么算通过、什么算不通过、不通过时给人看什么。"</p>
+        <p>"拆完之后我发现一件事：这 12 条里，只有 4 条真的需要模型（理解自然语言通告、识别图面要素），剩下 8 条是查规则。<strong>这个判断决定了整个架构</strong>——不是所有东西都丢给大模型。"</p>
+        <p><strong>第三段 · 落地（45 秒）。</strong>"最后做成四个子智能体：问答、生产管理、航行通告、制图。每个子智能体按'谁对结果负责'划边界，各写一份不做清单。交付 120 多幅专题图，单条核对从 2.5 分钟降到 40 秒，误画陆地这种硬错误从 23% 降到 0——靠的是规则兜底，不是模型变强。"</p>
+        <p><strong>第四段 · 结果与反思（20 秒）。</strong>"一期 2026 年 9 月交付，拿了交通运输部智能体大赛三等奖。<strong>如果重做一次，我会更早把评测集建起来</strong>——我们是交付前两周才开始系统跑评测的，前面全靠人工抽检，代价很大。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"12 条判定是怎么拆的？凭什么你说 12 条就够？"</p>
+            <p class="aa">不是我想出来的，是<b>从客户的工作动作里抄出来的</b>。我让制图员当着我的面做了 20 条，每条记录：他打开哪个文件、看了什么、在哪一步停下来判断、判断依据是什么。20 条做完，动作就收敛成 12 类。<b>拆解的标准不是"全"，是"覆盖了他实际会停下来的所有地方"。</b>剩下的长尾我们写进了"unknown"分支，交给人。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"为什么是四个子智能体，不是一个大的？"</p>
+            <p class="aa">因为<b>四件事的责任人不同</b>。问答错了是知识库的问题，通告错了是抓取时效的问题，制图错了是规则的问题。如果合成一个，出了错没法定位是谁的问题，也没法分别定验收标准。<b>拆分的依据是"出错后归谁"，不是技术架构。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"误画陆地 23% 到 0，这个 0 是真的 0 吗？"</p>
+            <p class="aa">在<b>我们交付的 120 多幅图、以及验收用的固定样例集上</b>是 0。我没有说过它在所有图上都是 0——那需要持续跑。这也是我坚持要建常态化评测集的原因：一次验收的 0，不等于长期的 0。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你在里面具体写了多少 PRD？"</p>
+            <p class="aa">12 条判定条款 + 四份子智能体边界说明 + 验收口径，是我一个字一个字写的。原型我也自己写——用 Claude Code 和 Cursor 做的 Playground，多面板，能直接跑。<b>我不写生产代码，但我写的原型研发能直接拿去改。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们团队做了……"（面试官要的是你）／一上来讲技术架构（要先把问题和判断讲清）／把"12 条"说成"梳理了业务流程"（这是把最硬的动作虚化了）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q07">
+      <summary><span class="qid">Q07</span><span class="qtxt">客户一开始要什么？你最后交付的为什么不一样？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（客户一开始要什么、最后交付为什么不一样，带流程图与三层追问）→ <a href="jd-interview.html#cad-02">看详细版</a></p>
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"是客户改需求，还是你改了客户的认知？"</p>
+
+        <div class="core"><b>结论：</b>是后者。强调你没有砍需求，而是把需求的"验收口径"重新定义了——这是 AI 产品最核心的一次说服动作。</div>
+
+        <p>"客户要的是'AI 自动审图，把不合格的挑出来'。我交付的是'AI 预审 + 定位到条款 + 签字权留给人'。听起来是缩水了，其实是<strong>把一个做不到的承诺，换成了一个能签字的承诺</strong>。"</p>
+        <p>为什么必须换：</p>
+        <ul>
+          <li><strong>责任问题。</strong>海图是法定出版物，画错了要担责。没有任何一个制图员敢把签字权交给模型。如果产品设计成"AI 判合格就发布"，它不是更好，是没人敢用。</li>
+          <li><strong>能力问题。</strong>模型的强项是"在 500 页里找到相关的那 3 段"，弱项是"判断这 3 段和图上这条线对不对"。所以我把模型放在检索和理解上，把判定放在规则上。</li>
+          <li><strong>验收问题。</strong>"自动审"没法验收，"12 条条款的漏判率低于 X"可以验收。</li>
+        </ul>
+        <p>说服客户的抓手是一句话：<strong>"我先给您一个能通过验收的东西，再谈替您省人。"</strong>客户接受了，因为他真正怕的不是慢，是出错。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"客户没有抵触吗？他要的就是自动化。"</p>
+            <p class="aa">有。第一轮汇报客户说"这不还是人工"。我的回应是给他算了一笔账：<b>一条从 2.5 分钟到 40 秒，不是省了 80% 的人，是让同一个人一天能处理 4 倍的量。</b>而且我承诺了一件事——如果哪条判定能做到 99% 且可解释，我下一期就把它全自动化。这样他有期待，我有台阶。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你怎么判断哪条能全自动、哪条不能？"</p>
+            <p class="aa">三个条件同时成立才考虑：<b>规则可穷举、错误代价低、有可回滚的检查点</b>。比如"图例缺失"这种可以全自动提示；"航线穿越禁航区"这种错一次就是事故，必须留人。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"客户不懂技术，我给他讲明白了。"（傲慢，且暗示你不尊重客户判断）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q08">
+      <summary><span class="qid">Q08</span><span class="qtxt">为什么用规则不用模型？如果客户坚持要纯大模型方案呢？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（为什么判定层用规则不用模型，带流程图与三层追问）→ <a href="jd-interview.html#cad-13">看详细版</a></p>
+        <span class="who x">技术 / 交叉面</span>
+        <p class="ask">"现在模型这么强，你还在写规则，是不是保守了？"</p>
+
+        <div class="core"><b>结论：</b>不是保守，是分层。给一条可复用的判据："输出要被追责、要被回归、要被审计的地方用规则；输入是自然语言、形态多变的地方用模型。"</div>
+
+        <p>先给判据，别先给结论：</p>
+        <ul>
+          <li><strong>要回归的用规则。</strong>规则改了，之前 200 个案例跑一遍就知道有没有坏；prompt 改一个字，行为可能整体漂移，你控制不住。</li>
+          <li><strong>要解释的用规则。</strong>客户问"为什么这条判不合格"，规则能指到具体条件；模型只能说"我认为"。</li>
+          <li><strong>要审计的用规则。</strong>出了事故，监管要看你按什么标准判的。规则是一份可归档的文件。</li>
+          <li><strong>输入是非结构化文本、且形态每天都在变的，用模型。</strong>这类东西你写不出规则，只能让模型理解。</li>
+        </ul>
+        <p>然后讲实际配比："人防审图里，模型只做两件事——识别图元、从规范文本里提规则；判定全部走规则引擎，最后输出四态：明确违规、疑似、未知、明确合规。<strong>只有所有条件都成立才判'明确合规'，其余一律保守。</strong>这个设计让漏判率从 78% 降到 9%。"</p>
+        <p>如果客户坚持纯模型："我会先问一个问题——<strong>您能接受同一个输入，今天判过、明天判不过吗？</strong>如果能，纯模型可以；如果不能（大部分政企客户不能），那我们要谈的不是用不用模型，是怎么让人相信它。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"规则写多了，维护成本不就爆炸了？"</p>
+            <p class="aa">会，所以规则必须有<b>生命周期管理</b>：每条规则带版本号、带来源（哪份规范的第几条）、带生效范围。规则作废不删除，标作废并保留历史判定结果——这样历史报告还能复现。<b>我把它当成代码资产管，不是当成配置项攒着。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"你怎么知道模型那一层没拖后腿？"</p>
+            <p class="aa">分开测。识别层单独跑召回率，判定层单独跑规则覆盖率，端到端再跑一次看差值。<b>端到端掉了但识别没掉，问题就在规则；两个都掉了，问题在输入数据。</b>不分层测，你永远在猜。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"大模型不稳定，不可靠。"（这是外行话，会立刻被技术面扣分）／"规则更准。"（太笼统，必须说清在什么条件下更准）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q09">
+      <summary><span class="qid">Q09</span><span class="qtxt">人防施工图那个项目（我们内部叫 CAD 审图），一期为什么只做两个功能？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（人防一期为什么只做两类，带流程图与三层追问）→ <a href="jd-interview.html#cad-02">看详细版</a></p>
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"客户花了钱，你就给两个功能？"</p>
+
+        <div class="core"><b>结论：</b>因为我判断一期要买的不是功能数量，是"客户相信这套方法能跑通"。用"两条可判定规则 + 可复现的验收"换信任，功能后面再加。</div>
+
+        <p>"审图能做的事特别多：配筋、防护密闭、套管、预埋件、混凝土强度……我列了 11 类。<strong>一期我只做了两类：配筋率和防护密闭。</strong>原因有三条："</p>
+        <ul>
+          <li><strong>这两类是"可判定"的。</strong>规范里有明确数值区间，判对判错没有争议。其余 9 类有一半是"看图习惯"，判了客户也不认。</li>
+          <li><strong>这两类覆盖了客户最痛的错。</strong>附加筋漏算在他们的历史缺陷里占大头，我们把它从 78% 降到 9%，客户立刻能感知。</li>
+          <li><strong>一期要交的不是产品，是验收方法。</strong>两条规则的验收口径一旦签字，后面 9 类照这个模子加就行。<b>一期真正的交付物是"一套双方都认的判定方法"，不是两个功能。</b></li>
+        </ul>
+        <p>结果："一期终验，源码交付，客户方独立编译跑通。二期他们主动来谈加功能。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"客户当时没意见吗？预算按 11 类给的。"</p>
+            <p class="aa">有意见。我的说法是：<b>"11 类我都能做，但一起做的话，没有一类能达到您敢用的准确率。"</b>我给他看了一个数——如果 11 类平摊精力，每类的漏判大概在 30% 上下；集中做两类能到 10% 以下。<b>他选的不是功能，是能用。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"那二期怎么保证不烂尾？"</p>
+            <p class="aa">因为一期留下了两样东西：<b>规则引擎的扩展结构</b>（加一类 = 加一组规则 + 一组样例，不动核心），和<b>一份验收口径模板</b>。二期不是重做，是填空。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"资源不够，只能做两个。"（把判断说成了无奈，是最亏的一种表达）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q10">
+      <summary><span class="qid">Q10</span><span class="qtxt">源码都交给客户了，你的护城河在哪？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门负责人 / 终面</span>
+        <p class="ask">"这个模式下，你们公司怎么赚钱？"</p>
+
+        <div class="core"><b>结论：</b>护城河不在代码，在"判定知识 + 评测集 + 场景协议"。代码可以给，能把规范变成规则的人给不了。</div>
+
+        <p>"这个问题我想过很久，因为政企客户基本都要求源码。<strong>我的结论是：在这个市场里，代码不是资产，把规范变成可判定规则的那套知识才是。</strong>"</p>
+        <p>具体分三层：</p>
+        <ul>
+          <li><strong>可给的部分：</strong>工程实现、界面、部署脚本。给了客户也不会维护，第二年还得找我们。</li>
+          <li><strong>半给的部分：</strong>规则引擎框架给，具体规则库按行业版本管理。客户拿到的是他那个行业的，拿不到别的行业。</li>
+          <li><strong>不给的部分：</strong>评测集和 badcase 库。<strong>这是我们最值钱的东西</strong>——几百条人工标注过的真实判定，客户自己没有，也标不出来。</li>
+        </ul>
+        <p>再补一句商业逻辑："所以我们的收入结构应该是：一期交付收项目费，二期往后收规则库更新和评测服务费。<strong>卖的不是软件许可，是'这套判定标准持续有效'的保证。</strong>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"客户拿到源码，找个便宜的外包改一改不就行了？"</p>
+            <p class="aa">技术上可以，实际上很难。因为改的人<b>不知道每条规则为什么这么写</b>——规范里有大量"看情况"的条款，是我们在三轮走访里跟客户一条条敲定的。外包改一个条件，可能就破坏了另一条的假设，而他们没有回归测试集，改坏了也不知道。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"那这不是靠客户不懂来赚钱吗？"</p>
+            <p class="aa">不是。<b>我们卖的是"有人对这个判定负责"。</b>规范更新了、新类型图出来了，得有人保证判定还是对的——这件事必须有人持续做，跟懂不懂无关。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们还有别的东西没给他们。"（听起来像藏私，且暴露没有商业设计）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q11">
+      <summary><span class="qid">Q11</span><span class="qtxt">2,000 家门店，门店真的在用吗？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（2000+ 门店具体铺到哪一步，带流程图与三层追问）→ <a href="jd-interview.html#retail-04">看详细版</a></p>
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"2,000 是签约数还是活跃数？"</p>
+
+        <div class="core"><b>结论：</b>分清两个层——「系统在跑」和「人在用」。系统在 2,000+ 门店跑，这个数我能证明；「督导是不是每天都看」我拿不到，直接说，然后讲清楚为什么拿不到、重做会怎么补。</div>
+
+        <p>这题千万不能糊。<strong>"2,000+ 是系统在跑的门店数——设备装了、每天出告警和日报；不是说每天有 2,000 个店长在看。"</strong></p>
+        <p>能给的口径：</p>
+        <ul>
+          <li>规模：系统在 2,000+ 门店跑，从 50 家测试门店起步；单店年费约 2,000 元。</li>
+          <li>成本：一批 50 家从备货到算法上线共 99 工时，折合每店 2 工时——这是它能铺到 2,000 家的原因。</li>
+          <li>效果：8 类 SOP 分开算，计数 5 项误报低、有效期 1 项接近 0、清洁 2 项高，所以清洁类单独走「疑似」档，不进正式告警。</li>
+        </ul>
+        <p>不能给的，直接说："<strong>活跃使用率我手上没有可信数据。</strong>我们是 to B 交付模式，门店的登录行为在客户侧的系统里，我们拿不到。这也是我判断这个产品当时最大的短板——<strong>我们证明了'能做对'，没证明'天天在用'</b>。"</p>
+        <p>如果重做："我会在部署时就埋三个数：<b>周活门店数、单店周生成次数、人工修改率</b>。第三个最重要——人工改得越少，说明模型越贴合，这比准确率更能预测续费。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"没有活跃数据，你怎么知道产品有价值？"</p>
+            <p class="aa">靠两个间接证据：<b>续费率</b>（客户第二年还买，说明有用）和<b>人工修改率</b>（抽样看店员改了多少）。但这两个都是滞后的。<b>我现在会把"能不能拿到使用数据"当成产品设计的前置条件，而不是上线后的补救。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么证明效果不是编的？"</p>
+            <p class="aa">不拿一个总准确率，<b>按类型分开报</b>：8 类里计数 5 项误报低、有效期 1 项接近 0、清洁 2 项高。混着报一个数是外行——清洁类能把平均拖到 70 多。<b>所以我把清洁类单独放进「疑似」档，不进正式告警：用产品设计隔离高误报项，比把单点准确率再提两个点更重要。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>把覆盖数说成"用户数"或"活跃用户"。这一句谎会在背调或入职后立刻暴露，且毁掉整场面试的可信度。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q12">
+      <summary><span class="qid">Q12</span><span class="qtxt">智能体工厂是什么？和 Dify、Coze 有什么区别？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（智能体工厂解决谁的什么问题，带流程图与三层追问）→ <a href="jd-interview.html#factory-01">看详细版</a></p>
+        <span class="who x">技术 / 交叉面</span>
+        <p class="ask">"现在 Dify、Coze 都能搭 Agent，你为什么自己做一个？"</p>
+
+        <div class="core"><b>结论：</b>不跟它们比功能，比"交付形态"。Dify/Coze 解决的是"我怎么搭一个"，我们要解决的是"怎么让非技术的人在现场 10 分钟配出一个能跑的，并且判定可回归"。</div>
+
+        <p>"先说清定位差异，不然听起来像重复造轮子。"</p>
+        <ul>
+          <li><strong>Dify / Coze 是给会搭的人用的平台</strong>：可视化编排、插件市场、托管服务。它很强，但它的产物是一个"应用"，部署在哪、判定准不准、出错怎么回归，它不管。</li>
+          <li><strong>我们要的是"场景包"</strong>：一个能被复制到另一台设备上、离线跑起来、判定逻辑可审计的交付物。所以我们做的是<b>协议层</b>——8 个核心对象、6 条不变式、场景包契约。</li>
+        </ul>
+        <p>然后给一条最硬的验收标准："我们给自己定了一条规矩：<strong>加一个新场景，不得新增核心对象。</strong>如果为了一个客户加了第 9 个对象，说明协议设计错了。这条规矩逼着我们把能力做成组合，而不是做成 if-else。"</p>
+        <p>再补工程现实："实现上是零依赖的 Node ESM，一个 MVP 能跑起来，没有一堆中间件。<b>不是因为我偏好自研，是因为交付环境经常没有外网、没有 Docker、只有一台机器。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那你用过 Dify 吗？"</p>
+            <p class="aa">用过，做过对比。它在"快速验证一个想法"上比我们快得多，我如果只是要 demo，会直接用 Dify。<b>但我们要求的是交付物能脱离平台存在</b>，这一点上自研更合适。我不认为这是二选一，是先验证后固化——<b>验证阶段用 Dify，交付阶段用场景包。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"8 个对象、6 条不变式，具体是什么？"</p>
+            <p class="aa">核心是四类：<b>场景、技能、判定规则、会话状态</b>，加配置、版本、审计、权限。不变式的作用是保证任何组合都不会破坏判定确定性——比如"规则作废不删除、只标记"，比如"会话回退必须能重放到任意检查点"。这些不是技术洁癖，是<b>客户要求"三个月前的判定结果今天还能复现"</b>逼出来的。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"这东西有多少人在用？"</p>
+            <p class="aa">目前是内部和几个交付项目在用，规模不大。<b>它的价值不在用户量，在它是我们所有项目的底座</b>——四个子智能体、审图、门店，都是在这套协议上长出来的。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"Dify 不好用。"（技术面会立刻反问哪里不好用）／"我们做得比 Dify 强。"（不成立，且显得没判断力）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q13">
+      <summary><span class="qid">Q13</span><span class="qtxt">AI BOX 为什么是 27B，不是 70B 也不是 7B？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（模型为什么不能打进包，带流程图与三层追问）→ <a href="jd-interview.html#factory-14">看详细版</a></p>
+        <span class="who x">技术 / 硬件线负责人</span>
+        <p class="ask">"这个选型是你定的还是算法定的？依据是什么？"</p>
+
+        <div class="core"><b>结论：</b>三个约束交叉出来的唯一可行点：效果下限、功耗上限、成本带。讲清三条线，再讲清"为什么不再往上走"。</div>
+
+        <p>"这个数不是我拍的，是三条线交叉出来的。"</p>
+        <ul>
+          <li><strong>效果下限：</strong>我们的场景是多模态理解 + 结构化抽取。7B 级别在复杂图面和长文档上会明显掉，抽取准确率撑不住客户验收。所以下限在 20B 以上。</li>
+          <li><strong>功耗上限：</strong>产品要放在门店、车间、船上，没有机房。整机 65W、噪音 35dB 是硬指标——超过这个数，客户不会装在他工作的地方。<strong>70B 在这个功耗预算里跑不动</strong>，除非上更贵的加速卡，那成本带就破了。</li>
+          <li><strong>成本带：</strong>目标客户是中小制造，整机预算在 10 万这个量级。这条线决定了不能靠堆硬件解决。</li>
+        </ul>
+        <p>收口："所以 27B 不是最优解，是<b>在当前约束下的唯一可行解</b>。我的判断方式是：先把不可让步的约束列出来（功耗、噪音、离线），再看效果能到哪，最后看成本能不能兜住。三条都过，才是一个能卖的产品。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果客户说效果不够，要上 70B 呢？"</p>
+            <p class="aa">我会先问：<b>是哪个 case 不够？</b>如果是长文档抽取，可能不是模型大小的问题，是切片和检索的问题——加个 rerank 可能比换模型便宜十倍。如果确实是模型能力天花板，那就得改产品形态：<b>把 70B 放在客户机房，端侧只做采集和预筛</b>，这是另一个价位段的产品，不是同一个产品加配。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"量化、蒸馏你做过吗？"</p>
+            <p class="aa">量化我参与过选型判断，知道 INT8 大概掉多少、什么时候会掉得不能用；蒸馏我只到概念层——知道是拿大模型产出训小模型，没自己跑过一版。<b>这块我需要补，我的判断依据目前来自算法同学的实验数据，不是一手经验。</b>（诚实，见 Q20）</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"27B 效果和 70B 差不多。"（技术面立刻会拆穿）／"这是技术团队定的，我负责产品。"（把最值钱的判断让出去了）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q14">
+      <summary><span class="qid">Q14</span><span class="qtxt">涂鸦那 5 款产品，你具体做了什么？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"产品经理和产品总监做的事不一样，你在涂鸦是 PM，具体到哪种程度？"</p>
+
+        <div class="core"><b>结论：</b>讲"硬件产品经理的真实工作"——不是画原型，是在成本、模具、认证、供应链之间做取舍。这一段是你区别于纯软件 PM 的地方。</div>
+
+        <p>挑两条最有信息量的讲，别平铺五款。</p>
+        <p><strong>第一条，可移动中控屏（行业首款）。</strong>"这个产品的起点是一个矛盾：客户要中控屏，但装修时不知道沙发摆哪，装完就后悔。所以我们要做可移动的。<b>难点全在硬件上</b>——带电池就要考虑续航和散热，可移动就要考虑跌落和配对。<b>我做的核心动作是砍功能：</b>砍掉了摄像头、砍掉了本地语音唤醒，因为这两个一加，续航从 8 小时掉到 3 小时，产品就废了。"</p>
+        <p><strong>第二条，SaaS 网关降本 20%。</strong>"这件事听起来是采购的事，其实是产品的事。<b>我把网关的规格从'支持全协议'收敛到'支持客户实际用到的 4 种'</b>，BOM 直接下来，降本 20%。代价是销售少了一个卖点——我跟销售吵过，最后的说法是：<b>剩下 20 种协议，用软件网关转换，成本是硬件的十分之一。</b>"</p>
+        <p>收口一句："硬件 PM 和软件 PM 最大的差别是——<b>软件可以下周改，硬件改一次就是一次模具费和一个认证周期。</b>所以硬件 PM 的核心能力是'一次做对'，这逼着我在需求阶段就把不做的部分写清楚。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"降本 20% 是你推动的还是采购推动的？"</p>
+            <p class="aa">规格是我改的，采购执行。降本的钱是采购谈下来的，但<b>能谈的前提是规格变了</b>——这件事只能产品来拍，因为要承担"功能少了"的责任。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"5 款产品 0 到量产，量产营收 2 千万，你怎么看这个数？"</p>
+            <p class="aa">2 千万是产品线累计营收，5 款分摊下来单款不算大。<b>它的意义是证明了从定义到量产的完整链路我跑通过</b>，而不是证明了商业成功。商业成功要看单品能不能过亿，我没做到过。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我负责了整个产品线的规划。"（涂鸦阶段你是 PM，说成总监级职责会被背调打脸）。</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 第三章 技术边界 ============ -->
+  <section id="ch3">
+    <div class="ch-head"><span class="big">03</span><h2>技术边界判断</h2></div>
+    <p class="ch-sub">15 条 JD 里"理解大模型能力边界"出现 11 次。技术面不考你会不会写代码，考你会不会被技术团队牵着走。</p>
+
+    <details class="q" id="q15" open>
+      <summary><span class="qid">Q15</span><span class="qtxt">你怎么判断一个需求该用大模型还是规则？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（什么该用模型、什么该用规则，带流程图与三层追问）→ <a href="jd-interview.html#cad-13">看详细版</a></p>
+        <span class="who x">技术 / 交叉面</span>
+        <p class="ask">"给我一个可操作的判断方法，不要原则。"</p>
+
+        <div class="core"><b>结论：</b>给四个可判定的问题，任一不过就走规则。这四问是我实际在用的，不是背来的。</div>
+
+        <p>"我用四个问题筛，任何一个答'不能'，就不该用模型："</p>
+        <ul>
+          <li><strong>一、输入是不是自然语言/图像这类非结构化数据？</strong>如果是结构化字段比对，模型纯属浪费，规则又快又准。</li>
+          <li><strong>二、答案有没有唯一正确解？</strong>有唯一解（比如"这条梁的配筋率是否大于 0.25%"）走规则；没有唯一解（"这段通告和这条航线有没有关系"）才需要模型理解。</li>
+          <li><strong>三、错了的代价能不能兜？</strong>错一次就出事故的（安全、合规、财务），模型只能做预筛，判定必须规则 + 人。</li>
+          <li><strong>四、能不能接受行为漂移？</strong>模型换版本、改 prompt，行为会变。要做回归、要审计、要三个月后复现的，不能用纯模型。</li>
+        </ul>
+        <p>然后给一个真实的比例："人防审图里，11 类检查，只有 2 类走了模型（识别 + 提取），9 类纯规则。<strong>如果反过来，这个产品交付不了。</strong>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那什么时候你会推翻这个判断，改用模型？"</p>
+            <p class="aa">当规则维护成本超过模型调优成本的时候。比如一个场景有 300 条规则，每周都在变，那不如让模型做，再用少量规则兜底。<b>判断依据是"变更频率"，不是"技术先进程度"。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果两个方案效果差不多，你选哪个？"</p>
+            <p class="aa">选<b>可解释的那个</b>。同样的效果，能说清原因的方案在客户那里更容易验收，在团队里更容易维护，出问题更容易定位。可解释性不是加分项，是降低长期成本的杠杆。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"这套方法是你自己总结的还是学的？"</p>
+            <p class="aa">踩出来的。海图第一版我们把 12 条判定全丢给模型，结果误画陆地 23%——不是模型不行，是<b>我们把"需要判断"和"需要理解"混为一谈了</b>。那次之后我才开始分层。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"看情况""具体问题具体分析"——技术面最烦这个。必须给四问这种可执行的东西。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q16">
+      <summary><span class="qid">Q16</span><span class="qtxt">RAG 你做过哪些调优？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（3 万+ 条通告怎么做检索，带流程图与三层追问）→ <a href="jd-interview.html#haitu-09">看详细版</a></p>
+        <span class="who x">技术面（最危险的一题）</span>
+        <p class="ask">"切片怎么定？rerank 用了吗？召回率多少？"</p>
+
+        <div class="core"><b>结论：</b>先给边界（我不是算法，没做过深度调优），再给一个你真做过的动作（知识库组织结构），最后给一个你正在补的计划。三层说完，比硬编强十倍。</div>
+
+        <p><strong>第一层，划边界，别装。</strong>"先说清楚：RAG 的模型层调优我不是一手做的，切片策略、embedding 选型、rerank 这些都是算法同学在做，我给的是场景约束和验收标准。<b>如果我讲得像我自己调的，您一追问细节我就露馅。</b>"</p>
+        <p><strong>第二层，给你真做过的部分——知识库组织。</strong>"海图的知识库有个特殊问题：资料不是一篇篇文档，是<b>通告、公告、规范、海图四类，而且彼此有时间关系</b>——一条通告会作废另一条通告。所以我们不是简单切片入库，而是<b>先把资料组织成带时效的实体</b>：每条通告有生效期、失效期、影响海域、引用关系。检索时先按海域和时效过滤，再语义匹配。"</p>
+        <p>"这个动作的效果是可测的：<b>同样的模型，加了时效过滤之后，答错'已作废通告'的比例从两位数降到个位数</b>。这不是模型变强，是检索的输入变了。"</p>
+        <p><strong>第三层，给正在补的计划。</strong>"我知道自己缺的是什么：切片粒度和 rerank 的对照实验没做过。我列了一个具体计划——同一份材料，512 和 1024 两种切片、加和不加 rerank，四组对照，测召回和答案准确率。<b>这个实验我一周能跑完，只是之前一直在赶交付没做。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"召回率你测过吗？"</p>
+            <p class="aa">测过一版，但口径不严谨——我们是按"检索出的前 5 段里有没有包含正确答案所在段落"算的，<b>这个更接近 hit rate 不是 recall@k</b>。数值我不敢报，因为样本只有几十条，不构成结论。<b>这也是我要建常态化评测集的原因。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"你会用向量库吗？"</p>
+            <p class="aa">用过，但选型不是我定的。我知道 pgvector 适合已经在用 PG 的项目、Milvus 适合量大的、Chroma 适合原型。<b>我的判断是：知识库规模在十万级以下，选哪个都不会成为瓶颈，真正决定效果的是切片和元数据设计。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果让你从零搭一个 RAG，你会怎么做？"</p>
+            <p class="aa">按这个顺序：<b>先定"什么问题必须答对"（10 个真实问题），再定数据结构（元数据比切片重要），再跑 baseline，最后才调切片和 rerank。</b>大多数人反过来，先调参数，结果不知道该跟什么比。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>背一段 RAG 术语（"我们用 hybrid search + bge-reranker + query rewriting"）——技术面听两句就会问"bge 的哪个版本、为什么不用 gte"，然后崩。也别说"这块是研发做的"就完了，要给替代价值。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q17">
+      <summary><span class="qid">Q17</span><span class="qtxt">Agent 长任务跑到一半失败了，或者用户中途改需求，你怎么设计？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（二次修改为什么不重新生成，带流程图与三层追问）→ <a href="jd-interview.html#factory-16">看详细版</a></p>
+        <span class="who x">技术 / 交叉面（JD2 原题）</span>
+        <p class="ask">"一个任务跑了 20 步，第 15 步失败了，你让他从头再来吗？"</p>
+
+        <div class="core"><b>结论：</b>四个机制：检查点、可回退、进度可见、部分完成也算结果。每讲一个给一个我真实做过的对应物。</div>
+
+        <p>这题是 JD 里写得最具体的一条（"长任务失控""异常分支""意图澄清"），答得好能直接拉开差距。</p>
+        <ul>
+          <li><strong>检查点（checkpoint）。</strong>每完成一个可验证的子步骤就落一个状态，包含：输入摘要、产出、判定结果、规则版本。"我在协议里定了一条不变式：<b>会话必须能重放到任意检查点</b>。这条不是技术洁癖，是客户要求'三个月前的判定今天还能复现'。"</li>
+          <li><strong>可回退。</strong>第 15 步失败，回到第 14 步的检查点重试，不是从头。"重试要区分两类：<b>可重试的（网络、超时）自动重试两次；不可重试的（数据缺失、规则冲突）立刻停下问人。</b>分不清这两类，就会出现'疯狂重试烧钱'或者'一遇错就死'。"</li>
+          <li><strong>进度可见。</strong>用户最怕的不是慢，是不知道在干什么。"所以长任务必须有阶段性反馈：'已完成 3/7，正在做第 4 步：提取通告影响范围'。<b>这一条是产品体验，不是技术。</b>"</li>
+          <li><strong>部分完成也算结果。</strong>"任务失败不等于零产出。已经处理完的 60% 要给出来，标注'已完成部分 + 未完成原因 + 建议人工接手的位置'。<b>这是把'失败'变成'可用'的关键设计。</b>"</li>
+        </ul>
+        <p>关于中途改需求："用户改需求，我的处理是<b>不推翻已完成的，而是新增一个分支</b>。原来的检查点保留，新需求从当前点分叉。这样用户可以说'还是按原来的来'——如果直接覆盖，他退不回去了。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"什么时候该停下来问用户，什么时候该自己判断继续？"</p>
+            <p class="aa">看<b>错了能不能撤销</b>。可撤销的（生成草稿、检索资料）自己判断继续；不可撤销的（发出去的通知、写进库的数据、花钱的操作）必须问。<b>第二看歧义度</b>：如果两种理解会导致完全不同的结果，停下来问一句比做错十步便宜。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"多轮对话的记忆你怎么管？"</p>
+            <p class="aa">分三层：<b>会话内（当前任务的上下文）、会话间（这个用户的历史偏好）、系统级（业务规则和知识）</b>。前三轮全量带，超过就摘要 + 关键实体保留。但有一条我坚持：<b>判定依据永远不从记忆里取，只从当前输入和规则库取</b>——记忆可以用来理解用户想干什么，不能用来判断对错。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"上下文超了怎么办？"</p>
+            <p class="aa">三招按顺序：<b>先压缩（摘要历史）、再检索（只带相关的）、最后才截断</b>。截断是最差的选择，因为它会把最早的关键约束丢掉——而最早的约束往往最重要。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"加重试机制。"（太浅，技术面会继续问"重试几次、什么条件下重试、重试失败怎么办"）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q18">
+      <summary><span class="qid">Q18</span><span class="qtxt">多 Agent 怎么拆？拆错了会怎样？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（为什么是四个 Agent 不是一个大的，带流程图与三层追问）→ <a href="jd-interview.html#haitu-02">看详细版</a></p>
+        <span class="who x">技术 / 交叉面</span>
+        <p class="ask">"现在都讲 multi-agent，你怎么判断该拆几个？"</p>
+
+        <div class="core"><b>结论：</b>按"出错归谁"拆，不按"能力类型"拆。拆错的后果是错误无法归因、验收无法分项、责任无法落地。</div>
+
+        <p>"我看到的分法有两种：一种按能力拆（检索 Agent、写作 Agent、审核 Agent），一种按责任拆。<strong>我用后者。</strong>"</p>
+        <p>海图拆成四个：问答、生产管理、航行通告、制图。依据是——</p>
+        <ul>
+          <li>四件事<b>出错后要找的人不同</b>：问答错了找知识库维护，通告错了找数据抓取，制图错了找规则。</li>
+          <li>四件事<b>验收标准不同</b>：问答看答对率，制图看误画率。</li>
+          <li>四件事<b>迭代节奏不同</b>：通告跟着发布频率走，制图跟着规范版本走。</li>
+        </ul>
+        <p>拆错的三个后果，讲得越具体越好：</p>
+        <ul>
+          <li><strong>归因失效。</strong>一个 Agent 干四件事，出了错你只能看到"最终答案不对"，不知道是检索错了、理解错了还是判定错了。修复全靠猜。</li>
+          <li><strong>验收失效。</strong>合成一个，只能给一个总体准确率。客户问"通告这块准不准"，你答不上来。</li>
+          <li><strong>责任失效。</strong>上线后谁维护？合成一个就变成"都归算法"，实际上没人管。</li>
+        </ul>
+        <p>反面也说一句："拆太细也不行。我见过拆 12 个 Agent 的，每个之间的通信成本比干活还高。<b>我的经验是：拆到'每个都能单独验收'就停，再拆就是给自己找麻烦。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"Agent 之间怎么通信？"</p>
+            <p class="aa">我这套是<b>显式的对象传参，不是自由对话</b>。上游产出结构化的结果（含判定、置信度、依据），下游按契约消费。自由对话式的 Agent 通信看起来先进，实际上不可调试——你没法复现它为什么那么传。<b>可复现比灵活重要，尤其在要交付的场合。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"有没有考虑过用单个 Agent + 工具调用？"</p>
+            <p class="aa">考虑过，简单场景就该这样。判断标准是：<b>如果一个 Agent 的工具超过 8 个、或者需要不同的验收标准，就该拆。</b>工具太多模型会选错，这是实测出来的。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"多 Agent 更先进/更符合趋势。"（技术面会认为你在跟风）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q19">
+      <summary><span class="qid">Q19</span><span class="qtxt">模型效果不好，你怎么定位是哪一层的问题？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">技术 / 交叉面（JD2 七层归因原题）</span>
+        <p class="ask">"用户说'答得不对'，你从哪查起？"</p>
+
+        <div class="core"><b>结论：</b>给一条固定的排查顺序（输入 → 检索 → 理解 → 判定 → 表述 → 兜底），每一步有可观测的判据。顺序不能乱，乱了就是瞎试。</div>
+
+        <p>"我按固定顺序查，因为乱查最费时间："</p>
+        <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>层</th><th>查什么</th><th>怎么判断是这层的问题</th></tr></thead>
+          <tbody>
+            <tr><td class="k nowrap">1 输入</td><td>原始数据是否完整、清晰、时效正确</td><td>换一份干净输入，问题消失 → 输入层</td></tr>
+            <tr><td class="k nowrap">2 检索</td><td>相关资料有没有被召回、召回的排序对不对</td><td>看检索结果里有没有正确段落 → 没有就是检索层</td></tr>
+            <tr><td class="k nowrap">3 理解</td><td>模型有没有正确抽取实体/意图</td><td>检索对但抽取错 → 理解层</td></tr>
+            <tr><td class="k nowrap">4 判定</td><td>规则有没有覆盖这个情况、条件是否正确</td><td>抽取对但结论错 → 判定层</td></tr>
+            <tr><td class="k nowrap">5 表述</td><td>结论对但说得让人误解</td><td>结论对、用户说错 → 表述层</td></tr>
+            <tr><td class="k nowrap">6 兜底</td><td>该走 unknown 的有没有走</td><td>强行给了确定答案 → 兜底失效</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p>"实际经验里，<strong>一半以上的'模型不行'其实是第 1、2 层的问题</strong>——数据脏、召回漏。真正模型能力不够的比例比大家以为的低。所以我的第一反应永远是看输入，不是换模型。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"怎么区分是模型能力不够还是 prompt 写得不好？"</p>
+            <p class="aa">用同一个 prompt，换两个不同厂商的模型跑同一批样例。<b>如果都错在同一个地方，是能力或任务定义的问题；如果只有一家错，是 prompt 过拟合了那一家。</b>这个对照实验半小时能做完，比讨论一天有用。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"定位出来了，怎么修？"</p>
+            <p class="aa">按代价从低到高：<b>改输入数据 → 改检索 → 改 prompt → 加规则兜底 → 换模型 → 改产品形态（告诉用户做不到）。</b>大多数人直接从中间开始，因为改 prompt 最有成就感，但往往最没用。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"先看看日志。"（没有结构。要给顺序和每层的判据）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q20">
+      <summary><span class="qid">Q20</span><span class="qtxt">量化、蒸馏、端侧部署，你懂多少？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">技术面（诚实地带）</span>
+        <p class="ask">"ONNX、OpenVINO、Ollama 用过哪个？"</p>
+
+        <div class="core"><b>结论：</b>明确分层——概念层能对话，选型判断参与过，一手实操没有。把"我在补"讲成具体计划而不是愿望。</div>
+
+        <p>"我按三层说，说得清哪层是哪层，比含糊过去强。"</p>
+        <ul>
+          <li><strong>概念层（能对话）：</strong>量化是降精度换速度，INT8 通常掉点很小、INT4 在复杂任务上会明显掉；蒸馏是拿大模型的输出训小模型，效果取决于教师质量和数据覆盖；端侧部署的主要瓶颈是显存和首 token 延迟，不是算力峰值。</li>
+          <li><strong>选型层（参与过判断）：</strong>AI BOX 的 27B 选型我参与了，判断依据是功耗、噪音、成本三条线，不是模型榜单。部署形态上我知道 ONNX 是通用格式、OpenVINO 偏 Intel、Ollama 适合本地快速验证。<b>我的角色是给约束，不是给参数。</b></li>
+          <li><strong>实操层（没有）：</strong>我没自己转过一版模型、没跑过量化前后的对照实验、没用过 vLLM 调吞吐。<b>这块我不装，装了两句就崩。</b></li>
+        </ul>
+        <p>补的计划要具体："我下一步会做一件事：<b>拿一个 7B 模型，跑 FP16 / INT8 / INT4 三档，在同一个抽取任务上看准确率和延迟的变化。</b>一天能跑完，跑完我就有了自己的数，而不是引用别人的结论。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那你凭什么判断端侧方案可行？"</p>
+            <p class="aa">凭三样不是技术的东西：<b>客户的机房条件、预算带、以及他们能接受的延迟。</b>技术可行性由算法同学给结论，我要判断的是"在这个客户的条件下，这个结论成不成立"。比如客户没有空调机房，那 65W 就是硬约束，再好的模型也得降。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你觉得自己算懂技术吗？"</p>
+            <p class="aa">懂到能做判断，不到能实现。<b>我的标准是：技术同学说'这个做不到'的时候，我能问出'是数据不够、算力不够、还是方法不对'</b>——问到这一层，我就不算被牵着走。再往下的实现细节，我交给他们。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>含糊带过（"这块我了解一些"）——技术面一定会连追三个具体问题。也别过度贬低自己（"我完全不懂技术"），那是另一种不专业。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q21">
+      <summary><span class="qid">Q21</span><span class="qtxt">Prompt 工程你有什么方法论？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">技术面</span>
+        <p class="ask">"你写 prompt 有什么套路？"</p>
+
+        <div class="core"><b>结论：</b>不谈技巧谈工程——prompt 是会被改、会被回归、会被多人维护的东西，所以它需要版本和测试，不是"调得好就行"。</div>
+
+        <p>"我不太用'技巧'这个词，因为技巧不可维护。我按工程来做三件事："</p>
+        <ul>
+          <li><strong>结构化，不堆形容词。</strong>任务、输入、约束、输出格式、失败时怎么办——五段分开。这样出问题时能定位是哪一段导致的。</li>
+          <li><strong>版本化。</strong>prompt 和代码一样进版本库，每次改动记录"改了什么、为什么改、哪些样例受影响"。<b>没有版本的 prompt，改坏了回不去。</b></li>
+          <li><strong>回归测试。</strong>固定一批样例（我的评测集），改完必跑。<b>指标掉了就不许合。</b>这条是最反直觉的——大多数团队改 prompt 是凭感觉。</li>
+        </ul>
+        <p>再给一个真实的取舍："我倾向于<b>把能写进规则的东西从 prompt 里拿出去</b>。比如'输出必须是 JSON'，这不是 prompt 的事，是 schema 校验的事。prompt 里塞太多约束，模型会顾此失彼。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"Few-shot 你用几例？"</p>
+            <p class="aa">看任务复杂度，一般 3 到 5 例。但我更在意<b>例子的覆盖面</b>而不是数量——5 个都是正例，模型学不会边界；我会刻意放 1 到 2 个"应该输出 unknown"的例子，教它什么时候该认输。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么防止 prompt 注入？"</p>
+            <p class="aa">产品层面的三道：<b>输入和指令分离</b>（用户内容永远放在数据区，不放进指令区）、<b>输出做 schema 校验</b>（不合规就重试或拒绝）、<b>权限隔离</b>（模型能调的工具按最小权限给）。技术上还有一层，但产品这三道是必须的。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>背技巧清单（"角色扮演、思维链、少样本、让模型深呼吸"）——这些网上都有，说了不加分，还会被问"思维链在什么情况下反而有害"。</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 第四章 指标 ============ -->
+  <section id="ch4">
+    <div class="ch-head"><span class="big">04</span><h2>指标与评测</h2></div>
+    <p class="ch-sub">6 条 JD 点名要评测体系，JD15 把指标直接挂到考核。这一章是你最强的地方，要讲得比对方预期的深一层。</p>
+
+    <details class="q" id="q22" open>
+      <summary><span class="qid">Q22</span><span class="qtxt">你怎么证明这个 AI 产品有效？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（8 类检测项的准确率怎么评，带流程图与三层追问）→ <a href="jd-interview.html#retail-18">看详细版</a></p>
+        <span class="who biz">用人部门负责人 / 终面</span>
+        <p class="ask">"老板问这个 AI 到底有没有用，你怎么回答？"</p>
+
+        <div class="core"><b>结论：</b>三层指标——效果（判得对不对）、效率（省了多少时间）、业务（赚了还是省了钱）。每层给一个具体数，并说清哪层是你能控制的。</div>
+
+        <p>"我会分三层报，因为混在一起讲，老板只会记住最虚的那个。"</p>
+        <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>层</th><th>我的指标</th><th>实际数</th><th>谁负责</th></tr></thead>
+          <tbody>
+            <tr><td class="k nowrap">效果</td><td>漏判率（而非准确率）</td><td>附加筋漏算 78% → 9%</td><td class="nw">产品 + 算法</td></tr>
+            <tr><td class="k nowrap">效率</td><td>单件处理时长</td><td>核对 2.5 分钟 → 40 秒；复核 6 分钟 → 1.5 分钟</td><td class="nw">产品</td></tr>
+            <tr><td class="k nowrap">业务</td><td>能不能验收、能不能续</td><td class="nw">一期终验、源码交付、二期主动来谈</td><td class="nw">产品 + 商务</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p>"<strong>关键在第二层的因果链要讲清</strong>：不是'AI 让效率提升 4 倍'，而是'原来一条要人工翻 500 页找 3 段，现在系统把这 3 段摆在他面前，他只需要判断'。<b>省掉的是找的时间，不是判断的时间。</b>这个区分很重要，因为它决定了客户会不会觉得你夸大了。"</p>
+        <p>如果老板要一个数："我会给'单条节省 110 秒 × 日均处理量'，折算成人天。<b>但我一定同时说这个折算的前提</b>——前提不成立，数就不成立。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果业务指标没起来呢？"</p>
+            <p class="aa">先分清是<b>产品没做好</b>还是<b>业务假设错了</b>。比如门店产品，如果效率提升了但客户不续费，那不是产品问题，是"省下来的时间对店长没价值"——这时候该改的是价值主张，不是模型。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"哪一层最难？"</p>
+            <p class="aa"><b>第三层。</b>前两层我努努力能做到，第三层受商务、客户预算周期、甚至行业景气影响，产品只能影响一部分。<b>所以我不会承诺第三层，我只承诺前两层，第三层我说清我的假设。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"准确率 95%。"（单一指标，且准确率在违规样本少时会骗人——见 Q23）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q23">
+      <summary><span class="qid">Q23</span><span class="qtxt">为什么用漏判率不用准确率？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（误报和漏报哪个更严重，带流程图与三层追问）→ <a href="jd-interview.html#cad-24">看详细版</a></p>
+        <span class="who x">技术 / 用人部门</span>
+        <p class="ask">"准确率不是更直观吗？客户听得懂漏判率吗？"</p>
+
+        <div class="core"><b>结论：</b>准确率在"负样本占绝大多数"的场景会系统性高估。给一个算式，让对方自己算出来，比讲道理有用。</div>
+
+        <p>"举个例子您就明白了。100 张图，真正有问题的只有 5 张。<b>一个什么都不做的系统，准确率是 95%。</b>"</p>
+        <p>"这就是问题：<strong>准确率会被'大部分是正常样本'这个事实喂高</strong>。而客户真正怕的是那 5 张里漏掉的——漏一张可能就是一次事故。所以我对外用漏判率：<b>5 张有问题的，漏了几张。</b>这个数不会因为样本分布变好而变漂亮，它只跟'漏没漏'有关。"</p>
+        <p>客户听得懂吗："比准确率更好懂。我不跟他讲公式，我讲'<b>100 个错里我们能抓到 91 个</b>'。他立刻知道这意味着什么。"</p>
+        <p>内部还看什么："内部我同时看两套：漏判率管风险，误判率管体验。<b>漏判多了出事，误判多了没人用</b>，两个都要盯，但对外只承诺漏判率。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"漏判率和召回率是什么关系？"</p>
+            <p class="aa">漏判率 = 1 - 召回率，方向相反。<b>我用"漏判率"这个词而不是"召回率"，是产品语言和工程语言的区别</b>——召回率是给算法的，漏判率是给客户的，说的是同一件事，但一个听起来是"我们抓到了多少"，一个听起来是"我们漏了多少"。<b>对风险敏感的场景，后者的表述更诚实。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"那误判率高怎么办？用户会烦。"</p>
+            <p class="aa">用四态解决：明确违规、疑似、未知、明确合规。<b>把不确定的放进"疑似"而不是硬判违规</b>，用户看到的告警量就下来了，而且他知道"疑似"是要自己看一眼的，不会反感。这比调阈值好——调阈值只是把问题推到另一边。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"准确率会误导人"就完了——要给那个 95% 的算式，让人自己得出结论。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q24">
+      <summary><span class="qid">Q24</span><span class="qtxt">评测集怎么建？220 例够吗？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（20 例评测为什么是 20，带流程图与三层追问）→ <a href="jd-interview.html#factory-12">看详细版</a></p>
+        <span class="who x">技术 / 交叉面</span>
+        <p class="ask">"220 条太少了，能说明什么？"</p>
+
+        <div class="core"><b>结论：</b>评测集的价值不在条数，在"覆盖了哪些失败模式"和"能不能稳定复现"。220 条够做回归，不够做统计结论——这个区别要主动说清。</div>
+
+        <p>"先承认：<b>220 条不足以做统计显著性结论</b>，置信区间很宽。但它的作用不是那个。"</p>
+        <p>它的三个作用：</p>
+        <ul>
+          <li><strong>回归。</strong>改一版 prompt 或规则，跑一遍就知道有没有把原来对的搞坏。<b>这件事 50 条就够，关键是每次都跑同一批。</b></li>
+          <li><strong>定位。</strong>按失败模式分组标注——意图误判、实体漏抽、多意图混淆、应当拒答却作答。分组之后，掉 3 个点你能立刻知道掉在哪类。</li>
+          <li><strong>对齐。</strong>产品、算法、客户对"什么算对"有分歧时，拿样例说话，不靠讨论。</li>
+        </ul>
+        <p>怎么建的："<b>不是随机抽，是按失败模式凑。</b>先跑 200 个真实输入，把错的挑出来分类，然后刻意补齐稀有的那几类——比如多意图、应当拒答的、边界值。所以这 220 条里，难例的比例远高于真实分布，<b>这是故意的</b>：评测集要难，才测得出退化。"</p>
+        <p>"还有一个数我特别看重：<b>base 100% / edge 95.6%</b>。分组看才发现，掉的分全在 edge 上，base 一点没掉——这告诉我不要动基础能力，把力气放在边界 case 上。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"多少条才够？"</p>
+            <p class="aa">分用途：<b>回归 100 条起（覆盖所有已知失败模式）；做对比实验 300 条起；对外承诺准确率至少 1000 条且要按真实分布抽。</b>我们现在 220 条够前两个，不够第三个——所以我对外从来不承诺"准确率 X%"，只承诺"在我们的验收样例集上"。<b>这是口径问题，不是能力问题。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"评测集会不会过拟合？"</p>
+            <p class="aa">会，这是真实风险。缓解办法：<b>留一批不参与调优的 holdout</b>，只在版本发布前跑。我们现在还没有严格分开，这是我列的待办之一——因为一旦开始拿评测集反复调，它就从"考卷"变成"练习册"了。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"谁来标？标得准吗？"</p>
+            <p class="aa">我自己标了大部分，因为<b>标注口径必须先由产品定死</b>，不然算法标出来的和客户认的不是一回事。双解标注（一个输入两种都对的答案）是我加的——不加以区分，模型答了另一种正确也会被算错，指标就失真了。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"220 条够了。"（技术面会立刻追问置信区间）／别把"含双解 98.2%"当成主要结果讲（要先讲 96.8%，双解是解释项不是成绩单）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q25">
+      <summary><span class="qid">Q25</span><span class="qtxt">上线之后效果掉了，你怎么发现、怎么处理？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"没有异常告警，你怎么知道它变差了？"</p>
+
+        <div class="core"><b>结论：</b>三道探针——用户行为异常、输入分布漂移、定期抽样复测。承认目前只做到第三道，前两道是待补。</div>
+
+        <p>"效果下降有三种，发现方式不一样："</p>
+        <ul>
+          <li><strong>突发性（模型/接口变更、数据源断）。</strong>靠监控：失败率、超时率、空结果率。<b>这类最容易发现，也最不危险。</b></li>
+          <li><strong>渐进性（数据分布变了）。</strong>比如客户开始传一种新格式的图，或者规范更新了。<b>这类最危险</b>，因为没有报错，只是慢慢变差。要靠<b>输入分布监控</b>——统计关键字段的分布，偏了就告警。</li>
+          <li><strong>用户绕过（不好用就不用了）。</strong>最隐蔽。指标不掉，因为没人用了就没数据。<b>要靠使用率而非成功率来发现。</b></li>
+        </ul>
+        <p>诚实交代："我们现在只稳定做到第一道和定期抽样复测。输入分布监控和使用率监控都没有系统化——<b>这是我知道的缺口，也是我如果来做这个岗位第一件要补的事。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"发现掉了，第一步做什么？"</p>
+            <p class="aa">先<b>止损再定位</b>：切回上一个已知好的版本（所以版本回滚必须是常备能力，不是应急时才想），保住客户可用。然后再查原因。<b>顺序反了，就会出现"一边排查一边被客户投诉"。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么防止同类问题再发生？"</p>
+            <p class="aa">把这次的 case 加进评测集，改成一条回归用例。<b>评测集应该只增不减，每一条都对应一次真实的失败。</b>这样它对团队的价值会随时间涨，而不是像文档一样烂掉。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"靠用户反馈。"（滞后、且样本偏差极大——不满的人才会反馈，默默不用的人你永远听不到）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q26">
+      <summary><span class="qid">Q26</span><span class="qtxt">成本怎么控？token、算力、人力。</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（2000 元一店是怎么算的，带流程图与三层追问）→ <a href="jd-interview.html#retail-23">看详细版</a></p>
+        <span class="who biz">用人部门负责人 / 终面</span>
+        <p class="ask">"这个东西跑起来很贵吧？"</p>
+
+        <div class="core"><b>结论：</b>成本是产品设计的一部分，不是技术优化的事。给三个杠杆：路由、缓存、形态。</div>
+
+        <p>"我把它当产品指标看，不当技术指标。三个杠杆，按性价比排："</p>
+        <ul>
+          <li><strong>路由（最有效）。</strong>不是所有请求都要大模型。简单的走小模型或规则，复杂的才上大的。<b>我实测过一组对照：全部走模型 96.8%，全走关键词兜底 54.1%——但要算的是中间那档，比如 70% 走小模型 + 30% 走大模型，效果能到 93% 左右，成本降一半以上。</b></li>
+          <li><strong>缓存。</strong>相同/相似输入直接命中。政企场景重复率很高——同一份规范、同一类图，问法不同但意图相同。</li>
+          <li><strong>形态（最容易被忽略）。</strong>把一次长对话改成一次结构化提交，token 能降一个数量级。<b>很多成本问题其实是交互设计问题</b>——多轮澄清很爽，但每一轮都在烧钱。</li>
+        </ul>
+        <p>端侧的成本逻辑不一样："本地部署是一次性硬件成本，边际成本接近零。所以端侧的成本控制不是省 token，是<b>让一台机器能同时服务更多任务</b>——这就回到吞吐和调度，是工程设计。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"单次调用成本多少？"</p>
+            <p class="aa">具体单价我不敢报，因为我手上没有稳定的成本台账——<b>这是个缺口。</b>我能给的是结构：一次完整审图大概分 5 到 8 次调用（检索 + 抽取 + 判定 + 解释），大头在长文档抽取上。<b>如果要报价，我会先建一个"每任务成本"的口径，这是我现在就该做没做的事。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"客户嫌贵怎么办？"</p>
+            <p class="aa">换算法不换产品：把"每次全量跑"改成"增量跑"（只处理新增的图），或者把"实时"改成"批量"（夜间跑）。<b>客户真正在意的不是单价，是"这个钱花得值不值"</b>——所以要给他一个对比：一个人工多少钱，系统一年多少钱。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"成本很低，不用担心。"（终面最反感这种回答，因为听起来没算过账）</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 第五章 协作 ============ -->
+  <section id="ch5">
+    <div class="ch-head"><span class="big">05</span><h2>协作与推动</h2></div>
+    <p class="ch-sub">企业效能型 JD（歌尔/美的/顺丰）最看重这一章。要证明的不是"我人缘好"，是"我能让不想改的人改"。</p>
+
+    <details class="q" id="q27">
+      <summary><span class="qid">Q27</span><span class="qtxt">研发说这个做不了，你怎么办？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门负责人</span>
+        <p class="ask">"他们说排期满了/技术上做不到，你怎么推？"</p>
+
+        <div class="core"><b>结论：</b>先分清"做不到""做不完""不想做"三种，每种处理方式完全不同。混在一起谈，永远是吵。</div>
+
+        <p>"我不会一上来就推。先问三个问题把原因分类："</p>
+        <ul>
+          <li><strong>"是能力问题还是资源问题？"</strong>能力问题（模型做不到）→ 一起找替代方案或降级；资源问题（排期）→ 谈优先级，不是谈技术。</li>
+          <li><strong>"如果只给你三天，你能做到什么程度？"</strong>这句话最有用——它把"做不了"变成"能做一个粗版"。很多时候粗版就够验证了。</li>
+          <li><strong>"你觉得难在哪一步？"</strong>让他说具体，说完往往会发现难点和你想的不一样。</li>
+        </ul>
+        <p>真实的例子："人防一期我要做 11 类检查，算法同学说做不完。我没砍需求，我问他'哪两类最有把握'——他说配筋和防护密闭。<b>那我就用这个答案定了范围，而不是我拍脑袋定。</b>结果一期就做这两类，反而赢了。"</p>
+        <p>什么时候我会坚持："如果是<b>客户的验收硬条件</b>，或者<b>不做会导致产品不可用</b>，我会升级——但不是告状，是拉着双方一起看约束，让决策者看到取舍。<b>升级的正确方式是把选择题递上去，不是把矛盾递上去。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果他就是不想做呢？（觉得没价值）"</p>
+            <p class="aa">那要解决的是<b>认同</b>不是排期。我会给他看客户的原话或者现场视频——<b>让研发看见使用者，比讲十遍价值有效。</b>我在海图就是这么做的，把制图员翻 500 页的过程录下来给团队看，之后没人再问"为什么要做"。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你会不会替研发做决定？"</p>
+            <p class="aa">不会。<b>我定"要什么结果"，他们定"怎么实现"。</b>越界一次，后面就没人跟你说真话了——因为说了也没用。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你和研发吵过吗？"</p>
+            <p class="aa">吵过，而且我认为该吵。吵的是<b>取舍</b>不是对错。比如网关降本那次，研发说砍协议会影响兼容性，我说不砍成本下不来——最后是我们一起找到了"软件网关兜底"的第三条路。<b>好的争论会产出第三个方案。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我会跟研发好好沟通，找到平衡点。"（空话，且"平衡点"暗示你会妥协）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q28">
+      <summary><span class="qid">Q28</span><span class="qtxt">怎么让一线员工真的用起来？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门（企业效能型必问）</span>
+        <p class="ask">"工具做出来了，但大家还是用老办法，你怎么办？"</p>
+
+        <div class="core"><b>结论：</b>不用"推广"这个词。真问题是：新方法比老方法多花的力气，谁付。把这个成本降到零，人才会用。</div>
+
+        <p>"我见过的失败都是同一个原因：<b>新产品要求人多做一步</b>——多填一个表、多开一个系统、多确认一次。哪怕只多 30 秒，长期就是不用。"</p>
+        <p>所以我按三条做：</p>
+        <ul>
+          <li><strong>不增加动作，只替换动作。</strong>海图不是让制图员"顺便用一下 AI"，是<b>把他本来要翻资料的那一步换成系统给他</b>。他没多干一件事。</li>
+          <li><strong>第一次必须成功。</strong>人只给新工具一次机会。所以我坚持<b>前 20 个 case 人工陪着跑</b>，确保他第一次用就感到"这个比我快"。第一次失败，后面怎么说都没用。</li>
+          <li><strong>让受益的人推动，不是让管理者推动。</strong>管理者推 = 任务；同事说"这个好用" = 工具。<b>我会先找 2 到 3 个愿意试的人做出效果，让他们在群里说。</b></li>
+        </ul>
+        <p>再说一个反面："我也做过推不动的东西。门店那个产品，店员用得不多——因为<b>内容生产不是他的 KPI</b>，省下的时间他也拿不到好处。这不是产品问题，是激励问题。<b>产品经理要能识别'这不是我能解决的'，然后去找能解决的人。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果老板强推，但员工抵触呢？"</p>
+            <p class="aa">强推能换来"用"，换不来"用得好"——<b>他们会用最省事的方式糊弄，数据看起来有，实际没价值。</b>所以强推的同时我必须给一个"用了有好处"的路径，哪怕很小：比如用了之后他的日报自动生成，省他十分钟。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么衡量'真的在用'？"</p>
+            <p class="aa">不看登录数，看<b>三个数</b>：周活/目标人群、单次任务完成率、人工修改率。第三个最能说明问题——改得少说明真有用，改得多说明他在应付。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"加强培训""做好宣贯"——这两句在企业效能岗的面试里是减分项，因为它们是"我已经没办法了"的代名词。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q29">
+      <summary><span class="qid">Q29</span><span class="qtxt">怎么向不懂 AI 的老板汇报？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR / 终面（JD4 原题）</span>
+        <p class="ask">"老板问你'这个 AI 到底行不行'，你怎么说？"</p>
+
+        <div class="core"><b>结论：</b>不讲技术讲选择。每次汇报给三个东西：现在能做什么、还不能做什么、为了那个不能做的要付什么代价。让老板做选择，不是让他听课。</div>
+
+        <p>"我的原则是<b>不解释技术，只解释取舍</b>。"</p>
+        <p>标准句式三段：</p>
+        <ul>
+          <li><strong>"现在能做到的："</strong>一句话 + 一个数。"12 类审图，我们已经能自动判 9 类，漏判 9%。"</li>
+          <li><strong>"现在还做不到的："</strong>直接说，不藏。"剩下 3 类涉及图纸习惯，规范里没写死，机器判不了，得人看。"</li>
+          <li><strong>"要做的话代价是："</strong>给人一个决策。"要做可以，多两个月、多两个人，而且只能到 70% 左右，剩下还得人看。<b>我的建议是先把这 9 类铺开，那 3 类等二期。</b>"</li>
+        </ul>
+        <p>"这样汇报的好处是：老板不需要懂 AI，他只需要做他擅长的事——判断值不值。而我从来不让他判断'技术可不可行'，那是我的活。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果老板说'我听说别人都能做到 99%'？"</p>
+            <p class="aa">不反驳，问一句：<b>"他们是哪个场景？"</b>通常是场景更简单或者口径不同（比如把"疑似"也算对）。然后我给一个可比的数："在我们这个场景、这个口径下是 91%。如果按他们那个口径，我们能到 97%——<b>但那个数对您没用，因为它不反映您会遇到的错。</b>"</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你会不会报喜不报忧？"</p>
+            <p class="aa">不会，因为<b>瞒一次就再也没有可信度了</b>。我有个习惯：坏消息我自己先说，而且带着方案说。"这个月掉了 4 个点，原因是客户换了新格式的图，我已经排了 Compat 适配，下周恢复。"——这样他听到的不是问题，是"这人在管着"。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我会用通俗的语言解释大模型原理。"（老板不需要原理，需要决策依据）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q30">
+      <summary><span class="qid">Q30</span><span class="qtxt">你的 KPI 和算法团队的 KPI 冲突，怎么处理？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">交叉面</span>
+        <p class="ask">"算法要刷指标，你要保交付，方向不一样怎么办？"</p>
+
+        <div class="core"><b>结论：</b>冲突的根源是"考的东西不一样"。解法不是协调，是把两边的考核口径对齐到同一个验收样例集上。</div>
+
+        <p>"这种情况我遇到过。<b>算法同学考的是模型指标，我考的是客户验收。</b>模型涨了两个点，但客户那几个 case 还是错——因为涨的点不在客户care的地方。"</p>
+        <p>我的做法："<b>建一个双方都认的样例集</b>，直接从客户验收用例里来。所有优化都以这个集为准，不以公开榜单或内部指标为准。这样一来，'涨了两个点'这句话就有共同含义了。"</p>
+        <p>"另外我会主动让一步：<b>不要求每个 case 都修，只要求'这一类'修。</b>算法同学更愿意接'把多意图这一类从 60 提到 85'，而不是'把这些 case 都修好'——前者是可解的工程问题，后者是无限清单。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果对方领导不认这个样例集呢？"</p>
+            <p class="aa">那就往上一层，让业务方（客户）来定。<b>客户不会关心你们内部怎么考核，他只说他认哪个。</b>客户认的口径一旦定下，内部争议自然消失——这也是为什么我一直坚持验收口径要客户签字。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你会不会为了交付牺牲模型质量？"</p>
+            <p class="aa">会，而且我认为这是对的。<b>交付的本质是在时间和质量之间做选择。</b>但我不会牺牲"安全底线"——如果某类判定不准会导致事故，我宁可不交付那一类，也不糊一个 70% 的上去。这个线我画得很清楚。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我会站在公司整体利益上协调。"（没有具体动作，听起来像没处理过）</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 第六章 短板 ============ -->
+  <section id="ch6">
+    <div class="ch-head"><span class="big">06</span><h2>短板与风险</h2></div>
+    <p class="ch-sub">这一章考的不是能力，是自我认知的准确度。答得好会加分，答砸了前面全废。</p>
+
+    <details class="q" id="q31" open>
+      <summary><span class="qid">Q31</span><span class="qtxt">你最大的短板是什么？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR / 用人部门</span>
+        <p class="ask">"说一个真实的，别说什么'我太追求完美'。"</p>
+
+        <div class="core"><b>结论：</b>给一个真实、与岗位相关、且已有具体补救动作的短板。选"缺大厂体系化环境"，因为它诚实、不影响核心能力、且能顺势说明你为什么来。</div>
+
+        <p>选短板的三个标准：<b>真实</b>（经得起追问）、<b>不致命</b>（不影响岗位核心）、<b>有动作</b>（不是"我正在改"）。</p>
+        <p>我的答法："<b>我缺的是在大体量、体系化组织里工作的经验。</b>我待过最大的是涂鸦，产品团队几十人；云锦微是创业公司，我一个人管一条线。<b>这意味着两件事我做起来会比别人慢：一是在大组织里推动跨部门的事，二是把个人经验变成团队可复用的规范。</b>"</p>
+        <p>为什么这是真的："在小公司，我判断完了就能做，不需要说服五个部门。在大公司，同样一件事要过评审、要对齐、要写文档——<b>这套流程我不熟，会拖。</b>"</p>
+        <p>动作："所以我在补两件具体的事：<b>一是我在把我们那套判定方法写成文档</b>，不是给我自己看，是给一个没参与过的人能照着做——这是我第一次认真做'沉淀'这件事；<b>二是我在主动找有体系的环境</b>，这也是我为什么在看贵司这个岗位。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"这不会影响你上手吗？"</p>
+            <p class="aa">会有三个月的不适应，主要在流程上。<b>但我的判断力和落地能力是现成的</b>——我不需要学"怎么做 AI 产品"，我需要学"在这个组织里怎么把它做成"。后者是可学的，前者不是。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"还有别的短板吗？"</p>
+            <p class="aa">有，而且更具体：<b>RAG 的调优我没有一手经验，量化蒸馏我也只到概念层。</b>（见 Q16、Q20）这两个是我列的待补清单上的，不是随口说的。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"那你觉得自己比大厂出来的人差在哪？"</p>
+            <p class="aa">差在<b>流程熟练度和资源调动</b>。强在<b>端到端的完整度</b>——大厂的人可能只做过链路上的一段，我从客户走访、判定设计、验收签字到交付运维，全走完了。<b>小公司的短板是深，我的补偿是宽。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我太追求完美/我工作太投入"（假到让人反感）／"我没有短板"（自我认知有问题）／挑一个致命短板（如"我不擅长和人沟通"）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q32">
+      <summary><span class="qid">Q32</span><span class="qtxt">JD 要求 2–3 年开发经历，你没有，怎么办？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR 初筛（硬门槛）</span>
+        <p class="ask">"我们这条要求写得很明确，你怎么看？"</p>
+
+        <div class="core"><b>结论：</b>不辩解，先承认门槛；再给"等价物"（能读代码、能自己写原型、能和技术对话）；最后把决定权交回去。硬门槛不要硬刚。</div>
+
+        <p>"我理解这条要求，它是想筛掉'不懂技术、被研发牵着走'的产品经理。<b>我确实没有正式开发岗的经历，这一条我不符合。</b>"</p>
+        <p>然后给等价物，但要具体："但我在三个层面接近这个要求：</p>
+        <ul>
+          <li><strong>能读：</strong>我们的服务端和评测脚本我能读懂，code review 我能跟上，能指出逻辑问题。</li>
+          <li><strong>能写：</strong>原型是我自己写的——Claude Code 和 Cursor，Node.js 和 Python，多面板 Playground、220 条评测的跑批脚本，都是我自己跑通的。不是生产代码，但能跑。</li>
+          <li><strong>能对话：</strong>技术同学说做不到，我能问到"是数据、算力还是方法"这一层。</li>
+        </ul>
+        <p>收口，把决定权交回去："<b>如果这条是硬卡，我尊重；如果它的真实意图是'能不能和技术团队平等对话'，我建议用一轮技术面来验。</b>我可以在技术面里现场讲我们的协议设计和评测方法。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"你写的原型，代码量多少？"</p>
+            <p class="aa">具体行数我不报，因为没意义。<b>我能说的是它的复杂度：8 个核心对象、6 条不变式、场景包的加载与校验、会话状态的重放。</b>这些是我设计的，实现是我和 AI 一起写的——我写结构，AI 补细节，我逐段读。<b>我不会说这是我独立手写的，那不是事实。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"那你算会写代码吗？"</p>
+            <p class="aa">算"能做出能跑的东西"，不算"能写生产代码"。<b>这个区别我很清楚，也不会模糊它。</b>我的价值不在写代码，在知道该写什么、以及判断写出来的对不对。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我现在也在学编程"（听起来像初学者）／"开发经历不重要"（否定对方 JD，直接出局）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q33">
+      <summary><span class="qid">Q33</span><span class="qtxt">你的英文能开会吗？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who hr">HR（跨境/外资岗必问）</span>
+        <p class="ask">"我们有些文档和会议是英文的。"</p>
+
+        <div class="core"><b>结论：</b>如实分级——读没问题，写能应付，听说偏弱。给现状、给正在做的事，不夸大。</div>
+
+        <p>"分级说比较准：<b>读技术文档和论文没问题</b>，这是我日常；<b>写邮件、写文档能应付</b>，语法不一定漂亮但意思清楚；<b>口语会议是弱项</b>，听懂大概，但要快速表达复杂判断会卡。"</p>
+        <p>"我在补的方式比较笨但有效：<b>每天读一段英文技术材料并复述</b>，不背单词。目标是三个月内能主持一个 30 分钟的技术讨论——不追求流利，追求把判断说清楚。"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果明天就要和海外团队开会呢？"</p>
+            <p class="aa">我会提前把要点写成文档发过去，会上我主要听、关键处用文字确认。<b>这样即使口语不好，信息不会丢。</b>这是我一直用的办法——把不确定的部分前置到书面。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我英文还不错。"（一开口就露馅，且显得不诚实）</div>
+      </div>
+    </details>
+
+    <details class="q" id="q34">
+      <summary><span class="qid">Q34</span><span class="qtxt">你没做过金融/HR/办公场景，怎么快速上手？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who biz">用人部门</span>
+        <p class="ask">"我们这个行业跟你的背景差得挺远。"</p>
+
+        <div class="core"><b>结论：</b>不吹"我学得快"，给一个可复用的"进入新行业"的方法，并用海图/人防证明这个方法跑通过两次。</div>
+
+        <p>"我不说'我学得快'，我说我有一套固定的进入方法，跑过两次。"</p>
+        <ul>
+          <li><strong>第一周，跟着人干一天。</strong>不看文档，看人怎么工作。"海图我跟着制图员坐了三天，人防我看了 80 张图。文档告诉你应该怎么做，人才告诉你实际怎么做。"</li>
+          <li><strong>第二周，找 20 个'他们停下来判断'的瞬间。</strong>"这 20 个瞬间就是这个行业的真问题。规范、流程、SOP 里都没有，因为它们都是'看情况'。"</li>
+          <li><strong>第三周，用他们的语言写一份判定表。</strong>"不是 PRD，是一张'什么情况算对、什么算错'的表。拿给他们看，他们说'不对，这条不是这样'——<b>他们说不对的那一刻，我才算入门了。</b>"</li>
+        </ul>
+        <p>"海图和人防都是这么进来的，两个行业我都不懂。<b>但三周之后我能跟他们讨论专业问题，因为我把他们的判断抄下来了。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"金融的合规要求很复杂，三周够吗？"</p>
+            <p class="aa">不够，三周只能到"能对话"，到"能做判断"要三个月以上。<b>我不会承诺三周能干活。我承诺的是：三周内我能问出对的问题，三个月内能独立做判断。</b>而这个岗位真正需要我的，是第二阶段的判断力，不是第一阶段的熟练度。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你会不会用以前行业的经验硬套？"</p>
+            <p class="aa">会，这是风险。我的防法是：<b>先假设我的经验在这个行业不成立，等找到证据再说它成立。</b>海图那次我一开始就套了门店的经验，被客户当场否了——那次之后我改了顺序。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"产品能力是通用的，行业不重要。"（HR 和业务都会反感，因为行业知识恰恰是最难补的）</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 第七章 反问 ============ -->
+  <section id="ch7">
+    <div class="ch-head"><span class="big">07</span><h2>反问与收尾</h2></div>
+    <p class="ch-sub">反问不是走过场。你问什么，暴露你在意什么——也在告诉对方"我如果来了会怎么干"。</p>
+
+    <details class="q" id="q35" open>
+      <summary><span class="qid">Q35</span><span class="qtxt">你有什么问题问我们？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who you">你问</span>
+        <p class="ask">"时间还有，你可以问我几个问题。"</p>
+
+        <div class="core"><b>结论：</b>按对象准备三套，每套三问。每问都要能反向暴露你的判断力，不要问"公司文化怎么样"。</div>
+
+        <h4>对 HR（问机制，不问待遇）</h4>
+        <ul>
+          <li>"这个岗位是新增还是补缺？如果是补缺，上一位是因为什么离开的？"</li>
+          <li>"这个岗位汇报给谁？他手下现在有几个人，产品和技术是同一个汇报线吗？"</li>
+          <li>"如果我进来，前半年的考核看什么？是看交付、看指标、还是看别的？"</li>
+        </ul>
+
+        <h4>对用人部门负责人（问判断，不问流程）</h4>
+        <ul>
+          <li>"你们现在这条产品线，最让你睡不着的是哪件事？"（这问能让你听到真问题）</li>
+          <li>"你们现在有没有评测集？如果有，是产品在维护还是算法在维护？"</li>
+          <li>"过去一年有没有做过、后来停掉的项目？为什么停？"（判断这家公司会不会反复摇摆）</li>
+        </ul>
+
+        <h4>对技术负责人（问边界，不问选型）</h4>
+        <ul>
+          <li>"你们现在模型是自己部署还是调 API？这个选择是成本考虑还是数据安全考虑？"</li>
+          <li>"线上出问题时，定位一般靠什么？有没有结构化的 badcase 回流？"</li>
+          <li>"如果产品提一个需求，技术上觉得不合理，一般怎么处理？"（听组织协作方式）</li>
+        </ul>
+
+        <div class="chain">
+          <div class="hd">追问链（对方反问你时）</div>
+          <div class="item">
+            <p class="qq">"你还有别的想问的吗？"（其实他觉得你问得不够）</p>
+            <p class="aa">再补一个<b>带判断的</b>："有一个：我看 JD 里写要'定义 Agent 的评测标准'，这块现在是谁在做？<b>如果还没有人做，那这可能就是我要接的第一个活。</b>"——这句话同时表明了你的判断和你的意愿。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"公司文化怎么样""团队氛围好吗""有没有加班"——前两个空，第三个敏感且应该从别处问。也别一个都不问（等于不在意）。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q36">
+      <summary><span class="qid">Q36</span><span class="qtxt">如果我来，前 90 天你会做什么？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who you">你问（也可作为主动陈述）</span>
+        <p class="ask">"你入职后打算怎么开始？"</p>
+
+        <div class="core"><b>结论：</b>30/60/90 三段，每段一个交付物。核心是"先建立判断依据，再动手"，不要一上来就说要做什么功能。</div>
+
+        <p><strong>前 30 天：不改任何东西，只建两样。</strong></p>
+        <ul>
+          <li>摸清现状：现有产品/项目、客户真实用法、技术团队的实际能力边界。</li>
+          <li><strong>建一份"当前能力清单"</strong>：哪些场景现在能做到什么程度，用什么口径衡量。<b>没有这份清单，后面所有讨论都是凭感觉。</b></li>
+        </ul>
+        <p><strong>30–60 天：建评测与验收口径。</strong></p>
+        <ul>
+          <li>从真实 case 里拉一批样例，和算法一起定"什么算对"。</li>
+          <li>把口径写成文档，找客户或业务方确认一次。<b>这一步最难，也最值钱——它是后面所有决策的地基。</b></li>
+        </ul>
+        <p><strong>60–90 天：拿一个最小场景走完整链路。</strong></p>
+        <ul>
+          <li>选一个"痛、窄、可验收"的场景，从需求到上线到数据回看，走一遍。</li>
+          <li>产出不是功能，是<b>一套可复用的流程</b>：怎么定范围、怎么定口径、怎么验收、怎么回流 badcase。</li>
+        </ul>
+        <p>"我不在前 90 天承诺业绩数字，因为那需要先有评测基数。<b>我承诺的是：90 天后，这个团队对'我们能做到什么程度'有一个共同的、有数据支撑的答案。</b>"</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"为什么不先做点看得见的东西？"</p>
+            <p class="aa">因为看得见的东西容易做，也很容易做错方向。<b>我在海图的第一版就是先做了 demo——看起来很好，客户一句话就否了，因为方向错了。</b>那次之后我改了顺序：先确认口径，再动手，省下的返工时间远超前期投入。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"先熟悉业务，然后梳理需求，再制定规划。"（三段空话，等于没答）</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 08 增量 ============ -->
+  <section id="gap">
+    <div class="ch-head"><span class="big">08</span><h2>对照 23 张原始截图：补的 12 问</h2></div>
+    <p class="ch-sub">前面 36 问是从 JD 要点反推的。这一节是对着 15 条原始 JD 的<b>详情页正文</b>逐条核过之后补的——原来没覆盖、但一定会被问到的部分。</p>
+
+    <div class="note">
+      <h4>先说三个必须知道的事实</h4>
+      <ul>
+        <li>23 张截图全部是详情页正文，<b>没有一张拍到公司字段</b>。所以下面只能按你给的公司清单对；其中「商超购物中心」对上永旺、「NAS/智能存储」对上绿联，这两条有正文印证，其余靠你的标注。</li>
+        <li><b>第 2 条与标注不符。</b>那 6 张截图（image2–7）是「面向海外独立投资顾问机构的 AI 投资研究产品」，正文写「早期创业团队」「金融研究、财富管理」，不是东南亚电商。按图为准，这条是全 15 条里对 Agent 要求最硬的一条。</li>
+        <li>技术词按这 23 张重数了一遍：<b>Agent 11 次、大模型 10、评测 5、Prompt 5、RAG 4、AIGC 3、工具调用 3、知识库 3、上下文 3</b>；Dify/Coze/LangChain 2、多模态 2、微调 2、Skills 2、Copilot 2、私有化部署 2；ONNX/OpenVINO/Ollama、量化蒸馏裁剪、端侧、Embedding、记忆各 1。RAG 比想象中低，<b>Agent 才是这轮的主词</b>。</li>
+      </ul>
+    </div>
+
+    <details class="q" id="g01" open>
+      <summary><span class="qid">G01</span><span class="qtxt">你怎么诊断一个研发团队的协作低效？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">用人经理</div>
+        <p class="ask">"我们不缺工具，缺的是知道卡在哪。你来了会先看什么？"</p>
+        <div class="core">不看工时和加班，看<b>返工从哪来</b>。效能问题八成不在写代码，在需求进入开发之前就已经埋好了。</div>
+        <p>我会拉三个数据，都不需要研发配合额外记录：</p>
+        <ul>
+          <li><b>需求变更率</b>：进入开发后还改过需求比例。改一次，前后端各返一次工。</li>
+          <li><b>返工工时占比</b>：从缺陷单和补丁记录里归因，分"需求没说清""设计没想清""代码写错"三类。</li>
+          <li><b>等待时间</b>：谁在等谁。等评审、等联调、等环境、等测试。</li>
+        </ul>
+        <p>人防那个项目，缺陷一共拖了 9 天，我拆完发现 6 天是同一类原因——客户的口径和我们开发的理解不一致，不是技术问题。这类问题的解法不是加人，是把验收口径提前写死。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"这些数据我们没有，你怎么拿？"</p>
+            <p class="aa">前两周我用访谈加抽样：找 3 个最近返工的项目，把返工原因一条条问出来。不用全量，3 个项目就能看出主要矛盾在哪个环节。<b>先定性，再定量。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"你做过研发效能吗？"</p>
+            <p class="aa">没有直接做过研发效能产品。但我做过同样结构的事：把一个靠人盯的流程，改成靠口径和规则跑。海图把 12 条判定写死、人防把判定交给规则引擎，本质都是"减少人来回解释"。<b>效能问题的核心是同一个。</b></p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我会用 OKR 和看板提升研发效率。"（这是管理口号，不是诊断方法）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g02">
+      <summary><span class="qid">G02</span><span class="qtxt">怎么把一次性的方案，抽象成团队能复用的机制？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">用人经理</div>
+        <p class="ask">"我们要的不是一个项目做完，是做完之后团队下次能自己干。你怎么保证这一点？"</p>
+        <div class="core">抽象不是写文档，是把<b>每次都要重新解释的东西</b>变成模板、清单和验收用例。判断标准只有一条：别人拿去能不能直接用。</div>
+        <p>我给自己定了个土规则：<b>同一个问题第三次出现，就该进模板。</b>第一次是特例，第二次是巧合，第三次是结构性问题。</p>
+        <p>智能体工厂就是这么长出来的。三个不同行业的客户都问"能不能自己配一个场景"，我一开始每家单独做，做到第三家发现流程一模一样：描述需求、选数据、配判定、跑验收。于是把它拆成场景包模板、判定清单、验收用例三样东西，后面客户自己配，从两周缩到两天。</p>
+        <p>配套两条：<b>模板要有版本和责任人</b>；<b>三个月没人用的模板就删掉</b>。不删的话，半年后团队会在一个没人维护的库里挑东西用。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"抽象错了，方向就错了，怎么办？"</p>
+            <p class="aa">所以先抽象"判断标准"，不抽象"实现方式"。判定清单可以错，改了只影响一个字段；把整个工作流抽象错了，返工是十倍。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么证明抽象有效？"</p>
+            <p class="aa">看第二个、第三个人用它的耗时。第一个人用两周，第二个人用两天，说明抽象成立；还是两周，说明只是把文档写长了。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我会沉淀方法论、形成 SOP。"（SOP 是结果，不是机制）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g03">
+      <summary><span class="qid">G03</span><span class="qtxt">Agent 的记忆怎么设计？什么时候该记，什么时候该忘？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who x">技术面 / 创始人</div>
+        <p class="ask">"我们的产品要跨会话记住客户，你怎么划这条线？"</p>
+        <div class="core">记忆要分三层，三层的"记什么"完全不同。混在一起用，第一次出问题就是隐私事故。</div>
+        <ul>
+          <li><b>会话内（上下文）</b>：只记当前任务的状态、约束、已经确认过的结论。任务结束就丢。</li>
+          <li><b>跨会话（用户/客户档案）</b>：记稳定的偏好和历史结论，<b>不记过程</b>。比如"这家客户只认带日期的版本"，不记"上次我们讨论了三轮"。</li>
+          <li><b>组织层（知识库）</b>：只记经过人确认的结论。原始对话不进。</li>
+        </ul>
+        <p>每条记忆必须带四样东西：<b>来源、作用范围、更新时间、怎么纠错</b>。没有来源的记忆不能在决策里用，只能当提示。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"用户说'你记错了'，你怎么办？"</p>
+            <p class="aa">记忆必须可见可删。产品上要有一个地方能看"我记住了你什么"，用户能改能删。<b>不能删的记忆，等于不能纠错的判断。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"记忆越多越好吗？"</p>
+            <p class="aa">不是。记忆多了会互相冲突，模型会挑一个看起来最像的用。我的做法是<b>按作用域隔离</b>：这个客户的历史不能出现在那个客户的会话里，哪怕同一个用户。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我们用向量数据库做长期记忆。"（这是实现，不是设计）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g04">
+      <summary><span class="qid">G04</span><span class="qtxt">信息缺失、工具失败、执行超时，你的异常分支怎么设计？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who x">技术面 / 用人经理</div>
+        <p class="ask">"Agent 跑到一半卡住了，用户看到什么？"</p>
+        <div class="core">异常不是错误处理，是<b>产品规则</b>。四类必须先定，每类一个默认动作加一个用户可见状态。</div>
+        <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>异常</th><th>默认动作</th><th>用户看到什么</th></tr></thead>
+          <tbody>
+            <tr><td class="k nowrap">信息缺失</td><td>停下来问，不猜</td><td>"缺这三项，补了才能继续"</td></tr>
+            <tr><td class="k nowrap">来源冲突</td><td>并列呈现，标出各自的出处和日期</td><td>"两份资料不一致，你选一个"</td></tr>
+            <tr><td class="k nowrap">工具失败</td><td>退到规则或人工，记录降级</td><td>"这一步没跑通，已转人工，预计 X 分钟"</td></tr>
+            <tr><td class="k nowrap">超时 / 部分完成</td><td>交已完成的部分，标明缺哪些</td><td>"12 项完成 9 项，剩余 3 项待补"</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p>海图里"图幅缺页"就是信息缺失。我定的规则是标红并列出缺哪几页，<b>不猜、不补</b>。因为补错一页，后面整张图的判定都错，客户还得重新核一遍，比直接说"缺"代价大得多。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"全都失败呢？"</p>
+            <p class="aa">整体降级到规则或人工，并且把<b>降级率</b>做成一个指标盯着。降级率突然升高，通常是上游数据或模型版本变了，不是用户的问题。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"用户不想被打断，你老是问他怎么办？"</p>
+            <p class="aa">问的频率要设上限，并且记住他的选择。同一个客户连续三次都选"用旧版本"，第四次就别问了，直接按旧版本跑并标注出来。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"异常我们会捕获并提示用户。"（等于没设计）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g05">
+      <summary><span class="qid">G05</span><span class="qtxt">评测集怎么防止"越测越好、上线就崩"？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who x">技术面</div>
+        <p class="ask">"我们有评测集，但线上效果总比评测差一截。"</p>
+        <div class="core">评测集要分三份：<b>开发集、回归集、盲测集</b>。开发集一定会被调穿，只有盲测集能预测线上。</div>
+        <ul>
+          <li><b>开发集</b>：日常调 prompt、调检索用。可以反复看，看穿了也没关系。</li>
+          <li><b>回归集</b>：每次发版跑，按改动影响面选子集。改了提取就只跑提取相关的，不全跑。</li>
+          <li><b>盲测集</b>：<b>只在发布前跑一次</b>，跑完这批就作废，补新的进来。这是唯一能告诉你"这次真的变好了吗"的数据。</li>
+        </ul>
+        <p>220 例里我留了 40 例从不给算法看，只在我这边。这 40 例的分数才是我对外敢说的那个数。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"盲测集也会过时。"</p>
+            <p class="aa">会。所以上线后按周抽样人工标注，把线上失败case补进回归集，把过期样例换出盲测集。<b>评测集是活的，不是建一次就完。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"业务方不信你的 96.8% 怎么办？"</p>
+            <p class="aa">那就别报这个数。报"80 张真实工程图纸跑一遍，标准配筋 88%、复合配筋 74%、套管 85%"，这是他们能自己复现的口径。<b>能复现的数才有说服力。</b></p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我们有 220 条评测集，准确率 96.8%。"（只报数不讲口径，第二问就露）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g06">
+      <summary><span class="qid">G06</span><span class="qtxt">什么叫"结果采纳率"和"人工干预率"？你怎么优化？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">业务负责人</div>
+        <p class="ask">"我们对产品的要求是对采纳率负责，不只是对功能上线负责。"</p>
+        <div class="core">采纳率看"用户直接用了多少"，干预率看"用户改了多少"。<b>两个一起看，才知道是真好用，还是用户懒得改。</b></div>
+        <p>我内部把一次任务拆成三种结局：</p>
+        <ul>
+          <li><b>一次通过</b>：不改直接用。这是采纳率里最硬的部分。</li>
+          <li><b>修改后采纳</b>：改了但用了。说明方向对，细节不够。</li>
+          <li><b>放弃</b>：改都不想改，自己重做。这是最危险的信号。</li>
+        </ul>
+        <p>放弃率高的产品，准确率再高也留不住人——因为用户不是不信数字，是不信"下次会不会又错"。采集方式很土：埋点三个动作（复制、编辑、丢弃），加每周抽 10 个用户问一句"这次为什么没用"。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"干预率高是坏事吗？"</p>
+            <p class="aa">分场景。审核类产品干预率高是正常的，人必须留最后一签。但如果干预的内容<b>每次都一样</b>，说明这不是人的判断，是我们的规则缺了一条，该回去改产品。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么定目标值？"</p>
+            <p class="aa">先测基线，再定提升。第一次上线我不定绝对值，定"比人工快 40% 且返工不增加"。绝对值要等两轮迭代后才有意义。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我们看 DAU 和用户满意度。"（这是运营指标，不是效果指标）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g07">
+      <summary><span class="qid">G07</span><span class="qtxt">单位任务成本怎么算？降本先降哪一块？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">业务负责人</div>
+        <p class="ask">"我们的考核指标里有单位任务成本，你怎么拆？"</p>
+        <div class="core">单位任务成本 = （token + 算力 + 人工复核）/ 完成任务数。拆开之后会发现，<b>大头通常不是 token，是人工兜底和返工。</b></div>
+        <p>我的拆法是三层：</p>
+        <ul>
+          <li><b>单次调用成本</b>：模型单价 × 平均 token 数。</li>
+          <li><b>平均调用次数</b>：一次任务跑几轮。这层最容易失控——加了检索、加了反思、加了重试，成本翻三倍，效果只涨两个点。</li>
+          <li><b>人工兜底成本</b>：复核 1 分钟就是 1 分钟的钱，比 token 贵两个数量级。</li>
+        </ul>
+        <p>人防单张图纸，token 成本可以忽略，真正贵的是人工复核。所以我的降本顺序是：<b>先降返工，再降调用次数，最后才谈模型和 token。</b></p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"怎么定成本目标？"</p>
+            <p class="aa">对标人工。单位任务成本要低于人工的 40% 才有替换动力——因为还有培训、维护、信任成本。低不到这个数，客户不会真换。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"降本会不会伤效果？"</p>
+            <p class="aa">会，所以要盯住一个不能动的指标。我的红线是漏判率，成本怎么砍都不许它涨。砍到影响漏判，就停。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我们会优化 prompt 降低 token 消耗。"（只盯 token，说明没算过总账）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g08">
+      <summary><span class="qid">G08</span><span class="qtxt">这个产品你打算怎么定价？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">创始人 / CEO</div>
+        <p class="ask">"你做过定价吗？我们这条线还没定下来。"</p>
+        <div class="core">定价不是算成本，是算<b>客户省下的钱里你能拿多少</b>。三种模式选一种，别混着来。</div>
+        <ul>
+          <li><b>按席位</b>：适合"人人要用"的工具。简单、好卖，但客户会想办法少开账号。</li>
+          <li><b>按用量</b>：适合调用成本高的产品。客户能接受，但要给预算上限，否则不敢用。</li>
+          <li><b>按结果</b>：适合能明确计量产出的场景（审了多少张图、省了多少小时）。最难谈，但最抗价格战。</li>
+        </ul>
+        <p>我做政企是"项目 + 年服务"，因为交付重、每家都要定制。但这是交付逻辑，不是产品逻辑。产品化之后我会选<b>基础版按席位 + 超量按用量包</b>：门槛低，能进得去，用起来之后再靠用量赚钱。</p>
+        <p>定的时候有三个约束：客户预算周期（年框还是项目制）、采购能不能解释（太复杂采购批不下来）、竞品锚点（客户一定拿人天报价来比）。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"客户嫌贵怎么办？"</p>
+            <p class="aa">不谈折扣，换结构。把一年拆成两个月试点，按验收指标付费。<b>降价会毁掉后面所有客户的价格锚点，改结构不会。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"免费版要不要做？"</p>
+            <p class="aa">做，但免费版要卡在"能感受到价值、不能完成工作"这条线上。能完成工作的免费版，等于把付费理由送掉了。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我们会参考竞品定价。"（等于把定价权交给对手）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g09">
+      <summary><span class="qid">G09</span><span class="qtxt">你怎么拿到第一批付费客户？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">创始人 / 用人经理</div>
+        <p class="ask">"我们要的是从 0 到 1 到付费，不是做完交付就结束。"</p>
+        <div class="core">第一批付费客户不是"找来的"，是<b>从已经交付的客户里转化出来的</b>。先有一个愿意共创的，再拿他做成标准，去找第二家。</div>
+        <p>我两个客户都是这个路径：先免费或低价做试点，把验收口径做成双方签字的东西，再谈签约。</p>
+        <ul>
+          <li><b>第一步</b>：找愿意当共创方的客户。判断标准不是预算大，是<b>他愿意派人跟你一起定标准</b>。</li>
+          <li><b>第二步</b>：把他的验收口径做成可复用的模板。这一步做完，你手里有的不是案例，是产品。</li>
+          <li><b>第三步</b>：拿这个模板找同类客户的第二家。第二家的成交周期应该明显短于第一家，否则说明你做的还是项目。</li>
+        </ul>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"没有标杆客户的时候怎么办？"</p>
+            <p class="aa">找痛点强、决策链短的。决策链长的大客户，第一款产品千万别碰——你要花一年等一个签字，产品早就该改了。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"客户要独家怎么办？"</p>
+            <p class="aa">给行业独家，不给区域独家。行业独家可以换更高的年费，区域独家只会挡住你后面的增长。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"通过渠道、展会和行业活动获客。"（这是市场动作，不是 0 到 1 的方法）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g10">
+      <summary><span class="qid">G10</span><span class="qtxt">内部 AI 工具，怎么让同事真的用起来？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who hr">HR / 组织发展</div>
+        <p class="ask">"我们希望 AI 成为团队的工作语言，不只是买几个工具。"</p>
+        <div class="core">内部工具的敌人不是"不会用"，是<b>"用了要担责"</b>。先降低试错成本，再谈效率。</div>
+        <p>三件事，按顺序做：</p>
+        <ul>
+          <li><b>给一个出错也不影响业务的入口</b>：先在"错了也没关系"的场景跑通（写周报、整理会议记录），让人先建立手感。</li>
+          <li><b>每周公开一个真实用例</b>：谁用了、省了多少时间、原话怎么说的。用同事的案例，不用你讲。</li>
+          <li><b>把高频操作做成模板</b>：不让人从零写 prompt。模板比培训有效十倍——培训听完就忘，模板打开就能用。</li>
+        </ul>
+        <p>还有一个反直觉的：<b>不要一开始就统计使用率</b>。一统计，大家就开始刷次数，数据好看，事没做成。先看产出，再看使用。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"老板不重视怎么办？"</p>
+            <p class="aa">拿一个部门的月度数据说话，不谈效率谈钱：这个部门原来 3 个人做，现在 2 个人做同样的量。<b>老板只对可比的数有反应。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"有人坚决不用呢？"</p>
+            <p class="aa">不劝。把他的工作拆成"必须他做"和"可以交出去"两部分，把后者接过来。三个月后他自己会来找你。</p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我们会组织培训和宣导，提升大家的 AI 意识。"（培训和意识都不解决问题）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g11">
+      <summary><span class="qid">G11</span><span class="qtxt">你怎么带教初级产品经理？团队怎么分工？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">用人经理</div>
+        <p class="ask">"这个岗位要带一个产品助理，你打算怎么带？"</p>
+        <div class="core">给判断标准，不给答案。新人第一周只做一件事：<b>把我说过的话整理成清单</b>。</div>
+        <p>为什么是整理清单：新人最缺的不是知识，是"什么算做对了"。让他整理，他就得逼自己理解每句话为什么这么说；我审一遍，等于把判断标准过了一次。</p>
+        <p>分工我按<b>谁能对结果负责</b>分，不按模块分。人防项目我把判定规则整块交给一个人，包括和客户争口径的权力。交出去的是决定权，不是任务——只交任务，他永远长不出判断力。</p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"新人做错了呢？"</p>
+            <p class="aa">先看他有没有标准。没有标准是我的问题，我给；有标准没执行，是执行问题，谈一次；有标准也执行了还是错，说明标准错了，一起改。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你带过几个人？"</p>
+            <p class="aa">云锦微我管产品线，直接带 2 个产品，间接带交付和售前。规模不大，但每个人的判断标准是我一条条过的。<b>数量我说不了漂亮话，方法可以说清楚。</b></p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我会定期沟通、关注成长、给足空间。"（三句都对，但都没内容）</div>
+      </div>
+    </details>
+
+    <details class="q" id="g12">
+      <summary><span class="qid">G12</span><span class="qtxt">你没有"靠产品拿到付费客户"的经历，凭什么做这个岗？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <div class="who biz">创始人 / CEO</div>
+        <p class="ask">"我们要的是 0 到 1 到商业化。你的经历是交付型的，差别在哪？"</p>
+        <div class="core">我做过的是<b>靠交付拿下标杆客户</b>，不是<b>靠产品获客</b>。这两件事的差别我很清楚：前者要口径和验收，后者要渠道和定价。我缺的是后者的一半。</div>
+        <p>说清楚这三点，比硬说自己做过更有用：</p>
+        <ul>
+          <li><b>我有的</b>：把模糊需求变成可签字验收口径的能力。0 到 1 最容易死的地方是"做完了客户不认"，这一关我过了两次。</li>
+          <li><b>我缺的</b>：获客渠道和规模化投放。这个我确实没有一手经验。</li>
+          <li><b>我在补的</b>：智能体工厂就是从交付转产品的第一步——客户自己配场景包，我不进场。这一步走通，才谈得上产品化获客。</li>
+        </ul>
+        <p>如果这个岗位前六个月的主要任务是"找到付费客户"，我会先做一件确定性高的事：从已有客户里找一个愿意共创的，把验收口径做成标准，用它去换第二家。<b>不是从零找客户，是从已有关系里长出客户。</b></p>
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那你不就是销售吗？"</p>
+            <p class="aa">不是。销售的产出是签字，我的产出是<b>签完字能复制的东西</b>。第一家我陪着做，第二家我不进场也能成，这才算产品。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"多久能拿到第一个付费客户？"</p>
+            <p class="aa">如果已有试点客户，3 个月内；从零开始，我不会承诺时间，我会承诺"90 天内跑完一个完整闭环并拿到明确的不做/继续判断"。<b>承诺时间是最容易翻车的一种承诺。</b></p>
+          </div>
+        </div>
+        <div class="avoid"><b>别说：</b>"我学习能力很强，很快能上手。"（这句话在这里等于承认没有方法）</div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 09 逐家打分 ============ -->
+  <section id="fit">
+    <div class="ch-head"><span class="big">09</span><h2>投哪家：15 条 JD 逐个打分</h2></div>
+    <p class="ch-sub">按你的简历现状打，不是按你的潜力打。分数低不代表你不行，代表<b>这家公司的题不是你的题</b>。</p>
+
+    <div class="note">
+      <h4>评分规则</h4>
+      <ul>
+        <li><b>门槛 30 分</b>：学历、年限、薪资带、地点能不能过。硬性排除项（如"必须 2–3 年开发经历"）直接扣到过不了。</li>
+        <li><b>场景 25 分</b>：你待过的行业与这家要的是不是一类。政企/工业 ＞ 通用 B 端 ＞ 消费零售 ＞ 金融内容。</li>
+        <li><b>AI 深度 20 分</b>：Agent / RAG / 端侧 / 评测，这四项他要求几项、你有几项。</li>
+        <li><b>商业化 15 分</b>：0 到 1 到付费、定价、套餐。这是你最薄的一环，多数岗位只给 6–12 分。</li>
+        <li><b>组织 10 分</b>：内部推广、跨部门、带人。权重最低，因为多数岗位不真考。</li>
+      </ul>
+      <p>对照口径：方案文档里的 84 分是<b>面向"端侧 Agent × 行业解决方案"这个目标族</b>的加权分；这里是<b>逐家公司逐道题</b>的分。两个数不能互相换算，看趋势。</p>
+    </div>
+
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>JD</th><th>用人单位</th><th>岗位 / 赛道</th><th>薪资</th><th>分</th><th>一句话判断</th></tr></thead>
+      <tbody>
+        <tr><td class="k nowrap">JD6</td><td>某 500 强上市企业<br><span class="dim">猎头岗</span></td><td>AI 软件产品经理<br><span class="dim">工程机械 / 集团事业部</span></td><td class="nw">30–55K·16</td><td class="nw"><b>88</b></td><td>最像你的一条：B 端软件 + Agent 落地 + POC 到规模化 + 评测闭环，四项你都有一手。</td></tr>
+        <tr><td class="k nowrap">JD7</td><td>绿联<br><span class="dim">图内可印证</span></td><td>端侧 AI 应用<br><span class="dim">NAS / 智能存储</span></td><td class="nw">40–55K·15</td><td class="nw"><b>86</b></td><td>AI BOX 那套 27B / 65W / 端侧部署直接对上；缺的是消费级存储的产品感。</td></tr>
+        <tr><td class="k nowrap">JD15</td><td>熵基律动</td><td>AI 产品经理<br><span class="dim">复合型 · 安防 / 政企</span></td><td class="nw">20–40K·14</td><td class="nw"><b>82</b></td><td>它自己写了权重：业务 30 / 沟通 25 / 产品 35 / 技术 10。这套权重几乎是照着你写的。</td></tr>
+        <tr><td class="k nowrap">JD13</td><td>顺丰</td><td>高级产品经理<br><span class="dim">物流 / 内部业务</span></td><td class="nw">30–50K·15</td><td class="nw"><b>78</b></td><td>它明确排除仅 POC——你恰好有上线后的真实使用数据，这条门槛你过得比别人干净。</td></tr>
+        <tr><td class="k nowrap">JD11</td><td>传音</td><td>AI 产品经理<br><span class="dim">开源方案产品化</span></td><td class="nw">30–40K·13</td><td class="nw"><b>76</b></td><td>"用 AI 编程工具做人机回环、推动开源产品化"——你的 Claude Code 那部分被严重低估了。</td></tr>
+        <tr><td class="k nowrap">JD2</td><td>AKULAKU<br><span class="dim">你的标注；图内实为海外投顾 AI 研究</span></td><td>AI 投资研究 Agent<br><span class="dim">海外独立投顾 · 早期团队</span></td><td class="nw">未写</td><td class="nw"><b>74</b></td><td>能力最对、场景最不对。它对 Agent 机制的要求是全 15 条最高，但你没有任何金融研究背景。</td></tr>
+        <tr><td class="k nowrap">JD14</td><td>路特</td><td>AI 产品经理<br><span class="dim">母婴 / 视觉语音硬件</span></td><td class="nw">30–60K·15</td><td class="nw"><b>74</b></td><td>硬要视觉或语音类 AI 产品经验——你有；母婴场景没有，但安防类它也算加分。</td></tr>
+        <tr><td class="k nowrap">JD1</td><td>某上市硬件公司<br><span class="dim">消费电子</span></td><td>AI 效能产品经理<br><span class="dim">研发效能</span></td><td class="nw">40–70K·18</td><td class="nw"><b>72</b></td><td>薪资最高，但你没有任何研发效能或内部工具经历，面试第一问就会露。</td></tr>
+        <tr><td class="k nowrap">JD8</td><td>明途知产</td><td>AI 产品经理<br><span class="dim">知识产权 · CEO 直属</span></td><td class="nw">25–40K·13</td><td class="nw"><b>72</b></td><td>0 到 1 到商业化这条要求正好戳你最薄的地方；但 CEO 直属意味着看人比看履历重。</td></tr>
+        <tr><td class="k nowrap">JD9</td><td>达理万</td><td>资深 AI 平台经理<br><span class="dim">AI 系统开发及优化</span></td><td class="nw">25–45K</td><td class="nw"><b>70</b><br><span class="dim">门槛否</span></td><td>硬性要"至少 2–3 年软件开发/工程经历"。它后面又写"不要求手写代码"，前后矛盾，可争但难。</td></tr>
+        <tr><td class="k nowrap">JD3</td><td>永旺数字科技<br><span class="dim">图内可印证</span></td><td>AI 产品经理<br><span class="dim">商超 / 购物中心</span></td><td class="nw">30–40K·14</td><td class="nw"><b>68</b></td><td>门店数你有 2,000+，但它要的是商超 toB/toC 运营与营销，不是硬件铺店。</td></tr>
+        <tr><td class="k nowrap">JD4</td><td>歌尔股份</td><td>资深 AI 产品经理<br><span class="dim">HR 方向</span></td><td class="nw">40–50K</td><td class="nw"><b>62</b></td><td>HR 场景零经验，且它考的是"内部 AI 运营与氛围"，这块你只能讲原则。</td></tr>
+        <tr><td class="k nowrap">JD10</td><td>某空间智能独角兽</td><td>资深 AIGC 产品经理<br><span class="dim">AI 设计工具</span></td><td class="nw">40–50K</td><td class="nw"><b>62</b></td><td>生成效果评价 + 会员付费，两个你都没有。它有设计背景优先，你没有。</td></tr>
+        <tr><td class="k nowrap">JD12</td><td>创想数维</td><td>AI 产品经理<br><span class="dim">内容营销 / 海外社媒</span></td><td class="nw">20–40K·14</td><td class="nw"><b>62</b></td><td>对"内容采纳率、素材复用率"负责，你没有内容生产侧的数据。</td></tr>
+        <tr><td class="k nowrap">JD5</td><td>美的</td><td>智能办公产品经理<br><span class="dim">办公基建</span></td><td class="nw">30–55K</td><td class="nw"><b>58</b></td><td>正文要 8 年以上（标签写 5–10 年）+ 大型复杂平台。你年限够，平台经验不够。</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3 class="sub">三档怎么投</h3>
+
+    <div class="note">
+      <h4>A 档 · 先投这三家（≥80）</h4>
+      <p><b>JD6、JD7、JD15。</b>三家的共同点：要的是"能把 AI 塞进真实业务并验收"的人，不是"讲得漂亮"的人。你的两个政企项目和 2,000 家门店，在这三家面前是硬通货。</p>
+      <p>投的时候用<b>端侧/工业版简历</b>：项目顺序海图 → 人防 → 智能体工厂，个人优势第一条改成"把大模型塞进算力和预算都被卡死的场景"。</p>
+    </div>
+
+    <div class="note">
+      <h4>B 档 · 值得投，但要换叙事（70–79）</h4>
+      <p>B 档这六家，不是能力不够，是<b>开场三十秒讲错了对象</b>。下面按类别分开讲：</p>
+      <ul>
+        <li>JD13 / JD11：走 <b>Agent 版</b>，主线是"长任务、异常分支、评测闭环"，别讲硬件。</li>
+        <li>JD2：走 <b>Agent 版</b>，但必须补一句"金融场景我没做过，我用两周把你们的研报流程走一遍再谈方案"——先承认，再给方法。</li>
+        <li>JD14：走 <b>端侧版</b>，把"多模态视觉 2,000 门店 + 安防"往前放，母婴场景一句"场景可迁移"带过。</li>
+        <li>JD1 / JD8：走 <b>企业效能版</b>，主线是"把靠人盯的流程改成靠口径跑"，别硬说自己做过效能产品。</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <h4>C 档 · 现在别耗时间（&lt;70 或门槛否决）</h4>
+      <p><b>JD9、JD3、JD4、JD10、JD12、JD5。</b>六家里有五家是<b>换个赛道就能投</b>的，不是能力问题——等你补完内容生产或 HR 场景的案例再说。JD9 是唯一硬门槛，除非你能拿出可运行的开源项目证明工程能力，否则简历筛就过不去。</p>
+    </div>
+
+    <h3 class="sub">投递节奏</h3>
+    <ul class="plain">
+      <li><b>第 1 周</b>：A 档投 2 家（JD6、JD7）。这两家的反馈最能校准简历——都是 B 端 + 端侧，面试官会问同一批问题。</li>
+      <li><b>第 2 周</b>：A 档第 3 家（JD15）+ B 档前 2 家（JD13、JD11）。此时你已经有 2 场真实反馈，知道哪句会被追问。</li>
+      <li><b>第 3 周</b>：看前两周的通过率。过 1 家以上，B 档全投；一家没过，先改简历和开场，别扩大投递面。</li>
+      <li><b>不建议</b>：一次投 10 家。面试撞车时你只能去 3 场，剩下的机会浪费，且每场都准备不足。</li>
+    </ul>
+  </section>
+
+    <!-- ============ 补 20 问 ============ -->
+  <section id="more">
+    <div class="ch-head"><span class="big">+</span><h2>补 20 问：JD 词表里有、你简历上还没被问过的</h2></div>
+    <p class="ch-sub">这 20 题来自两处缺口：一是 15 条 JD 的词表里出现过、前面 48 题没覆盖到的词（Skills、上下文、多模态、私有化、POC、AIGC、Copilot）；二是终稿简历新写进去的证据（云边协同、AI 编程工具、3000 万标的、七个能力标签）。每题都按「他怎么问 → 结论 → 三层展开 → 追问链 → 别说」写，念的时候只记结论和最后一句。</p>
+
+    <div class="drill">
+      <div>
+        <p class="step">优先级</p>
+        <h5>先练带 ★ 的八题</h5>
+        <p>Q37、Q40、Q42、Q43、Q47、Q51、Q53、Q56。这八题要么是 JD 明写的词，要么是招聘方一定会拿来筛人的问题，其余十二题是补厚度。</p>
+      </div>
+      <div>
+        <p class="step">口径</p>
+        <h5>只用一套数字</h5>
+        <p>与速查卡完全一致：99 工时 / 50 家 = 2 工时每店、120+ 幅、23% 到 0、52% 到 74%、78% 到 9%、220 条 96.8%、80 张图纸。多一个数字都不要临时编。</p>
+      </div>
+    </div>
+
+    <details class="q" id="q37">
+      <summary><span class="qid">Q37</span><span class="qtxt">Skills 和工具调用是什么关系？一个智能体该拆成多少技能？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（Agent 怎么拆、拆错会怎样，带流程图与三层追问）→ <a href="jd-interview.html#haitu-02">看详细版</a></p>
+        <span class="who x">技术面（JD 高频词）</span>
+        <p class="ask">"你们说的技能，是 prompt 还是代码？和 function calling 有什么区别？"</p>
+
+        <div class="core"><b>结论：</b>技能是「预先写好的动作说明书」，工具是「真正执行的那只手」。技能解决「知道该怎么做」，工具解决「能做」。一个技能背后可能调三个工具，也可能一个都不调、只是一段判定规则。</div>
+
+        <p><strong>我拿海图讲，因为它四个子智能体刚好四种拆法。</strong>问答那个，技能是「检索—组织—给引用」三步，背后调的是知识库检索和原文定位两个工具。业务查询那个，技能是「把自然语言翻成查询」，背后是数据库。航行通告那个，技能是「抽取四类判定」，背后是规则引擎加模型识别。专题图那个，技能是「读模板、填参数、调打印服务」，背后是制图软件的接口。</p>
+
+        <p><strong>拆多少，我按一条线切：谁对结果负责。</strong>判定错是知识问题、查询错是数据口径问题、出图错是要重印——责任不同，就不能塞进一个技能里，否则一处错整条链都要重来。这条线比「功能清单」好用，因为它直接对应验收。</p>
+
+        <p><strong>边界要说清。</strong>我们没做技能的自动发现和自动生成，技能是人写的、按角色挂载的。这一点我不美化：自动生成技能听起来很美，但生成出来的东西没法验收，客户不会签字。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"技能写多了，模型选不过来怎么办？"</p>
+            <p class="aa">两个办法：一是按角色收敛，某个岗位只挂它用得上的那几个，不是全量开放；二是技能描述本身要能区分——<b>如果两个技能的自然语言描述连你都分不清，模型一定也分不清</b>。我们后来改的就是描述，不是改模型。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"技能和 workflow 编排有什么不一样？"</p>
+            <p class="aa">workflow 是固定路线，技能是可选动作。<b>确定性高的流程我倾向直接写 workflow</b>（比如通告入库七步），只有「下一步做什么要看当前结果」的地方才交给智能体挑技能。全都交给智能体，等于把可控的东西做成不可控。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"技能就是 prompt 模板「。这叫把工程问题说成文案问题，技术面会立刻追问」那工具报错你怎么处理"。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q38">
+      <summary><span class="qid">Q38</span><span class="qtxt">工具调用不是每次都成功，失败了你怎么设计？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（问不出来的时候怎么答，带流程图与三层追问）→ <a href="jd-interview.html#haitu-12">看详细版</a></p>
+        <span class="who x">技术面</span>
+        <p class="ask">"接口超时、返回空、返回一个格式对但值是错的结果——这三种你怎么分别处理？"</p>
+
+        <div class="core"><b>结论：</b>三种失败三种待遇。超时可以重试，返空要降级，值错必须交给人。最糟的设计是把三种都当成「再试一次」。</div>
+
+        <p><strong>超时。</strong>重试一次，第二次还超时就不再试了——<b>连续超时说明对方服务有问题，再试只是把等待时间翻倍</b>。这时候给用户一句「这个查询暂时不通，我先按上次的结果给你」，比转圈强。</p>
+
+        <p><strong>返空。</strong>降级到规则或关键词。海图那边，语义检索没结果就走字面匹配，命中率低但至少不会给出一个空答案。</p>
+
+        <p><strong>值错——这一类最危险，也是我最在意的。</strong>格式对、值是错的结果，机器判断不出来。所以我们的做法是<b>把「不确定」做成合法输出</b>：置信度低的标红进复核队列，不自动入库。<b>宁可让人多看一眼，也不能让它悄悄写进库。</b>海图那条线，改图和不改图是两种责任，混在一起就会让不该改的图被改。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"复核队列会不会变成人工兜底，等于没提效？"</p>
+            <p class="aa">会，所以复核率是我们要盯的指标之一。<b>如果复核率一直在高位，说明抽取环节有问题，要去修抽取，不是加人。</b>我们上线后单条核对从 2.5 分钟降到 40 秒，就是复核量降下来之后的数。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"失败要不要告诉用户？"</p>
+            <p class="aa">要，而且要说清是哪一步失败。<b>用户不怕失败，怕的是不知道发生了什么还在等。</b>这也是我们每个答案都能展开推理步骤和工具调用的原因——答错了能倒查是哪一步。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"加个 try catch 就好了"。这句话会让人判定你没设计过异常分支。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q39">
+      <summary><span class="qid">Q39</span><span class="qtxt">上下文怎么管？长流程塞不下、跨轮又记不住，怎么办？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">技术面（JD 原词「上下文」）</span>
+        <p class="ask">"一条通告五段内容，一次会话里改三轮，你怎么保证它不丢条件？"</p>
+
+        <div class="core"><b>结论：</b>分三层——当前任务的实体放会话记忆，业务事实去库里查，历史事件检索回填。不要把什么都塞进上下文，塞得越多越容易互相干扰。</div>
+
+        <p><strong>第一层，会话记忆只放「这次任务的对象」。</strong>改一条通告，会话里记的是这条通告的编号、当前编辑到第几段、哪几个字段被改过。<b>不记整篇原文</b>——原文在库里，要用的时候按编号取。</p>
+
+        <p><strong>第二层，业务事实不进上下文，进查询。</strong>海图有永久变化清单、有坐标基准、有各类阈值，这些东西写死在上下文里，模型一升级就可能理解偏。所以它们是工具查询，不是背景材料。</p>
+
+        <p><strong>第三层，历史事件靠检索回填。</strong>用户问「上个月这条航道改过没有」，不是靠记忆，是靠检索历史事件再组织。这一层做对了，跨会话也不会丢。</p>
+
+        <p><strong>还有个土办法，但最有效。</strong>多轮修改必须在同一个会话里完成——<b>换会话就丢条件，得重说一遍</b>。这不是技术限制，是我们明确告诉客户的用法。承认限制，比假装没有限制安全。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"上下文长了，模型会不会开始胡说？"</p>
+            <p class="aa">会。<b>我的做法是把「必须准确的字段」从上下文里挪出去，做成结构化槽位</b>，让模型填槽而不是让它从长文里回忆。能填槽的，不要靠记。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"记忆该记什么、该忘什么？"</p>
+            <p class="aa">记「决定」，不记「过程」。用户改了什么、为什么改，这是决定；中间搜了几次、看了哪几段，这是过程，可以丢。<b>记过程只会让上下文变长、让模型抓错重点。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"上下文越长越好，现在都 128K 了"。窗口大不等于不丢信息，等于更容易被无关内容带偏。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q40">
+      <summary><span class="qid">Q40</span><span class="qtxt">多模态你做过什么？端和云怎么分工？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（为什么不端到端用 VLM，带流程图与三层追问）→ <a href="jd-interview.html#retail-16">看详细版</a></p>
+        <span class="who x">技术 / 交叉面（JD 词表 + 新简历核心证据）</span>
+        <p class="ask">"你说云边协同，具体哪一步在端上、哪一步在云上，为什么这么切？"</p>
+
+        <div class="core"><b>结论：</b>端上做「看得见、算得快」的部分——检测、跟踪、出结构化事件；云上做「看得懂、说得清」的部分——理解、组织、回答。切分线是实时性：要在几百毫秒内出结果的，不能上云。</div>
+
+        <p><strong>端侧做什么。</strong>AI Box 上跑 YOLO 那类视觉算法，做实时检测跟踪，输出的是结构化事件——什么、几个、在哪、持续多久，直接落库。<b>端上不生成自然语言</b>，它只负责把画面变成字段。</p>
+
+        <p><strong>云端做什么。</strong>多模态大模型接的是「这些事件意味着什么」。用户问「上午货架是不是空了」，端侧给出的是「3 号区域 10:20 到 10:45 检测到空位」，云端把它组织成一句人话，再决定要不要调历史事件。</p>
+
+        <p><strong>为什么不全端、不全云。</strong>全端：算力、功耗、模型大小三重限制，27B 塞不进端侧盒子，塞进去也跑不动。全云：数据出不了厂，带宽和延迟也扛不住连续视频流。<b>所以按「实时性 vs 理解深度」切，不按「重要不重要」切。</b></p>
+
+        <p><strong>这套东西的验收点。</strong>端侧看漏检和误报，云端看回答是否可追溯。我要求每个答案都能回到具体事件——<b>不能追溯到某条事件的回答，一律当幻觉处理</b>。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"端侧模型怎么更新？"</p>
+            <p class="aa">三条：场景包按岗位下发、版本可回滚、灰度先跑一个点位。<b>端侧最怕的是「更完就坏且没法退」</b>，所以回滚能力比更新能力更重要。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"开放词表检测是什么？"</p>
+            <p class="aa">不用预先训好固定类别，用文本提示去检测画面里的目标。<b>它解决的是「客户今天想盯一个昨天没定义过的东西」</b>。这也是我把它当核心能力写进简历的原因——它让产品从「卖算法」变成「卖可配置的注意力」。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们也做视频理解大模型「。你没做过端到端视频理解模型，被追问架构就崩。说的是」事件级理解「，不是」视频理解模型"。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q41">
+      <summary><span class="qid">Q41</span><span class="qtxt">Copilot 式嵌入和独立 Agent，你怎么选？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">产品面（JD 原词「Copilot」）</span>
+        <p class="ask">"为什么有的产品做成侧边栏，有的做成一个独立入口？"</p>
+
+        <div class="core"><b>结论：</b>看用户的任务有没有现成载体。已有载体（Excel、浏览器、图纸软件）就嵌进去，别让他换工具；没有载体才做独立入口。代价是：嵌入失去入口权，独立要教育用户。</div>
+
+        <p><strong>嵌入的三条证据。</strong>人防是嵌进去的——审核员本来就在看图纸，所以做的是预审加定位到条款，不另开一个系统。排班那个也是，中间是客户原来那张 Excel，字段一个不改。<b>用户的动作没变，只是旁边多了一层建议。</b></p>
+
+        <p><strong>独立入口的条件。</strong>海图做的是独立问答，因为原来没有「问一句话」这个动作——要么翻网站，要么打电话。<b>新动作才需要新入口。</b></p>
+
+        <p><strong>判断错了会怎样。</strong>我犯过一次反的错：把端侧盒子的演示路径按机房客户的习惯做成大屏看板，被客户一句话纠正——他要的是角落里一台机器，不是一块屏。<b>嵌入还是独立，本质是问「他现在站在哪儿」。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"嵌入会不会被宿主产品吃掉？"</p>
+            <p class="aa">会，这是嵌入的代价。所以嵌入的产品要把价值放在「宿主没有的那部分」——判定和口径，而不是界面。<b>界面会被抄，口径不会。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"怎么衡量嵌入版有没有用？"</p>
+            <p class="aa">看它有没有改变用户的一个动作。比如以前他手工核 20 分钟，现在先看预审结果再核 6 分钟——<b>这个时间差就是产品存在的理由</b>，其他指标都是它的分解。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们两种都支持"。两种都支持等于没做选择，产品面会认为你没有取舍能力。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q42">
+      <summary><span class="qid">Q42</span><span class="qtxt">私有化部署、信创适配，你踩过什么坑？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（客户要完全离线怎么办，带流程图与三层追问）→ <a href="jd-interview.html#factory-21">看详细版</a></p>
+        <span class="who x">技术 / 交付面（JD 原词「私有化部署」）</span>
+        <p class="ask">"客户内网不通外网，模型怎么装？国产卡怎么适配？"</p>
+
+        <div class="core"><b>结论：</b>私有化真正的难点不是装，是「装完之后还能不能维护」。所以第一天要问的不是需求，是三个约束：能不能联网、用什么系统、谁有权限装东西。</div>
+
+        <p><strong>坑一：依赖链。</strong>我们在客户 PC 上跑 VT-Station 的时候，最麻烦的是 Python 依赖和 CUDA 版本——<b>离线环境装不上包，一个版本不匹配能卡半天</b>。后来的做法是把依赖预置进离线包，安装脚本不联网。</p>
+
+        <p><strong>坑二：国产卡与国产系统。</strong>昇腾、寒武纪这些卡，模型要转格式、算子要适配，不是换个 device 参数就行。系统侧麒麟、统信也有差异。<b>我的做法是把「支持哪些组合」写成一张表，卖给客户前先对表</b>，而不是先答应再试。</p>
+
+        <p><strong>坑三：没人能重启。</strong>现场没有 IT，机器坏了谁重启？所以端侧产品必须做到「断电重来也能跑」，日志要能让非技术的人读。<b>这一条直接决定了交付成本能不能降下来。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"信创要求你怎么满足？"</p>
+            <p class="aa">模型用国产开源系列，算力对国产卡做适配，系统对麒麟统信做验证。<b>这句话只在被问时讲，不主动展开</b>——展开了就要报具体型号和版本，而那些是研发的活。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"私有化怎么升级？"</p>
+            <p class="aa">离线升级包加回滚。原则是<b>现场只做一件事：点一下，然后等它自己好</b>。要现场填参数、改配置的升级方案，一定会在第三家客户那里失败。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们支持全栈信创「。说不清组合的」全栈"等于没说，还会被追问适配清单。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q43">
+      <summary><span class="qid">Q43</span><span class="qtxt">POC 怎么转成正式单？你靠什么把试用变成采购？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">业务 / 交叉面（JD 原词「POC」）</span>
+        <p class="ask">"POC 大家都能过，为什么最后选你、为什么能签下来？"</p>
+
+        <div class="core"><b>结论：</b>POC 阶段就把验收条款写进去。演示能过是入场券，能不能签看的是「验收怎么算过」。我把这件事提前到 POC，而不是等采购谈完再补。</div>
+
+        <p><strong>做法一：POC 用正式口径跑。</strong>人防那个，POC 不是拿几张漂亮图纸演示，是 80 张真实工程图纸跑一遍，标准配筋 88%、复合配筋 74%、套管 85%，单图审查前置压到 3 分钟。<b>跑完的数字就是验收数字，中间没有第二次解释。</b></p>
+
+        <p><strong>做法二：把「不算我违约」的条件写清楚。</strong>图纸不规范、扫描件糊、缺图例，这些不是模型能解决的。所以合同里写明输入要求，以及在什么情况下判定为不通过。<b>敢签不是胆子大，是知道边界在哪儿。</b></p>
+
+        <p><strong>做法三：给客户一个能自己验的方法。</strong>我们交付源码，客户两名工程师能独立编译跑通。<b>能自己验，才敢签字。</b>这也是为什么这条线能签下来——不是因为我们效果最好，是因为他们能自己确认效果。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"POC 免费做，公司不亏吗？"</p>
+            <p class="aa">亏，所以要设上限：多少张图、几个场景、多长时间。<b>无上限的 POC 就是免费定制</b>，做完客户拿去比价，你什么都拿不到。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"客户拿你的 POC 去找别家压价怎么办？"</p>
+            <p class="aa">POC 交付的是结果，不是方法。源码交付是签约后才做的事。<b>顺序反过来，就没有议价空间了。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们靠关系"。哪怕真有关系，这句话也会让对方认定你没有可复制的方法。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q44">
+      <summary><span class="qid">Q44</span><span class="qtxt">AIGC 内容生成，你会怎么做？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">产品面（JD 词表有 AIGC）</span>
+        <p class="ask">"让你做一个营销素材生成的产品，你怎么定边界？"</p>
+
+        <div class="core"><b>结论：</b>AIGC 的难点不是生成，是「错了谁负责」。所以我做的第一件事不是选模型，是定可核验的那一层——哪些内容必须人签、哪些可以机器出。</div>
+
+        <p><strong>我实际做过的部分。</strong>我在公司做的是内容的生产流程，不是生成模型：官网叙事、白皮书、产品手册、展会讲稿、短视频脚本。<b>我用 AI 起草，但对外发布的每一句都要过一遍口径表</b>——数字、客户名、承诺边界，这三样机器不能自己决定。</p>
+
+        <p><strong>如果做产品，我会这么切。</strong>先切「低风险高频」：海报、社媒图、内部培训材料，错了删掉重发就行。再切「高风险低频」：对外白皮书、投标文件，这类必须人签。<b>把两类混在一个产品里，等于把公司的合规风险做成功能。</b></p>
+
+        <p><strong>一个具体判断。</strong>内容产品的护城河不在生成质量，在素材库和口径库。同样一个模型，谁能保证「我们公司的数字永远是对的」，谁就赢了。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"你怎么评生成质量？"</p>
+            <p class="aa">分两层：合规层是硬指标（数字对不对、有没有禁用表述），可以用规则查；表达层是软指标，抽样人评。<b>合规层不过，表达再好也是零分。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"版权怎么办？"</p>
+            <p class="aa">这是我这块的短板，我只能说原则：训练数据来源要可查，生成物要能追溯到用了哪些素材。<b>没有追溯能力的 AIGC 产品，企业客户不会用。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"AIGC 就是 prompt 写好一点"。这会让人觉得你只见过消费级玩具，没做过企业内容。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q45">
+      <summary><span class="qid">Q45</span><span class="qtxt">云边这套方案，为什么不能全放端侧或者全放云上？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（视频不出店与端云分工，带流程图与三层追问）→ <a href="jd-interview.html#retail-16">看详细版</a></p>
+        <span class="who x">技术面（比 Q40 更狠的追问）</span>
+        <p class="ask">"端侧算力现在也不差，为什么还要云？"</p>
+
+        <div class="core"><b>结论：</b>三条硬约束决定的：算力预算、功耗与噪声、数据出不出得去。三条里任意一条卡住，就必须切分，不能只靠偏好。</div>
+
+        <p><strong>算力预算。</strong>端侧盒子给到 27B 就是极限了，还要留余量给视觉那一路。<b>把理解也放端上，要么降模型，要么降帧率，两个都不能接受。</b></p>
+
+        <p><strong>功耗与噪声。</strong>车间角落要能 65W、35dB 跑着，这是产品形态的约束，不是技术偏好。云端没有这个约束，所以重活给它。</p>
+
+        <p><strong>数据边界。</strong>有的客户数据不出厂，那就只能全端——这时候接受效果差一档。<b>我的做法是把这个取舍摆到桌面上让客户选，而不是替他决定。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"云边之间的数据怎么同步？"</p>
+            <p class="aa">只同步结构化事件和必要的截图，不同步原始视频流。<b>同步的是「发生了什么」，不是「录到了什么」</b>——这一条同时解决了带宽和合规。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"断网了怎么办？"</p>
+            <p class="aa">端侧继续跑检测、继续落库，联网后补传。降级的是「问答」，不是「值守」。<b>降级要降在不影响安全的那一侧。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"云边协同是趋势"。趋势不是理由，约束才是。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q46">
+      <summary><span class="qid">Q46</span><span class="qtxt">你简历上写了五个 AI 编程工具，各自用来干什么？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">技术面（新简历新增证据）</span>
+        <p class="ask">"Cursor 和通义灵码，你会选哪个？为什么名单里有五个？"</p>
+
+        <div class="core"><b>结论：</b>分两类用。内网合规、日常补全用国产那三个（豆包 MarsCode、通义灵码、CodeGeeX）；从零做原型、大段重构用 Cursor 和 Claude Code。名单长不是因为都会用，是因为环境不同。</div>
+
+        <p><strong>我实际用它做了什么。</strong>三个东西：一个 Node 零依赖的服务端原型、一个多面板的 Playground 演示页、一套 220 条评测集的跑批脚本。<b>这三样都不进生产环境，只用来验证想法和做演示。</b></p>
+
+        <p><strong>边界很清楚。</strong>我不接生产代码，不改客户现场的系统。产品经理写代码的价值是「把想法变成能点的东西」，不是「替研发写代码」。<b>越过这条线，既不可靠也不负责。</b></p>
+
+        <p><strong>为什么这件事值得写进简历。</strong>因为它改变了验证周期。以前一个想法要排研发两周，现在一下午就能给对方看。<b>方案到演示不用排期，是我这一年最实际的一个效率提升。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"生成的代码你敢用吗？"</p>
+            <p class="aa">原型敢，生产不敢。<b>原型的标准是「能跑通、能演示」，生产的标准是「出错有人兜」</b>。两个标准混在一起才会出事。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"你不怕研发觉得你越界？"</p>
+            <p class="aa">一开始有过。后来我把定位说清楚：<b>我做的是「需求的可执行版本」，不是「实现的初稿」</b>。研发看的是行为，不是代码。反而省了他们理解需求的时间。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我全栈都能写"。一句话就把自己从产品经理变成半吊子工程师，两边都不加分。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q47">
+      <summary><span class="qid">Q47</span><span class="qtxt">3,000 万的标的，你为什么敢签？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who b">业务面 / 老板面（终稿简历新增）</span>
+        <p class="ask">"这个数不小，签的时候你凭什么判断能交付？"</p>
+
+        <div class="core"><b>结论：</b>敢签的不是金额，是「我知道什么情况下不算我违约」。三件事做到就敢签：范围收窄到两个功能、判定写成可签字条款、验收口径在签之前就对齐。</div>
+
+        <p><strong>一、范围收窄。</strong>客户原话是「要能审图」，这句话没法验收。我们把它拆成 12 条可签字的判定，一期只做最小配筋率和防护密闭这两个，梁柱识别明确移出。<b>功能少不是能力弱，是知道哪两个能真正跑通。</b></p>
+
+        <p><strong>二、判定可写。</strong>规则引擎做判定、模型只做识别与补全。同输入必同输出、抽检可复核——这两句写进验收条款。<b>模型升级会导致判定漂移，这是这类项目最大的隐性风险</b>，写进条款就把风险关在门外。</p>
+
+        <p><strong>三、口径前置。</strong>80 张真实图纸实测，标准配筋 88%、复合配筋 74%、套管 85%。这些数字在签之前就跑完了。<b>签的是已经验证过的东西，不是承诺。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"这 3,000 万包含什么？"</p>
+            <p class="aa">包含端侧硬件、平台软件和集成实施三部分，不是纯软件合同额。<b>我只能对其中两段负责：范围收敛和验收条款。</b>回款节奏归商务。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果做不出来怎么办？"</p>
+            <p class="aa">所以我坚持一期只做两个功能，并且先跑 80 张图再签。<b>做不出来的风险，应该在签之前暴露，而不是在交付时暴露。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"这个项目是我做的 3,000 万"。把标的说成个人业绩，一问回款就露馅。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q48">
+      <summary><span class="qid">Q48</span><span class="qtxt">你写的「高合规场景落地」，具体指什么？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">产品面（简历标签被追问）</span>
+        <p class="ask">"这个标签是不是为了对齐 JD 写的？"</p>
+
+        <div class="core"><b>结论：</b>指的是「错一次的代价由谁承担」。高合规场景里，产品的第一设计对象不是效率，是责任——谁审、谁签、怎么追溯。</div>
+
+        <p><strong>三个具体做法。</strong>一是预审而不是放行：AI 只出预审意见，最终签字的还是人。二是定位到条款：每条意见都要指到具体规范条款和图纸位置，不能只给一句「这里可能有问题」。三是留痕：改了什么、原文是什么，必须能分开看。</p>
+
+        <p><strong>为什么这么做。</strong>客户第一反应不是「AI 真快」，是「出错了谁负责」。<b>把这个问句答清楚，产品才进得去。</b>海图那边，系统不出「可通行」这类结论，也是同一个道理。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"那 AI 到底替你做了什么？"</p>
+            <p class="aa">替掉的是「翻、找、抄」这一段：翻规范、找图元、抄数据。<b>判断留给人，劳动交给机器。</b>这一刀切对了，提效是自然的。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"这套方法能迁到低合规场景吗？"</p>
+            <p class="aa">能，但要把「留痕」的强度降下来。低合规场景里，过度留痕会变成负担，用户会绕开系统。<b>合规强度要跟后果匹配，不是越高越好。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我做过很多合规项目"。数量不是能力，机制才是。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q49">
+      <summary><span class="qid">Q49</span><span class="qtxt">220 条评测集跑在端上还是云上？怎么防过拟合？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">技术面（和 Q24 互补）</span>
+        <p class="ask">"你说严格通过率 96.8%，这个数是怎么算的？"</p>
+
+        <div class="core"><b>结论：</b>那 220 条测的是编排层的意图路由，跑在云端。端侧跑的是视觉检测，是另一套指标。两套不能混着报。</div>
+
+        <p><strong>220 条怎么来的。</strong>base 60 条覆盖正常说法，edge 160 条覆盖边缘说法——同义反复、否定、多意图、带错别字。<b>edge 那 160 条是这套东西的价值所在</b>，因为线上出错基本都在边缘。</p>
+
+        <p><strong>严格通过率的定义。</strong>必须完全命中才算过，部分命中算不过。<b>宽松口径能到 98.2%，但我不对外报那个数</b>——报宽口径等于自己给自己放水。</p>
+
+        <p><strong>防过拟合三件事。</strong>一是分层，base 和 edge 分开看，不看总数；二是每轮改 prompt 都跑全量，防止「修一条打坏另一条」；三是不拿训练样本当测试。<b>还有一条土规矩：改完必须自己念一遍，念不通说明描述本身有问题，不是模型的问题。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"220 条够吗？"</p>
+            <p class="aa">对一个只做四类意图的编排层，够用；对开放域不够。<b>我的判断标准是「每条意图至少 20 条样本，边缘情况不少于正例的两倍」</b>，按这个算 220 是下限不是上限。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"端侧视觉怎么评？"</p>
+            <p class="aa">走另一套：真实场景抽样，看漏检和误报，按场景分开报。<b>端侧的难点是场景漂移</b>——换一个车间，光线和角度全变，所以评测必须按场景做，不能只报一个总准确率。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"96.8% 是准确率「。它是」意图路由的严格通过率"，不是产品准确率。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q50">
+      <summary><span class="qid">Q50</span><span class="qtxt">模型升级了，怎么验证判定没漂？</span><span class="chev">›</span></summary>
+      <div class="qbody"><p class="xlink">这道题在项目深挖页有更完整的版本（换版本改工具不改分工，带流程图与三层追问）→ <a href="jd-interview.html#retail-33">看详细版</a></p>
+        <span class="who x">技术面</span>
+        <p class="ask">"你们换模型版本，怎么保证结果不变？"</p>
+
+        <div class="core"><b>结论：</b>三层：规则兜底保证确定性，固定评测集保证可比，抽样复核保证真的没变。三层缺一层，漂了你也发现不了。</div>
+
+        <p><strong>规则兜底。</strong>判定逻辑写进规则，模型只处理「这段文字在说什么」。<b>模型的活越窄，升级影响面越小</b>——这是当初分层的最大收益，比准确率提升更重要。</p>
+
+        <p><strong>固定集对照。</strong>同一批样本，老版本、新版本各跑一遍，逐条比对差异。差异清单必须能解释——<b>解释不了的差异，就是不许上线的那部分。</b></p>
+
+        <p><strong>抽样复核。</strong>上线后头两周加抽样比例，人工复核结果单独统计。<b>这一层是给「评测集没覆盖到的情况」兜底的</b>，因为漂移往往出现在你想不到的地方。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"新版本效果更好，但结果变了，换不换？"</p>
+            <p class="aa">在一期验收里不换。<b>验收期要的是稳定，不是最优。</b>二期可以换，但要按变更流程走：先跑对照，再灰度，再全量。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"客户自己换了模型怎么办？"</p>
+            <p class="aa">合同里约定模型版本，换版本走变更。这不是限制客户，是保护验收结论。<b>模型一换、结论全变，这个项目就没法验收了。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我们会测试"。测什么、跟什么比、差异怎么处理，三样说不出就等于没测。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q51">
+      <summary><span class="qid">Q51</span><span class="qtxt">你一直在政企，来我们这做商业客户，凭什么？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who b">用人负责人（最容易被质疑的迁移）</span>
+        <p class="ask">"政企是关系和合规驱动，商业客户是 ROI 驱动，这是两套语言。"</p>
+
+        <div class="core"><b>结论：</b>共性是同一个问题——谁签字、谁承担后果。差异只是把「合规语言」换成「钱的语言」。这套翻译我做过，不是猜的。</div>
+
+        <p><strong>共性。</strong>政企客户问「出了事谁负责」，商业客户问「多久回本」。这两个问题背后是同一件事：<b>你要替你省下的东西，得能被算出来、被追到。</b></p>
+
+        <p><strong>我做过翻译。</strong>同一台机器，对投资人和对客户讲的是两套话：对客户讲省了几个人、省了几小时，对渠道讲能收多少服务费。<b>我做过渠道版和决策层版两套口径</b>，这就是翻译的实操。</p>
+
+        <p><strong>我缺什么，说清楚。</strong>我缺的是纯商业客户的价格弹性和续费数据——政企项目一年一签，商业客户按月流失，节奏完全不同。<b>这块我要靠数据和客户访谈补，不是靠经验。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"你怎么定商业客户的价格？"</p>
+            <p class="aa">先算对方省下的人力成本，再按省下的一部分定价。<b>定价的锚是客户的计算表，不是我们的成本表。</b>成本只决定下限。</p>
+          </div>
+          <div class="item">
+            <p class="qq">"客户说没预算怎么办？"</p>
+            <p class="aa">那说明价值没算清，不是没预算。<b>把「替代一个人的多少工作」算给他看，预算会从别的地方挪过来。</b>挪不过来，就是价值不够。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"客户都差不多"。这句话会让人认定你没真正做过商业客户。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q52">
+      <summary><span class="qid">Q52</span><span class="qtxt">你没做过 C 端 0 到 1，怎么办？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who x">用人负责人</span>
+        <p class="ask">"我们这个是 C 端产品，你的经验是 B 端交付。"</p>
+
+        <div class="core"><b>结论：</b>承认没做过，然后给可迁移的那部分：留存归因的四层框架。C 端我缺的是手感和数据，不缺方法。</div>
+
+        <p><strong>承认。</strong>C 端 0 到 1 我没做过，这是事实，我不绕。</p>
+
+        <p><strong>可迁移的框架。</strong>留存低，我按四层查：渠道对不对、首日有没有走完关键一步、走完之后有没有得到结果、有没有更省事的替代品。<b>只有第三层才该改产品，前两层改投放和引导，第四层要改定位。</b>这个顺序在 B 端也是同一个逻辑，只是 B 端的「关键一步」是验收不是激活。</p>
+
+        <p><strong>我缺什么。</strong>缺三样：C 端的埋点体系、A/B 的实验纪律、以及「用户不说话」时的判断力。<b>B 端客户会告诉你哪儿不对，C 端用户直接走。</b>这三样要在实战里补，我可以从最小闭环开始。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"如果让你明天接手一个留存 20% 的产品？"</p>
+            <p class="aa">先看渠道构成，再看首日路径的完成率，最后看走了关键一步的人留存是否正常。<b>如果走完的人留存正常，问题在引导；走完也不留，才是价值没兑现。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"你会怎么定第一个版本？"</p>
+            <p class="aa">一条能独立跑完的最小闭环，不是功能最少。<b>"能跑完「比」少"重要</b>——跑不完的闭环，用户不会用第二次。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"B 端和 C 端本质一样「。会被追问」那你说说哪里不一样"，答不上来就全崩。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q53">
+      <summary><span class="qid">Q53</span><span class="qtxt">你现在是总监，为什么来投资深产品经理？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who b">HR / 用人负责人（必问，前面 Q03 已有一版，这版更硬）</span>
+        <p class="ask">"是降级吗？还是你在现在的公司待不下去了？"</p>
+
+        <div class="core"><b>结论：</b>我要的是产品线，不是管理线。总监这个头衔在小公司意味着「什么都管一点」，在大公司意味着「一条线做深」。我选后者。</div>
+
+        <p><strong>头衔的真相。</strong>我们公司十几个人，总监这个称谓下面是四件事：产品、融资材料、政府申报、投标。听起来宽，实际上每一件都只能做到七分。<b>我想把其中一件做到九分。</b></p>
+
+        <p><strong>为什么是资深产品经理。</strong>因为我要的是一个有人一起讨论、有人能挑战我的环境。现在的状态是我定完就执行，没有人从产品角度反驳我。<b>这个位置待久了会长出坏习惯。</b></p>
+
+        <p><strong>管理经验不会浪费。</strong>带过人和没带过，差别在「知道一件事要多久」。我排期不会给出一个研发一听就知道不可能的时间表。<b>这个能力在新岗位上照样有用，只是不再是我主要的产出。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"薪资怎么谈？"</p>
+            <p class="aa">我看总包结构，不只看月薪。头衔降一档，我可以接受现金部分的调整，但要有明确的成长路径和范围。<b>我要的是三年后能拿出一个我自己定义的产品，不是一个更好听的title。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"如果让你带团队呢？"</p>
+            <p class="aa">先做事再带人。没有共同做过一个完整项目，带人就是排任务。<b>我倾向先以个人贡献者身份进来，站稳了再谈带人。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我想换个环境学习"。这是最弱的答案，等于承认自己没想清楚。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q54">
+      <summary><span class="qid">Q54</span><span class="qtxt">要驻场、要出差，你能接受吗？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who b">HR（筛人问题，不要答得太轻松）</span>
+        <p class="ask">"我们客户在外地，一个月有一半时间在客户现场。"</p>
+
+        <div class="core"><b>结论：</b>能接受，而且过去三年就是这么干的。但要说清楚代价和边界，否则对方会怀疑你只是想要这份工作。</div>
+
+        <p><strong>给证据，不给态度。</strong>过去三年我的常态是深圳、宁波余姚、上海、杭州四点跑，另外成都、西安、天津、南京、舟山都去过。<b>这不是偶尔出差，是工作方式。</b></p>
+
+        <p><strong>说清代价。</strong>长期驻场的代价是产品判断会越来越贴着现场，慢慢失去横向视角。<b>我的办法是每个月留出固定的时间做对标和复盘</b>，不然会变成「只会做这一家客户」的产品经理。</p>
+
+        <p><strong>边界。</strong>我能接受高频出差，但要能提前排期。<b>临时通知第二天走，一周可以，长期不行</b>——那样做不了任何需要连续思考的活。</p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"家里能接受吗？"</p>
+            <p class="aa">能，这几年一直这样。<b>这个问题我建议反过来想：如果候选人说「完全没问题」，反而要担心他没算过账。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"我没问题，随时可以走"。听起来像没有生活，也像没有判断。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q55">
+      <summary><span class="qid">Q55</span><span class="qtxt">你有竞业限制吗？什么时候能到岗？</span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who b">HR（流程问题，答干净即可）</span>
+        <p class="ask">"离职手续多久？有没有竞业？"</p>
+
+        <div class="core"><b>结论：</b>三句话答完：没有竞业限制、交接期多长、最快哪天到岗。这类问题不要展开，展开反而显得心虚。</div>
+
+        <p><strong>怎么答。</strong>没有竞业限制。现在在职，交接按公司流程走，我需要的时间是[交接期]，最快[日期]可以到岗。</p>
+
+        <p><strong>如果被追问现公司情况。</strong>公司做端侧 AI 和行业智能体，我在里面负责产品体系。<b>离职原因和业务方向无关，是我个人想往平台化产品走</b>，这一点我在前面已经说过。</p>
+
+        <p><strong>一个提醒给自己。</strong>不要在面试里评价前东家，也不要说「随时能走」。<b>交接做干净，是这个行业里最便宜的信用。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"能不能下周就来？"</p>
+            <p class="aa">如果确实是紧急需求，我可以压缩交接，但要和现公司谈妥。<b>我不会不交接就走</b>——这个行业圈子小，走得不干净会跟很久。</p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"随时"。既不真实，也会让对方怀疑你对现岗位没有责任感。</div>
+      </div>
+    </details>
+
+    <details class="q" id="q56">
+      <summary><span class="qid">Q56</span><span class="qtxt">如果我们给的薪资比你现在低，你怎么想？<span class="star">★</span></span><span class="chev">›</span></summary>
+      <div class="qbody">
+        <span class="who b">HR（谈钱，前面 Q05 已有一版，这版讲结构）</span>
+        <p class="ask">"我们这个岗位的预算上限可能到不了你现在的数。"</p>
+
+        <div class="core"><b>结论：</b>先问结构，再谈总包，最后给自己的底线。不要一上来报数字，也不要表现得太好说话。</div>
+
+        <p><strong>先问结构。</strong>我想先确认结构：现金、年终、期权各占多少？涨幅和考核怎么挂钩？<b>同样是 40K，12 薪和 16 薪是两回事。</b></p>
+
+        <p><strong>再说可让的部分。</strong>如果平台和范围是我要的，现金部分可以让。但我希望让的那部分有明确的兑现路径——比如试用期后的调薪节点、或者范围扩大时的对应。<b>我不接受「先这样，以后再说」。</b></p>
+
+        <p><strong>底线怎么表达。</strong>我的底线是[数字]，低于这个数我们就不用互相耽误了。<b>说清楚不是强势，是节省双方时间。</b></p>
+
+        <div class="chain">
+          <div class="hd">追问链</div>
+          <div class="item">
+            <p class="qq">"你怎么证明你值这个数？"</p>
+            <p class="aa">看我做过的两件事：把一个模糊需求压成能签字的验收条款，和把交付成本压下来。<b>这两件事在任何一家公司都能算出钱。</b></p>
+          </div>
+          <div class="item">
+            <p class="qq">"还有别的 offer 吗？"</p>
+            <p class="aa">有在谈的，但我不想用这个压价。<b>我看的是三年后能做出什么，不是这一轮的差值。</b></p>
+          </div>
+        </div>
+
+        <div class="avoid"><b>别说：</b>"都可以，看公司安排"。这句话会让你在后面所有谈判里失去位置。</div>
+      </div>
+    </details>
+
+  </section>
+
+
+  <!-- ============ 速查 ============ -->
+  <section id="quick">
+    <div class="ch-head"><span class="big">·</span><h2>速查：进面试间前五分钟看这个</h2></div>
+    <p class="ch-sub">三张卡，全部是你必须记住的东西。数字只有一套口径，说错一次就是可信度问题。</p>
+
+    <div class="cards">
+      <div class="card">
+        <h5>海图（最常被问）</h5>
+        <ul>
+          <li>12 条可判定条款 · 四个子智能体</li>
+          <li>专题图 <strong>120+ 幅</strong></li>
+          <li>单条核对 <strong>2.5 分钟 → 40 秒</strong></li>
+          <li>误画陆地 <strong>23% → 0</strong>（交付样例集内）</li>
+          <li>一期 <strong>2026-09</strong> 交付 · 交通运输部智能体大赛<strong>三等奖</strong></li>
+          <li>9 大类 39 子类 · 客户口径准确度 &gt;90%</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h5>人防审图</h5>
+        <ul>
+          <li>一期只做 2 类：配筋率、防护密闭</li>
+          <li>标准配筋 <strong>87.5 → 88</strong></li>
+          <li>复合配筋 <strong>52% → 74%</strong></li>
+          <li>附加筋漏算 <strong>78% → 9%</strong></li>
+          <li>复核 <strong>6 分钟 → 1.5 分钟</strong></li>
+          <li>一期终验 · 源码交付 · 客户独立编译跑通</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h5>智能体工厂 / 评测</h5>
+        <ul>
+          <li>220 例 · 意图路由 <strong>96.8%</strong></li>
+          <li>含双解 <strong>98.2%</strong> · base <strong>100%</strong> / edge <strong>95.6%</strong></li>
+          <li>p50 <strong>1128ms</strong> / p95 <strong>2230ms</strong></li>
+          <li>关键词兜底仅 <strong>54.1%</strong>（对照组）</li>
+          <li>协议：8 对象 / 6 不变式 / 场景包契约</li>
+          <li>硬规矩：<strong>加场景不得新增核心对象</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h5>门店 / 硬件（备用）</h5>
+        <ul>
+          <li>门店 <strong>2,000+</strong> · 单店年费约 <strong>2,000 元</strong></li>
+          <li>99 工时 / 50 家 · 折合 <strong>2 工时每店</strong></li>
+          <li>8 类 SOP · 误报分三档（清洁类走「疑似」）</li>
+          <li>AI BOX：<strong>27B / 65W / 35dB</strong></li>
+          <li>涂鸦：<strong>5 款</strong> 0→量产 · 网关降本 <strong>20%</strong> / 中控降本 <strong>40%</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <h4>四个禁用词（说出口就掉分）</h4>
+      <p><strong>「首先 / 其次 / 最后」</strong>——听感是念稿。用"一、二、三"或直接分段。</p>
+      <p><strong>「我们团队」</strong>——面试官问的是你。要说"我判断""我拍的"，团队成果放到后面作为支撑。</p>
+      <p><strong>「差不多 / 大概 / 应该是」</strong>——数字必须精确，不确定就说"这个数我没有一手数据"。</p>
+      <p><strong>任何金额</strong>——合同额、项目标的、经费，一律不说。（简历里也已删除）</p>
+    </div>
+
+    <div class="note">
+      <h4>三个万能句（紧张时用）</h4>
+      <p><strong>接不住时：</strong>"这个问题我得想一下——我先说我的判断，可能不完整。"（给自己 5 秒，且预期管理）</p>
+      <p><strong>被问倒时：</strong>"这块我没有一手经验，我的理解是……如果我理解错了，请您纠正。"（诚实 + 仍给出思考）</p>
+      <p><strong>被追问到细节时：</strong>"具体参数我记不准，我不编。我能说的是当时的判断依据是……"（保住可信度）</p>
+    </div>
+
+    <div class="note">
+      <h4>进场前 60 秒自检</h4>
+      <p>一、我的主线句是什么？（"在算力和预算被卡死的场景里，把模型能力收敛成能签字的东西"）</p>
+      <p>二、我今天最想让他记住的一个数字是哪个？（按岗位选：端侧 → 65W/27B；Agent → 96.8%；政企 → 78%→9%）</p>
+      <p>三、我准备问他的第一个问题是什么？（别到现场才想）</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>本手册依据 15 条深圳 AI 产品经理 JD（2026 年 10–11 月收集）与你 2026-11-11 版精简简历编写。所有数字与你简历及项目材料同源，未做美化。</p>
+    <p>配套分析见 <strong>JD适配度分析与简历调整方案.md</strong>：综合适配 84/100，端侧 88 / Agent 84 / 企业效能 74。</p>
+    <p style="margin-top:14px">建议：面试前一天只读「三个万能句」和「进场前 60 秒自检」，不要通读——通读会让你想背，背了就会卡。</p>
+  </footer>
+
+  </main>
+</div>
+</div>
+
+</body>
+</html>

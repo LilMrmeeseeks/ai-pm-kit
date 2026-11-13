@@ -1,0 +1,963 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>三类面试官模拟 · HR / 老板 / 技术负责人</title>
+<style>
+:root{
+  --paper:#FBFAF7; --card:#FFFFFF; --ink:#1A1A18; --ink2:#4A4741; --ink3:#6B6862;
+  --line:#E2DED4; --line2:#EFEBE3; --accent:#A33A27; --accent-soft:#F5EDE9;
+  --hr:#5C6670; --hr-soft:#EEF0F2;
+  --boss:#A33A27; --boss-soft:#F5EDE9;
+  --tech:#2F5D50; --tech-soft:#EDF2F0;
+  --ok:#3D6B4F; --ok-soft:#EDF3EE;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font:400 15px/1.75 -apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+
+/* ---------- header ---------- */
+header.top{position:sticky; top:0; z-index:50; background:rgba(251,250,247,.94);
+  backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line)}
+.bar{max-width:1080px; margin:0 auto; padding:11px 24px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.brand{font-size:15px; font-weight:600; letter-spacing:-.01em; white-space:nowrap}
+.brand span{font-weight:400; color:var(--ink3); font-size:12px; margin-left:7px}
+.tabs{display:flex; gap:6px; flex-wrap:wrap}
+.tab{font:inherit; font-size:12.5px; padding:5px 12px; border:1px solid var(--line);
+  border-radius:999px; background:var(--card); color:var(--ink2); cursor:pointer; white-space:nowrap;
+  transition:all .15s}
+.tab:hover{border-color:var(--ink3); color:var(--ink)}
+.tab.on{background:var(--ink); border-color:var(--ink); color:#fff}
+.xnav{display:flex; gap:2px; align-items:baseline; margin-left:auto; padding-left:12px; border-left:1px solid var(--line)}
+.xnav a{font-size:12px; color:var(--ink3); text-decoration:none; padding:4px 7px; border-radius:6px; white-space:nowrap}
+.xnav a:hover{color:var(--ink); background:var(--card)}
+
+/* ---------- layout ---------- */
+main{max-width:1080px; margin:0 auto; padding:34px 24px 100px}
+.kicker{display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+  font-size:12px; letter-spacing:.06em; color:var(--ink3); margin-bottom:26px}
+.kicker .k{font-family:var(--mono); color:var(--accent)}
+h1{font-size:30px; line-height:1.3; letter-spacing:-.02em; margin:0 0 10px; font-weight:700}
+h1 em{font-style:normal; color:var(--accent)}
+.sub{color:var(--ink2); font-size:15px; margin:0 0 8px; max-width:42em}
+.tail{color:var(--ink3); font-size:13.5px; margin:0 0 34px; max-width:42em}
+
+/* ---------- 三轮概览 ---------- */
+.rounds{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:0 0 40px}
+.round{padding:16px 17px; border:1px solid var(--line); background:var(--card); border-radius:3px}
+.round .rn{font-family:var(--mono); font-size:12px; letter-spacing:.1em; margin-bottom:7px}
+.round h3{font-size:15px; margin:0 0 6px; font-weight:600}
+.round p{font-size:13px; color:var(--ink2); margin:0; line-height:1.65}
+.round.r1{border-top:3px solid var(--hr)} .round.r1 .rn{color:var(--hr)}
+.round.r2{border-top:3px solid var(--boss)} .round.r2 .rn{color:var(--boss)}
+.round.r3{border-top:3px solid var(--tech)} .round.r3 .rn{color:var(--tech)}
+
+/* ---------- 组 ---------- */
+.section{display:none}
+.section.on{display:block}
+.sec-head{border-top:1px solid var(--line); padding-top:22px; margin:0 0 26px}
+.sec-head .who-label{display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:.1em;
+  padding:3px 9px; border-radius:3px; margin-bottom:10px}
+.sec-hr .who-label{color:var(--hr); background:var(--hr-soft)}
+.sec-boss .who-label{color:var(--boss); background:var(--boss-soft)}
+.sec-tech .who-label{color:var(--tech); background:var(--tech-soft)}
+.sec-head h2{font-size:23px; margin:0 0 8px; font-weight:700; letter-spacing:-.01em}
+.sec-head p{font-size:14px; color:var(--ink2); margin:0; max-width:44em}
+.cnt{display:inline-block; font-size:12px; color:var(--ink3); margin-left:8px; font-weight:400}
+
+/* ---------- 问答 ---------- */
+details.qa{border:1px solid var(--line); background:var(--card); border-radius:3px; margin:0 0 9px;
+  scroll-margin-top:84px}
+details.qa summary{list-style:none; cursor:pointer; padding:15px 18px; display:flex; align-items:baseline; gap:12px}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary:hover{background:#FCFBF8}
+.qn{font-family:var(--mono); font-size:12px; color:var(--accent); flex:0 0 auto; padding-top:2px}
+.qt{font-size:15px; font-weight:600; line-height:1.55; flex:1}
+.chev{font-size:12px; color:var(--ink3); flex:0 0 auto; transition:transform .2s}
+details.qa[open] .chev{transform:rotate(90deg)}
+.body{padding:0 18px 18px; border-top:1px solid var(--line2); margin-top:0}
+
+/* kv */
+.kv{display:grid; grid-template-columns:88px 1fr; gap:5px 16px; margin:15px 0 0; font-size:13.5px; line-height:1.72}
+.kv dt{font-size:12.5px; color:var(--ink3); padding-top:1px}
+.kv dd{margin:0; color:var(--ink); overflow-wrap:anywhere; max-width:40em}
+.kv dd b{font-weight:600}
+.kv dd em{font-style:normal; background:#FBF3E4; padding:0 2px; border-radius:2px}
+
+.tip{margin:14px 0 0; padding:11px 14px; background:var(--ok-soft); border-left:3px solid var(--ok);
+  font-size:13.5px; line-height:1.7; color:#2C4A38}
+.tip b{color:var(--ok)}
+.redline{margin:12px 0 0; padding:11px 14px; background:#FDF1EE; border-left:3px solid #C0392B;
+  font-size:13.5px; line-height:1.7; color:#7A2A20}
+
+/* meta 徽标 */
+.meta{display:flex; gap:6px; flex-wrap:wrap; margin:12px 0 0}
+.badge{font-size:12px; padding:2px 8px; border-radius:99px; border:1px solid var(--line); color:var(--ink3)}
+.badge.hi{color:#8C2F1F; border-color:#E8CFC6; background:#FBF1ED}
+.badge.mid{color:#7A6A2E; border-color:#E5DCC2; background:#FAF6E9}
+.badge.low{color:var(--ok); border-color:#CFDFD3; background:var(--ok-soft)}
+
+/* 收尾 */
+.end{margin:40px 0 0; padding:20px 22px; background:var(--card); border:1px solid var(--line);
+  border-left:3px solid var(--accent); border-radius:3px}
+.end h3{font-size:15px; margin:0 0 10px; font-weight:600}
+.end p{font-size:13.5px; color:var(--ink2); margin:0 0 8px; line-height:1.72}
+.end p:last-child{margin:0}
+.end b{color:var(--ink)}
+
+footer{max-width:1080px; margin:0 auto; padding:0 24px 70px; font-size:12.5px;
+  color:var(--ink3); line-height:1.85; border-top:1px solid var(--line); padding-top:22px}
+
+@media (max-width:900px){
+  .rounds{grid-template-columns:1fr}
+  .kv{grid-template-columns:1fr; gap:2px 0}
+  .kv dt{font-size:11.5px; letter-spacing:.04em}
+  .kv dd{margin-bottom:9px}
+  h1{font-size:24px}
+  .bar{padding:9px 15px; gap:9px}
+  .xnav{margin-left:0; padding-left:0; border-left:0; order:3; width:100%}
+  main{padding:24px 18px 80px}
+  footer{padding:20px 18px 60px}
+}
+@media (max-width:520px){
+  h1{font-size:21px}
+  details.qa summary{padding:13px 14px; gap:9px}
+  .qt{font-size:14px}
+  .body{padding:0 14px 15px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="bar">
+    <div class="brand">三类面试官<span>HR · 老板 · 技术</span></div>
+    <div class="tabs">
+      <button class="tab on" data-tab="hr">HR / 招聘</button>
+      <button class="tab" data-tab="boss">老板 / 业务</button>
+      <button class="tab" data-tab="tech">技术负责人</button>
+    </div>
+    <nav class="xnav" aria-label="页面跳转">
+      <a href="jd-interview.html" title="项目深挖">项目 Q&amp;A</a>
+      <a href="handbook.html" title="通用轮次手册">面试手册</a>
+      <a href="site/index.html" title="个人网站">个人网站</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="kicker">
+    <span class="k">INTERVIEW SIMULATION · 2026</span>
+    <span>38 组 · 全部从个人网站与履历反推</span>
+  </div>
+
+  <h1>三类人问三件不同的事：<br>HR 问「你稳不稳」，老板问「你能不能赚钱」，技术问「你懂不懂边界」</h1>
+  <p class="sub">同一段经历，三个人关心的地方几乎不重叠。用一套答案应付三轮，是最常见的失分方式——对 HR 讲架构，他会觉得你在躲；对技术讲决心，他会觉得你空。</p>
+  <p class="tail">下面每一组都标了「他在验什么」。答案依据你在个人网站上公开写过的四个项目和两段履历，不编新事实。</p>
+
+  <div class="rounds">
+    <div class="round r1">
+      <div class="rn">ROUND 01</div>
+      <h3>HR / 招聘</h3>
+      <p>验稳定性、动机真实性、薪资匹配、有没有硬伤。她不懂你的技术，但能闻出「编的」。</p>
+    </div>
+    <div class="round r2">
+      <div class="rn">ROUND 02</div>
+      <h3>老板 / 业务负责人</h3>
+      <p>只关心一件事：你能不能帮我把钱赚回来。问行业、客户、竞品、ROI、团队。</p>
+    </div>
+    <div class="round r3">
+      <div class="rn">ROUND 03</div>
+      <h3>技术负责人</h3>
+      <p>会拿你网站上的一句话往上剥三层。验的是边界感，不是技术深度。</p>
+    </div>
+  </div>
+
+  <!-- ========== HR ========== -->
+  <div class="section on" id="hr">
+    <div class="sec-head sec-hr">
+      <span class="who-label">ROUND 01 · HR / 招聘</span>
+      <h2>她在判断两件事：你会不会来，来了会不会走<span class="cnt">12 组</span></h2>
+      <p>HR 不考技术。她手上的评分表通常是：稳定性、动机、薪资匹配、沟通、硬伤。你讲架构她记不住，但你讲「我为什么要走」她一定记住。</p>
+    </div>
+
+    <details class="qa" id="hr-01">
+      <summary><span class="qn">01</span><span class="qt">你在云锦微是联合创始人，为什么现在出来找工作？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>这是全场最尖锐的一问。她要排除三种情况：公司要倒了、你被踢出来了、你干不下去想逃。三种都意味着「来了也会走」。</dd>
+          <dt>怎么答</dt>
+          <dd>先给事实，再给判断，最后给方向。三句话：<br>
+          <b>① 事实</b>：「2023 年 9 月到 2026 年 11 月，我在云锦微做了三年多，四代产品定位是我主导升级的，人防和海事两个标杆项目分别过了终验和中期考核。」<br>
+          <b>② 判断</b>：「公司现在的重心转到了交付和规模化，产品定义这件事的阶段任务完成了。继续待下去，我更多是维护已有体系，不是开新的。」<br>
+          <b>③ 方向</b>：「我想去一个还在 0→1 或者 1→10 阶段、需要有人把 AI 能力翻译成可验收产品的地方。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「想换个环境」——等于没答。别说「公司没钱了」——她立刻担心你薪资预期。更别说「合伙人意见不合」——她担心你带情绪。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不是待不下去才走，是这一段的活干完了才走。这两件事在背调里能问出来，我不需要美化。」</div>
+        <div class="meta"><span class="badge hi">必问</span><span class="badge">背调会核</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-02">
+      <summary><span class="qn">02</span><span class="qt">31 岁、本科学历，投 AI 产品经理你觉得自己吃亏吗？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>不是刁难，是确认你对自己的位置有清醒认知。答「不吃亏」显得天真，答「很吃亏」显得没底气。</dd>
+          <dt>怎么答</dt>
+          <dd>承认事实，然后立刻换成优势框架：<br>
+          「学历这一项我确实不占优，这个我不辩解。<b>但 AI 产品经理这个岗，现在稀缺的不是懂算法的人，是能把「模型能做什么」翻译成「客户认不认」的人。</b>我三个项目都走完了这条翻译链——评审报告能签字、验收口径能过会、客户愿意为结论付钱。这个能力跟学历不直接相关，跟在真项目里被追责过相关。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「能力比学历重要」——空话。别说「我在读研」——如果没有就别提。别说「35 岁危机」——自己给自己贴标签。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不跟 985 硕士比算法推导，我比的是『这个功能上线后客户敢不敢用』。这一项我做过四次，四次都签了字。」</div>
+        <div class="meta"><span class="badge hi">高频</span><span class="badge mid">压力题</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-03">
+      <summary><span class="qn">03</span><span class="qt">你简历上四个项目都在同一家公司，怎么证明这不是一个项目换了四个说法？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>真实性。HR 见过太多把一件事拆成四件写的人。她要的是「四个项目之间的差异点」。</dd>
+          <dt>怎么答</dt>
+          <dd>用「客户不同、技术路线不同、我的角色不同」三条切开：<br>
+          <b>客户不同</b>：人防是地下工程设计院（甲方是院所），咖啡是连锁品牌（甲方是品牌总部），海图是制图单位（甲方是内部制图科）。<br>
+          <b>技术路线不同</b>：CAD 走「DWG 解析 + 规则引擎」，判定不交给模型；咖啡走「端侧 YOLO + 端侧事件库 + 后端大模型」，识别和回答分开；海图走「四个 Agent 共用规则底座」，按业务线拆。<br>
+          <b>我的角色不同</b>：CAD 我是需求与产品决策；咖啡我是架构定档 + 客户共建；海图我是拆线与边界定义；工厂我是三段链路的定义者。<br>
+          「这四个如果合成一个，反而说不通——因为每个的技术选型都是被各自的约束逼出来的。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「都是 AI 项目所以算一类」——她会觉得你在凑数。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「您可以任挑一个，我讲它的约束是怎么把方案逼出来的。四个的约束不一样，答案就不可能一样。」</div>
+        <div class="meta"><span class="badge hi">必问</span><span class="badge">真实性核查</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-04">
+      <summary><span class="qn">04</span><span class="qt">你之前做硬件产品，现在转 AI，缺的那块你怎么补？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>转岗动机真不真、有没有具体动作。答「我一直在学习」等于没答。</dd>
+          <dt>怎么答</dt>
+          <dd>给「已经补完的」+「正在补的」+「不打算补的」三层：<br>
+          <b>已补完</b>：「评测体系。硬件时代验收靠规格书，AI 时代没有规格书，得自己建 220 例评测集、定三轮通过线、算兜底率。这套东西我在工厂项目里从零搭了一遍。」<br>
+          <b>正在补</b>：「成本模型。token 计费、并发、显存换算，我现在能给到单次调用和单店月成本的量级，但还没有在大规模流量下调过参。」<br>
+          <b>不打算补的</b>：「模型训练。我不做算法，我只判断『这个能力够不够交付』。这是我的定位，不是短板。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「AI 和硬件底层逻辑一样」——她会觉得你在偷换概念。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「转岗最难的不是学新东西，是承认旧经验里有一部分没用了。硬件那套『先定规格再开发』，在 AI 里必须先跑评测才知道规格定得对不对。」</div>
+        <div class="meta"><span class="badge hi">转岗必问</span><span class="badge mid">动机核查</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-05">
+      <summary><span class="qn">05</span><span class="qt">你带过几个人？没有大团队经验，怎么带 AI 团队？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>管理半径。AI PM 岗有的要带 5 人，有的只带自己。她要确认你不虚报。</dd>
+          <dt>怎么答</dt>
+          <dd>不吹人数，讲「怎么带」：<br>
+          「直接汇报给我的最多时 4 个人（产品 2、算法对接 1、交付 1），但我更多是<b>横向拉通</b>——一个项目要同时推算法、硬件、实施三方，这三方都不归我管，靠的是把验收标准写清楚，让每个人知道自己那一环怎么算合格。<br>
+          我带团队的方式是<b>把判断标准交出去</b>：不是我定阈值，是我告诉他们『这个阈值定高了会怎样、定低了会怎样』，让他们自己定、自己承担。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我带过十几个人」——背调一问就露。别说「管理不重要，我更擅长做事」——等于承认不想带。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不太会激励人，我会的是把一件事拆到每个人都知道自己那一环的合格线在哪。这个在跨部门项目里比激励有用。」</div>
+        <div class="meta"><span class="badge mid">常问</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-06">
+      <summary><span class="qn">06</span><span class="qt">你期望薪资多少？依据是什么？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>你的自我定价是否在市场区间内，以及你会不会因为钱随时走。</dd>
+          <dt>怎么答</dt>
+          <dd>给区间 + 给依据 + 给弹性：<br>
+          「我看了深圳 AI 产品经理的行情，3–5 年经验的中位数在 30K 上下，带过完整落地项目的往上浮。我的期望是 <b>35–42K</b>，具体看岗位职责里有多少是产品定义、多少是交付。<br>
+          我在上一家是合伙人，收入结构里有分红，不是纯固定薪资，所以绝对数字不好直接比。<b>我更在意的是这个岗有没有决策权</b>——如果只是接需求写 PRD，这个数我可以往下调。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「按公司标准来」——她会给你最低档。别说「我看重的是成长」——她只记住你不敢报价。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我要的不是最高价，是『这个价对应什么职责』说清楚。职责不清的岗，给高了我也干不长。」</div>
+        <div class="meta"><span class="badge hi">必问</span><span class="badge">谈薪</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-07">
+      <summary><span class="qn">07</span><span class="qt">你说你「能验收」，谁能证明？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>你在自我评价。她要的是第三方证据，不是你的形容。</dd>
+          <dt>怎么答</dt>
+          <dd>给可被核实的痕迹：<br>
+          「三样东西：<b>① 终验报告</b>——人防项目一期终验，客户方独立编译跑通，源码交付；<b>② 验收口径签字</b>——咖啡项目四类考核目标写进合同附件，双方业务口签的；<b>③ 评测集本身</b>——220 例、三轮通过线，这套东西现在还在跑。<br>
+          这些都可以在背调时问客户方或同事。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「客户都很满意」——满意度不是证据。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不用形容词证明自己，用能被查的东西。查不到的我不会写。」</div>
+        <div class="meta"><span class="badge mid">真实性</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-08">
+      <summary><span class="qn">08</span><span class="qt">如果让你做一个和之前完全无关的行业，你多久能上手？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>迁移能力 + 是否过度依赖已有行业资源。</dd>
+          <dt>怎么答</dt>
+          <dd>给方法，不给承诺：<br>
+          「我不说『一个月就能上手』，那是吹。<b>我的方法是从验收倒推</b>：先找这个行业里『谁签字、签错了要担什么责』，再找『什么错误最贵』，最后才谈用什么技术。<br>
+          人防那次我用两周摸清 11 类检查项，靠的不是学规范，是问客户『你们历史上被罚得最惨的是哪次』。<b>行业知识可以补，判断哪个知识重要不能补。</b>」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我学习能力很强」——空。别说「都差不多」——她会觉得你不尊重行业。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「给我三次客户访谈，我能列出这个行业最贵的三个错误。剩下的时间是在验证我列得对不对。」</div>
+        <div class="meta"><span class="badge mid">转岗</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-09">
+      <summary><span class="qn">09</span><span class="qt">你为什么不做技术？技术背景不是更强吗？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>定位是否清晰。答「技术太累」显得怕苦，答「我技术不行」显得没底气。</dd>
+          <dt>怎么答</dt>
+          <dd>讲「我更擅长的那一段在哪」：<br>
+          「我能读代码、能判断方案可行性，但我不写生产代码。<b>我擅长的是『这段技术该不该做、做到什么程度算够』。</b><br>
+          举个例子：咖啡项目里，算法同事想端到端上 VLM 直读监控，我从成本和必要性两个角度否掉了——24×7 连续理解成本不成立，五类计数根本不需要语义理解。这个判断不需要我会训模型，需要我知道模型能干什么、不能干什么。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「写代码太枯燥」——贬低技术岗。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「技术同事最烦的不是产品不懂技术，是产品把别人的活说成自己的。我不抢实现的功，我只担路线决策的责。」</div>
+        <div class="meta"><span class="badge mid">定位</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-10">
+      <summary><span class="qn">10</span><span class="qt">你上一份工作最不满意的是什么？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>稳定性 + 会不会在新公司重演。抱怨前东家是大忌，但答「都挺好」显得假。</dd>
+          <dt>怎么答</dt>
+          <dd>说「结构性的事」，不说「人的事」：<br>
+          「最不满意的是<b>决策和交付之间隔得太远</b>。产品定的口径，到实施那一层经常变形——不是谁不负责，是中间没有『可核对的书面物』。我在后期补了很多流程，但那是补，不是设计。<br>
+          我希望下一家能在一开始就把这件事设计对。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说某个同事/老板的问题。别说「加班太多」——她会担心你抗压。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不满意的是机制，不是人。机制可以设计，人不行。」</div>
+        <div class="meta"><span class="badge mid">稳定性</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-11">
+      <summary><span class="qn">11</span><span class="qt">你最近在学什么？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>学习习惯是否真实存在。答「在看某某课」她知道你在应付。</dd>
+          <dt>怎么答</dt>
+          <dd>给「正在做的一件具体事」+「卡在哪」：<br>
+          「在补评测这一块。我把自己做过的四个项目的验收标准整理成一套可复用的模板，卡在<b>『线上指标和离线指标怎么对齐』</b>——离线 96%，线上体感只有 80%，中间差的那 16 个点我一直没找到稳定的解释方法。<br>
+          最近在看 LLM-as-Judge 的校准，但还没跑出能说服自己的 kappa 值。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「在看吴恩达的课」——太泛。别说「没时间学」——直接出局。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我学东西的方式是先做一遍再补理论。做完发现理论讲的和实际差在哪，那个差才是我的问题。」</div>
+        <div class="meta"><span class="badge mid">学习习惯</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="hr-12">
+      <summary><span class="qn">12</span><span class="qt">你有什么问题问我？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>她在验什么</dt>
+          <dd>你是真想来还是海投。问「几点下班」直接出局。</dd>
+          <dt>怎么答</dt>
+          <dd>问「她才知道的三件事」：<br>
+          ① 「这个岗是新开的还是补缺？如果是补缺，上一个人为什么走？」<br>
+          ② 「这个岗汇报给谁？他手上还有别的业务吗？」——判断你有没有真正的决策通道。<br>
+          ③ 「你们现在最不满意的是哪个环节？」——她会说出真实痛点，这就是你二面的抓手。</dd>
+          <dt>踩雷话</dt>
+          <dd>别问薪资福利（留给 HR 谈薪环节）。别问「公司前景怎么样」——她会背官网。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我问这些不是挑毛病，是想知道自己进来第一件事该干什么。」</div>
+        <div class="meta"><span class="badge hi">必问</span><span class="badge">反向筛选</span></div>
+      </div>
+    </details>
+
+    <div class="end">
+      <h3>HR 这一轮的收口</h3>
+      <p><b>她不会因为你说得好而加分，只会因为你露了破绽而减分。</b>所以这一轮的目标不是精彩，是没有漏洞：每一条经历都要能被追到具体的人和时间。</p>
+      <p>如果只能记一句话：<b>「我不是待不下去才走，是这一段的活干完了才走。」</b></p>
+    </div>
+  </div>
+
+  <!-- ========== 老板 ========== -->
+  <div class="section" id="boss">
+    <div class="sec-head sec-boss">
+      <span class="who-label">ROUND 02 · 老板 / 业务负责人</span>
+      <h2>他只关心一件事：你能不能帮我把钱赚回来<span class="cnt">12 组</span></h2>
+      <p>老板不听技术细节，也不关心你的成长。他关心：客户从哪来、竞品怎么打、多久见效、要多少预算。这一轮讲「判断」，不讲「过程」。</p>
+    </div>
+    <details class="qa" id="boss-01">
+      <summary><span class="qn">01</span><span class="qt">你做的这些，客户为什么愿意付钱？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你懂不懂客户买的不是「一个 AI 功能」，是「原来那笔开销可以省掉」。答「因为技术先进」这一轮就废了。</dd>
+          <dt>怎么答</dt>
+          <dd>三个项目，各用一句话说清「买的到底是什么」：<br>
+          <b>CAD 审图</b>：设计院买的不是 AI，是「审图员不用逐张翻」。一份人防施工图原来两个人看两天，现在系统出初筛清单，人只复核被标出来的那几条。<br>
+          <b>咖啡门店</b>：买的不是摄像头，是「督导不用跑店」。2000 家店跑一遍要多少人？系统每天给一份清单，人只处理被点名的那几家。<br>
+          <b>海图智图</b>：买的不是模型，是「制图员不用手抄规范」。3 万条通告原来靠老师傅记，现在查得到、引得出处、改得动。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「因为用了大模型」——老板会想「那我买个大模型不就行了」。别说「客户很满意」——满意度不付钱。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「客户不为 AI 付钱，为客户原来要花钱的那件事付钱。我判断一个 AI 需求值不值得做，就看它<br>替掉了哪笔开销——人力、返工、还是罚款。三样都对不上，这个需求我就不接。」</div>
+        <div class="meta"><span class="badge hi">必问</span><span class="badge">价值判断</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-02">
+      <summary><span class="qn">02</span><span class="qt">3000 万标的，是你签的还是公司签的？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会把公司的功说成自己的。老板最反感「签单是我的、出事是团队的」。</dd>
+          <dt>怎么答</dt>
+          <dd>直接划界，不抢也不躲：<br>
+          「合同是公司签的，我是产品侧负责人。<b>我签的是技术方案和验收口径</b>——客户认不认这套系统能交付，最后落在我写的那份标准上。标的是销售的战功，不是产品的。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我参与了这个项目」——模糊。也别说「标的额是我谈的」——销售在场就穿帮。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「产品能证明的不是这个数多大，是这个数怎么来的、凭什么能收到。前者我不抢，后者我负责。」</div>
+        <div class="meta"><span class="badge hi">必问</span><span class="badge">归因</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-03">
+      <summary><span class="qn">03</span><span class="qt">AI 营收一年翻倍，基数是多少？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>数字的真实含金量。翻倍是最好造的数字——基数小，翻十倍也容易。</dd>
+          <dt>怎么答</dt>
+          <dd>主动把水分挤掉：<br>
+          「基数不大，翻倍是因为起点低。<b>这个数字单独看没有意义，得看它在总营收里占比多少</b>——如果占比还很低，说明 AI 这条线还在验证阶段，没到规模化。<br>
+          准确说法应该是『AI 这条线从验证走到了小规模交付』，不是『增长引擎』。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「翻了好几倍」——越夸张越像编的。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不太愿意用翻倍这个词，它容易让人以为这是主业。它是新的那条线，还没到能撑住公司的时候。」</div>
+        <div class="meta"><span class="badge mid">数字校验</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-04">
+      <summary><span class="qn">04</span><span class="qt">你来我们这，能带来什么？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你能不能立刻产生价值，还是只会讲方法论。</dd>
+          <dt>怎么答</dt>
+          <dd>按时间给三档，越近越具体：<br>
+          <b>马上能用</b>：一套验收方法——评测集怎么建、通过线怎么定、兜底怎么算。这套东西我做过四遍。<br>
+          <b>三个月</b>：一个能跑的垂直场景，从需求到验收全链路走一遍，带一个可复核的指标。<br>
+          <b>一年</b>：一条产品线的定价与交付模型，能算清「一个客户多少钱、多久回本」。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我能带来我在上一家的人脉」——老板会怀疑你带客户走。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「我不带客户来。带客户来的是销售，我能带的是『怎么让客户愿意续费』的那套东西。」</div>
+        <div class="meta"><span class="badge hi">必问</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-05">
+      <summary><span class="qn">05</span><span class="qt">我们想做 AI，你先给我一个 30 天计划。</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会一上来就做产品。老板要的是「多久能看到值不值得做」。</dd>
+          <dt>怎么答</dt>
+          <dd>四周，每周一个交付物：<br>
+          <b>第 1 周</b>：找三个客户，只问一句「你现在最花钱的人工环节是什么」。不问需求，问开销。<br>
+          <b>第 2 周</b>：挑一个环节做人工基线——现在几个人、多少时间、多少错。<b>没有基线，后面所有效果都是玄学。</b><br>
+          <b>第 3 周</b>：跑最小验证。不追求效果好，追求「能不能量出效果」。<br>
+          <b>第 4 周</b>：给结论——做 / 不做 / 换方向，带数字。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「30 天出个 demo」——demo 不解决问题，只解决汇报。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「30 天不该出产品，该出一个『值不值得做』的判断。大部分 AI 项目死在没人敢在第一个月说不做。」</div>
+        <div class="meta"><span class="badge hi">业务规划</span><span class="badge">高频</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-06">
+      <summary><span class="qn">06</span><span class="qt">竞品比你们便宜一半，你怎么打？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会只会说「我们质量好」。老板要的是可执行的差异化。</dd>
+          <dt>怎么答</dt>
+          <dd>不打单价，打「总拥有成本」：<br>
+          「便宜一半通常意味着少了一半东西——要么只卖算法不卖交付（客户自己集成，三个月上不了线），要么效果勉强（用三个月弃用，前面投入全废）。<br>
+          我们打的是<b>部署成本可算</b>：一批 50 家店从备货到算法上线 99 工时，折合每店 2 工时。客户算得清这笔账。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我们技术更好」——老板会问「好多少，能换成钱吗」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「价格战的前提是产品同质。客户买的如果只是『有个 AI』，那确实该便宜；买的是『这件事有人负责』，便宜一半意味着责任少一半。」</div>
+        <div class="meta"><span class="badge mid">竞争</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-07">
+      <summary><span class="qn">07</span><span class="qt">有没有做死的产品？为什么死？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你是不是只会讲成功。老板见过太多「从没失败过」的人。</dd>
+          <dt>怎么答</dt>
+          <dd>给一个「被证伪的路线」，别给「被裁掉的项目」：<br>
+          「咖啡项目里我最初想用端到端 VLM 直读监控，一模型解决所有问题。<b>两个月后我自己否掉了</b>——24×7 连续理解的成本不成立，五类计数也根本不需要语义理解。改成端侧 YOLO 负责看得见、大模型负责答得上。<br>
+          这个不算产品死，算路线死。但代价是真的——那两个月的人力回不来了。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「没有失败的项目」——不可信。别说「是团队执行不到位」——甩锅。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「死掉的方向通常不是技术不行，是没人愿意为它改流程。客户说『好』但不动手，就是没需求。」</div>
+        <div class="meta"><span class="badge mid">反思</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-08">
+      <summary><span class="qn">08</span><span class="qt">一个 AI 功能怎么定价？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你有没有商业化手感。技术出身的人常答「按成本加成」。</dd>
+          <dt>怎么答</dt>
+          <dd>三种模型 + 各自适用：<br>
+          <b>按调用量</b>（token）：用量可预测、客户能接受波动。适合 API 型产品。<br>
+          <b>按席位/店/设备</b>：B 端标准化。咖啡就是按店——单店约 2000 元，客户算得清。<br>
+          <b>按结果/节省</b>：能用数字证明省了多少的（审计、质检、对账）。最难卖但最值钱。<br>
+          「选哪种，取决于客户<b>能不能自己算这笔账</b>。他算不清，你定多少他都觉得贵。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「按市场价」——等于没有定价能力。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「定价不是定数字，是定『客户怎么算这笔账』。算得清的定价，签得最快。」</div>
+        <div class="meta"><span class="badge mid">商业化</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-09">
+      <summary><span class="qn">09</span><span class="qt">如果只能招一个人做 AI，你招谁？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你对团队结构的判断。多数人会答「招算法工程师」。</dd>
+          <dt>怎么答</dt>
+          <dd>反着答，给理由：<br>
+          「招<b>能把模糊需求变成可测指标的人</b>，不是招算法。<br>
+          算法可以外包、可以调 API、可以买；但『这个功能算不算成』如果没人定，做出来也没法验收、没法定价、没法续费。AI 项目最常见的死法不是模型不行，是没人说得出『做到什么程度算够』。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「招个全栈」——那是没想清楚。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「AI 团队第一个人不该是工程师，该是那个敢跟客户说『这个做不了』的人。」</div>
+        <div class="meta"><span class="badge mid">团队</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-10">
+      <summary><span class="qn">10</span><span class="qt">你怎么判断一个 AI 需求是真需求，还是老板拍脑袋？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会只会执行。老板其实希望你敢挡回一些需求。</dd>
+          <dt>怎么答</dt>
+          <dd>三个问题，任何一个答不上就不做：<br>
+          <b>谁用？</b>要具体到岗位，不是「客户」或「业务方」。<br>
+          <b>现在怎么解决？</b>如果答案是「没解决」，多半是伪需求——真痛的地方人一定会先用土办法顶上。<br>
+          <b>做错了谁担责？</b>没人担责 = 没人真需要。这条最灵。</dd>
+          <dt>踩雷话</dt>
+          <dd>别直接说「老板拍脑袋」——换成「我需要先确认这三件事」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「真需求的标志是现在有人正在为这件事花钱或花时间。没有基线，就没有需求。」</div>
+        <div class="meta"><span class="badge hi">需求判断</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-11">
+      <summary><span class="qn">11</span><span class="qt">你觉得 AI 产品经理最重要的能力是什么？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你的能力观。答「懂技术 + 懂业务」是套话。</dd>
+          <dt>怎么答</dt>
+          <dd>一句话，然后展开：<br>
+          「<b>把『AI 能不能做到』翻译成『这件事算不算成』。</b><br>
+          前半句是技术判断——这个能力现在行不行、代价多大；后半句是产品判断——达标线在哪、谁来签字、错了怎么兜。两件事都做，才叫 AI 产品经理。只做前半句是算法，只做后半句是传统 PM。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「沟通能力最重要」——任何岗位都能这么说。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「技术每年换代，验收标准不会。我的价值在后者。」</div>
+        <div class="meta"><span class="badge hi">认知</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="boss-12">
+      <summary><span class="qn">12</span><span class="qt">三年后你在哪？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你的野心和他的需求是否冲突。答「想创业」他会立刻防你。</dd>
+          <dt>怎么答</dt>
+          <dd>说「想做成什么」，不说「想当什么」：<br>
+          「三年内我想把一套『AI 产品验收方法』做成可复用的东西——不是一套 PPT，是别人拿去能直接用的评测集模板、验收清单、定价模型。<br>
+          这件事在哪个公司都能做，所以我不会为了这个走。我想在一个真有客户、真有交付的地方把它做实。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「三年做到总监」——他关心的是你能给公司什么，不是你的职级。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「职位是结果，不是目标。我想成为那种『客户敢把最贵的那个环节交给他判断』的人。」</div>
+        <div class="meta"><span class="badge mid">个人发展</span></div>
+      </div>
+    </details>
+
+    <div class="end">
+      <h3>老板这一轮的收口</h3>
+      <p><b>他不停在判断「这人能帮我赚多少」，也在判断「这人会不会骗我」。</b>所以数字可以小，但不能假；边界可以说清，但不能含糊。</p>
+      <p>如果只能记一句话：<b>「客户不为 AI 付钱，为客户原来要花钱的那件事付钱。」</b></p>
+    </div>
+  </div>
+
+  <!-- ========== 技术 ========== -->
+  <div class="section" id="tech">
+    <div class="sec-head sec-tech">
+      <span class="who-label">ROUND 03 · 技术负责人</span>
+      <h2>他会拿你网站上的一句话往上剥三层<span class="cnt">14 组</span></h2>
+      <p>技术负责人不会问「你懂不懂 RAG」，他会从你写的那句话开始追。这一轮验的是边界感：你知道什么能做、什么做不到、代价是什么。</p>
+    </div>
+    <details class="qa" id="tech-01">
+      <summary><span class="qn">01</span><span class="qt">四个 Agent 共用底座，底座具体是什么？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会用「中台」这种词糊过去。技术人要的是具体组件。</dd>
+          <dt>怎么答</dt>
+          <dd>三样，都能点名：<br>
+          <b>规则库</b>——可配置，3 万+ 条在库。客户说明天头上换一个文件，工具得跟着换，这是上线前提不是加分项。<br>
+          <b>图属与几何库</b>——同一份数据，不同部门要的口径不一样（工作量按接收日期算还是拟稿日期算），底座负责让两个口径并存。<br>
+          <b>统一取数口径</b>——同一个数字只有一个来源，四个 Agent 都从这取，不各算各的。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「底座就是一套统一的 API」——那是废话。也别说「底座包括大模型」——模型是插件，不是底座。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「底座不含模型。模型是可以换的，底座换了整套东西都得重做——这是我判断『什么该放底座』的标准。」</div>
+        <div class="meta"><span class="badge hi">架构</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-02">
+      <summary><span class="qn">02</span><span class="qt">220 例评测集谁标的？标错了怎么办？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你是不是随便找了个人标完就上线。评测集的可靠性全在「谁标」。</dd>
+          <dt>怎么答</dt>
+          <dd>两轮，交叉：<br>
+          「第一轮我自己标，第二轮让算法同学独立标，<b>不一致的当面吵</b>。吵不出结论的那几条，直接踢出评测集——标准模糊的样本不该进考核。<br>
+          220 例来自三个项目的真实 case，不是公开数据集。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「标错了就改」——改题等于改考卷，等于承认之前的结论不成立。要说清「错在哪一类、影响了哪个结论」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「评测集的关键不是标得准，是标的人要对结果负责。找一个不对结果负责的人标，标得再准也没人认。」</div>
+        <div class="meta"><span class="badge hi">评测</span><span class="badge">必问</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-03">
+      <summary><span class="qn">03</span><span class="qt">端侧 27B 跑在什么卡上，延迟多少？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你有没有真摸过部署，还是只听供应商说过。</dd>
+          <dt>怎么答</dt>
+          <dd>给具体数，然后划边界：<br>
+          「65W、35dB 的工控机里跑量化后的 27B，<b>p50 1.1 秒、p95 2.2 秒</b>，单机单并发。<br>
+          并发上去延迟会涨——高并发压测我们没做，那是下一阶段的事。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别报「大概 1-2 秒」——技术人会追问「p50 还是 p95」。别吹「支持多少并发」——没测过就是没测过。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「真正的约束不是延迟，是『没有网也能跑』。为了这条，我们接受了一部分延迟代价。」</div>
+        <div class="meta"><span class="badge mid">部署</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-04">
+      <summary><span class="qn">04</span><span class="qt">3 万条通告，检索召回率多少？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会把「命中率」当「召回率」报。这两个数在技术人眼里差很远。</dd>
+          <dt>怎么答</dt>
+          <dd>先承认口径，再给数：<br>
+          「<b>召回率我给不了</b>——那需要全量标注，我们没做。<br>
+          能给的是 Top-10 命中率：抽样 200 条，相关条目进前 10 的比例是 92%。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别把 92% 说成「准确率 92%」——那是三回事。别说「基本都能找到」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「法规检索我们不追『找得全』，追『引得出处』。客户要的不是所有相关条款，是他敢签字的那一条，而且能指回原文。」</div>
+        <div class="meta"><span class="badge hi">指标口径</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-05">
+      <summary><span class="qn">05</span><span class="qt">规则引擎的规则谁维护？两条规则打架怎么办？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你懂不懂「规则所有权」这件事。技术上最难的不是执行规则，是决定规则。</dd>
+          <dt>怎么答</dt>
+          <dd>两块分开：<br>
+          <b>维护</b>：客户业务口维护，工具只提供配置界面和版本回滚。我们不代客户写规则——写了就是我们的责任。<br>
+          <b>冲突</b>：做三类硬约束检测（同期同人 / 资质过期 / 连班），<b>只标出来，不自动消解</b>。谁该加班、谁可以连班，那是调度裁量权，不是系统的活。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我们会做智能冲突消解」——技术人立刻问「消解错了谁担责」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「规则冲突是所有权问题，不是算法问题。系统能算哪条更优，但不能替人承担排错的责任。」</div>
+        <div class="meta"><span class="badge mid">规则</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-06">
+      <summary><span class="qn">06</span><span class="qt">20 例通过率 80%，20 例够吗？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你知不知道自己在用什么统计量。20 例在技术人眼里是「不足以说明任何事」。</dd>
+          <dt>怎么答</dt>
+          <dd>先认，再说清它到底干什么用：<br>
+          「<b>不够。</b>20 例只能抓『明显坏掉』，不能评估效果。<br>
+          它的作用是<b>上线前的门禁</b>，不是效果报告——两条都过才能发，一条不过就回槽位重填。<br>
+          为什么是 20：客户等不起 200 例的人工标注。一周 vs 一天，这是产品决策不是技术决策。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「20 例足够验证」——技术上站不住。要说「20 例挡低级错误，线上监控挡长尾」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「20 例能挡掉大部分低级错误，剩下的靠线上。上线后第一周的事件量才是真评测集。」</div>
+        <div class="meta"><span class="badge hi">评测</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-07">
+      <summary><span class="qn">07</span><span class="qt">模型不打进包，那离线怎么用？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你有没有把「离线」和「单文件」搞混。</dd>
+          <dt>怎么答</dt>
+          <dd>先纠概念：<br>
+          「<b>离线 = 不连公网</b>，不是单文件跑。exe 里是调用层，模型在客户内网的模型服务上（vLLM 或 Ollama 都行）。<br>
+          所以部署是两件事：装包 + 接模型服务。为什么要分开——<b>换模型不用重新打包</b>，客户换一代模型不用等我们发版。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「打包了就能离线用」——模型权重几个 G，打进 exe 是自找麻烦。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「模型不进包不是省事，是为了让『换模型』变成一个配置动作，而不是一次发版。」</div>
+        <div class="meta"><span class="badge mid">交付</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-08">
+      <summary><span class="qn">08</span><span class="qt">模型升级怎么保证不退步？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你有没有回归意识。模型换代最容易出的事就是「某类 case 悄悄变差」。</dd>
+          <dt>怎么答</dt>
+          <dd>三条硬规矩：<br>
+          <b>评测集冻结</b>——不许改题。改题等于改考卷，前后不可比。<br>
+          <b>灰度</b>——1–2 家先跑一周，看事件量波动，再推一个区域，最后全量。<br>
+          <b>回滚</b>——旧版本镜像一直留着。没有回滚通道的升级等于赌博。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「新模型肯定更好」——技术人会问「你怎么知道」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「模型升级的风险不在『变差』，在『变差了你不知道』。所以评测集必须冻结，不然你连自己在退化都发现不了。」</div>
+        <div class="meta"><span class="badge hi">回归</span><span class="badge">必问</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-09">
+      <summary><span class="qn">09</span><span class="qt">DWG 解析是自研还是用库？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会为了「技术壁垒」四个字去重造轮子。</dd>
+          <dt>怎么答</dt>
+          <dd>明确用库，说清为什么：<br>
+          「用 RealDWG 或 ODA，<b>不自研</b>。DWG 是封闭二进制格式，自研等于重写 Autodesk，收益为零。<br>
+          壁垒不在解析——在<b>解析出来之后的图元分类和标注语义还原</b>。同一个标注，不同设计院的写法都不一样，那才是要啃的地方。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「我们自研了解析引擎」——技术人第一反应是「授权怎么办」，第二反应是「为什么不用现成的」。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「能用库就用库。把自研的力气花在别人不愿意做的地方——比如标注语义还原，那才是真壁垒。」</div>
+        <div class="meta"><span class="badge mid">技术选型</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-10">
+      <summary><span class="qn">10</span><span class="qt">不认人，那怎么知道是哪个员工没按规范做？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你的产品边界是不是真站得住，还是「做不了就说合规」。</dd>
+          <dt>怎么答</dt>
+          <dd>换匹配维度，不换目标：<br>
+          「不做人脸，做<b>时段 + 岗位 + 区域</b>匹配——某个班次某个区域的行为，归到那个班次负责那个区域的人。<br>
+          所以答案是『这个班次这个区域有没有按规范做』，不是『张三有没有做』。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「合规不允许」——技术人会问「那客户要追责怎么办」。要给替代方案。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「认人涉及个人信息合规，收益不值这个风险。而且客户真正要的是『这个班次有没有问题』——追到人是他内部管理的事。」</div>
+        <div class="meta"><span class="badge mid">边界</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-11">
+      <summary><span class="qn">11</span><span class="qt">置信度阈值 90 / 60 怎么定的？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你会不会说「调出来的」。这三个数背后是责任分配。</dd>
+          <dt>怎么答</dt>
+          <dd>按「错了的代价」分档，而且是客户定的：<br>
+          「<b>≥90 自动流转</b>——错了代价小，返工就行；<b>60–90 人工确认</b>——错了要签字的人担责，得看一眼；<b>&lt;60 人工编制</b>——基本不可信，当参考。<br>
+          这三个数是<b>客户业务口确认的</b>，不是我们技术定的。阈值不是调出来的，是谈出来的。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「通过实验调优得到」——技术人会问「优化目标是什么」，答不上来就露馅。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「阈值定在哪，等于把责任划在哪。所以这件事必须客户签字，我们不替他们决定。」</div>
+        <div class="meta"><span class="badge hi">阈值</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-12">
+      <summary><span class="qn">12</span><span class="qt">数据不出店，那模型怎么训？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你分不分得清「训练」和「推理」的数据边界。</dd>
+          <dt>怎么答</dt>
+          <dd>把两件事拆开：<br>
+          「<b>训练</b>用脱敏样本——客户提供的、或我们自己拍的场景数据，在训练环境里跑。<br>
+          <b>推理</b>在店内完成，原始画面不出店。<br>
+          我们<b>不在客户数据上做在线学习</b>——那是不可控的，出问题查不出来。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「数据不出店所以不训练」——那模型哪来的。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「数据不出店是架构约束，不是合规口号。它决定了训练和推理必须分开设计，不能图省事混在一起。」</div>
+        <div class="meta"><span class="badge mid">数据</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-13">
+      <summary><span class="qn">13</span><span class="qt">端侧误报率多少？误报多了客户会不会直接关掉？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你懂不懂「误报的绝对量随规模线性增长」这件事。</dd>
+          <dt>怎么答</dt>
+          <dd>不报单一数字，分三类：<br>
+          「<b>计数类 5 项</b>——低，靠时间窗去重，单帧误检不进事件；<br>
+          <b>有效期 1 项</b>——接近零，OCR + 日期规则可复算；<br>
+          <b>清洁类 2 项</b>——高，光照遮挡人走过都会误判，所以<b>单独走「疑似」档，不进正式告警</b>。<br>
+          混着报一个平均数是外行。」</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「准确率 99%」——8 类混在一起算，清洁类能把它拖到 70 多。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「误报的绝对量跟着门店数线性涨。规模上来以后，能不能把高误报项隔离出去，比把单点准确率再提两个点更重要。」</div>
+        <div class="meta"><span class="badge hi">指标</span><span class="badge">必问</span></div>
+      </div>
+    </details>
+
+    <details class="qa" id="tech-14">
+      <summary><span class="qn">14</span><span class="qt">如果重做一遍，你会改哪里？</span><span class="chev">›</span></summary>
+      <div class="body">
+        <div class="kv">
+          <dt>他在验什么</dt>
+          <dd>你有没有复盘能力，而且改的是顺序不是架构。</dd>
+          <dt>怎么答</dt>
+          <dd>三处，都是顺序问题：<br>
+          <b>① 一开始就做评测集</b>——我们做到第二个月才做，前面全在拍脑袋。「先有尺子，再有产品。」<br>
+          <b>② 早点砍掉端到端 VLM</b>——省两个月。当时是被「一个模型解决所有问题」的叙事带跑的。<br>
+          <b>③ 运维监控提前做</b>——现在是「客户报障才发现」，应该是「系统自己报」。</dd>
+          <dt>踩雷话</dt>
+          <dd>别说「架构会重做」——等于否定自己前面所有判断。</dd>
+        </div>
+        <div class="tip"><b>加分句</b>：「重做不会改架构，会改顺序。架构是我当时能想到的最优解，顺序是我现在才知道该调的地方。」</div>
+        <div class="meta"><span class="badge hi">复盘</span></div>
+      </div>
+    </details>
+
+    <div class="end">
+      <h3>技术这一轮的收口</h3>
+      <p><b>技术人不怕你说「不知道」，怕你把不知道说成知道。</b>数字可以小、口径可以窄，但不能错——他会一路追到你说的那个数是怎么来的。</p>
+      <p>如果只能记一句话：<b>「凡是会被追责的字段，我都优先选可复算的方案。」</b></p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div>口径：本题库依据个人网站已公开的四个项目（CAD 审图 / 咖啡门店 SOP / 海图四个子 Agent / 智能体工厂）与两段履历（云锦微 2023.09–2026.11、涂鸦 2021.07–2023.08）反推，不新增未公开事实。</div>
+  <div>未覆盖：具体薪资数字、客户真名、合同金额、未落地的规划。这些在面试里按当场情况给，不写进文档。</div>
+</footer>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.tab');
+  var secs = document.querySelectorAll('.section');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var id = t.dataset.tab;
+      tabs.forEach(function(x){ x.classList.toggle('on', x === t); });
+      secs.forEach(function(s){ s.classList.toggle('on', s.id === id); });
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+
+  function openFromHash(){
+    var h = location.hash.slice(1); if(!h) return;
+    var el = document.getElementById(h); if(!el) return;
+    var sec = el.closest('.section');
+    if(sec){
+      tabs.forEach(function(x){ x.classList.toggle('on', x.dataset.tab === sec.id); });
+      secs.forEach(function(s){ s.classList.toggle('on', s === sec); });
+    }
+    if(el.tagName === 'DETAILS'){ el.open = true; }
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+  }
+  window.addEventListener('hashchange', openFromHash);
+  if(document.readyState !== 'loading') openFromHash();
+  else document.addEventListener('DOMContentLoaded', openFromHash);
+})();
+</script>
+
+</body>
+</html>

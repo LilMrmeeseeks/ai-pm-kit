@@ -1,0 +1,2643 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JD 面试 Q&amp;A · 技术追问预案</title>
+<style>
+  :root{
+    --paper:#fbfaf7; --ink:#1b1917; --ink-2:#4d4842; --ink-3:#6f685f;
+    --line:#e3dfd8; --line-2:#efece6; --accent:#b4441f; --accent-soft:#f6ece6;
+    --card:#ffffff; --ok:#3f5a45; --ok-soft:#f1f4f0; --warn:#8a6524; --warn-soft:#f8f1de;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:15.5px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-feature-settings:"tnum";
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{
+    position:sticky; top:0; z-index:10; background:rgba(251,250,247,.94);
+    backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);
+  }
+  .bar{
+    max-width:1120px; margin:0 auto; padding:14px 24px 12px;
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+  }
+  .brand{font-size:17px; font-weight:650; letter-spacing:.01em}
+.xnav{display:flex; gap:2px; align-items:baseline; margin-left:10px; padding-left:12px; border-left:1px solid var(--line)}
+.xnav a{font-size:12px; color:var(--ink-3); text-decoration:none; padding:4px 7px; border-radius:6px; white-space:nowrap}
+.xnav a:hover{color:var(--ink); background:var(--card)}
+.xnav a.on{color:var(--ink); font-weight:600}
+  .brand span{font-size:12px; color:var(--ink-3); letter-spacing:.06em; margin-left:6px; font-weight:400}
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-left:auto}
+  .tab{
+    font-size:13px; padding:5px 12px; border:1px solid var(--line); border-radius:999px;
+    color:var(--ink-2); background:var(--card); cursor:pointer;
+  }
+  .tab.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .tab:hover{border-color:var(--ink-3)}
+
+  main{max-width:1120px; margin:0 auto; padding:26px 24px 90px}
+
+  .lede{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:16px 20px; margin-bottom:26px; font-size:14px; color:var(--ink-2);
+    max-width:46em;
+  }
+  .lede b{color:var(--ink)}
+  .lede .rule{
+    display:block; margin-top:8px; padding-top:8px; border-top:1px dashed var(--line);
+    font-size:13px; color:var(--ink-3);
+  }
+
+  h1{font-size:24px; line-height:1.35; margin:0 0 6px; letter-spacing:-.01em}
+  .sub{font-size:13px; color:var(--ink-3); margin:0 0 22px}
+  .projsep{
+    display:flex; align-items:center; gap:14px; margin:56px 0 26px;
+    font-size:12px; letter-spacing:.16em; color:var(--ink-3); text-transform:uppercase;
+  }
+  .projsep::before, .projsep::after{content:""; flex:1; height:1px; background:var(--line)}
+  .projsep span{border:1px solid var(--line); border-radius:999px; padding:3px 12px; background:var(--card)}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:12px 22px; margin:14px 0 6px}
+  .two > div{border-left:2px solid var(--accent-soft); padding:2px 0 2px 12px}
+  .two b{display:block; font-size:13px; color:var(--ink); margin-bottom:3px}
+  .two p{margin:0; font-size:13px; color:var(--ink-2); line-height:1.75}
+  @media (max-width:760px){ .two{grid-template-columns:1fr} }
+  h2{
+    font-size:19px; margin:44px 0 14px; padding-bottom:9px; border-bottom:1px solid var(--line);
+    letter-spacing:-.005em;
+  }
+  h2 .n{color:var(--accent); font-weight:700; margin-right:8px; font-variant-numeric:tabular-nums}
+  h3{font-size:15.5px; margin:26px 0 10px; color:var(--ink)}
+  p{margin:0 0 12px}
+  .muted{color:var(--ink-3); font-size:13.5px}
+
+  /* 星级表 */
+  table{width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:13.5px}
+  thead th:first-child, tbody td:first-child{min-width:180px}
+  thead th{
+    text-align:left; font-weight:600; color:var(--ink-2); background:#f7f4ef;
+    padding:9px 11px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  tbody td{padding:9px 11px; border-bottom:1px solid var(--line-2); vertical-align:top}
+  tbody tr:hover{background:#fdfbf8}
+  .star{color:var(--accent); letter-spacing:-1px; white-space:nowrap}
+  .tw{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .tw table{min-width:620px}
+  .sql{
+    background:#f7f5f1; border:1px solid var(--line); border-radius:8px;
+    padding:13px 15px; margin:12px 0; overflow-x:auto;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px; line-height:1.8; color:#3d3833; white-space:pre;
+  }
+  .sql b{color:var(--accent); font-weight:600}
+
+  /* 流程图 */
+  .flow{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:18px 8px 10px; margin:18px 0 24px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .flow svg{display:block; width:100%; height:auto; max-width:760px; min-width:620px; margin:0 auto}
+  .flow .cap{
+    font-size:12.5px; color:var(--ink-3); text-align:center; padding:4px 12px 8px;
+    position:sticky; left:0; max-width:60ch; margin:0 auto; line-height:1.75;
+  }
+  /* 窄屏：流程图保持可读字号，改成左右滑动，左对齐免得左边缘被切 */
+  @media (max-width:640px){
+    .flow{padding:14px 0 6px}
+    .flow svg{min-width:660px; margin:0}
+    .flow::after{
+      content:"← 左右滑动看全图 →"; display:block; text-align:center;
+      font-size:11px; color:var(--ink-3); padding:8px 0 2px;
+      position:sticky; left:0; width:100vw; max-width:100%;
+    }
+  }
+
+  /* Q&A 分组 */
+  .qa-group{margin:0 0 30px}
+  .qa-group > h3{
+    display:flex; align-items:center; gap:9px; font-size:16px; margin:0 0 4px;
+  }
+  .qa-group > h3 .cnt{
+    font-size:12px; color:var(--ink-3); background:#f2efe9; border-radius:999px;
+    padding:1px 8px; font-weight:400; font-variant-numeric:tabular-nums;
+  }
+  .qa-group > .ghint{font-size:13px; color:var(--ink-3); margin:0 0 10px}
+
+  details.qa{scroll-margin-top:96px}
+  .qa{
+    background:var(--card); border:1px solid var(--line); border-radius:9px;
+    margin:9px 0; overflow:hidden;
+  }
+  .qa summary{
+    cursor:pointer; padding:12px 16px; font-size:14px; font-weight:550;
+    display:flex; gap:10px; align-items:flex-start; list-style:none;
+  }
+  .qa summary::-webkit-details-marker{display:none}
+  .qa summary::after{
+    content:"展开"; margin-left:auto; font-size:11.5px; color:var(--ink-3);
+    font-weight:400; white-space:nowrap; flex:none; padding-top:2px;
+  }
+  .qa[open] summary::after{content:"收起"}
+  .qa summary:hover{background:#fdfbf8}
+  details:not([open]) > *:not(summary){display:none}
+  .qa .qno{
+    flex:none; color:var(--accent); font-variant-numeric:tabular-nums; font-weight:600;
+    font-size:13px; padding-top:1px; min-width:22px;
+  }
+  .qa .body{padding:2px 16px 15px 16px; border-top:1px solid var(--line-2)}
+
+  .kv{display:grid; grid-template-columns:96px minmax(0,1fr); gap:6px 14px; margin:12px 0 0; font-size:13.5px}
+  .kv dt{color:var(--ink-3); font-size:12.5px; padding-top:2px; line-height:1.5}
+  .kv dd{margin:0; color:var(--ink-2); max-width:38em}
+  .kv dd b{color:var(--ink)}
+
+  .redline{
+    margin-top:10px; padding:9px 12px; background:#fdf3ef; border-left:3px solid var(--accent);
+    border-radius:0 6px 6px 0; font-size:13px; color:#7a3018;
+  }
+  .redline b{color:var(--accent)}
+  .tip{
+    margin-top:10px; padding:9px 12px; background:var(--ok-soft); border-left:3px solid var(--ok);
+    border-radius:0 6px 6px 0; font-size:13px; color:var(--ok);
+  }
+
+  /* 红线清单 */
+  .banned{
+    background:var(--card); border:1px solid var(--line); border-radius:10px; padding:4px 0; margin:16px 0;
+  }
+  .banned .row{
+    display:flex; gap:14px; padding:11px 18px; border-bottom:1px solid var(--line-2);
+    font-size:13.5px; align-items:baseline; flex-wrap:wrap;
+  }
+  .banned .row:last-child{border-bottom:0}
+  .banned .no{color:var(--accent); font-weight:600; flex:none; font-size:12.5px; min-width:52px}
+  .banned .was{color:var(--ink-3); text-decoration:line-through; text-decoration-color:#d9cfc6}
+  .banned .to{color:var(--ink-2); flex:1 1 260px}
+
+  footer{max-width:52em; margin:0 auto; padding:0 24px 60px; font-size:12.5px; color:var(--ink-3); line-height:1.85}
+
+  @media (max-width:640px){
+    main{padding:18px 15px 70px}
+    .bar{padding:11px 15px 10px; gap:8px}
+    .tabs{margin-left:0; width:100%}
+    h1{font-size:20px}
+    h2{font-size:17px; margin-top:34px}
+    .kv{grid-template-columns:1fr; gap:2px 0}
+    .kv dt{padding-top:8px}
+    table{font-size:12.5px}
+    .tw table{min-width:780px}
+    thead th, tbody td{padding:7px 9px}
+    .qa summary{padding:11px 13px; font-size:14px}
+    .qa .body{padding:2px 13px 13px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="brand">JD 面试 Q&amp;A<span>技术追问预案</span></div>
+    <div class="tabs">
+      <button class="tab on" data-jump="sec-cad">CAD 审图智能体</button>
+      <button class="tab" data-jump="sec-retail">咖啡门店 SOP 检测</button>
+      <button class="tab" data-jump="sec-haitu">海图四个子 Agent</button>
+      <button class="tab" data-jump="sec-factory">智能体工厂</button>
+    </div>
+    <nav class="xnav" aria-label="页面跳转">
+      
+      <a href="site/index.html" title="个人网站">个人网站</a>
+      <a href="handbook.html" title="面试问答手册 · 通用轮次">面试手册</a>
+      <a href="interview-sim.html" title="模拟面试 · HR / 老板 / 技术">模拟面试</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="lede">
+    用人部门的技术负责人不会问「你懂不懂 RAG」，他会从你已经写在简历上的那句话开始往上剥。
+    这里的每一组，前半是做出来的东西，后半是<b>他会从哪一层接进去</b>。
+    <span class="rule">用法：面试前一晚只读「答到哪一层」和「踩雷话」两行。红色条是说了就掉分的话。</span>
+  </div>
+
+  <h1 id="sec-cad">CAD 审图智能体</h1>
+  <p class="sub">某地下工程设计院 · 人防施工图智能审查（2026-03 立项，一期已终验）· 角色：需求与产品决策</p>
+
+  <div class="lede" style="border-color:#efd9cc; background:#fdf8f4">
+    <b>先说清一件事</b>：这个项目对外不能叫「多模态大模型审图」。真实架构是 <b>DWG 矢量解析 + 规则引擎判定 + 规范检索增强</b>，
+    模型承担的是「规范检索」和「不确定语义的辅助判断」，<b>不做最终判定</b>。
+    <span class="rule">为什么必须这么讲：一旦承认「多模态」是主线，就要接住「用的哪个 VLM / 3000×2000 分辨率怎么切块 / 跨块尺寸线怎么对齐」三连，而这三条我们没走。</span>
+  </div>
+
+  <h2><span class="n">1</span>能力线可行性评分</h2>
+
+  <div class="tw">
+  <table>
+    <thead>
+      <tr><th>能力线</th><th>技术可行性</th><th>数据/工程难度</th><th>商业价值</th><th>定性</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>DWG 矢量解析</b>与结构化抽取</td>
+        <td><span class="star">★★★★☆</span></td><td><span class="star">★★★☆☆</span></td><td><span class="star">★★★★★</span></td>
+        <td>工程壁垒。用成熟库读图，难在读出来之后的图元分类与标注语义还原</td>
+      </tr>
+      <tr>
+        <td><b>规则引擎</b>判定（配筋/套管）</td>
+        <td><span class="star">★★★★★</span></td><td><span class="star">★★☆☆☆</span></td><td><span class="star">★★★★★</span></td>
+        <td>责任壁垒。合同要求「零误差可复算」，概率系统做不了最终判定</td>
+      </tr>
+      <tr>
+        <td><b>VLM 端到端</b>直读图纸</td>
+        <td><span class="star">★★☆☆☆</span></td><td><span class="star">★★★★★</span></td><td><span class="star">★★★☆☆</span></td>
+        <td>被证伪的捷径。文档理解成立，工程图纸的空间语义推理不成立</td>
+      </tr>
+      <tr>
+        <td><b>规范检索增强</b>（GB 50038）</td>
+        <td><span class="star">★★★★☆</span></td><td><span class="star">★★★☆☆</span></td><td><span class="star">★★★★☆</span></td>
+        <td>长期资产。一期不出活，价值在结论可引用、规范可更新</td>
+      </tr>
+      <tr>
+        <td><b>四条组合成产品</b></td>
+        <td><span class="star">★★★★☆</span></td><td><span class="star">★★★★☆</span></td><td><span class="star">★★★★★</span></td>
+        <td>壁垒在「解析 + 规则 + 责任结构」，不在模型参数量</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2><span class="n">2</span>系统怎么工作（30 秒能讲完的那张图）</h2>
+
+  <div class="flow">
+    <svg viewBox="0 0 720 860" role="img" aria-label="CAD 智能审图系统架构流程图">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/>
+        </marker>
+        <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/>
+        </marker>
+      </defs>
+
+      <!-- 用户 -->
+      <rect x="250" y="14" width="220" height="44" rx="22" fill="#1b1917"/>
+      <text x="360" y="41" text-anchor="middle" fill="#fff" font-size="14">用户：这张图合不合规？</text>
+      <line x1="360" y1="58" x2="360" y2="88" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <!-- 预检 -->
+      <rect x="230" y="90" width="260" height="52" rx="8" fill="#fff" stroke="#e3dfd8" stroke-width="1.3"/>
+      <text x="360" y="112" text-anchor="middle" font-size="13.5" font-weight="600">交付合规预检</text>
+      <text x="360" y="131" text-anchor="middle" font-size="11.5" fill="#6f685f">XREF · 垃圾实体 · 图层规范</text>
+      <line x1="360" y1="142" x2="360" y2="168" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+      <text x="372" y="160" font-size="11" fill="#b4441f">不合格输入打回</text>
+
+      <!-- 解析 -->
+      <rect x="230" y="170" width="260" height="58" rx="8" fill="#fff" stroke="#b4441f" stroke-width="1.6"/>
+      <text x="360" y="193" text-anchor="middle" font-size="13.5" font-weight="600" fill="#b4441f">DWG 矢量解析</text>
+      <text x="360" y="212" text-anchor="middle" font-size="11.5" fill="#6f685f">图元 · 标注 · 图块 → 结构化对象</text>
+
+      <!-- 左：矢量文字说明 -->
+      <rect x="24" y="182" width="170" height="46" rx="7" fill="#faf8f4" stroke="#e3dfd8" stroke-dasharray="3 3"/>
+      <text x="109" y="202" text-anchor="middle" font-size="11.5" fill="#4d4842">文字是矢量对象</text>
+      <text x="109" y="218" text-anchor="middle" font-size="10.5" fill="#8d857d">直接取，OCR 只兜扫描件</text>
+      <line x1="194" y1="199" x2="228" y2="199" stroke="#c9c2b8" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+      <!-- 右：库说明 -->
+      <rect x="526" y="182" width="170" height="46" rx="7" fill="#faf8f4" stroke="#e3dfd8" stroke-dasharray="3 3"/>
+      <text x="611" y="202" text-anchor="middle" font-size="11.5" fill="#4d4842">RealDWG / ODA 读图</text>
+      <text x="611" y="218" text-anchor="middle" font-size="10.5" fill="#8d857d">授权与工程问题，不是 AI 问题</text>
+      <line x1="526" y1="199" x2="492" y2="199" stroke="#c9c2b8" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+      <!-- 分叉 -->
+      <line x1="360" y1="228" x2="360" y2="252" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="196" y1="252" x2="524" y2="252" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="196" y1="252" x2="196" y2="280" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+      <line x1="524" y1="252" x2="524" y2="280" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+      <text x="360" y="246" text-anchor="middle" font-size="11" fill="#6f685f">结构化对象（带置信度与来源）</text>
+
+      <!-- 规则引擎 -->
+      <rect x="76" y="282" width="240" height="72" rx="8" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.6"/>
+      <text x="196" y="306" text-anchor="middle" font-size="13.5" font-weight="600" fill="#b4441f">规则引擎判定</text>
+      <text x="196" y="325" text-anchor="middle" font-size="11.5" fill="#7a3018">配筋率 · 套管 · 最少配筋下限</text>
+      <text x="196" y="342" text-anchor="middle" font-size="11" fill="#b4441f">零误差 · 可复算 · 可审计</text>
+
+      <!-- RAG -->
+      <rect x="404" y="282" width="240" height="72" rx="8" fill="#fff" stroke="#e3dfd8" stroke-width="1.3"/>
+      <text x="524" y="306" text-anchor="middle" font-size="13.5" font-weight="600">规范检索（RAG）</text>
+      <text x="524" y="325" text-anchor="middle" font-size="11.5" fill="#6f685f">GB 50038 条文 · 带版本</text>
+      <text x="524" y="342" text-anchor="middle" font-size="11" fill="#6f685f">只引用，不生成条号</text>
+
+      <!-- 汇合 -->
+      <line x1="196" y1="354" x2="196" y2="392" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="524" y1="354" x2="524" y2="392" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="196" y1="392" x2="524" y2="392" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="360" y1="392" x2="360" y2="416" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+      <text x="360" y="386" text-anchor="middle" font-size="11" fill="#6f685f">结论 + 条文出处</text>
+
+      <!-- 置信度分流 -->
+      <rect x="230" y="418" width="260" height="48" rx="8" fill="#fff" stroke="#e3dfd8" stroke-width="1.3"/>
+      <text x="360" y="439" text-anchor="middle" font-size="13.5" font-weight="600">置信度分流</text>
+      <text x="360" y="457" text-anchor="middle" font-size="11.5" fill="#6f685f">阈值由客户业务口确认</text>
+
+      <line x1="360" y1="466" x2="360" y2="490" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="150" y1="490" x2="570" y2="490" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="150" y1="490" x2="150" y2="514" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+      <line x1="360" y1="490" x2="360" y2="514" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+      <line x1="570" y1="490" x2="570" y2="514" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <rect x="66" y="516" width="168" height="52" rx="7" fill="#f1f4f0" stroke="#cdd8ce"/>
+      <text x="150" y="537" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3f5a45">高置信</text>
+      <text x="150" y="555" text-anchor="middle" font-size="11" fill="#3f5a45">自动流转</text>
+
+      <rect x="276" y="516" width="168" height="52" rx="7" fill="#f8f1de" stroke="#e3d3ac"/>
+      <text x="360" y="537" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a6524">中置信</text>
+      <text x="360" y="555" text-anchor="middle" font-size="11" fill="#8a6524">人工确认</text>
+
+      <rect x="486" y="516" width="168" height="52" rx="7" fill="#fdf3ef" stroke="#eccfc2"/>
+      <text x="570" y="537" text-anchor="middle" font-size="12.5" font-weight="600" fill="#b4441f">低置信</text>
+      <text x="570" y="555" text-anchor="middle" font-size="11" fill="#b4441f">人工编制</text>
+
+      <line x1="150" y1="568" x2="150" y2="596" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="360" y1="568" x2="360" y2="596" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="570" y1="568" x2="570" y2="596" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="150" y1="596" x2="570" y2="596" stroke="#8d857d" stroke-width="1.4"/>
+      <line x1="360" y1="596" x2="360" y2="620" stroke="#8d857d" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <rect x="230" y="622" width="260" height="48" rx="8" fill="#fff" stroke="#e3dfd8" stroke-width="1.3"/>
+      <text x="360" y="643" text-anchor="middle" font-size="13.5" font-weight="600">审查报告（草案）</text>
+      <text x="360" y="661" text-anchor="middle" font-size="11.5" fill="#6f685f">缺陷清单 + 条文出处 + 定位</text>
+
+      <line x1="360" y1="670" x2="360" y2="694" stroke="#b4441f" stroke-width="1.6" marker-end="url(#ar2)"/>
+
+      <rect x="270" y="696" width="180" height="44" rx="22" fill="#b4441f"/>
+      <text x="360" y="723" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">人签字 · 责任链闭合</text>
+
+      <text x="360" y="770" text-anchor="middle" font-size="11.5" fill="#8d857d">规则管确定，AI 管不确定 · 系统只出草案，签字是人</text>
+
+      <!-- 侧栏：三条真实壁垒 -->
+      <rect x="24" y="800" width="672" height="46" rx="8" fill="#faf8f4" stroke="#e3dfd8"/>
+      <text x="360" y="820" text-anchor="middle" font-size="11.5" fill="#4d4842">
+        真实壁垒排序：输入规整化（预检）＞ 复合标注解析（数据模型）＞ 规则与规范解耦 ＞ 模型选型
+      </text>
+      <text x="360" y="837" text-anchor="middle" font-size="11" fill="#8d857d">模型在这一层链条里，位置最靠后</text>
+    </svg>
+    <div class="cap">讲的时候从下往上讲：先说「签字是人」，再往下说每一层谁负责</div>
+  </div>
+
+  <h2><span class="n">3</span>技术负责人会从哪一层接进来</h2>
+  <p class="muted">下面 26 组，按「他大概率的追问顺序」排。点开看「答到哪一层」和「别说」。</p>
+
+  <!-- A -->
+  <div class="qa-group">
+    <h3>整体与角色 <span class="cnt">4 组</span></h3>
+    <p class="ghint">开场三分钟决定后面往深里问还是往浅里问。这一组答稳了，后面是技术对话；答虚了，后面是审问。</p>
+
+    <details class="qa" id="cad-01"><summary><span class="qno">01</span>这个项目你具体负责什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你是「产品」还是「写 PRD 的」。技术负责人最烦把别人的活说成自己的。</dd>
+          <dt>答到哪一层</dt><dd>四件事，按「我决定的」排序：<b>① 需求范围与一期边界</b>（双 DEMO：最小配筋率审查 + 防护密闭套管审查，把原需求的梁柱识别移出）；<b>② 验收口径</b>（三类指标 + 80 张读通 60 + ≤3 分钟 + 连续 3 天）；<b>③ 技术路线的否决</b>（否掉端到端大模型，改矢量解析 + 规则引擎）；<b>④ 缺陷归因与修复方案</b>（复合标注那条，见第 22 组）。</dd>
+          <dt>踩雷话</dt><dd>别说「我负责整个项目」。也别说「技术是研发做的」——技术路线是你否的，这个功劳要拿住，但只拿到「路线决策」这一层，不抢实现。</dd>
+        </dl>
+        <div class="tip">加分句：「实现细节我不到算法同事那一层，但路线是我参与定并签了字的。」——这句话同时给了边界和担当。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-02"><summary><span class="qno">02</span>为什么一期只做配筋和套管，不做梁柱识别？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你是被客户砍了范围，还是自己判断后砍的。</dd>
+          <dt>答到哪一层</dt><dd>不是砍，是<b>分层</b>。梁柱识别的判定规则牵扯到结构计算（内力、配筋构造要求），要多专业的规则库；一期只有 8 个月、要出可验收的东西，先把「规则确定、输入可控」的两类做透。梁柱移出不是不做，是排在二期。</dd>
+          <dt>踩雷话</dt><dd>别说「客户要求砍的」——那是把决策权交出去了。真实情况是客户提了，我们给了判断依据并一起定的。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-03"><summary><span class="qno">03</span>这个系统现在上线了吗？多少人在用？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这是真伪探测器。夸大的人在这里翻车。</dd>
+          <dt>答到哪一层</dt><dd>诚实分层：<b>一期已终验</b>（11-30 验收通过，源代码按约交付，客户方两人独立编译跑通）；<b>使用形态是审查员的工作台</b>，不是全员系统；<b>没有对外宣称的「上线」</b>，因为它是院内工具，不面向公众。</dd>
+          <dt>踩雷话</dt><dd>别说「已上线」「日均处理 N 张图」——没有这个数据。也别说「还没交付」，那和验收单对不上。</dd>
+        </dl>
+        <div class="redline"><b>红线</b>：任何金额、付款比例、合同总价，一句都不能提。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-04"><summary><span class="qno">04</span>为什么选人防这个方向？市场多大？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你是撞上的还是想过的。</dd>
+          <dt>答到哪一层</dt><dd>选它不是因为市场大，是因为<b>三个条件同时具备</b>：规则明确（GB 50038 是国标，判定可编码）、输入统一（设计院全用 DWG）、责任边界清晰（审查结论要人签字，系统只出草案）。这三条决定了一个 AI 产品能不能落地，市场大小是第二位的。</dd>
+          <dt>踩雷话</dt><dd>别编市场规模数字。被追问「这个数哪来的」就完了。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <!-- B -->
+  <div class="qa-group">
+    <h3>图纸解析 <span class="cnt">7 组</span></h3>
+    <p class="ghint">这一组是真正的技术深水区。答不住这里，前面讲得再好也会被判定为「不懂技术」。</p>
+
+    <details class="qa" id="cad-05"><summary><span class="qno">05</span>DWG 你们怎么解析的？自己写的？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>不自己写。DWG 是封闭二进制格式，用 Autodesk 的 RealDWG 或开放设计联盟（ODA）的 Drawings SDK 读。<b>我们做的是读出来之后的事</b>：图元分类、图层规范化、标注语义还原。</dd>
+          <dt>追问预判</dt><dd>「为什么不自己写？」→ 二进制格式随版本变，自研等于长期维护一个格式解析器，投入产出比极差。</dd>
+          <dt>踩雷话</dt><dd>别说「我们自研了解析引擎」——合同里底层解析引擎的知识产权归乙方，但那指的是「解析之上的结构化处理」，不是 DWG 格式解析本身。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-06"><summary><span class="qno">06</span>图纸里的文字，你们是 OCR 还是直接取？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这一问能立刻分出「真做过」和「看教程学的」。教程都从 OCR 开始。</dd>
+          <dt>答到哪一层</dt><dd>DWG 里的文字<b>本来是文本对象</b>，直接取，准确率接近 100%，还能拿到位置、旋转角、所属图层。<b>OCR 只在一种情况下用</b>：客户给的是扫描件或 PDF 归档件。而客户明确说过「我们干活全是 DWG，PDF 只是对外归档用的」，所以 OCR 是兜底不是主力。</dd>
+          <dt>加分</dt><dd>「把矢量文字当图像去 OCR，等于自己把信息降级」——这句能证明你理解数据形态。</dd>
+          <dt>踩雷话</dt><dd>别说「OCR + 多模态识别」，那等于承认主路径是图像。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-07"><summary><span class="qno">07</span>XREF 是什么问题？你们怎么处理的？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>XREF 是图纸引用外部文件，内容分布在布局空间，坐标系嵌套两层。不先绑定就解析，图元会整体平移+旋转。</dd>
+          <dt>我们怎么处理</dt><dd><b>不掰扯责任</b>。把「交付合规预检」做成正式功能：进系统先查 XREF 未绑定、垃圾实体、图层规范，出预检报告打回给设计院。扯皮变成了产品。</dd>
+          <dt>结果</dt><dd>客户后来说这个功能帮他们管了图纸质量——这是超出预期的部分。</dd>
+        </dl>
+        <div class="tip">这一组是全场最值钱的之一：它证明你会把「外部不配合」转化成「产品功能」，而不是抱怨数据脏。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-08"><summary><span class="qno">08</span>图层命名各院不统一，你们怎么保证覆盖率？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd><b>不保证 100%</b>。图层通配符只能覆盖约八成，因为同一个「人防墙」三个室三种叫法，历史图还叫 FQ。剩下两成走几何特征 + 语义判断，认不出的进人工队列。</dd>
+          <dt>关键判断</dt><dd>把它定性为<b>「覆盖率上限」问题</b>，而不是「准确率问题」。前者可以写进合同，后者是无限责任。</dd>
+          <dt>踩雷话</dt><dd>别说「我们做了智能识别所以都能认」。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-09"><summary><span class="qno">09</span>套管识别准确率 85%，换个院还准吗？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>诚实答案</dt><dd><b>不准。</b>我们真实踩过：换一套旧图，套管画法不同，准确率掉到六成多。</dd>
+          <dt>怎么处理</dt><dd>加<b>「疑似违规」档</b>：没把握时既不说通过也不说违规。这一档进了验收条款，客户说这句「疑似」比「通过」值钱。</dd>
+          <dt>为什么这样做对</dt><dd>审查场景里<b>误报比漏报更摧毁信任</b>。客户原话：「我不怕你们看不准，我怕它看不准还嘴硬。」</dd>
+        </dl>
+        <div class="tip">主动承认「换院会掉」，比被问出来强十倍。而且它自然引出「所以我们做了疑似档」这个产品设计。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-10"><summary><span class="qno">10</span>图块识别是模板匹配吗？画法变了怎么办？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>按图块名 + 形状特征认构件。图块名是可配的，形状是辅助。<b>画法变了就是失效</b>——这个必须承认。</dd>
+          <dt>我们的应对</dt><dd>两条：① 疑似档兜底，不上来就判死；② 图块特征库做成配置，换院时重新标一轮，是配置工作量不是重写代码。</dd>
+          <dt>踩雷话</dt><dd>别说「我们用了深度学习所以能自适应」——没有这件事。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-11"><summary><span class="qno">11</span>一张图 3000×2000，你们怎么处理分辨率？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>这一问的陷阱</dt><dd>它假设你把图纸当图像处理。<b>如果你确实走了矢量解析，这一问可以直接绕开</b>。</dd>
+          <dt>怎么答</dt><dd>「我们不走图像路线，所以没有分辨率问题——图元是矢量对象，坐标是浮点数。只有扫描件兜底路径才有分辨率问题，那条路上我们会按 DPI 和最小可辨识文字高度定切块策略。」</dd>
+          <dt>加分</dt><dd>这一答同时完成了两件事：说明主路径、承认兜底路径的局限。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <!-- C -->
+  <div class="qa-group">
+    <h3>判定与配筋 <span class="cnt">5 组</span></h3>
+    <p class="ghint">这一组的关键是：把「计算很简单」讲清楚，同时把「识别才难」讲透。</p>
+
+    <details class="qa" id="cad-12"><summary><span class="qno">12</span>配筋率怎么算？你们判定逻辑是什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>公式很基本：<b>配筋率 = 每米墙内钢筋截面积 / 墙体截面面积</b>，判定是「≥ 规范规定的最小配筋率」。规范按防护等级、墙厚、材料取值，来自 GB 50038。</dd>
+          <dt>真正难的地方</dt><dd>客户总工原话：「计算有什么难的，墙厚乘配筋率，小学算术。难的是你们机器能不能从图里把这根钢筋认出来。」——<b>技术投入 90% 在解析层，判定层不到 10%</b>。</dd>
+          <dt>踩雷话</dt><dd>别说「我们用 AI 算配筋率」。计算是规则引擎做的，AI 参与了「认钢筋」。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-13"><summary><span class="qno">13</span>为什么判定层要用规则引擎，不用模型？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>直接原因</dt><dd>合同验收条款写着：「规则引擎计算逻辑正确，输入正确参数后，计算结果零误差」。<b>「零误差」三个字把路线锁死了</b>。</dd>
+          <dt>技术原因</dt><dd>大模型是概率系统，同样输入两次可能不同输出；规则引擎是确定性系统，同输入必然同输出，<b>可复算、可审计、可追责</b>。审查场景要的是后者。</dd>
+          <dt>客户原因</dt><dd>「我就担心你们系统说没问题，最后图审退回来，责任算谁的？」——责任链要求可解释的判定。</dd>
+        </dl>
+        <div class="tip">三层原因（合同 / 技术 / 责任）依次说，比只说一层有说服力得多。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-14"><summary><span class="qno">14</span>附加筋是什么？为什么要合并？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>标注写 `C25@150 附加 C22@150`，是<b>两组筋</b>要合起来算配筋率。只认前面一组，审出来全是错的。</dd>
+          <dt>来源</dt><dd>客户总工在 4 月就警告过：「你们要是只认前面一组，审出来全是错的。」——我们当时没当场转成测试用例，5 月埋雷 11 月炸。</dd>
+          <dt>与本篇相关</dt><dd>这就是第 22 组那个缺陷的引子。主动把它串起来讲，会显得你有完整的因果链意识。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-15"><summary><span class="qno">15</span>同一面墙两侧配筋要求不一样，你们分得清吗？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>荷载侧与非荷载侧要求不同，<b>分不清侧就整面墙算错</b>。我们靠墙的朝向标注 + 图元几何关系判断，判不准的进人工队列。</dd>
+          <dt>踩雷话</dt><dd>别说「我们完全自动分侧」——这是个易错点，说满了会被追。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-16"><summary><span class="qno">16</span>置信度分流的三档，阈值谁定？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd><b>客户业务口确认</b>，不是我们定。因为阈值本质是「愿意承担多少误判风险」——这是业务决策不是技术决策。</dd>
+          <dt>三档怎么分</dt><dd>高 → 自动流转；中 → 人工确认（系统给建议，人点一下）；低 → 人工编制（系统只把图元和位置摆好）。</dd>
+          <dt>为什么这条值钱</dt><dd>它证明你知道<b>技术的边界在哪、谁该为边界负责</b>。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <!-- D -->
+  <div class="qa-group">
+    <h3>模型与 AI 边界 <span class="cnt">5 组</span></h3>
+    <p class="ghint">这一组是「你到底懂不懂 AI」的分水岭。核心是：说清 AI 在哪、不在哪。</p>
+
+    <details class="qa" id="cad-17"><summary><span class="qno">17</span>那你们到底用没用大模型？用在哪？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>用了，两处：<b>① 规范检索</b>（GB 50038 条文向量化，结论要带可点击出处）；<b>② 不确定语义的辅助判断</b>（字段级置信度低的进人工，不直接给结论）。模型用国产 Qwen3 系列本地部署。</dd>
+          <dt>一句话口径</dt><dd><b>「规则管确定，AI 管不确定。」</b>这句话是全场的锚，记住。</dd>
+          <dt>踩雷话</dt><dd>别说「AI 自动审图」。也别说「没用 AI」——那浪费了转型故事。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-18"><summary><span class="qno">18</span>为什么不用 VLM 直接读图纸？现在多模态不是很强吗？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>先承认它成立</dt><dd>文档理解是成熟方向：DocVQA 把「文档图像 + 问题 → 答案」做成标准任务（12,000+ 图像、50,000 问题），LayoutLM 系列证明「文本 + 版面 + 图像」融合有效。<b>「让模型看懂合同/表单」技术上完全成立。</b></dd>
+          <dt>再说 CAD 不是合同</dt><dd>工程图纸多了四层：尺寸线 + 箭头 + 延伸线 + 数值的关联、跨视图引用（主视/剖视/局部放大）、空间语义（「这个孔对应哪个剖视图」是三维推理）。<b>后者目前没有可靠公开解法。</b></dd>
+          <dt>三个否掉的理由</dt><dd>① 验收条款要零误差可复算，VLM 给不了；② 出错不可归因（分不清没看见/看错/算错），审查系统必须能说清错在哪环；③ 端到端 SFT 需要「图纸 + 问题 + 答案 + 证据 + bbox」级标注，垂直领域买不到。</dd>
+        </dl>
+        <div class="tip">这一组说完整需要 100 秒。**先承认、再区分、后否决**，顺序不能反——上来就否定会被当成「不懂新技术」。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-19"><summary><span class="qno">19</span>什么情况下你会用端到端 VLM？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你是「保守」还是「有判断」。</dd>
+          <dt>四个条件缺一不可</dt><dd>① 场景是<b>辅助理解不是判定</b>（「帮我找所有 DN50 管道」给人看，不签字）；② 输出<b>带证据定位</b>（每个结论能跳回图纸坐标）；③ <b>100% 人工复核</b>；④ <b>图纸规整度高</b>（同一家院、同一套模板）。</dd>
+          <dt>一句话</dt><dd>「四条同时满足它是加速器，少一条就是负债。」</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-20"><summary><span class="qno">20</span>规范检索怎么做？模型编条文号怎么办？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>RAG 幻觉是必问题，答不上来说明没做过严谨场景。</dd>
+          <dt>答到哪一层</dt><dd>三个控制点：<b>① 切分</b>按「条」为主、「款」为辅，保留条款引用关系；<b>② 版本</b>每条带版本号与生效日期，检索按项目适用版本过滤；<b>③ 引用纪律</b>——<b>只允许从检索结果里引用原文，禁止模型自己生成条号</b>，输出必须带可点击出处。</dd>
+          <dt>为什么这样能防幻觉</dt><dd>把「生成」降级成「选择 + 定位」，模型没有编造条号的机会。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-21"><summary><span class="qno">21</span>为什么选 Qwen3 本地部署？为什么不用 API？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>三条约束：<b>数据不出院</b>（图纸涉密/敏感）、<b>信创要求</b>（系统适配麒麟/统信，算力适配国产卡）、<b>成本可控</b>（院内部署一次，不按 token 计费）。</dd>
+          <dt>能力上够不够</dt><dd>够，因为这个场景<b>不需要模型做判定</b>，只需要做检索和辅助理解。能力要求被架构降下来了。</dd>
+          <dt>踩雷话</dt><dd>别说「Qwen3 比 GPT 强」——那是无依据的比较。说「够用且合规」。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <!-- E -->
+  <div class="qa-group">
+    <h3>评测与验收 <span class="cnt">3 组</span></h3>
+    <p class="ghint">这一组考的是「你有没有被数字骗过，以及你会不会用数字骗人」。</p>
+
+    <details class="qa" id="cad-22"><summary><span class="qno">22</span>你刚说的 85% / 70% / 85%，是实测还是约定？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这是硬伤探针。说错一个就掉分。</dd>
+          <dt>准确答案</dt><dd><b>是验收线，不是实测值。</b>合同约定：标准配筋标注 ≥85%、复合配筋 ≥70%、套管判定 ≥85%；另外 80 张样本读通 ≥60、单次审查 ≤3 分钟、连续 3 天不崩。</dd>
+          <dt>实测怎么说</dt><dd>给两条真实曲线：<b>标准标注 87.5% → 88%</b>（一直过线）；<b>复合场景 52% → 74%</b>（修复后压线过）。</dd>
+          <dt>踩雷话</dt><dd>别说「我们做到了 85%」——如果被问「那 70% 那条呢」就接不住。</dd>
+        </dl>
+        <div class="tip">主动区分「约定」和「实测」，是这一组最加分的动作。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-23"><summary><span class="qno">23</span>准确率怎么定义的？分母是什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>「准确率 95%」这类话术在他眼里等于没说。</dd>
+          <dt>答案</dt><dd>分场景定义，各自分母是「该场景的样本数」：标准配筋标注场景、复合配筋标注场景、套管判定场景，三条线分开算。<b>不合并成一个总准确率</b>——合并会掩盖复合场景的低分。</dd>
+          <dt>加分</dt><dd>「把三类混在一起报一个 88%，是把 52% 那条藏起来。」</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-24"><summary><span class="qno">24</span>误报和漏报，哪个更严重？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答案</dt><dd><b>误报更严重。</b>客户原话：「机器说不足，我核了半天是足的，这让我怎么信它？」——误报会直接摧毁信任，漏报至少人还能在复核时发现。</dd>
+          <dt>产品上的体现</dt><dd>「疑似」这一档就是为了压误报：没把握时既不说通过也不说违规，交给人。</dd>
+          <dt>指标上的体现</dt><dd>误报率、漏报率<b>分开报</b>，不报一个「综合准确率」。</dd>
+        </dl>
+        <div class="tip">这一组的价值在于：它证明你理解「审查类产品」的信任经济学，不是只会算准确率。</div>
+      </div>
+    </details>
+  </div>
+
+  <!-- F -->
+  <div class="qa-group">
+    <h3>失败与责任 <span class="cnt">2 组</span></h3>
+    <p class="ghint">这两组是整场的收尾。答好了，前面所有内容会被重新加权。</p>
+
+    <details class="qa" id="cad-25"><summary><span class="qno">25</span>讲一个你做错的地方</summary>
+      <div class="body">
+        <p class="muted" style="margin:8px 0 4px">别讲「沟通不够」这种软错误。讲这个——它有现象、有数字、有三层根因、有修复。</p>
+        <dl class="kv">
+          <dt>现象</dt><dd>一面临空墙标注 `C25@150 附加 C22@150`，系统只算了主筋，判「配筋不足」，人工核为合规 → <b>误报</b>。</dd>
+          <dt>数字</dt><dd>复合场景准确率 <b>52%</b>（验收线 70%）；误判中 <b>78%</b> 由附加筋漏算引起；标准标注一直 <b>87.5%</b> 过线，所以问题被掩盖了。</dd>
+          <dt>三层根因</dt><dd><b>实现层</b>：解析器按「一条标注 = 一组筋」写的。<b>流程层</b>：客户 4 月就口头警告过「只认前一组会全错」，我没当场转成测试用例——<b>这条是我的责任</b>。<b>架构层</b>：数据模型里「主筋 + 附加筋」没有位置，取舍被逼到解析层。</dd>
+          <dt>为什么否掉「穷举写法模板」</dt><dd>各院写法不可穷举，而且<b>失效是静默的</b>——不报错，只是算错。静默失效比报错危险得多。</dd>
+          <dt>改法与结果</dt><dd>原则「<b>标注即列表，合并靠规则</b>」：解析层只输出钢筋列表（带置信度与来源），合并换算全交规则引擎。<b>9 天</b>修完，规则引擎零改动；复合 <b>52%→74%</b>，附加筋漏算占比 <b>78%→9%</b>，标准标注 <b>87.5%→88%</b> 无回退；单面墙人工复核 <b>6 分钟→1.5 分钟</b>。</dd>
+          <dt>沉淀</dt><dd>「标注即列表」被转工序线复用；流程整改是「口头警告必须当场转成测试用例」。</dd>
+        </dl>
+        <div class="redline"><b>关键</b>：一定要说出「流程层这条是我的责任」。只讲实现层，听起来像甩锅给写代码的人。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="cad-26"><summary><span class="qno">26</span>这系统判错了，责任算谁的？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>答到哪一层</dt><dd>责任结构是<b>设计出来的</b>，不是事后分的：<b>系统只出草案，判定结论由人签</b>。置信度分流保证「没把握的不会被自动放过」。留痕做到能在 <b>30 分钟内</b>答清：模型版本、规则版本、输入、输出、谁复核的。</dd>
+          <dt>合同层面</dt><dd>边界写进合同：不代替签字、不做全专业全图、跨文件空间对齐不承诺指标。</dd>
+          <dt>为什么这样讲加分</dt><dd>它说明你理解「AI 产品的责任设计」本身就是产品设计的一部分，而不是甩给法务。</dd>
+        </dl>
+        <div class="tip">收尾句可以用客户那句：「我不怕你们看不准，我怕它看不准还嘴硬。」——这句后来成了人工复核机制的产品文案。</div>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">4</span>这些话说出口就掉分</h2>
+
+  <div class="banned">
+    <div class="row"><span class="no">别说</span><span class="was">基于多模态大模型实现 CAD 智能审图</span><span class="to">→ DWG 矢量解析 + 规则引擎判定 + 规范检索增强</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">AI 自动审查，准确率 88%</span><span class="to">→ 验收线 85/70/85；实测标准标注 88%、复合 74%（修复后）</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">我们用大模型做判定</span><span class="to">→ 判定用规则引擎，模型做规范检索与辅助理解</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">OCR 识别图纸文字</span><span class="to">→ 文字从矢量层直接取，OCR 只兜扫描件</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">我们自研了 DWG 解析引擎</span><span class="to">→ 用 RealDWG / ODA 读图，自研的是结构化处理</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">系统已上线，院内都在用</span><span class="to">→ 一期已终验，源码交付并独立编译通过；院内工具，非对外系统</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">跨文件空间对齐已经解决</span><span class="to">→ 合同明确不承诺该指标</span></div>
+    <div class="row"><span class="no">别说</span><span class="was">（任何）合同金额、付款比例、客户真实名称</span><span class="to">→ 一句都不提；客户脱敏为「某地下工程设计院」</span></div>
+  </div>
+
+  <h2><span class="n">5</span>三句话记住这一场</h2>
+
+  <div class="lede" style="background:#fdf8f4; border-color:#efd9cc">
+    <p style="margin:0 0 10px"><b>① 锚句</b>：规则管确定，AI 管不确定。</p>
+    <p style="margin:0 0 10px"><b>② 壁垒句</b>：壁垒不在模型，在「把不规整的图纸变成可计算的对象」和「把不确定的结论变成可追责的流程」。</p>
+    <p style="margin:0"><b>③ 边界句</b>：实现细节我不到算法同事那一层，但技术路线是我参与定并签了字的。</p>
+  </div>
+
+  <!-- ==================== 项目 02 ==================== -->
+  <div class="projsep"><span>项目 02</span></div>
+
+  <h1 id="sec-retail">咖啡门店 SOP 检测 + 大模型分析</h1>
+  <p class="sub">某连锁咖啡品牌 · 门店员工操作规范检测（2000+ 门店在跑，从 50 家测试门店起步）· 端侧 YOLO 系检测 + 后端大模型二次分析 · 角色：产品定义与交付推进</p>
+
+  <div class="lede" style="border-color:#efd9cc; background:#fdf8f4">
+    <b>先说清一件事</b>：这个项目是<b>双通道</b>，不是「多模态大模型看监控」。端侧 <b>AI BOX 用 YOLO 系闭集检测</b>常驻跑 8 类 SOP 项——客区清洁、柜面清洁、备料数量、饮料数量、物料数量、货物数量、打印耗材数量、有效期识别，输出<b>带置信度的事件</b>，并把<b>关键帧和前后 5 秒视频存在本地</b>。有人提问时先<b>路由</b>：这项装了专项算法，就直接调事件和片段；<b>没有专项的</b>，现场抽当前帧交给<b>后台多模态大模型直接看画面</b>回答——「现在店里有几个员工」这种问题走的就是这一路。
+    <span class="rule">一句话口径：<b>装了的靠检测拿结论，没装的靠模型现场看；视频留在店里，出店的是告警事件和按需抽的那一帧。</b></span>
+  </div>
+
+  <div class="lede">
+    <b>两条路径必须分开讲</b>。MVP 要证明的是「这 8 类能不能稳定检出来」；商业化要证明的是「督导能不能少跑几家店」。
+    混着讲，两边都不成立：技术负责人拿成本打你，业务负责人拿准确率打你。
+  </div>
+
+  <h2><span class="n">1</span>路径一：MVP 的技术可行性</h2>
+
+  <p class="muted">评分口径和上一个项目一致：技术可行性看「今天能不能做对」，数据/工程难度看「做对要付多少代价」，商业价值看「客户愿不愿意为它掏钱」。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>能力线</th><th>技术可行性</th><th>数据/工程难度</th><th>商业价值</th><th>定性</th></tr></thead>
+      <tbody>
+        <tr><td><b>端侧 YOLO 系闭集检测</b></td><td>★★★★☆</td><td>★★★☆☆</td><td>★★★★☆</td><td>成熟。难的不是检出，是<b>一个事件怎么定义</b>才算「违规」</td></tr>
+        <tr><td><b>数量类检测与计数</b></td><td>★★★★☆</td><td>★★★☆☆</td><td>★★★★☆</td><td>饮料 / 货物 / 物料 / 备料 / 耗材五类。靠时间窗去重合并成一次事件，<b>不是数单帧的框</b></td></tr>
+        <tr><td><b>有效期与日期识别</b></td><td>★★★★☆</td><td>★★★★☆</td><td>★★★★★</td><td>检测框定位 + <b>OCR 读字</b> + 日期规则校验。比大模型可复算，出错能查。难在反光、褶皱、包装弧面</td></tr>
+        <tr><td><b>清洁度判断（客区 / 柜面）</b></td><td>★★☆☆☆</td><td>★★★★★</td><td>★★★★☆</td><td>最难的一类。「脏」没有客观边界，得把状态翻译成可数的违规物</td></tr>
+        <tr><td><b>硬件与部署（AI BOX / POE / NVR）</b></td><td>★★★★★</td><td>★★★★☆</td><td>★★★☆☆</td><td>技术不难，工程量在：物业沟通、电源插座、网络、进店安装、调试</td></tr>
+        <tr><td><b>后端大模型二次分析</b></td><td>★★★★☆</td><td>★★☆☆☆</td><td>★★★★☆</td><td>把事件列表翻成「今天先看这几件」。这是它该干的，也是它干得最好的</td></tr>
+        <tr><td><b>VLM 按需抽帧（补盲区）</b></td><td>★★★★☆</td><td>★★★☆☆</td><td>★★★★☆</td><td>项目里已经在用：没装专项的问题抽一张当前帧，让模型直接看画面回答。<b>难点不在模型，在「什么问题能这样问」</b></td></tr>
+        <tr><td><b>端到端 VLM 当主机位</b></td><td>★★☆☆☆</td><td>★★★★★</td><td>★★☆☆☆</td><td>被成本和必要性否掉。24×7 连续理解，且五类计数根本不需要语义理解</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">8 类检测项，不在一个难度上</h3>
+
+  <p class="muted">同样叫「检测」，这 8 项的技术路径不一样。讲清楚这个分层，比罗列 8 个名词可信得多。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>检测项</th><th>类型</th><th>难度</th><th>难在哪 / 怎么打</th></tr></thead>
+      <tbody>
+        <tr><td><b>饮料数量、货物数量、物料数量、备料数量、打印耗材数量</b></td><td style="white-space:nowrap">计数</td><td>★★★★☆</td><td>目标形状稳定、类别可穷举，YOLO 能出框。难在遮挡和堆叠——解法不是把单帧调到极限，是<b>时间窗内去重合并</b>，报「这段时间某货架维持 N 件」</td></tr>
+        <tr><td><b>有效期识别</b></td><td style="white-space:nowrap">读文字</td><td>★★★★☆</td><td>检测框先框住日期区，再 <b>OCR</b> 出字符（如 04.29），最后用日期规则校验。选 OCR 不选 VLM 是因为<b>要可复算</b>。难在反光、褶皱、包装弧面</td></tr>
+        <tr><td><b>客区清洁、柜面清洁</b></td><td style="white-space:nowrap">状态</td><td>★★☆☆☆</td><td>「脏」不是物体，没有边界。工程上要<b>翻译成物体判断</b>：「台面上有 3 个未收走的杯子」可以标可以检，「这里很脏」不行</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">数据怎么走（30 秒能讲完的那张图）</h3>
+
+  <div class="flow">
+    <svg viewBox="0 0 720 476" role="img" aria-label="端侧 AI BOX 用 YOLO 做专项检测并把关键帧与前后 5 秒视频存本地；店长提问后按有没有专项算法分两路：有就查事件库拿片段，没有就现场抽帧交给后台多模态大模型分析画面">
+      <defs>
+        <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8ada2"/>
+        </marker>
+        <marker id="ar3d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#b4441f"/>
+        </marker>
+      </defs>
+
+      <text x="24" y="28" font-size="11.5" fill="#8d857d" letter-spacing="0.08em">① 端侧一直在跑（不用人问）</text>
+
+      <rect x="24" y="42" width="150" height="58" rx="8" fill="#fff" stroke="#d8d0c6"/>
+      <text x="99" y="68" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1b1917">门店摄像头</text>
+      <text x="99" y="87" text-anchor="middle" font-size="11" fill="#6f685f">多路 · 固定机位</text>
+
+      <line x1="174" y1="71" x2="194" y2="71" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="196" y="42" width="204" height="58" rx="8" fill="#fdf7f4" stroke="#b4441f" stroke-width="1.6"/>
+      <text x="298" y="66" text-anchor="middle" font-size="13.5" font-weight="600" fill="#8f3517">AI BOX · YOLO 专项检测</text>
+      <text x="298" y="85" text-anchor="middle" font-size="11" fill="#6f685f">8 类 SOP 项 · 带置信度</text>
+
+      <line x1="400" y1="71" x2="420" y2="71" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="422" y="34" width="274" height="74" rx="8" fill="#f2f6f2" stroke="#9db39f"/>
+      <text x="559" y="58" text-anchor="middle" font-size="13.5" font-weight="600" fill="#3d5a41">本地事件库</text>
+      <text x="559" y="77" text-anchor="middle" font-size="11" fill="#4d4842">告警日志 · 关键帧 · 前后 5s 视频</text>
+      <text x="559" y="95" text-anchor="middle" font-size="10.5" fill="#7d8a7f">视频存店内 · 告警事件同步品牌后台</text>
+
+      <line x1="42" y1="132" x2="678" y2="132" stroke="#e3dfd8" stroke-width="1"/>
+
+      <text x="24" y="158" font-size="11.5" fill="#8d857d" letter-spacing="0.08em">② 有人问了，按「有没有专项算法」分两路</text>
+
+      <rect x="24" y="172" width="150" height="56" rx="8" fill="#fff" stroke="#d8d0c6"/>
+      <text x="99" y="197" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1b1917">店长 / 督导提问</text>
+      <text x="99" y="215" text-anchor="middle" font-size="11" fill="#6f685f">「今天客区干净吗」</text>
+
+      <line x1="174" y1="200" x2="194" y2="200" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="196" y="172" width="132" height="56" rx="8" fill="#fdf7f4" stroke="#b4441f" stroke-width="1.6"/>
+      <text x="262" y="197" text-anchor="middle" font-size="13.5" font-weight="600" fill="#8f3517">问询路由</text>
+      <text x="262" y="215" text-anchor="middle" font-size="11" fill="#6f685f">查有没有这专项</text>
+
+      <path d="M 262 228 L 262 252 L 176 252 L 176 274" fill="none" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+      <path d="M 262 228 L 262 252 L 452 252 L 452 274" fill="none" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="24" y="276" width="304" height="72" rx="8" fill="#f2f6f2" stroke="#9db39f"/>
+      <text x="176" y="300" text-anchor="middle" font-size="13" font-weight="600" fill="#3d5a41">A · 命中专项 → 查事件库</text>
+      <text x="176" y="319" text-anchor="middle" font-size="11" fill="#4d4842">拿出这条告警 + 关键帧 + 前后 5 秒</text>
+      <text x="176" y="337" text-anchor="middle" font-size="10.5" fill="#7d8a7f">答案是可复算的，不是模型编的</text>
+
+      <rect x="352" y="276" width="150" height="72" rx="8" fill="#fff" stroke="#d8d0c6"/>
+      <text x="427" y="300" text-anchor="middle" font-size="13" font-weight="600" fill="#1b1917">B · 没这专项</text>
+      <text x="427" y="319" text-anchor="middle" font-size="11" fill="#6f685f">现场抽当前帧</text>
+      <text x="427" y="337" text-anchor="middle" font-size="10.5" fill="#7d8a7f">只抽一张，不传整段</text>
+
+      <line x1="502" y1="312" x2="522" y2="312" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="524" y="276" width="172" height="72" rx="8" fill="#fdf7f4" stroke="#b4441f" stroke-width="1.6"/>
+      <text x="610" y="300" text-anchor="middle" font-size="13" font-weight="600" fill="#8f3517">后台多模态大模型</text>
+      <text x="610" y="319" text-anchor="middle" font-size="11" fill="#4d4842">直接看画面元素</text>
+      <text x="610" y="337" text-anchor="middle" font-size="10.5" fill="#8f3517">答的是「现在有几个」这类问题</text>
+
+      <path d="M 176 348 L 176 372 L 360 372 L 360 388" fill="none" stroke="#b8ada2" stroke-width="1.3" marker-end="url(#ar3)"/>
+      <path d="M 610 348 L 610 372 L 360 372" fill="none" stroke="#b8ada2" stroke-width="1.3"/>
+
+      <rect x="228" y="392" width="264" height="54" rx="8" fill="#fff" stroke="#b4441f" stroke-width="1.6"/>
+      <text x="360" y="415" text-anchor="middle" font-size="13.5" font-weight="600" fill="#8f3517">回答 + 可回看的片段</text>
+      <text x="360" y="433" text-anchor="middle" font-size="10.5" fill="#6f685f">说得出口，也指得回画面</text>
+
+      <text x="360" y="466" text-anchor="middle" font-size="11.5" fill="#6f685f">不是「摄像头 + 大模型直连」，是「检测 → 事件 → 路由 → 回答」四段。</text>
+    </svg>
+    <p class="cap">图：端侧 YOLO 常驻检测，告警连同关键帧与前后 5 秒存在店内；<br>告警事件本身同步到品牌后台，他们拿去和自己的数据做二次加工。<br>提问后先查有没有这项专项——有就调结果和片段，没有就抽一张当前帧交给后台模型看。</p>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">四个技术判断</h3>
+
+  <div class="two">
+    <div>
+      <h4>① 视频留在店里，出店的是告警事件</h4>
+      <p>关键帧和前后 5 秒存在店内（AI BOX + NVR），<b>不上云</b>；<b>告警事件本身（结构化）同步到品牌后台</b>，他们拿去和自己的数据做二次加工。</p>
+      <p class="muted">这条是<b>我和客户一起定的</b>，不是单方面技术决定。驱动因素是<b>带宽</b>：多路 1080p 连续上传，门店宽带和云存储账单都扛不住。隐私是顺带的收益——录像里都是顾客和员工的脸。</p>
+      <p class="muted">只有「没装专项」的那一路会抽当前帧出去，一次一张。</p>
+    </div>
+    <div>
+      <h4>② 数量靠事件，不靠单帧</h4>
+      <p>一帧里数出 7 个箱子，不等于有 7 箱货。要在时间窗内去重合并，输出「这段时间某货架维持 7 件」，才可报警。</p>
+      <p class="muted">这也是为什么「开放词表计数」听起来玄，实际是：检测框 + 语言描述匹配 + 时间窗合并。</p>
+    </div>
+    <div>
+      <h4>③ 把状态判断翻译成物体判断</h4>
+      <p>「柜台脏」没法标、没法检、没法验收。「台面上有 3 个未收走的杯子」可以。</p>
+      <p class="muted">这一步是这套东西能落地的关键：不是模型变强了，是问题被重新定义了。</p>
+    </div>
+    <div>
+      <h4>④ 大模型干两种活，但都不做判定</h4>
+      <p>一种是<b>汇总</b>：把当天事件翻成「先看这几件、可能的原因」。另一种是<b>补盲区</b>：没装专项的问题，现场抽一张帧让它直接看——「现在店里几个员工」就是这类。</p>
+      <p class="muted">边界在：它给的是<b>观察</b>，不是<b>结论</b>。判定和处置仍然是人。</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">明确没做的</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>没做</th><th>为什么</th></tr></thead>
+      <tbody>
+        <tr><td>营收 / 交易分析</td><td>品牌内部数据，不外接。我们只交结构化事件，他们拿去做自己的加工</td></tr>
+        <tr><td>员工身份识别</td><td>不认人，只认「有没有按规范做」。认人就进个人信息合规，收益也不值这个风险</td></tr>
+        <tr><td>跨镜 reID</td><td>多机位不做同一目标的跨镜连续追踪，各机位独立出事件</td></tr>
+        <tr><td>端到端 VLM 当主机位</td><td>24×7 连续理解成本不成立，且五类计数用不上语义理解。VLM 只在「没有专项」时按需抽帧补位</td></tr>
+        <tr><td>自动处置 / 自动处罚</td><td>系统只出清单和建议，处置权在督导和店长</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2><span class="n">2</span>路径二：商业化</h2>
+
+  <p class="muted">技术能跑通和生意能成立是两件事。这一段只讲生意：一店要花多少、客户为什么买、复制卡在哪。</p>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">一店要花的钱，和一批店要花的工时</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>环节</th><th>内容</th><th>一批 50 家</th><th>折合每店</th></tr></thead>
+      <tbody>
+        <tr><td><b>硬件</b></td><td>AI BOX + POE 交换机 + 摄像头 + NVR</td><td>按店配 · 随点位变</td><td>—</td></tr>
+        <tr><td><b>安装前准备</b></td><td>物业沟通、电源插座、订摄像机与硬盘、客户工作站账号、备货到客户仓库、门店订货</td><td>10 工时</td><td>≈ 0.2</td></tr>
+        <tr><td><b>备货与发货</b></td><td>全套硬件进客户北京仓库，再分发到门店</td><td>35 工时</td><td>≈ 0.7</td></tr>
+        <tr><td><b>设备安装</b></td><td>进店装 AI BOX、POE 交换机、摄像头、NVR</td><td>25 工时</td><td>≈ 0.5</td></tr>
+        <tr><td><b>算法部署</b></td><td>门店算法开发、标注、调试与首轮优化</td><td>29 工时</td><td>≈ 0.6</td></tr>
+        <tr style="background:#fdf8f4"><td><b>合计</b></td><td>—</td><td><b>99 工时</b></td><td><b>≈ 2 工时</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="muted">这 99 工时是<b>一批 50 家</b>的总投入，不是一家店。折合每店约 2 工时——这是这套东西最值钱的数字：<b>算法是一次开发的，后面是配置，不是每家重来一遍</b>。铺得越多，单店摊得越薄。</p>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">定价，和客户到底买什么</h3>
+
+  <div class="two">
+    <div>
+      <h4>约 2000 元 / 店</h4>
+      <p>这是<b>洽谈口径，不是成交均价</b>。报的时候要把这半句带上——把「没成交」提前说了，反而显得实。</p>
+      <p class="muted">被问「怎么定的」：从客户省下的督导人力与差旅倒推，不是成本加成。</p>
+    </div>
+    <div>
+      <h4>客户买的不是「少一个店员」</h4>
+      <p>是<b>督导少跑店</b> + <b>SOP 执行率能算出来</b>。</p>
+      <p class="muted">以前督导一周跑 5 家，靠眼看手记；现在每店每天出一张「不达标清单」，督导按清单去，只处理红的那几家。这是效率账，不是人头账。</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">复制要过的三个前提</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>前提</th><th>要成立的条件</th><th>不成立会怎样</th></tr></thead>
+      <tbody>
+        <tr><td><b>硬件装得进去</b></td><td>老店的电力、点位、网络能支持；物业愿意配合打孔走线</td><td>单店实施周期从一天变一周，规模化的账立刻崩</td></tr>
+        <tr><td><b>单店账能平</b></td><td>2000 元/年（或按周期）对得上督导跑店成本</td><td>客户只买标杆店，不铺量</td></tr>
+        <tr><td><b>新店型能被模板吸收</b></td><td>新客户的门店布局、点位、类别差异，能套现有点位模板和类别模板，只改配置</td><td>每家都得重新标注调试，2 工时/店会退回 20 工时/店</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">风险排序</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>风险</th><th>概率</th><th>影响</th><th>怎么防</th></tr></thead>
+      <tbody>
+        <tr><td>新店型适配靠人工重标</td><td>中</td><td>高</td><td>把「门店差异」收敛成可配置项（点位模板、类别模板、阈值档）；每接一个新客户，先问「能不能套模板」</td></tr>
+        <tr><td>清洁类准确率上不去，误报消耗信任</td><td>高</td><td>高</td><td>清洁类单独走「疑似」档，不进正式告警；先卖数量类</td></tr>
+        <tr><td>有效期识别读不准，产生合规风险</td><td>中</td><td>高</td><td>只报「疑似临期」让人复核，不自动下架</td></tr>
+        <tr><td>客户内部另做一套，替代你</td><td>中</td><td>中</td><td>把「事件数据」做成他们的输入，而不是跟他们抢分析层</td></tr>
+        <tr><td>硬件故障与运维跟不上</td><td>中</td><td>中</td><td>NVR 本地留存 + 远程健康巡检</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2><span class="n">3</span>HR 会问什么</h2>
+
+  <div class="qa-group">
+    <h3>项目与角色 <span class="cnt">4 组</span></h3>
+
+    <details class="qa" id="retail-01"><summary><span class="qno">01</span>这个项目你具体负责什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你是「产品」还是「写 PRD 的」。也判断你会不会把别人的活说成自己的。</dd>
+          <dt>答到哪一层</dt><dd>四件事，按「我决定的」排序：<b>① 检测项的定义</b>（8 类 SOP 项，每类怎么算违规、阈值谁来定）；<b>② 交付节奏</b>（50 家测试门店分批发，先标杆店后复制）；<b>③ 技术路线的取舍</b>（端侧检测 + 后端分析，否掉端到端 VLM）；<b>④ 与品牌方的边界</b>（我们只交结构化事件，营收分析他们自己做）。</dd>
+          <dt>踩雷话</dt><dd>别说「我负责整个项目」。也别说「技术是研发做的」——路线是你否的，这个功劳要拿住，但只拿到「路线决策」这一层。</dd>
+        </dl>
+        <div class="tip">加分句：「实现细节我不到算法同事那一层，但路线是我参与定并签了字的。」——这句话同时给了边界和担当。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-02"><summary><span class="qno">02</span>团队多少人，你对接谁？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你是「能推动事的人」还是「被安排事的人」。</dd>
+          <dt>答到哪一层</dt><dd>说清三件事：<b>产品侧几个人</b>、<b>对接哪些角色</b>（算法 / 端侧 / 后端 / 交付实施 / 客户运营）、<b>你的决策边界</b>（检测项定义和产品形态你定，模型选型由算法负责人定，冲突时一起拍）。</dd>
+          <dt>踩雷话</dt><dd>别报虚高人数，也别说「我一个人全包」——这套链路一个人做不出来，说了反而不信。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-03"><summary><span class="qno">03</span>一个月做出 MVP，怎么做到的？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>「一个月」要么是能力，要么是吹牛。他想知道你怎么砍的。</dd>
+          <dt>答到哪一层</dt><dd>不是加班加出来的，是<b>先砍到一条链路</b>：一个场景（货架）+ 一类检测（数量）+ 一种输出（事件列表 → 一句结论）。8 类里先做最有把握的计数类，清洁和有效期排在后面。</dd>
+          <dt>踩雷话</dt><dd>别说「一个月上线」。说「一个月做到可演示」——演示和生产之间还差评测、灰度、交付。</dd>
+        </dl>
+        <div class="redline"><b>红线</b>：不要说「一个月就上线了多少家」。一个月做到的是<b>可演示</b>，到铺开之间还差评测、灰度、交付——规模是后面的事，分开讲才可信。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-04"><summary><span class="qno">04</span>简历写 2000+ 门店，具体是你铺到哪一步？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>最狠的一问。他想分清<b>渠道铺的量</b>和<b>你的算法真在跑的店</b>——这两个数字经常被混着说，也经常被混着吹。</dd>
+          <dt>答到哪一层</dt><dd>先给两个口径，再说自己在哪一层：<b>2000+ 是系统覆盖</b>（摄像头与 AI BOX 已经装好的店）；<b>这个项目是把 8 类 SOP 算法在这些店上跑起来</b>，从 50 家测试门店起步，现在已经铺到 2000+。<br>如果两个数字不完全一样（系统覆盖 &gt; 算法全量），<b>主动说出来</b>，别等对方追问。分层讲不是减分，是显得你知道自己在说什么。</dd>
+          <dt>踩雷话</dt><dd>别说「我谈下了 2000 家」——那是渠道和销售的功。<br>也别含混地说「2000 家都在用」——下一问「哪 2000 家、什么时候铺的、验收标准是什么」就崩。</dd>
+        </dl>
+        <div class="tip">加分句：「2000+ 是资产，也是包袱——它让复制变快，也让客户拿旧标准（准不准）来评估新东西（省不省人）。规模是渠道给的，能不能在上面长出新产品形态，才是这一段要证明的。」</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="qa-group">
+    <h3>动机与稳定性 <span class="cnt">4 组</span></h3>
+
+    <details class="qa" id="retail-05"><summary><span class="qno">05</span>为什么从纯 CV 转到大模型？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>怕你是追风口的，也怕你只会追风口。</dd>
+          <dt>答到哪一层</dt><dd>不是技术追新，是<b>客户买的东西变了</b>：CV 时代客户买「看得更准」，现在客户问「这些数据能不能直接告诉我该去哪家店」。同一个场景，两套产品定义。</dd>
+          <dt>踩雷话</dt><dd>别说「因为大模型是趋势」。趋势跟你没关系，客户需求才跟你有关系。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-06"><summary><span class="qno">06</span>这个项目里最难的一次判断是什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>听你有没有真的做过取舍，而不是执行需求。</dd>
+          <dt>答到哪一层</dt><dd>最难的是<b>把「清洁」这类项纳入还是踢出 MVP</b>。业务上它最刚需（客区脏是最直观的投诉点），技术上它最不可控（「脏」没有客观边界）。最后的判断是：<b>纳入，但改定义</b>——不判「脏不脏」，判「有没有 N 个未收走的物品」，并且单独走「疑似」档不进正式告警。</dd>
+          <dt>踩雷话</dt><dd>别说「都挺难的」。要挑一个「当时真的拿不准、事后有结论」的。</dd>
+        </dl>
+        <div class="tip">加分句：「这次判断让我确认一件事：AI 产品的难点常常不在模型，在把需求翻译成模型能判的问题。」</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-07"><summary><span class="qno">07</span>为什么离开上一家？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>排除「被优化」「跟团队闹翻」「项目黄了跑路」。</dd>
+          <dt>答到哪一层</dt><dd>说方向，不说人。可用的口径：「这套东西已经跑通到可复制阶段，接下来更多是运营和渠道的活。我想继续做 0 到 1 的产品定义。」</dd>
+          <dt>踩雷话</dt><dd>别吐槽前公司、前领导、客户。这个行业圈子小。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-08"><summary><span class="qno">08</span>你希望下一份工作是什么样？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你会不会干三个月就走，也判断你对自己有没有定位。</dd>
+          <dt>答到哪一层</dt><dd>给三条，越具体越好：<b>有真实场景和数据</b>（不是纯做 demo）、<b>技术团队在同一个城里、能一起拍方案</b>、<b>产品能碰到交付</b>（不做只写文档的岗）。</dd>
+          <dt>踩雷话</dt><dd>别说「希望有成长空间」「希望有挑战」——这两句等于没说。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">4</span>技术负责人会从哪一层接进来</h2>
+
+  <p class="muted">这一组是真正的战场。他不会问「你懂不懂 YOLO」，他会从你已经说出口的那句话往下剥。</p>
+
+  <div class="qa-group">
+    <h3>检测与算法 <span class="cnt">5 组</span></h3>
+
+    <details class="qa" id="retail-09"><summary><span class="qno">09</span>这 8 类是怎么检的？闭集还是开放？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>一开口就知道你有没有真碰过检测。把「开放词表」和「检测模型」混着说，立刻露。</dd>
+          <dt>答到哪一层</dt><dd>分三层说：<b>检测</b>——YOLO 系，<b>闭集</b>，类别固定；<b>匹配</b>——检测框 + 语言描述做匹配，这是「开放词表」真正待的地方；<b>归并</b>——时间窗去重合并成事件。</dd>
+          <dt>踩雷话</dt><dd>别说「YOLO 支持开放词表」。它不支持。开放是靠后置匹配补的。</dd>
+        </dl>
+        <div class="tip">加分句：「闭集不是缺点，是选择——8 类 SOP 项本来就有限，闭集换来的是端侧能跑、结果稳定、出问题能定位。」</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-10"><summary><span class="qno">10</span>为什么选 YOLO 系，不用更新的模型？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你是「按业务选型」还是「按排行榜选型」。</dd>
+          <dt>答到哪一层</dt><dd>不是选 SOTA，是选<b>能在存量 AI BOX 上跑到可用帧率</b>的那一类：导出、量化、部署链路成熟，现场出问题有人能接。换更新的模型要先答三个问题：盒子跑得动吗、精度提升换成什么业务指标、现场出问题谁兜。</dd>
+          <dt>踩雷话</dt><dd>别说「因为 YOLO 最先进」。它不最先进，它是性价比最合适。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-11"><summary><span class="qno">11</span>YOLO 什么时候会失效？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这题答好是加分，答不好是「只会调包」。</dd>
+          <dt>答到哪一层</dt><dd>五类：小目标（远处货架）、密集遮挡（堆头、人群）、逆光与夜间、类别漂移（换包装、上新品）、视角形变（鱼眼、俯角）。兜法不是把模型调到极限，是<b>事件化 + 阈值分层 + 客户可调</b>：不追求单帧准，追求事件级对；判不准的进「疑似」档。</dd>
+          <dt>踩雷话</dt><dd>别说「我们的模型不会错」。这一句会把整场变成找反例。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-12"><summary><span class="qno">12</span>「客区清洁」这种怎么判断？脏不脏没有标准。</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这题最能分出「想过」和「没想过」。状态类判断是最难的一类。</dd>
+          <dt>答到哪一层</dt><dd>关键动作是<b>把状态翻译成物体</b>：不判「这里脏」，判「桌面上有没有未收走的杯子 / 餐盘 / 纸巾」，再加一条「是否有顾客在座」排除正常使用。输出的不是「脏」，是「N 个违规物 + 置信度」。</dd>
+          <dt>踩雷话</dt><dd>别说「用多模态大模型看一眼就知道」。24×7 每路每帧都过一遍大模型，账单不成立。</dd>
+        </dl>
+        <div class="tip">加分句：「这类项我们单独走『疑似』档，不进正式告警——因为它天生会误报，宁可让人复核，也不能让督导白跑。」</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-13"><summary><span class="qno">13</span>有效期识别准不准？读错了怎么办？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这关系到合规风险。读错一个日期可能变成食品安全事故；也在看你知不知道「读」和「判」是两件事。</dd>
+          <dt>答到哪一层</dt><dd><b>读用 OCR，不是用大模型。</b>先由检测框定位到日期那一块，再 OCR 出字符，然后用日期规则校验（月份 1–12、日不超过当月、和包装格式比对）。选 OCR 不选 VLM 的理由是：<b>可复算</b>——同样的图跑两次结果一样，出问题能查；VLM 可能今天读成 04.29、明天读成 04.20，没法向客户交代。<br>判是另一段：读到之后和当天比、和临期阈值比。所以只输出「疑似临期」，<b>不自动下架</b>，人工复核后处置。</dd>
+          <dt>踩雷话</dt><dd>别说「识别率 99%」。这类场景没人信，而且一旦有一个反例，整场失效。</dd>
+        </dl>
+        <div class="tip">加分句：「凡是会被追责的字段，我都优先选可复算的方案——OCR 加规则，而不是让模型『再看一遍』。」</div>
+        <div class="redline"><b>红线</b>：不能让系统承担「判断过期」的责任。它只提示，处置是人。</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="qa-group">
+    <h3>系统与工程 <span class="cnt">4 组</span></h3>
+
+    <details class="qa" id="retail-14"><summary><span class="qno">14</span>数量怎么数？一帧里有几个框就算几件？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这是「调包」和「工程」的分水岭。</dd>
+          <dt>答到哪一层</dt><dd>不是。单帧计数会被遮挡、拿取动作、镜头抖动打断。做法是<b>时间窗内去重合并</b>：同一位置同一类别的框，在窗口内维持稳定才计为一件，输出「某货架在某时段维持 N 件」。</dd>
+          <dt>踩雷话</dt><dd>别说「我们用了追踪算法所以很准」。追踪在密集场景一样会 ID switch。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-15"><summary><span class="qno">15</span>大模型在这套里到底干什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>排除「为了用大模型而用大模型」。</dd>
+          <dt>答到哪一层</dt><dd><b>两种活</b>。一种是对着事件库做<b>汇总与归因</b>：今天哪几家店哪几项不达标、可能的原因、先看哪个——输入结构化事件，输出一段人话。另一种是<b>补盲区</b>：问题没有对应专项算法时，现场抽当前帧，让它直接看画面回答，「现在店里有几个员工在岗」就是这一类。<b>但两种都不做判定</b>，判定和处置是人。</dd>
+          <dt>踩雷话</dt><dd>别说「大模型能理解视频」。它看的是一张一张按需抽的帧，不是连续视频流。</dd>
+        </dl>
+        <div class="tip">加分句：「它替代的不是算法，是督导每天翻表格的那两个小时——以及那些「没装算法就只能自己跑一趟」的问题。」</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-16"><summary><span class="qno">16</span>为什么不端到端用 VLM 直接读监控？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你是被技术潮流推着走，还是有成本意识。</dd>
+          <dt>答到哪一层</dt><dd>两条理由。<b>必要性</b>：五类计数根本不需要语义理解，闭集检测就够；<b>成本</b>：多路 1080p 24×7 连续理解，单店账单顶得上一个店员的月薪，而客户只愿意付 2000 元/店。</dd>
+          <dt>踩雷话</dt><dd>别说「VLM 不准」。它在很多任务上很准，问题是这个场景用它不划算。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-17"><summary><span class="qno">17</span>门店怎么部署？一家要多久？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这是最实的一问。答得出细节，说明你真去过现场。</dd>
+          <dt>答到哪一层</dt><dd>分四段：<b>安装前准备</b>（物业沟通、电源插座、订摄像机与硬盘、客户工作站账号、备货到客户仓库、门店订货）、<b>备货与发货</b>（全套硬件进客户仓库再分发）、<b>设备安装</b>（AI BOX、POE 交换机、摄像头、NVR 进店）、<b>算法部署</b>（门店算法开发、标注、调试与首轮优化）。</dd>
+          <dt>踩雷话</dt><dd>别说「装上去就能用」。真正的坑在电源和网络：老店插座不够，要新增两口或一口。</dd>
+        </dl>
+        <div class="tip">加分句：「这四段里最难的不是装硬件，是第三段和第四段之间——装完了算法还没调好，那几天门店是有摄像头但没结论的。」</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="qa-group">
+    <h3>评测与边界 <span class="cnt">3 组</span></h3>
+
+    <details class="qa" id="retail-18"><summary><span class="qno">18</span>8 类项的准确率怎么评？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>没有评测就没有产品，只有 demo。</dd>
+          <dt>答到哪一层</dt><dd>分类别看：<b>计数类</b>看「事件级是否命中」（一个时段内数量判断对不对），不是看单帧 mAP；<b>清洁类</b>看「疑似档的召回 + 正式告警的准确率」两个数；<b>有效期</b>看「读到率 + 读对率」分开算。</dd>
+          <dt>踩雷话</dt><dd>别只报一个「准确率 90%」。8 类项混在一起的平均数没有意义。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-19"><summary><span class="qno">19</span>误报多了，门店会怎样？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>想知道你懂不懂「可用门槛」——低于门槛用户不是少用，是完全不用。</dd>
+          <dt>答到哪一层</dt><dd>误报的代价不是「多看一眼」，是<b>督导白跑一趟</b>。所以设计上做了三档：高置信直接进清单、中置信让人确认、低置信只记录不推送。宁可漏报也不要把人骗出门。</dd>
+          <dt>踩雷话</dt><dd>别说「误报率很低」。要说「我们把误报挡在哪一层」。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-20"><summary><span class="qno">20</span>这套东西能换到别的场景吗？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你做的是「项目」还是「能力」。</dd>
+          <dt>答到哪一层</dt><dd>可复用的是<b>骨架</b>：端侧检测 → 事件库 → 大模型汇总 → 人处置。不可复用的是<b>检测项定义和阈值</b>——换到别的连锁业态，8 类项全要重写，还要重新标数据。</dd>
+          <dt>踩雷话</dt><dd>别说「一套系统能通用所有零售」。这句话会让技术负责人觉得你没做过交付。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">5</span>业务 / 项目负责人会问什么</h2>
+
+  <div class="qa-group">
+    <h3>价值与生意 <span class="cnt">5 组</span></h3>
+
+    <details class="qa" id="retail-21"><summary><span class="qno">21</span>这个系统到底解决了什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>他要一句能转述给老板的话。</dd>
+          <dt>答到哪一层</dt><dd>一句话：<b>把「督导靠腿巡店」变成「督导按清单去」。 </b>50 家店每天自动出「哪几项不达标」，督导不用一家家看，只处理红的那几家。</dd>
+          <dt>踩雷话</dt><dd>别说「用 AI 提升管理效率」。这是正确的废话。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-22"><summary><span class="qno">22</span>客户为什么愿意买？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你懂不懂 B 端采购逻辑：买的人不一定是痛的人。</dd>
+          <dt>答到哪一层</dt><dd>三层人三种理由：<b>运营负责人</b>要 SOP 执行率可量化（以前只能靠督导主观打分）；<b>督导</b>要少跑冤枉路；<b>老板</b>要「2000+ 家店和一个督导能管住」的可复制性。</dd>
+          <dt>踩雷话</dt><dd>别说「因为 AI 很火」。B 端不为技术买单。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-23"><summary><span class="qno">23</span>2000 元一店是怎么定的？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你会不会算账，也看你诚不诚实。</dd>
+          <dt>答到哪一层</dt><dd>从客户侧倒推：一个督导管多少店、跑一次店的时间成本、SOP 违规带来的损失，折出客户能接受的年费区间，再对硬件与部署成本。这是<b>洽谈口径，不是成交均价</b>。</dd>
+          <dt>踩雷话</dt><dd>别说「成本加成定价」。硬件成本一摊，这个价格根本站不住。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-24"><summary><span class="qno">24</span>最大的商业化风险是什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你敢不敢说真话。只说好话的人不敢用。</dd>
+          <dt>答到哪一层</dt><dd>先破一个误解：<b>不是人堆</b>。一批 50 家从备货到算法上线总共 99 工时，折合每店 2 工时——因为算法是一次开发的，后面是套模板改配置。真正的风险是<b>换一个客户就套不上</b>：布局、点位、品类都不一样，模板失效就得重新标注调试，每店会从 2 工时退到 20 工时。所以下一步的重点不是压工时，是<b>把门店差异收敛成配置项</b>。</dd>
+          <dt>踩雷话</dt><dd>别说「没有风险」。</dd>
+        </dl>
+        <div class="tip">加分句：「2 工时/店是这套东西的经济性所在；它什么时候失效，取决于下一家客户的店长什么样。」</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-25"><summary><span class="qno">25</span>只能推一个检测项，你推哪个？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>测试你的优先级判断，也测试你敢不敢放弃。</dd>
+          <dt>答到哪一层</dt><dd><b>数量类里挑一个（比如货物/物料数量）</b>：技术最稳、误报最低、客户最容易感知价值、部署最轻。清洁类虽然最刚需，但误报会消耗信任，适合放到第二阶段。</dd>
+          <dt>踩雷话</dt><dd>别说「8 个都重要」。等于没判断。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+  <div class="qa-group">
+    <h3>规模之后的新问题 <span class="cnt">2 组</span></h3>
+    <p class="ghint">50 家的时候这两个问题不会被问；铺开之后一定会。第 26 组考「规模下这套东西还成不成立」，第 27 组考「你做的是项目还是产品」。</p>
+
+    <details class="qa" id="retail-26"><summary><span class="qno">26</span>这么多店，一天产生多少事件？误报率多少？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>规模一上来，误报的<b>绝对量</b>会吃掉信任。他在验你在 50 家时的指标，撑不撑得到全量。</dd>
+          <dt>先分清两个口径</dt><dd><b>检测次数 ≠ 告警数</b>。8 类算法每路每帧都在跑，但只有判定为异常的才落库成事件。报数字要报<b>日均告警数</b>，不是检测次数——这一句就能看出你是不是真的碰过自己的系统。<br>另一个约束是反过来的：<b>单店日均告警是被「督导处理得完吗」反向限住的</b>，不是技术能产生多少。人处理不完，系统就没人信。</dd>
+          <dt>误报要分类说</dt><dd>三类三套处理，混着报一个数是外行：<br><b>① 计数类 5 项</b>——低。靠时间窗去重，单帧误检不进事件，直接进正式告警。<br><b>② 有效期 1 项</b>——接近零。OCR + 日期规则，可复算、出错能定位到字符。<br><b>③ 清洁类 2 项</b>——<b>高</b>。光照、遮挡、人走过去都会误判，所以单独走「疑似」档，<b>不进正式告警</b>。</dd>
+          <dt>踩雷话</dt><dd>别说「误报率很低」——没数字就是空话。更别说「准确率 99%」——8 类混在一起算平均，是最容易被戳穿的算法，因为清洁类能把它拖到 70 多。</dd>
+        </dl>
+        <div class="tip">加分句：「我们不是把误报率做低了，是<b>把高误报的那一类关在了『疑似』里</b>。误报的绝对量跟着门店数线性涨，所以规模上来以后，能不能隔离高误报项，比把单点准确率再提两个点更重要。」</div>
+        <div class="redline"><b>没有确切数字时</b>：说「单店日均告警在几十条量级，确切数要回后台拉一次」——比编一个数安全。面试官信不信你，取决于你敢不敢说「这个数我要查」。</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-27"><summary><span class="qno">27</span>这么多店怎么运维？算法更新怎么下发？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这一问在测「你做的是<b>项目</b>还是<b>产品</b>」。项目靠人盯，产品靠机制。答不出机制，前面讲的一切都只是把活干完了。</dd>
+          <dt>答到哪一层</dt><dd>分三件事，缺一件就说明没想过规模：<br><b>① 算法包和配置包分开下发</b>。8 类模型是全店统一的，走版本号；ROI 位置、货架号、阈值是每店不同的，走门店档案。分开的好处是换模型不用动配置，改配置不用重训。<br><b>② 下发要能灰度、能回滚</b>。先 1–2 家试点看一周事件量波动，再推一个区域，最后全量。<b>没有回滚通道的下发等于赌博</b>。<br><b>③ 异常要自己冒出来</b>。单店连续几天零事件 = 大概率设备或算法挂了，不是店里突然变完美；单店事件量突增三倍 = 阈值漂了或镜头脏了。这两种都必须自动报到运维，而不是等人巡出来。</dd>
+          <dt>踩雷话</dt><dd>别说「远程升级就行」——OTA 是手段不是方案。更别说「靠人工上门」——这个规模上门，成本模型当场就崩。</dd>
+        </dl>
+        <div class="tip">加分句：「到了这个规模，运维的核心指标不是<b>故障率</b>，是<b>故障被发现的时间</b>。系统自己报不出异常，就等于没运维。」</div>
+        <div class="redline"><b>没做到就承认</b>：如果 OTA 体系还不完整，说「现在的做法是 X，还没做到 Y，这是我看到的下一个瓶颈」。承认没做到比吹一个方案可信——项目负责人听得出方案没落地的味道。</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="qa-group">
+    <h3>推进与下一步 <span class="cnt">3 组</span></h3>
+
+    <details class="qa" id="retail-28"><summary><span class="qno">28</span>下一步要什么资源？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你想清楚没有，还是走一步看一步。</dd>
+          <dt>答到哪一层</dt><dd>三样：<b>算法侧一个人专门做部署标准化</b>（把门店差异变配置）、<b>交付侧一个能独立进店的实施</b>（现在依赖研发跟场）、<b>数据侧一个标注/评测的固定投入</b>（8 类项分开维护评估集）。</dd>
+          <dt>踩雷话</dt><dd>别说「再加几个人」。要说清楚加什么人、干什么、解决哪个卡点。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-29"><summary><span class="qno">29</span>从 50 家铺到 2000+，中间最难的坎是什么？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>这个问题只有真铺过的人才答得上。答「没什么难的」等于没做过；答「多招人」等于没想过。</dd>
+          <dt>答到哪一层</dt><dd>真正的坎不是「装不动」，是三件事同时压上来：<br><b>① 门店差异</b>——布局、点位、品类各不相同，模板一旦对不上，每店工时就从 2 涨到 20；<br><b>② 算法版本管理</b>——8 类要能独立升级，换模型不能把配置一起推倒；<br><b>③ 故障发现</b>——店越多，靠人巡越不可能，系统必须自己报「我可能坏了」。<br>所以规模上来以后，瓶颈从<b>「能不能装」</b>变成<b>「出事多久能知道」</b>。</dd>
+          <dt>踩雷话</dt><dd>别说「多招实施就行」——那是线性加人。也别说「铺得快是因为流程好」——快是因为算法一次开发、后面套模板，别把功劳归给流程。</dd>
+        </dl>
+        <div class="tip">加分句：「前 50 家靠人，后 2000 家靠机制。判断一个项目能不能变成产品，就看它有没有从『人盯』切到『机制盯』。」</div>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-30"><summary><span class="qno">30</span>数据和合规怎么处理？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>门店监控涉及个人信息，出了问题是大事故。</dd>
+          <dt>答到哪一层</dt><dd>三条边界：<b>不认人</b>（不做人脸、不做员工身份关联）、<b>视频留在店里</b>（关键帧和前后 5 秒存本地，出店的是结构化告警事件，这一条是我和客户一起定的，驱动是带宽）、<b>数据归属清晰</b>（事件数据归客户，我们只做处理）。</dd>
+          <dt>踩雷话</dt><dd>别说「我们有脱敏所以没问题」。脱敏不是合规的全部。</dd>
+        </dl>
+        <div class="redline"><b>红线</b>：不要展开讲人脸识别、员工行为画像——那不是这个项目做的，说多了就是给自己挖坑。</div>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">6</span>后台大模型怎么选（当时 / 现在）</h2>
+
+  <div class="lede">
+    <p><b>先把时间钉住</b>：这个项目 2025 年 1 月立项。当时选的是 <b>Qwen2.5-VL</b>，它在 2025-01-26 开源，正好是选型窗口。下面三组问题，前两组问「当时」，第三组问「现在」——面试官问第三组时，考的不是你知道哪个版本新，是你<b>换不换得动脑子</b>。</p>
+  </div>
+
+  <div class="qa-group">
+    <h3>选型的约束与理由 <span class="cnt">3 组</span></h3>
+
+    <details class="qa" id="retail-31"><summary><span class="qno">M1</span>为什么是自己部署开源模型，不调 API？为什么是 Qwen？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>判断你是「按约束选」还是「跟风选」。这个问题答不好，后面所有技术判断都会被怀疑是抄的。</dd>
+          <dt>答到哪一层</dt><dd><b>第一约束是数据不出店</b>，这一条先砍掉了所有公有云 API——门店画面里有顾客和员工的脸，视频既然留在店里，模型也不能把帧发到别人服务器上。<br>剩下是开源可私有化，2025 年 1 月能选的就那么几个。选 Qwen2.5-VL 的三个具体理由：<b>① 中文场景</b>（包装上的中文说明、门店标识）；<b>② 这一版把 OCR 和信息抽取拉了一大截</b>（我们要读包装日期）；<b>③ 开源到 3B / 7B / 72B 三档</b>，能按盒子的显存选，官方还给了量化与部署链路。</dd>
+          <dt>踩雷话</dt><dd>别说「因为它最强」。2025 年 1 月它不是最强，是<b>最合适</b>。也别贬低 API 方案——说清「不是不能，是这一单的数据边界不允许」。</dd>
+          <dt>加分句</dt><dd>「选型不是选最强的，是选约束下最不坏的那个。我们的第一约束是数据不出店，这一条就砍掉了八成候选。」</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-32"><summary><span class="qno">M2</span>那会儿这个模型到底能干到什么程度？边界在哪？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>想验证你是真用过，还是只知道「它看得懂图」。答不出边界，说明你只跑过 demo。</dd>
+          <dt>能做的</dt><dd>① 抽一帧看画面元素：店里几个人、桌上有什么、地上有没有东西——这是「补盲区」那一路的核心；② 读包装上的日期和标识文字（但正式读日期仍走 OCR，因为要可复算）；③ 按指定 JSON 结构输出，接后端不费劲；④ 3B 就能跑起来，7B 在多项任务上超过 GPT-4o-mini（官方给的对比）。</dd>
+          <dt>做不了的</dt><dd>① <b>连续看 24 小时视频</b>——它不是为长时连续理解设计的，成本也不允许；② <b>精确计数</b>——「这排货架几个箱子」同一张图问两次可能给两个数，所以计数走检测 + 时间窗归并；③ <b>可复算</b>——同一个问题两次回答不一样，凡是要被追责的字段都不能交给它；④ 跨机位的同一目标追踪。</dd>
+          <dt>踩雷话</dt><dd>别说「它什么都能干，只是我们没调好」。承认边界比吹能力值钱——技术负责人见过太多「调一调就好了」的人。</dd>
+          <dt>加分句</dt><dd>「我们把它放在『看一帧、答一句』的位置上，不让它承担需要复算的活。这个边界一划，后面所有设计都顺了。」</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="qa" id="retail-33"><summary><span class="qno">M3</span>如果现在重做，你会怎么选？Qwen 新版本强在哪？</summary>
+      <div class="body">
+        <dl class="kv">
+          <dt>他为什么问</dt><dd>看你是不是还停在两年前的判断上。这题最容易答成「当然换最新的」，也最容易露怯。</dd>
+          <dt>先给事实</dt><dd>2025 年 9 月开源了 <b>Qwen3-VL-235B-A22B</b>（MoE，Instruct 与 Thinking 两版），官方口径是 Instruct 在多项视觉感知评测达到或超过 Gemini 2.5 Pro，Thinking 在多模态推理基准上 SOTA；后面还有 <b>8B Dense</b> 版本，显存要求低得多，适合端侧或中小规模部署。</dd>
+          <dt>对我们有意义的提升</dt><dd>三条：<b>① 空间感知</b>——能理解「桌位 A」「靠窗那排」这种指代，正好对上「ROI 要人工标一次」那个痛点；<b>② 长视频与事件定位</b>——2.5 版官方就讲了能理解超过 1 小时视频并定位相关片段，3-VL 这代更强，历史检索那节里「离线索引层」的压力会小一些；<b>③ Thinking 版的多步推理</b>——能把「先看这块、再看那块」串起来，适合复杂提问。</dd>
+          <dt>但架构不会变</dt><dd>换不换不看版本号，看四个约束有没有变：<b>显存 / 延迟 / 成本 / 可复算性</b>。前三个 3-VL 都改善了（8B Dense 显存更低）。<b>第四个没变</b>——模型给不出稳定复算的答案，这不是版本能解决的，是概率模型的本质。所以分工不变：模型在「补盲区」和「汇总」两层，统计与判定仍在检测层和规则层。</dd>
+          <dt>如果重做，会变什么</dt><dd>会变工具，不变分工：补盲区那一路能接更多问题（空间指代、多步推理），可能省掉一部分人工标 ROI 的活；长视频定位真能用的话，离线检索的建索引成本会降。但「今天多少人坐在桌位 A」这种<b>统计型问题，仍然必须走数据库</b>——模型再强也不该去数一整天。</dd>
+          <dt>踩雷话</dt><dd>别说「现在肯定换最新的」，也别说「模型都差不多」。前一句显得没判断，后一句显得没更新。</dd>
+          <dt>加分句</dt><dd>「模型两年一换代，但『哪一类问题必须由确定性系统回答』这条线没动过。换版本会改工具，不改分工。」</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">7</span>附加题：要检索历史视频里的某个目标，怎么做</h2>
+
+  <div class="lede">
+    面试里常被问「你们能不能查『今天一整天有多少人在 A 桌坐着』」。<b>这题不能答「能让大模型看视频」</b>——那是外行答案，一问成本就崩。下面这套是可以直接讲的技术方案。
+  </div>
+
+  <h3 style="font-size:14px; margin:24px 0 6px; color:var(--ink)">先分三类问题，解法完全不同</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th style="width:20%">问的是</th><th style="width:34%">例子</th><th>怎么解</th></tr></thead>
+      <tbody>
+        <tr><td><b>统计型</b></td><td>今天一整天有多少人在 A 桌坐着</td><td><b>只能在检测层做</b>：逐帧检测 + ROI 过滤 + 跨帧串成轨迹 + 按轨迹统计。<b>不能事后让模型看视频</b></td></tr>
+        <tr><td><b>当下状态</b></td><td>现在店里有几个员工</td><td>抽一张当前帧给 VLM 看。<b>项目里已经这么做</b></td></tr>
+        <tr><td><b>片段语义</b></td><td>下午 3 点那桌是不是有人抽烟</td><td>取那个时间窗的几帧（前后 5s）给 VLM 看。<b>要能定位到片段</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:12px"><b>核心判断一句话</b>：模型是「看一眼就能答」的工具，不是「把一天视频看完再数」的工具。前者秒级，后者一天 8 万帧、还数不准。</p>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">方案：两层跑，一层兜底</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th style="width:18%">层</th><th style="width:30%">跑什么</th><th>为哪个问题服务</th></tr></thead>
+      <tbody>
+        <tr><td><b>在线层</b><br><span style="color:#6f685f;font-size:12px">已经在跑</span></td><td>YOLO 检测 + 多目标追踪，实时刻 ROI 进出</td><td>「现在几个」「刚才有没有人违规」——实时告警和当下问答</td></tr>
+        <tr><td><b>离线索引层</b><br><span style="color:#6f685f;font-size:12px">要新增</span></td><td>夜间把当天录像抽帧重跑检测 + 追踪，写<b>时空索引表</b></td><td>「今天一整天多少人在 A 桌坐过」「A 桌总共被占了多少分钟」</td></tr>
+        <tr><td><b>VLM 兜底</b><br><span style="color:#6f685f;font-size:12px">已经在跑</span></td><td>按时间窗取 3–5 帧，让模型描述画面元素</td><td>「这个人有没有戴口罩」「那桌在干什么」——语义问题</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">索引表长什么样（两张就够）</h3>
+
+  <div class="sql">tracks   -- 一条轨迹 = 一个人一次停留
+  track_id    cam_id   cls   roi_id   t_in              t_out             conf
+  tr_8841     3        person  T_A     2026-11-13 09:12  2026-11-13 09:48  0.91
+  tr_8842     3        person  T_A     2026-11-13 10:03  2026-11-13 10:05  0.77
+
+events   -- 一条告警 = 某 SOP 项某刻被判违规
+  event_id    cam_id   type          t                    roi_id   frame_ref   clip_start   clip_end
+  ev_50213    3        table_dirty   2026-11-13 09:50:12  T_A      f_0093112   -5s          +5s</div>
+
+  <p style="margin-top:10px">「今天 A 桌来过多少人」就是一条 SQL：</p>
+
+  <div class="sql"><b>SELECT</b> COUNT(DISTINCT track_id) <b>FROM</b> tracks
+<b>WHERE</b> cam_id = 3 <b>AND</b> roi_id = 'T_A' <b>AND</b> cls = 'person'
+  <b>AND</b> t_in  &lt; '2026-11-14 00:00'
+  <b>AND</b> t_out &gt; '2026-11-13 00:00';</div>
+
+  <p>「A 桌今天被占了多少分钟」同理，把 <code>COUNT</code> 换成<code>SUM(LEAST(t_out, 日终) - GREATEST(t_in, 日初))</code>。注意要<b>按轨迹裁到当天窗口内</b>，否则跨零点的轨迹会被多算。</p>
+
+  <h3 style="font-size:14px; margin:26px 0 6px; color:var(--ink)">可行性与四条硬约束</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th style="width:22%">维度</th><th style="width:12%">评分</th><th>为什么</th></tr></thead>
+      <tbody>
+        <tr><td>技术可行性</td><td class="star">★★★★☆</td><td>检测 + 追踪 + ROI 过滤是成熟管线，没有算法难题</td></tr>
+        <tr><td>工程成本</td><td class="star">★★☆☆☆</td><td><b>算力和存储是真正的门槛</b>，见下面四条</td></tr>
+        <tr><td>数据质量</td><td class="star">★★☆☆☆</td><td>遮挡、密集、跨镜会掉准；越靠近货架和吧台越差</td></tr>
+        <tr><td>商业价值</td><td class="star">★★★★☆</td><td>座位利用率、坪效、服务响应时长——这些是运营真在算的账</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two" style="margin-top:14px">
+    <div>
+      <h4>① 算力：只能夜间补算</h4>
+      <p>1 路 24h 按 1 fps 抽 = 86,400 帧。GPU 上 YOLO 约 200 fps → 单路约 7 分钟。50 家 × 4 路 = 200 路 → 约 23 小时。</p>
+      <p class="muted">结论：<b>当天查不了当天</b>，只能 T+1 出结果。想实时就得在线层常驻算力，成本另算。</p>
+    </div>
+    <div>
+      <h4>② 存储：只存索引不存帧</h4>
+      <p>全帧存下来是 8.6 GB/路/天（1 fps × 100 KB）。<b>只存 track 和 event 两张表</b>，一天一路不到 1 MB。</p>
+      <p class="muted">原始录像本来就躺在 NVR 里，需要回看时按 <code>clip_start</code> 去取，不重复存。</p>
+    </div>
+    <div>
+      <h4>③ ROI 得先标一次</h4>
+      <p>「A 桌」在画面里是哪块多边形，要么人工点一次，要么让 VLM 看一张全景图先给出候选框、人再确认。</p>
+      <p class="muted">标完固化成配置。<b>门店改布局就得重标</b>——这是运营成本，不是技术成本。</p>
+    </div>
+    <div>
+      <h4>④ 跨镜必重复计数</h4>
+      <p>单镜内能算准「几个 track」。一个人从门口走到 A 桌再走到 B 桌，在四个机位里是四个 track，<b>相加会高估</b>。</p>
+      <p class="muted">要去重就得上跨镜 reID，这个项目<b>明确没做</b>。所以答案只能按机位给，不能给「全店人次」。</p>
+    </div>
+  </div>
+
+  <div class="lede" style="border-color:#efd9cc; background:#fdf8f4; margin-top:18px">
+    <b>面试里怎么收</b>：这个问题我们分两类答。<b>「现在有几个」</b>抽一张帧给模型看，秒级；<b>「一整天多少人在 A 桌坐过」</b>得在检测层做——逐帧检测、ROI 过滤、串成轨迹、按轨迹统计，夜里补算、第二天出。<b>不能让模型回看 24 小时视频</b>：一天 8 万多帧，成本扛不住，而且它数不准。
+    <span class="rule">加分句：<b>「模型擅长回答『这一眼里有什么』，不擅长回答『一整天发生了多少次』——后者是数据库的活。」</b></span>
+  </div>
+
+  <h2><span class="n">8</span>三句话记住这一场</h2>
+
+  <div class="lede" style="border-color:#efd9cc; background:#fdf8f4">
+    <b>① 锚句</b>：装了的靠检测拿结论，没装的靠模型现场看；视频留在店里，出店的是告警事件和按需抽的那一帧。<br><br>
+    <b>② 壁垒句</b>：壁垒不在模型，在「把 8 类 SOP 项翻译成机器能判的问题」——清洁翻译成违规物、有效期翻译成读日期加阈值、数量翻译成时间窗内的事件。<br><br>
+    <b>③ 边界句</b>：这个项目从 50 家测试门店起步，现在 2000+ 门店在跑；营收数据是品牌内部数据，我们不接也不碰。
+  </div>
+
+<!-- ========== 项目 03 · 海图智能体 ========== -->
+<div class="projsep"><span>项目 03</span></div>
+
+<h1 id="sec-haitu">海图智能体 · 四个子 Agent</h1>
+<p class="sub">某国家级航海保障机构下属制图单位 · 航行通告处理与专题制图（2026.03–2026.08，已上线）· 角色：需求定义与产品决策（排期与代码不在我这里）</p>
+
+<div class="lede" style="border-color:#efd9cc; background:#fdf8f4">
+  <b>先说清一件事</b>：这个项目不是「一个大模型什么都能干」。真实形态是 <b>四个窄口径子智能体 + 一套共享底座</b>，
+  每个 Agent 只负责一类任务，靠<b>意图路由</b>分流。模型在里面承担的是「判模糊语义」和「组织表达」，
+  <b>不产生数字，不做判定，不碰落库前的最后一道门</b>。
+  <span class="rule">为什么必须这么讲：一旦承认是「通用 Agent」，就要接住「为什么不直接丢给 GPT / 幻觉怎么控 / 多轮怎么记」三连，而这三条恰是这套东西刻意绕开的。</span>
+</div>
+
+<h2><span class="n">1</span>四个子智能体的可行性评分</h2>
+
+<div class="tw">
+  <table>
+    <thead><tr><th>子智能体</th><th>技术可行性</th><th>数据/工程难度</th><th>业务价值</th><th>定性</th></tr></thead>
+    <tbody>
+      <tr><td><b>Agent 3 · 航行通告</b></td><td>★★★★☆</td><td>★★★★☆</td><td>★★★★★</td><td><b>主战场</b>。规则能覆盖七成字段，模型只补语义模糊的那三成；3 万+ 条在库是它最难被复制的部分</td></tr>
+      <tr><td><b>Agent 1 · 问答</b></td><td>★★★★★</td><td>★★★☆☆</td><td>★★★★☆</td><td><b>最容易被低估</b>。难点不在模型，在「数字必须可追溯」这条约束——它决定了整条链路的形状</td></tr>
+      <tr><td><b>Agent 2 · 生产管理</b></td><td>★★★☆☆</td><td>★★★★☆</td><td>★★★☆☆</td><td><b>规则密集</b>。技术不难，难在「排班规则是谁的权」——产品定位只能是「建议」，不能是「决定」</td></tr>
+      <tr><td><b>Agent 4 · 专题图</b></td><td>★★★★☆</td><td>★★★★☆</td><td>★★★★☆</td><td><b>最像产品</b>。一句话出图是体验亮点，但底下的符号化与坐标基准才是真门槛</td></tr>
+      <tr><td><b>四个组合 + 共享底座</b></td><td>★★★★☆</td><td>★★★★★</td><td>★★★★★</td><td>壁垒在<b>底座</b>，不在任何一个 Agent：规则库可配置 + 3 万+ 条在库 + 取数口径统一</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2><span class="n">2</span>系统怎么工作（总图）</h2>
+
+<div class="flow">
+  <svg id="fig-ht" viewBox="0 0 720 498" role="img" aria-label="海图智能体总架构：统一入口按意图路由分流到四个子智能体，四个 Agent 共享一套底座（规则库、在库通告、图属库、取数口径），最后都经过人工确认才落库或出图">
+    <defs>
+      <marker id="h1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/>
+      </marker>
+      <marker id="h1b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/>
+      </marker>
+    </defs>
+
+    <rect x="240" y="10" width="240" height="42" rx="21" fill="#1b1917"/>
+    <text x="360" y="36" text-anchor="middle" fill="#fff" font-size="13.5">制图单位 · 五个科室</text>
+    <line x1="360" y1="52" x2="360" y2="74" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h1a)"/>
+
+    <rect x="270" y="76" width="180" height="38" rx="7" fill="#fff" stroke="#e3dfd8" stroke-width="1.3"/>
+    <text x="360" y="100" text-anchor="middle" font-size="12.5" font-weight="600">统一入口 · 鉴权</text>
+
+    <line x1="360" y1="114" x2="360" y2="132" stroke="#8d857d" stroke-width="1.4"/>
+    <rect x="286" y="132" width="148" height="30" rx="6" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="360" y="152" text-anchor="middle" font-size="12" font-weight="600" fill="#b4441f">意图路由</text>
+
+    <line x1="360" y1="162" x2="360" y2="180" stroke="#8d857d" stroke-width="1.4"/>
+    <line x1="96" y1="180" x2="624" y2="180" stroke="#8d857d" stroke-width="1.4"/>
+    <line x1="96" y1="180" x2="96" y2="200" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h1a)"/>
+    <line x1="272" y1="180" x2="272" y2="200" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h1a)"/>
+    <line x1="448" y1="180" x2="448" y2="200" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h1a)"/>
+    <line x1="624" y1="180" x2="624" y2="200" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h1a)"/>
+
+    <rect x="20" y="202" width="152" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="96" y="226" text-anchor="middle" font-size="12.5" font-weight="600">A1 · 问答</text>
+    <text x="96" y="244" text-anchor="middle" font-size="10.5" fill="#6f685f">问数 / 问文 / 问位置</text>
+    <text x="96" y="259" text-anchor="middle" font-size="10.5" fill="#b4441f">数字走 SQL</text>
+
+    <rect x="196" y="202" width="152" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="272" y="226" text-anchor="middle" font-size="12.5" font-weight="600">A2 · 生产管理</text>
+    <text x="272" y="244" text-anchor="middle" font-size="10.5" fill="#6f685f">台账 → 人岗匹配</text>
+    <text x="272" y="259" text-anchor="middle" font-size="10.5" fill="#6f685f">只出建议，不出决定</text>
+
+    <rect x="372" y="202" width="152" height="66" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="448" y="226" text-anchor="middle" font-size="12.5" font-weight="600" fill="#b4441f">A3 · 航行通告</text>
+    <text x="448" y="244" text-anchor="middle" font-size="10.5" fill="#8f3517">规则 + 模型两步分类</text>
+    <text x="448" y="259" text-anchor="middle" font-size="10.5" fill="#8f3517">主链路 · 3 万+ 在库</text>
+
+    <rect x="548" y="202" width="152" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="624" y="226" text-anchor="middle" font-size="12.5" font-weight="600">A4 · 专题图</text>
+    <text x="624" y="244" text-anchor="middle" font-size="10.5" fill="#6f685f">一句话 → 可下载</text>
+    <text x="624" y="259" text-anchor="middle" font-size="10.5" fill="#6f685f">制图员用它出了 120+ 幅</text>
+
+    <line x1="96" y1="268" x2="96" y2="294" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="272" y1="268" x2="272" y2="294" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="448" y1="268" x2="448" y2="294" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="624" y1="268" x2="624" y2="294" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="96" y1="294" x2="624" y2="294" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="360" y1="294" x2="360" y2="312" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h1a)"/>
+    <text x="360" y="332" text-anchor="middle" font-size="11" fill="#8d857d" letter-spacing=".06em">共享底座（四个 Agent 都建在这上面）</text>
+
+    <rect x="60" y="342" width="600" height="62" rx="8" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="360" y="366" text-anchor="middle" font-size="12" fill="#3d5a41" font-weight="600">规则库（可配置） · 3 万+ 条在库通告 · 图属与几何库 · 统一取数口径</text>
+    <text x="360" y="388" text-anchor="middle" font-size="10.5" fill="#7d8a7f">「明天上头换个文件」这句话，把可配置从加分项变成了上线前提</text>
+
+    <line x1="360" y1="404" x2="360" y2="424" stroke="#b4441f" stroke-width="1.6" marker-end="url(#h1b)"/>
+
+    <rect x="228" y="426" width="264" height="38" rx="19" fill="#b4441f"/>
+    <text x="360" y="450" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">人工确认 / 签字</text>
+    <text x="360" y="480" text-anchor="middle" font-size="11" fill="#8d857d">四个 Agent 都不做最终判定：通告靠编辑签字，排班靠主管确认，出图靠制图员核版</text>
+  </svg>
+</div>
+
+<h2><span class="n">3</span>四个 Agent 各自的链路</h2>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">Agent 1 · 问答 —— 难点不在模型，在「数字不能由模型说」</h3>
+<div class="flow">
+  <svg id="fig-a1" viewBox="0 0 720 330" role="img" aria-label="问答 Agent 链路：用户提问后做意图解析，按要数字、要条文、要位置分三路——数字走 SQL 直出并带口径与截至日期，条文走检索并带出处，位置走图属查询；三路汇总成表格加结论，结论里的数字由查询结果填入而不是模型生成">
+    <defs><marker id="h2a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker></defs>
+
+    <rect x="24" y="16" width="150" height="52" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="99" y="40" text-anchor="middle" font-size="12.5" font-weight="600">提问</text>
+    <text x="99" y="57" text-anchor="middle" font-size="10.5" fill="#6f685f">自然语言</text>
+    <line x1="174" y1="42" x2="194" y2="42" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h2a)"/>
+
+    <rect x="196" y="16" width="150" height="52" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="271" y="40" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">意图解析</text>
+    <text x="271" y="57" text-anchor="middle" font-size="10.5" fill="#6f685f">三分支</text>
+
+    <path d="M 346 42 L 366 42 L 366 96 L 24 96 L 24 118" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h2a)"/>
+    <path d="M 346 42 L 366 42 L 366 96 L 250 96 L 250 118" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h2a)"/>
+    <path d="M 346 42 L 366 42 L 366 96 L 476 96 L 476 118" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h2a)"/>
+    <text x="380" y="90" font-size="10.5" fill="#8d857d">按「要什么」分</text>
+
+    <rect x="24" y="120" width="200" height="66" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="124" y="143" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">要数字 → SQL 直出</text>
+    <text x="124" y="161" text-anchor="middle" font-size="10.5" fill="#4d4842">带取数口径 + 数据截至日期</text>
+    <text x="124" y="176" text-anchor="middle" font-size="10.5" fill="#b4441f">数字不经过模型</text>
+
+    <rect x="250" y="120" width="200" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="350" y="143" text-anchor="middle" font-size="12.5" font-weight="600">要条文 → 检索</text>
+    <text x="350" y="161" text-anchor="middle" font-size="10.5" fill="#6f685f">返回原文片段与出处</text>
+    <text x="350" y="176" text-anchor="middle" font-size="10.5" fill="#6f685f">不做摘要式改写</text>
+
+    <rect x="476" y="120" width="200" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="576" y="143" text-anchor="middle" font-size="12.5" font-weight="600">要位置 → 图属查询</text>
+    <text x="576" y="161" text-anchor="middle" font-size="10.5" fill="#6f685f">几何 + 属性一起查</text>
+    <text x="576" y="176" text-anchor="middle" font-size="10.5" fill="#6f685f">返回要素标识</text>
+
+    <line x1="124" y1="186" x2="124" y2="212" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="350" y1="186" x2="350" y2="212" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="576" y1="186" x2="576" y2="212" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="124" y1="212" x2="576" y2="212" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="350" y1="212" x2="350" y2="232" stroke="#8d857d" stroke-width="1.4" marker-end="url(#h2a)"/>
+
+    <rect x="200" y="234" width="300" height="52" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="350" y="257" text-anchor="middle" font-size="13" font-weight="600" fill="#8f3517">表格 + 结论（同一份数据）</text>
+    <text x="350" y="275" text-anchor="middle" font-size="10.5" fill="#6f685f">结论里的每个数字，都能点回它那张表</text>
+
+    <text x="360" y="312" text-anchor="middle" font-size="11" fill="#8d857d">模型只负责「把查询结果讲成人话」，不负责产生数字——它编一个，整套账就废了。</text>
+  </svg>
+</div>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">Agent 2 · 生产管理 —— 只出建议，不出决定</h3>
+<div class="flow">
+  <svg id="fig-a2" viewBox="0 0 720 300" role="img" aria-label="生产管理 Agent 链路：生产台账解析出任务，按技能、资质、档期筛候选池，再做冲突检测（同期同人、资质过期、连班），输出打分排序的排班建议，最后由主管确认后回写台账">
+    <defs><marker id="h3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker></defs>
+
+    <rect x="20" y="20" width="130" height="56" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="85" y="45" text-anchor="middle" font-size="12.5" font-weight="600">生产台账</text>
+    <text x="85" y="62" text-anchor="middle" font-size="10.5" fill="#6f685f">任务 / 工时 / 人员</text>
+    <line x1="150" y1="48" x2="168" y2="48" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h3a)"/>
+
+    <rect x="170" y="20" width="130" height="56" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="235" y="45" text-anchor="middle" font-size="12.5" font-weight="600">任务解析</text>
+    <text x="235" y="62" text-anchor="middle" font-size="10.5" fill="#6f685f">类型 · 工序 · 工期</text>
+    <line x1="300" y1="48" x2="318" y2="48" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h3a)"/>
+
+    <rect x="320" y="20" width="150" height="56" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="395" y="45" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">候选池</text>
+    <text x="395" y="62" text-anchor="middle" font-size="10.5" fill="#4d4842">技能 × 资质 × 档期</text>
+    <line x1="470" y1="48" x2="488" y2="48" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h3a)"/>
+
+    <rect x="490" y="14" width="210" height="68" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="595" y="38" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">冲突检测（三类硬约束）</text>
+    <text x="595" y="56" text-anchor="middle" font-size="10.5" fill="#8f3517">同期同人 · 资质过期 · 连班</text>
+    <text x="595" y="72" text-anchor="middle" font-size="10.5" fill="#6f685f">冲突必须显式列出，不能静默消解</text>
+
+    <line x1="595" y1="82" x2="595" y2="106" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h3a)"/>
+
+    <rect x="440" y="108" width="260" height="56" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="570" y="132" text-anchor="middle" font-size="12.5" font-weight="600">排班建议（打分排序）</text>
+    <text x="570" y="150" text-anchor="middle" font-size="10.5" fill="#6f685f">每一条都带「为什么排他」的理由</text>
+
+    <line x1="440" y1="136" x2="410" y2="136" stroke="#8d857d" stroke-width="1.3"/>
+    <line x1="410" y1="136" x2="410" y2="184" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h3a)"/>
+
+    <rect x="280" y="186" width="260" height="50" rx="24" fill="#b4441f"/>
+    <text x="410" y="216" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">主管确认 · 可改可驳</text>
+
+    <line x1="280" y1="211" x2="130" y2="211" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h3a)"/>
+    <rect x="20" y="186" width="108" height="50" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="74" y="209" text-anchor="middle" font-size="12.5" font-weight="600">回写台账</text>
+    <text x="74" y="225" text-anchor="middle" font-size="10.5" fill="#6f685f">留改动痕迹</text>
+
+    <text x="360" y="266" text-anchor="middle" font-size="11" fill="#8d857d">排班是「建议」不是「决定」：一旦系统直接排班，出错时没人愿意负责，这套东西就活不过一个季度。</text>
+    <text x="360" y="290" text-anchor="middle" font-size="11" fill="#b4441f">边界：冲突只看同期同人 / 资质过期 / 连班三条；区域和车程刻意不做——那属于调度的裁量权，不是系统的活。</text>
+  </svg>
+</div>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">Agent 3 · 航行通告 —— 规则先跑，模型只碰不确定的那一成</h3>
+<div class="flow">
+  <svg id="fig-a3" viewBox="0 0 720 300" role="img" aria-label="航行通告 Agent 链路：通告原文先走规则兜底提取可解释字段，判不出的交给模型判模糊语义，再做两步分类（先判要不要录入，再判临时通告、改正通告还是航行公告），按类别算失效期（桥梁临时 1 个月、普通 3 个月），标置信度，未审核不进下游，编辑签字后入库制图">
+    <defs>
+      <marker id="h4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker>
+      <marker id="h4b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/></marker>
+    </defs>
+
+    <rect x="20" y="20" width="126" height="56" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="83" y="45" text-anchor="middle" font-size="12.5" font-weight="600">通告原文</text>
+    <text x="83" y="62" text-anchor="middle" font-size="10.5" fill="#6f685f">PDF / 扫描</text>
+    <line x1="146" y1="48" x2="164" y2="48" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h4a)"/>
+
+    <rect x="166" y="20" width="152" height="56" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="242" y="43" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">规则兜底提取</text>
+    <text x="242" y="61" text-anchor="middle" font-size="10.5" fill="#4d4842">字段可解释 · 覆盖约七成</text>
+    <line x1="318" y1="48" x2="336" y2="48" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h4a)"/>
+
+    <rect x="338" y="20" width="152" height="56" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="414" y="43" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">模型判模糊语义</text>
+    <text x="414" y="61" text-anchor="middle" font-size="10.5" fill="#8f3517">只碰规则判不出的那一成</text>
+    <line x1="490" y1="48" x2="508" y2="48" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h4a)"/>
+
+    <rect x="510" y="14" width="190" height="68" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="605" y="38" text-anchor="middle" font-size="12.5" font-weight="600">两步分类</text>
+    <text x="605" y="55" text-anchor="middle" font-size="10.5" fill="#6f685f">① 录不录入</text>
+    <text x="605" y="71" text-anchor="middle" font-size="10.5" fill="#6f685f">② 临通 / 改正 / 公告</text>
+
+    <line x1="605" y1="82" x2="605" y2="104" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h4a)"/>
+
+    <rect x="470" y="106" width="230" height="58" rx="7" fill="#f8f1de" stroke="#e3d3ac"/>
+    <text x="585" y="129" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8a6524">按类别算失效期</text>
+    <text x="585" y="148" text-anchor="middle" font-size="10.5" fill="#8a6524">桥梁临时 1 个月 · 普通 3 个月</text>
+
+    <line x1="470" y1="135" x2="446" y2="135" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h4a)"/>
+
+    <rect x="252" y="106" width="192" height="58" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="348" y="129" text-anchor="middle" font-size="12.5" font-weight="600">置信度标记</text>
+    <text x="348" y="148" text-anchor="middle" font-size="10.5" fill="#6f685f">低置信必须人工改</text>
+
+    <line x1="252" y1="135" x2="238" y2="135" stroke="#b4441f" stroke-width="1.6" marker-end="url(#h4b)"/>
+
+    <text x="231" y="182" text-anchor="middle" font-size="9.5" fill="#b4441f" font-weight="600">未审核不进下游</text>
+    <rect x="225" y="102" width="10" height="66" rx="2" fill="#0E2422"/>
+
+    <rect x="104" y="112" width="114" height="46" rx="23" fill="#b4441f"/>
+    <text x="161" y="140" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">编辑签字</text>
+
+    <line x1="161" y1="158" x2="161" y2="192" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h4a)"/>
+    <rect x="104" y="194" width="114" height="46" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="161" y="214" text-anchor="middle" font-size="12" font-weight="600" fill="#3d5a41">入库 · 制图</text>
+    <text x="161" y="230" text-anchor="middle" font-size="9.5" fill="#7d8a7f">下游专业系统</text>
+
+    <text x="440" y="272" text-anchor="middle" font-size="11" fill="#8d857d">为什么不让模型端到端出 JSON：模型小版本一升级判定就会漂，抽检时也没法对客户解释「这条为什么判错」。</text>
+  </svg>
+</div>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">Agent 4 · 专题图 —— 出图的是制图员，不是系统</h3>
+<div class="flow">
+  <svg id="fig-a4" viewBox="0 0 720 300" role="img" aria-label="专题图 Agent 链路：一句话需求解析出范围、主题与比例尺，查询在库通告与图属数据，按符号规则渲染（坐标系存储不动，渲染时才转换），输出可下载的专题图并留版本痕迹">
+    <defs><marker id="h5a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker></defs>
+
+    <rect x="20" y="18" width="140" height="56" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="90" y="42" text-anchor="middle" font-size="12.5" font-weight="600">一句话需求</text>
+    <text x="90" y="60" text-anchor="middle" font-size="10.5" fill="#6f685f">「出这一段的通告图」</text>
+    <line x1="160" y1="46" x2="178" y2="46" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h5a)"/>
+
+    <rect x="180" y="18" width="166" height="56" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="263" y="42" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">要素选择</text>
+    <text x="263" y="60" text-anchor="middle" font-size="10.5" fill="#8f3517">范围 · 主题 · 比例尺</text>
+    <line x1="346" y1="46" x2="364" y2="46" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h5a)"/>
+
+    <rect x="366" y="18" width="160" height="56" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="446" y="42" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">数据查询</text>
+    <text x="446" y="60" text-anchor="middle" font-size="10.5" fill="#4d4842">3 万+ 条在库通告 + 图属</text>
+    <line x1="526" y1="46" x2="544" y2="46" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h5a)"/>
+
+    <rect x="546" y="10" width="154" height="72" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="623" y="34" text-anchor="middle" font-size="12.5" font-weight="600">符号化渲染</text>
+    <text x="623" y="52" text-anchor="middle" font-size="10.5" fill="#b4441f">存储不动，渲染时才转</text>
+    <text x="623" y="69" text-anchor="middle" font-size="10.5" fill="#6f685f">转早了，错误会顺流下去</text>
+
+    <line x1="623" y1="82" x2="623" y2="106" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h5a)"/>
+
+    <rect x="500" y="108" width="200" height="56" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="600" y="132" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">出图（可下载）</text>
+    <text x="600" y="150" text-anchor="middle" font-size="10.5" fill="#6f685f">带数据截至日期</text>
+
+    <line x1="500" y1="136" x2="460" y2="136" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h5a)"/>
+    <rect x="300" y="108" width="158" height="56" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="379" y="132" text-anchor="middle" font-size="12.5" font-weight="600">制图员版本审核</text>
+    <text x="379" y="150" text-anchor="middle" font-size="10.5" fill="#6f685f">人在做，不是系统自动</text>
+
+    <line x1="300" y1="136" x2="260" y2="136" stroke="#8d857d" stroke-width="1.3" marker-end="url(#h5a)"/>
+    <rect x="130" y="108" width="128" height="56" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="194" y="132" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">录入版本号系统</text>
+    <text x="194" y="150" text-anchor="middle" font-size="10.5" fill="#7d8a7f">定版后进海图系统</text>
+
+    <text x="360" y="212" text-anchor="middle" font-size="11" fill="#8d857d">这 120+ 幅是海图中心的制图员用这个平台做的，不是我们交付的——工具和交付是两件事。</text>
+    <text x="360" y="238" text-anchor="middle" font-size="11" fill="#b4441f">误画陆地从 23% 降到 0（余 2 条为原文坐标本身错）——这个数字不是模型给的，是坐标系管住了。</text>
+  </svg>
+</div>
+
+<h2><span class="n">4</span>技术负责人会从哪一层接进来</h2>
+
+<div class="lede">
+  <p>下面 20 组，按「他大概率的追问顺序」排。点开看「答到哪一层」和「踩雷话」。</p>
+</div>
+
+<div class="qa-group">
+  <h3>整体与架构 <span class="cnt">4 组</span></h3>
+  <p class="ghint">这四组决定他把你当「产品负责人」还是「写 PRD 的」。答稳了，后面是技术对话；答虚了，后面是审问。</p>
+
+  <details class="qa" id="haitu-01"><summary><span class="qno">01</span>这个项目你具体负责什么？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>判断你是「产品」还是「写 PRD 的」。</dd>
+        <dt>答到哪一层</dt><dd>四件事，按「我决定的」排序：<b>① 范围</b>（四个 Agent 只做哪四类任务，明确不做通用助手）；<b>② 路线</b>（规则先跑、模型只补语义模糊，否掉端到端出 JSON）；<b>③ 验收口径</b>（四项考核目标，用抽查与复核记录说话，不来自评）；<b>④ 数据边界</b>（统计数字查询直出，模型不复述）。<b>排期和代码不在我这里</b>——这不是谦虚，是分工。</dd>
+        <dt>踩雷话</dt><dd>别说「我负责整个项目」；也别说「技术是研发做的」——路线是你否的，这个功劳要拿住，但只拿到「路线决策」这一层，不抢实现。</dd>
+      </dl>
+      <div class="tip">加分句：「实现细节我不到算法同事那一层，但路线是我参与定并签了字的。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-02"><summary><span class="qno">02</span>为什么是四个 Agent，不是一个大的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>测你懂不懂「窄口径」的好处，还是只是把功能拆开好看。</dd>
+        <dt>答到哪一层</dt><dd>三个理由：<b>① 错误隔离</b>——问答算错数字，不影响通告入库；<b>② 评测可做</b>——四类任务四套评测集，一个通用 Agent 根本没法验；<b>③ 权限可切</b>——通告能落库、专题图只能出图不能改数据，一个 Agent 给不了这种颗粒度。<br>代价是<b>路由必须准</b>，所以意图路由单独做了评测集，不混在业务评测里。</dd>
+        <dt>踩雷话</dt><dd>别说「为了模块化好看」。拆分的唯一正当理由是「错了会怎样不一样」。</dd>
+      </dl>
+      <div class="tip">加分句：「一个 Agent 什么都干，最后是『什么都能做，什么都不保准』。我宁可要四个 90 分，不要一个 70 分。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-03"><summary><span class="qno">03</span>四个 Agent 是并行的还是串起来的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>看你是不是真懂系统，还是只看过界面。</dd>
+        <dt>答到哪一层</dt><dd><b>业务上并行，数据上串联</b>。四个 Agent 之间<b>不互相调用</b>（A1 不调 A3），但读同一套底座：规则库、3 万+ 条在库通告、图属库。所以「通告入库」会改变「问答能查到什么」——这是<b>数据依赖</b>，不是调用依赖。<br>这个区分很实用：调用依赖的话，一个挂了全挂；数据依赖的话，通告 Agent 停了，问答还能查历史。</dd>
+        <dt>踩雷话</dt><dd>别含糊说「都连着的」。说不清依赖类型，等于没设计过。</dd>
+      </dl>
+      <div class="tip">加分句：「架构上我坚持 Agent 之间不互调，只共享底座。互调的系统，出一个问题就得全链路排查。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-04"><summary><span class="qno">04</span>12 条书面决策是什么概念？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这个数字写在简历上，他在验真假。</dd>
+        <dt>答到哪一层</dt><dd>不是会议纪要，是 12 条<b>写下来、双方确认、后续按它执行</b>的决定。举例：坐标存储不动渲染才转、统计数字查询直出、失效期按类别而非统一、未审核不进下游、计数口径按「文号 + 作业段」。<br>每一条都对应一次「差点做错」——坐标那条，是发现转早了错误会顺着流水线传给下游专业系统。</dd>
+        <dt>踩雷话</dt><dd>别说「就是一些决定」。说不出具体条目，这个数字就是编的。</dd>
+      </dl>
+      <div class="tip">加分句：「书面决策的价值不在记录，在它能不能挡住后来的变更。客户说『这个改一下』，你翻出第 7 条，就不用重新吵一遍。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>Agent 3 · 航行通告（主链路）<span class="cnt">5 组</span></h3>
+  <p class="ghint">这是四个 Agent 里最成熟、也最会被深挖的一个。答不好这五组，前面讲的架构都是空的。</p>
+
+  <details class="qa" id="haitu-05"><summary><span class="qno">05</span>为什么不用端到端大模型直接出 JSON？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是 2026 年最容易被反问的一句：模型都这么强了，你还写规则？</dd>
+        <dt>答到哪一层</dt><dd>三个理由：<b>① 可解释</b>——规则抽错能看出是哪条规则错，模型抽错只能重跑；<b>② 稳定性</b>——模型小版本升级，同一字段判定会漂，规则不会；<b>③ 可抽检</b>——客户要抽查，规则能解释「这条为什么这么判」，模型给不出。<br>所以分工是：<b>规则覆盖约七成字段，模型只补判不出的那一成</b>。</dd>
+        <dt>踩雷话</dt><dd>别说「模型不够强」。2026 年模型够强，问题不在能力，在<b>可追责</b>。</dd>
+      </dl>
+      <div class="tip">加分句：「不是模型不行，是这个场景要的是<b>可复算</b>，不是最聪明。要签字的字段，我优先选能复现的方案。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-06"><summary><span class="qno">06</span>两步分类的漏斗为什么这么切？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>看你是按「模型方便」切，还是按「错了会怎样」切。</dd>
+        <dt>答到哪一层</dt><dd>先判「要不要录入」，再判「属于临时通告 / 改正通告 / 航行公告」。理由是两个错的<b>代价不一样</b>：<b>漏录一条</b> = 下游制图缺要素 = 事故；<b>分错类</b> = 失效期算错 = 能补救。<br>所以第一道门要宽（宁可多录入，人工复核成本低），第二道门才做细分类。</dd>
+        <dt>踩雷话</dt><dd>别说「一次分类更省事」。省的是开发，赔的是事故率。</dd>
+      </dl>
+      <div class="tip">加分句：「分类问题先问『错了会怎样』，再决定分几步。代价不对称的地方，就不该用同一道门。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-07"><summary><span class="qno">07</span>失效期为什么桥梁 1 个月、普通 3 个月？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这个数字很具体，他在验你是不是真参与过。</dd>
+        <dt>答到哪一层</dt><dd>不是设计出来的，是<b>判错之后拆出来的</b>。最初统一按 3 个月算，结果<b>桥梁那一批全部过期判定错误</b>——因为桥梁临时通告本身就按 1 个月。<br>所以把「类别 → 时长」做成<b>配置表</b>，不写死在代码里。同类的事后来还发生过两次，这套配置机制就是那时候长出来的。</dd>
+        <dt>踩雷话</dt><dd>别说「客户规定的」——那是推责任，而且丢掉了「判错后修正」这个最值钱的部分。</dd>
+      </dl>
+      <div class="tip">加分句：「这个阈值是踩坑踩出来的，所以它进的是配置表，不是常量。凡是会变的业务规则，都不该写进代码。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-08"><summary><span class="qno">08</span>模型判错了能发现吗？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>所有 AI 项目的死穴。答「准确率很高」的人，一定没上过线。</dd>
+        <dt>答到哪一层</dt><dd>三层，缺一不可：<b>① 置信度标记</b>——低置信必须人工改，不能静默通过；<b>② 抽检</b>——200+ 条抽样复核，错了能定位到字段；<b>③ 入库前那道门</b>——未审核不进下游，错在门口就拦住。<br>三层里最重要的是第一层，因为它把错误变成<b>可见</b>，后两层才有意义。</dd>
+        <dt>踩雷话</dt><dd>别说「准确率高所以不用管」。模型的错误不可怕，可怕的是<b>它的错误长得像正确答案</b>。</dd>
+      </dl>
+      <div class="tip">加分句：「我设计的时候不是问『怎么让它更准』，是问『它错的时候，谁先知道』。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-09"><summary><span class="qno">09</span>3 万+ 条在库通告，检索怎么做的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>看你有没有被「向量检索」这个词带跑。</dd>
+        <dt>答到哪一层</dt><dd><b>不做全文向量检索，做结构化过滤 + 关键词</b>。通告的查询形态是「某段水域 + 某时间段 + 某类通告」，全是字段条件，比语义检索准得多、也快得多。<br>语义检索只在「用模糊描述找条文」时用，而且<b>必须在结构化过滤之后跑</b>，否则召回一堆不相干的。</dd>
+        <dt>踩雷话</dt><dd>别说「上了向量数据库所以很先进」。这是最常见的把手段当成果。</dd>
+      </dl>
+      <div class="tip">加分句：「能结构化过滤的，绝不交给向量检索——前者可解释，后者只能赌。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>Agent 1 · 问答 <span class="cnt">4 组</span></h3>
+  <p class="ghint">这个 Agent 最容易被低估：看起来只是聊天框，实际整条链路的形状都是被「数字必须可追溯」这一条约束逼出来的。</p>
+
+  <details class="qa" id="haitu-10"><summary><span class="qno">10</span>为什么数字不让模型说？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是 AI 产品最典型的分歧点：一派认为「加点 prompt 约束就行」。</dd>
+        <dt>答到哪一层</dt><dd>因为模型会<b>编一个看起来合理的数字</b>。凡是写进报表、报给上级的，必须能追到 SQL。做法是：问题路由到查询 → 查出表 → 模型只写「这张表说明了什么」，<b>数字由程序填进模板</b>。<br>它一旦自己生成数字，整套账就废了——而且要错很久才会被发现。</dd>
+        <dt>踩雷话</dt><dd>别说「加了 prompt 约束所以不会编」。这句话在技术负责人面前等于「我没做过」。</dd>
+      </dl>
+      <div class="tip">加分句：「模型擅长解释一张表，不擅长记住一个数。让它干前者，数字交给 SQL。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-11"><summary><span class="qno">11</span>「取数口径」是什么，为什么这么强调？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这个词很像个包装。他想知道你理解的是概念还是后果。</dd>
+        <dt>答到哪一层</dt><dd>口径 = <b>这个数是怎么算出来的</b>：统计的是接收日期还是拟稿日期、按文号还是按作业段、含不含已失效。同一批数据，换口径能<b>差 30%</b>。<br>所以每个数字都必须带<b>口径说明 + 数据截至日期</b>，否则两个科室的账永远对不上。这个项目最初就是「工作量按接收日期算」，一份通告从拟稿到接收差好几天，两个科室各算各的——最后改成双口径：接收日期算工作量，拟稿日期算时效。</dd>
+        <dt>踩雷话</dt><dd>别说「数据是准的」。准不准要看口径，数据本身很少是错的。</dd>
+      </dl>
+      <div class="tip">加分句：「B 端最容易出事的地方不是算法，是<b>两个人对同一个数字的理解不一样</b>。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-12"><summary><span class="qno">12</span>问不出来的时候它怎么答？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>兜底设计最能看出产品功力——大多数 AI 产品在这里崩。</dd>
+        <dt>答到哪一层</dt><dd>三种兜底：<b>① 库里没有</b> → 直说没有，并给「最接近的能查什么」；<b>② 意图不明</b> → 反问一次，不猜；<b>③ 要数字但口径不全</b> → 给数 + 标注口径缺失。<br><b>绝不做的是「顺着问的话编一个答案」</b>——这一条比前面三条都重要。</dd>
+        <dt>踩雷话</dt><dd>别说「它会尽量回答」。「尽量」在 B 端就是「会编」。</dd>
+      </dl>
+      <div class="tip">加分句：「一个能说『我不知道』的系统，比一个什么都能答的更敢用。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-13"><summary><span class="qno">13</span>这套问答和市面上的 ChatBI 有什么不同？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>看你会不会被「通用方案」替代。</dd>
+        <dt>答到哪一层</dt><dd>两个不同：<b>① 不追求自然语言转 SQL 的通用性</b>——只覆盖五个科室的高频问法，<b>用覆盖率换准确率</b>；<b>② 数字必须落在口径上</b>——通用 ChatBI 给你一个数就完了，我们要的是「这个数 + 它怎么来的 + 截到哪天」。</dd>
+        <dt>踩雷话</dt><dd>别说「比他们更智能」。智能不是差异点，可签字才是。</dd>
+      </dl>
+      <div class="tip">加分句：「我们做的是窄而准，不是宽而全。窄的东西才敢签字。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>Agent 2 / Agent 4 <span class="cnt">3 组</span></h3>
+
+  <details class="qa" id="haitu-14"><summary><span class="qno">14</span>人岗匹配的规则是谁定的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>排班涉及权力，他在看你会不会越界。</dd>
+        <dt>答到哪一层</dt><dd><b>客户业务口定的，我们只做结构</b>。技能、资质、档期这三类硬约束来自他们的管理规定；连班上限、跨区调配这类软规则，我们列出来让他们逐条确认。<br>产品的位置是「把规则变成可计算的」，<b>不是「替他们定规则」</b>。</dd>
+        <dt>踩雷话</dt><dd>别说「我们设计的排班算法」。规则的所有权不在你手上，说成你的就是抢功，也埋雷。</dd>
+      </dl>
+      <div class="tip">加分句：「规则的所有权在客户，产品只负责让它跑得动、改得动。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-15"><summary><span class="qno">15</span>排班建议不准怎么办？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这类系统上线后最常见的一句投诉就是「它排得不对」。</dd>
+        <dt>答到哪一层</dt><dd>不准分两种：<b>① 规则没覆盖到</b> → 补规则，不是换模型；<b>② 规则对但取舍错了</b> → 让人改，系统记下这次改动，作为下一版打分的权重。<br>关键是<b>每条建议都要带理由</b>，否则主管没法判断该不该改——没有理由的建议，只能全盘接受或全盘不信。</dd>
+        <dt>踩雷话</dt><dd>别说「多训几轮就准了」。这是规则问题，不是训练问题。</dd>
+      </dl>
+      <div class="tip">加分句：「排班错了不是模型问题，是规则没写全，或者权重不对。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-16"><summary><span class="qno">16</span>坐标为什么存着不转？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是全项目最技术、也最能证明你懂数据链路的一条。</dd>
+        <dt>答到哪一层</dt><dd>因为转了会<b>一路错下去</b>。这个项目要对接下游专业海图系统，如果入库时就把坐标转成展示坐标，<b>导出给下游的数据就是错的</b>，而且错误会顺着流水线传下去，没人查得出来。<br>所以定的是：<b>存储保持原基准，渲染时才转</b>。这条写进了书面决策，客户原方案是「入库前统一转好」。</dd>
+        <dt>踩雷话</dt><dd>别说「转换很方便」。方便的是当次，代价是永久。</dd>
+      </dl>
+      <div class="tip">加分句：「数据链路上，越早做的变换越贵——因为它不可逆。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-17"><summary><span class="qno">17</span>那 120+ 幅专题图，是你们交付的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这个数字写在简历上，他在验你是「卖了工具」还是「做了外包」。</dd>
+        <dt>答到哪一层</dt><dd><b>不是我们交付的，是海图中心的制图员用这个平台做的</b>。我们交付的是工具：要素选择、数据查询、符号化、出图。他们用这个工具自己出了 120+ 幅，再按他们自己的流程做<b>版本审核 → 录入版本号系统 → 进海图系统</b>。<br>这个区别很重要：如果是我们画了 120 幅，这个项目就是一次外包；如果是他们用工具画出来的 120 幅，那它是<b>产品化</b>——客户自己会长出产能，我们不用跟着加人。</dd>
+        <dt>踩雷话</dt><dd>别说「我们交付了 120+ 幅」——一追问「谁画的、用什么画的」就露。也别说「客户自己做的，跟我们没关系」——工具是你们做的，这个功劳不能丢。</dd>
+      </dl>
+      <div class="tip">加分句：「判断一个项目是外包还是产品，就看交付之后客户能不能自己产出。这 120 幅是他们做的，这才是这件事值钱的地方。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>工程与边界 <span class="cnt">4 组</span></h3>
+
+  <details class="qa" id="haitu-18"><summary><span class="qno">18</span>规则库可配置，谁维护？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>「可配置」是句好话，但没人维护就等于没有。</dd>
+        <dt>答到哪一层</dt><dd><b>客户维护，我们提供结构</b>。可配置的是：类别 → 失效期映射、计数口径（文号 / 作业段）、阈值。客户原话是「明天上头换个文件，你们难道改代码」——这句话把可配置从加分项变成了<b>上线前提</b>。<br>落地方式是规则表 + 界面，改完即时生效，不需要发版。</dd>
+        <dt>踩雷话</dt><dd>别说「我们帮他们配」。那样就退化成人力外包，规模一大就崩。</dd>
+      </dl>
+      <div class="tip">加分句：「一个规则会变的产品，可配置不是功能，是存活条件。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-19"><summary><span class="qno">19</span>效果怎么验收的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>他见过太多「客户很满意」的验收。</dd>
+        <dt>答到哪一层</dt><dd>客户中期检查的<b>四项考核目标全部达成</b>，8 月部署上线。判定依据是<b>抽查与人工复核记录</b>，不是自评。<br>另外两个能直接报的数：单条核对<b>从 2.5 分钟到 40 秒</b>（抽样 200+ 条）；误画陆地<b>从 23% 到 0</b>（余 2 条是原文坐标本身错，不是系统错）。</dd>
+        <dt>踩雷话</dt><dd>别说「客户很满意」。满意度不是验收，记录才是。</dd>
+      </dl>
+      <div class="tip">加分句：「验收要的是可核对的记录，不是感受。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-20"><summary><span class="qno">20</span>这套东西能复制到别的行业吗？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>如果只能做一个客户，那它是项目不是产品；如果什么都能做，那它是吹的。</dd>
+        <dt>答到哪一层</dt><dd>分两半说：<b>能复制</b>的是骨架——规则先跑 + 模型补位 + 人工签字 + 可配置规则库；<b>不能复制</b>的是底座——3 万+ 条在库数据、行业规范、和客户磨出来的口径共识。<br>所以换行业<b>能省一半工期</b>，省不掉的是数据积累那一段。</dd>
+        <dt>踩雷话</dt><dd>别说「通用框架可以直接用」。前半句丢客户，后半句丢可信度。</dd>
+      </dl>
+      <div class="tip">加分句：「框架是通用的，壁垒是行业数据 + 口径共识。前者能抄，后者抄不走。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="haitu-21"><summary><span class="qno">21</span>交通运输部大赛三等奖，和现在这套是什么关系？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>怕你是「为了比赛单独做了一套 demo」。</dd>
+        <dt>答到哪一层</dt><dd><b>同一套框架和四个子智能体，链路与在库版本一致</b>。参赛用的是这套能力的对外表达版本，不是另做一个演示。<br>所以它证明的是「这套架构讲得清、跑得动」，不是「我们做了个 demo」。</dd>
+        <dt>踩雷话</dt><dd>别说「比赛是单独做的」——那这个奖对项目就没有证明力了。</dd>
+      </dl>
+      <div class="tip">加分句：「比赛版本和在库版本是同一套链路，这一点比奖本身值钱。」</div>
+    </div>
+  </details>
+</div>
+
+<h2><span class="n">5</span>三句话记住这一场</h2>
+
+<div class="lede" style="border-color:#efd9cc; background:#fdf8f4">
+  <b>① 锚句</b>：四个 Agent 都是窄口径，靠意图路由分流，共享一套底座；它们之间不互相调用。<br><br>
+  <b>② 壁垒句</b>：壁垒不在模型，在「3 万+ 条在库 + 可配置规则库 + 统一取数口径」这三件事上。<br><br>
+  <b>③ 边界句</b>：模型只做「判模糊语义」和「组织表达」；<b>不产生数字、不做判定、不碰落库前最后一道门</b>。
+</div>
+<h1 id="sec-factory">智能体工厂 · 需求到可运行包</h1>
+<p class="sub">云锦微 · 企业自助智能体生产线（2026 H2，MVP 可用）· 角色：需求定义、链路设计与验收口径</p>
+
+<div class="lede" style="border-color:#efd9cc; background:#fdf8f4">
+  <b>先说清一件事</b>：这个项目卖的不是「一句话生成 Agent」。企业客户要的东西很具体——<b>一个能在自己内网跑、能交给 IT 部署、出问题能改的包</b>。
+  所以这条链路上有三处是刻意做重的：<b>需求靠卡片收敛</b>（不让用户自由描述）、<b>生成靠模板填充</b>（不让模型直写全部代码）、<b>修改靠差量补丁</b>（不重新生成）。
+  <span class="rule">为什么必须这么讲：一旦承认是「AI 一句话造 Agent」，就要接住「生成的代码你敢上生产吗 / 改坏了算谁的 / 为什么不能直接给我一个 exe」三连——这三条恰好是这套设计在防的。</span>
+</div>
+
+<h2><span class="n">1</span>六条能力线的可行性评分</h2>
+
+<div class="tw">
+  <table>
+    <thead><tr><th>能力线</th><th>技术可行性</th><th>数据/工程难度</th><th>商业价值</th><th>定性</th></tr></thead>
+    <tbody>
+      <tr><td><b>卡片式需求获取</b></td><td>★★★★★</td><td>★★☆☆☆</td><td>★★★★☆</td><td><b>最低风险的一段</b>。难的不是交互，是卡片的<b>颗粒度</b>——粗了没用，细了用户选不完</td></tr>
+      <tr><td><b>需求 → 规格（Spec）</b></td><td>★★★★☆</td><td>★★★☆☆</td><td>★★★★★</td><td><b>真正的核心</b>。Spec 是后面所有环节的唯一真源，它错一次全链路返工</td></tr>
+      <tr><td><b>规格 → 代码生成</b></td><td>★★★★☆</td><td>★★★☆☆</td><td>★★★★☆</td><td>不做「模型直写全部代码」，做<b>模板 + 槽位填充</b>。这个选择决定了后面能不能改</td></tr>
+      <tr><td><b>平台内验证</b></td><td>★★★★☆</td><td>★★★★☆</td><td>★★★★★</td><td>用户看不懂报错。验证结果必须翻译成「能跑 / 哪里不对 / 怎么改」，不是一堆日志</td></tr>
+      <tr><td><b>打包成 exe</b></td><td>★★★☆☆</td><td>★★★★★</td><td>★★★☆☆</td><td><b>工程最脏的一段</b>。「模型不进包」是唯一能让它收敛的约束</td></tr>
+      <tr><td><b>二次修改（差量）</b></td><td>★★★☆☆</td><td>★★★★☆</td><td>★★★★★</td><td><b>产品价值最高、技术最难</b>。修改不是重生成，是定位 + 打补丁 + 回归</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2><span class="n">2</span>整条链路怎么走（总图）</h2>
+
+<div class="flow">
+  <svg id="fig-fac" viewBox="0 0 720 552" role="img" aria-label="智能体工厂总链路：客户业务问题进入需求获取，卡片选择加汇总回显加缺口追问，收敛出五槽位规格；规格进入生成与验证，模板填充后做静态检查、沙箱跑通、自动评测；通过后交付——平台内试用或打包成 exe；客户试用不满意回到二次修改，归因后打差量补丁，回归验证通过再回到生成环节">
+    <defs>
+      <marker id="f1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker>
+      <marker id="f1b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/></marker>
+    </defs>
+
+    <rect x="250" y="10" width="220" height="40" rx="20" fill="#1b1917"/>
+    <text x="360" y="35" text-anchor="middle" fill="#fff" font-size="13.5">客户：我要一个自己的 Agent</text>
+    <line x1="360" y1="50" x2="360" y2="70" stroke="#8d857d" stroke-width="1.4" marker-end="url(#f1a)"/>
+
+    <rect x="60" y="72" width="600" height="72" rx="8" fill="#fff" stroke="#d8d0c6"/>
+    <text x="80" y="96" font-size="13" font-weight="600">① 需求获取</text>
+    <text x="80" y="116" font-size="10.5" fill="#6f685f">场景卡片 → 能力卡片 → 边界卡片 → 汇总回显 → 缺口追问（≤ 3 轮）</text>
+    <text x="80" y="133" font-size="10.5" fill="#b4441f">收敛判据：角色 / 输入 / 输出 / 边界 / 验收，五个槽位填满才放行</text>
+
+    <line x1="360" y1="144" x2="360" y2="166" stroke="#8d857d" stroke-width="1.4" marker-end="url(#f1a)"/>
+    <text x="372" y="160" font-size="10.5" fill="#8d857d">Spec（结构化 JSON）</text>
+
+    <rect x="60" y="168" width="600" height="86" rx="8" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="80" y="192" font-size="13" font-weight="600" fill="#8f3517">② 生成与验证</text>
+    <text x="80" y="212" font-size="10.5" fill="#6f685f">模板选择 → 槽位填充（Prompt / 工具 / 知识库 / 编排）→ 静态检查 → 沙箱跑通 → 20 例自动评测</text>
+    <text x="80" y="229" font-size="10.5" fill="#8f3517">三道门任一不过就回「槽位填充」，最多 3 次；不过就退回需求环节，不硬生成</text>
+    <text x="80" y="246" font-size="10.5" fill="#6f685f">产物：Agent 包 = 代码 + 配置 + 依赖清单 + 评测结果</text>
+
+    <line x1="360" y1="254" x2="360" y2="276" stroke="#8d857d" stroke-width="1.4" marker-end="url(#f1a)"/>
+
+    <rect x="60" y="278" width="600" height="76" rx="8" fill="#fff" stroke="#d8d0c6"/>
+    <text x="80" y="302" font-size="13" font-weight="600">③ 交付</text>
+    <rect x="80" y="312" width="230" height="34" rx="6" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="195" y="334" text-anchor="middle" font-size="11.5" fill="#3d5a41">路径 A：平台内直接试用</text>
+    <rect x="330" y="312" width="310" height="34" rx="6" fill="#fff" stroke="#d8d0c6"/>
+    <text x="485" y="334" text-anchor="middle" font-size="11.5">路径 B：打包 exe → 客户内网部署</text>
+
+    <line x1="360" y1="354" x2="360" y2="376" stroke="#8d857d" stroke-width="1.4" marker-end="url(#f1a)"/>
+
+    <rect x="250" y="378" width="220" height="40" rx="20" fill="#1b1917"/>
+    <text x="360" y="403" text-anchor="middle" fill="#fff" font-size="13">客户试用（真实数据）</text>
+
+    <line x1="360" y1="418" x2="360" y2="440" stroke="#b4441f" stroke-width="1.4" marker-end="url(#f1b)"/>
+    <text x="372" y="434" font-size="10.5" fill="#b4441f">不满意</text>
+
+    <rect x="60" y="442" width="600" height="76" rx="8" fill="#fff" stroke="#b4441f" stroke-width="1.6"/>
+    <text x="80" y="466" font-size="13" font-weight="600" fill="#8f3517">④ 二次修改</text>
+    <text x="80" y="486" font-size="10.5" fill="#6f685f">归因（表达层 / 流程层 / 数据层）→ 差量 Patch（只改 1–2 个 Spec 字段）→ 回归 → 新版本</text>
+    <text x="80" y="503" font-size="10.5" fill="#6f685f">老用例必须全过；改了 A 坏了 B 就回滚，换一种改法</text>
+
+    <path d="M 660 480 L 690 480 L 690 211 L 664 211" fill="none" stroke="#b4441f" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#f1b)"/>
+    <text x="694" y="380" font-size="10" fill="#b4441f" transform="rotate(90 694 380)">改完重新验证</text>
+
+    <text x="360" y="540" text-anchor="middle" font-size="11" fill="#8d857d">这条链路上模型只干两件事：把选择读成规格，把不满读成差量。写代码和打包都是确定性的。</text>
+  </svg>
+</div>
+
+<h2><span class="n">3</span>三段各自的链路</h2>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">① 需求获取 —— 卡片是约束，追问是补洞</h3>
+<div class="flow">
+  <svg id="fig-f1" viewBox="0 0 720 396" role="img" aria-label="需求获取链路：用户先选场景卡片六选一，再按场景出能力卡片多选，再选边界卡片（哪些不做），三层选择拼成一段自然语言回显给用户确认；系统扫五个槽位（角色、输入、输出、边界、验收），有缺口就问一到两个问题，最多三轮；槽位填满输出规格，填不满就降级为人工顾问介入">
+    <defs>
+      <marker id="f2a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker>
+      <marker id="f2b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/></marker>
+    </defs>
+
+    <text x="24" y="20" font-size="10.5" fill="#8d857d">三层卡片，每层只问一件事</text>
+
+    <rect x="24" y="28" width="150" height="60" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="99" y="52" text-anchor="middle" font-size="12.5" font-weight="600">场景卡片</text>
+    <text x="99" y="69" text-anchor="middle" font-size="10.5" fill="#6f685f">客服 / 文档 / 数据</text>
+    <text x="99" y="83" text-anchor="middle" font-size="10.5" fill="#6f685f">流程 / 行业（6 选 1）</text>
+    <line x1="174" y1="58" x2="194" y2="58" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f2a)"/>
+
+    <rect x="196" y="28" width="150" height="60" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="271" y="52" text-anchor="middle" font-size="12.5" font-weight="600">能力卡片</text>
+    <text x="271" y="69" text-anchor="middle" font-size="10.5" fill="#6f685f">随场景变（多选）</text>
+    <text x="271" y="83" text-anchor="middle" font-size="10.5" fill="#6f685f">「要做什么」</text>
+    <line x1="346" y1="58" x2="366" y2="58" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f2a)"/>
+
+    <rect x="368" y="28" width="150" height="60" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="443" y="52" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">边界卡片</text>
+    <text x="443" y="69" text-anchor="middle" font-size="10.5" fill="#8f3517">「哪些不做」</text>
+    <text x="443" y="83" text-anchor="middle" font-size="10.5" fill="#6f685f">这一层最容易被跳过</text>
+    <line x1="518" y1="58" x2="538" y2="58" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f2a)"/>
+
+    <rect x="540" y="28" width="156" height="60" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="618" y="52" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">汇总回显</text>
+    <text x="618" y="69" text-anchor="middle" font-size="10.5" fill="#4d4842">拼成一段话</text>
+    <text x="618" y="83" text-anchor="middle" font-size="10.5" fill="#3d5a41">让用户改这句话</text>
+
+    <line x1="618" y1="88" x2="618" y2="112" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f2a)"/>
+    <rect x="468" y="114" width="300" height="52" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="618" y="136" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">五槽位扫描</text>
+    <text x="618" y="154" text-anchor="middle" font-size="10.5" fill="#6f685f">角色 / 输入 / 输出 / 边界 / 验收</text>
+
+    <path d="M 468 140 L 400 140 L 400 196" fill="none" stroke="#b4441f" stroke-width="1.3" marker-end="url(#f2b)"/>
+    <text x="404" y="180" font-size="10.5" fill="#b4441f">有缺口</text>
+
+    <rect x="240" y="198" width="320" height="60" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.4"/>
+    <text x="400" y="221" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">针对性追问（一次只问 1–2 个）</text>
+    <text x="400" y="239" text-anchor="middle" font-size="10.5" fill="#6f685f">不问「还想补充什么」，只问缺的那个槽位</text>
+    <text x="400" y="253" text-anchor="middle" font-size="10.5" fill="#6f685f">最多 3 轮，超过转人工顾问</text>
+
+    <path d="M 240 228 L 150 228 L 150 140 L 466 140" fill="none" stroke="#8d857d" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#f2a)"/>
+    <text x="120" y="190" font-size="10" fill="#8d857d" transform="rotate(-90 120 190)">补完再扫</text>
+
+    <path d="M 618 166 L 618 288" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f2a)"/>
+    <text x="628" y="248" font-size="10.5" fill="#8d857d">无缺口</text>
+
+    <rect x="360" y="290" width="300" height="56" rx="7" fill="#f2f6f2" stroke="#9db39f" stroke-width="1.6"/>
+    <text x="510" y="313" text-anchor="middle" font-size="13" font-weight="600" fill="#3d5a41">输出 Spec（结构化 JSON）</text>
+    <text x="510" y="332" text-anchor="middle" font-size="10.5" fill="#4d4842">后面所有环节只认这一份，不再读聊天记录</text>
+
+    <rect x="24" y="290" width="300" height="56" rx="7" fill="#fff" stroke="#d8d0c6" stroke-dasharray="4 3"/>
+    <text x="174" y="313" text-anchor="middle" font-size="12" font-weight="600" fill="#6f685f">降级：转人工顾问</text>
+    <text x="174" y="332" text-anchor="middle" font-size="10.5" fill="#8d857d">三轮填不满，说明这个客户的需求超出卡片覆盖面</text>
+
+    <text x="360" y="380" text-anchor="middle" font-size="11" fill="#8d857d">用户的表达是不可靠的，选择是可靠的。三类卡片把「说清楚」变成「选出来」。</text>
+  </svg>
+</div>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">② 生成与打包 —— 云端三段，最后一段最脏</h3>
+<div class="flow">
+  <svg id="fig-f2" viewBox="0 0 720 470" role="img" aria-label="生成与打包链路：规格先做模板匹配与槽位填充，得到 Agent 包；三道验证门依次是静态检查（schema 合法、工具存在、权限不越界）、沙箱跑通（容器限时 60 秒限网）、20 例自动评测（通过率不低于 80%），任一不过回到填充重试最多三次；通过后分两路交付：平台内试用，或进入云端构建机打包 exe（Python 运行时加依赖，PyInstaller 打成单文件，只带模型调用层不带模型权重），签名加版本号后存对象存储，给客户签名 URL 下载">
+    <defs>
+      <marker id="f3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker>
+      <marker id="f3b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/></marker>
+    </defs>
+
+    <rect x="24" y="14" width="130" height="46" rx="7" fill="#f2f6f2" stroke="#9db39f"/>
+    <text x="89" y="42" text-anchor="middle" font-size="12" font-weight="600" fill="#3d5a41">Spec</text>
+    <line x1="154" y1="37" x2="172" y2="37" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+
+    <rect x="174" y="14" width="150" height="46" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="249" y="33" text-anchor="middle" font-size="12" font-weight="600">模板匹配</text>
+    <text x="249" y="50" text-anchor="middle" font-size="10" fill="#6f685f">按场景选骨架</text>
+    <line x1="324" y1="37" x2="342" y2="37" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+
+    <rect x="344" y="14" width="180" height="46" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="434" y="33" text-anchor="middle" font-size="12" font-weight="600" fill="#8f3517">槽位填充</text>
+    <text x="434" y="50" text-anchor="middle" font-size="10" fill="#6f685f">Prompt / 工具 / 知识库 / 编排</text>
+    <line x1="524" y1="37" x2="542" y2="37" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+
+    <rect x="544" y="14" width="152" height="46" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="620" y="33" text-anchor="middle" font-size="12" font-weight="600">Agent 包</text>
+    <text x="620" y="50" text-anchor="middle" font-size="10" fill="#6f685f">代码 + 配置 + 依赖清单</text>
+
+    <path d="M 620 60 L 620 84 L 360 84 L 360 100" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+    <text x="368" y="78" font-size="10" fill="#8d857d">进入三道验证门</text>
+
+    <rect x="180" y="102" width="360" height="50" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="360" y="124" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">门 1 · 静态检查</text>
+    <text x="360" y="142" text-anchor="middle" font-size="10" fill="#6f685f">schema 合法 / 工具真的存在 / 权限不越界</text>
+    <line x1="360" y1="152" x2="360" y2="170" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+
+    <rect x="180" y="172" width="360" height="50" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="360" y="194" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">门 2 · 沙箱跑通</text>
+    <text x="360" y="212" text-anchor="middle" font-size="10" fill="#6f685f">独立容器 · 限时 60 秒 · 断外网 · 用 mock 数据</text>
+    <line x1="360" y1="222" x2="360" y2="240" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+
+    <rect x="180" y="242" width="360" height="50" rx="7" fill="#fff" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="360" y="264" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">门 3 · 20 例自动评测</text>
+    <text x="360" y="282" text-anchor="middle" font-size="10" fill="#6f685f">通过率 ≥ 80% 放行，低于就打回重填</text>
+
+    <path d="M 180 267 L 120 267 L 120 37 L 172 37" fill="none" stroke="#b4441f" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#f3b)"/>
+    <text x="86" y="150" font-size="10" fill="#b4441f" transform="rotate(-90 86 150)">不过 · 回填重试 ≤ 3 次</text>
+
+    <line x1="360" y1="292" x2="360" y2="314" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+    <text x="372" y="308" font-size="10.5" fill="#3d5a41">三关全过</text>
+
+    <rect x="180" y="316" width="360" height="42" rx="7" fill="#f2f6f2" stroke="#9db39f" stroke-width="1.6"/>
+    <text x="360" y="340" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3d5a41">两路交付</text>
+
+    <path d="M 300 358 L 300 378 L 130 378 L 130 392" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f3a)"/>
+    <rect x="20" y="394" width="220" height="46" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="130" y="414" text-anchor="middle" font-size="11.5" font-weight="600">路径 A · 平台内试用</text>
+    <text x="130" y="431" text-anchor="middle" font-size="10" fill="#6f685f">直接跑，不下载</text>
+
+    <path d="M 440 358 L 440 378 L 570 378 L 570 392" fill="none" stroke="#b4441f" stroke-width="1.4" marker-end="url(#f3b)"/>
+    <rect x="470" y="394" width="230" height="46" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="585" y="412" text-anchor="middle" font-size="11.5" font-weight="600" fill="#8f3517">路径 B · 云端构建机打包</text>
+    <text x="585" y="429" text-anchor="middle" font-size="10" fill="#6f685f">PyInstaller → 单文件 exe / 目录</text>
+
+    <text x="360" y="462" text-anchor="middle" font-size="11" fill="#8d857d">三道门里最难的是第三道：用户不知道什么叫 80%，但他知道「它答不上来」。</text>
+  </svg>
+</div>
+
+<h3 style="font-size:15px; margin:26px 0 4px; color:var(--ink)">③ 二次修改 —— 不是重新生成，是定位 + 打补丁</h3>
+<div class="flow">
+  <svg id="fig-f3" viewBox="0 0 720 392" role="img" aria-label="二次修改链路：用户说不满意后先归因，分三类——表达层（太啰嗦、太正式）改提示与输出格式，流程层（多问一轮、少一步）改编排，数据层（答非所问、查不到）改知识库与检索；然后只对规格里一到两个字段打差量补丁，接着跑回归（老用例全过加这条新 case），回归不过就回滚补丁换一种改法，通过后出新版本可回滚；同一条需求最多改三次，超过建议换场景">
+    <defs>
+      <marker id="f4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8d857d"/></marker>
+      <marker id="f4b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#b4441f"/></marker>
+    </defs>
+
+    <rect x="270" y="10" width="180" height="40" rx="20" fill="#1b1917"/>
+    <text x="360" y="35" text-anchor="middle" fill="#fff" font-size="12.5">「这不是我要的」</text>
+    <line x1="360" y1="50" x2="360" y2="70" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+    <text x="372" y="64" font-size="10" fill="#8d857d">先归因，不先改</text>
+
+    <rect x="24" y="72" width="672" height="30" rx="6" fill="#fdf3ef" stroke="#b4441f"/>
+    <text x="360" y="92" text-anchor="middle" font-size="11.5" font-weight="600" fill="#8f3517">① 归因：把「人的不满」翻译成「哪一层出的问题」</text>
+
+    <path d="M 360 102 L 360 116 L 140 116 L 140 130" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+    <path d="M 360 102 L 360 130" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+    <path d="M 360 102 L 360 116 L 580 116 L 580 130" fill="none" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+
+    <rect x="24" y="132" width="232" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="140" y="154" text-anchor="middle" font-size="12" font-weight="600">表达层</text>
+    <text x="140" y="172" text-anchor="middle" font-size="10.5" fill="#6f685f">「太啰嗦 / 太生硬 / 答得像机器」</text>
+    <text x="140" y="188" text-anchor="middle" font-size="10" fill="#b4441f">改：输出格式约束 + 语气示例</text>
+
+    <rect x="264" y="132" width="192" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="360" y="154" text-anchor="middle" font-size="12" font-weight="600">流程层</text>
+    <text x="360" y="172" text-anchor="middle" font-size="10.5" fill="#6f685f">「多问了一轮 / 该问的没问」</text>
+    <text x="360" y="188" text-anchor="middle" font-size="10" fill="#b4441f">改：环节增删 + 跳转条件</text>
+
+    <rect x="464" y="132" width="232" height="66" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="580" y="154" text-anchor="middle" font-size="12" font-weight="600">数据层</text>
+    <text x="580" y="172" text-anchor="middle" font-size="10.5" fill="#6f685f">「答非所问 / 查不到 / 引错条文」</text>
+    <text x="580" y="188" text-anchor="middle" font-size="10" fill="#b4441f">改：知识库切片 + 检索策略</text>
+
+    <line x1="140" y1="198" x2="140" y2="222" stroke="#8d857d" stroke-width="1.2"/>
+    <line x1="360" y1="198" x2="360" y2="222" stroke="#8d857d" stroke-width="1.2"/>
+    <line x1="580" y1="198" x2="580" y2="222" stroke="#8d857d" stroke-width="1.2"/>
+    <line x1="140" y1="222" x2="580" y2="222" stroke="#8d857d" stroke-width="1.2"/>
+    <line x1="360" y1="222" x2="360" y2="242" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+
+    <rect x="180" y="244" width="360" height="52" rx="7" fill="#fdf3ef" stroke="#b4441f" stroke-width="1.5"/>
+    <text x="360" y="267" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8f3517">② 差量 Patch（只改 1–2 个 Spec 字段）</text>
+    <text x="360" y="285" text-anchor="middle" font-size="10.5" fill="#6f685f">其余字段冻结不动，原来填过的需求不重来</text>
+    <line x1="360" y1="296" x2="360" y2="314" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+
+    <rect x="180" y="316" width="360" height="46" rx="7" fill="#fff" stroke="#d8d0c6"/>
+    <text x="360" y="336" text-anchor="middle" font-size="12" font-weight="600">③ 回归：老用例全过 + 这条新 case</text>
+    <text x="360" y="353" text-anchor="middle" font-size="10" fill="#6f685f">改了 A 坏了 B，就回滚补丁，换一种改法</text>
+
+    <path d="M 540 339 L 600 339 L 600 108 L 500 108" fill="none" stroke="#b4441f" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#f4b)"/>
+    <text x="608" y="230" font-size="10" fill="#b4441f" transform="rotate(90 608 230)">不过就回滚</text>
+
+    <line x1="360" y1="362" x2="360" y2="374" stroke="#8d857d" stroke-width="1.3" marker-end="url(#f4a)"/>
+
+    <text x="360" y="388" text-anchor="middle" font-size="11" fill="#8d857d">客户说不出「把 temperature 调到 0.3」，他只会说「它说话太随便了」。翻译这一步是产品活。</text>
+  </svg>
+</div>
+
+<h2><span class="n">4</span>技术负责人会从哪一层接进来</h2>
+<p>下面 22 组，按「他大概率的追问顺序」排。点开看「答到哪一层」和「踩雷话」。</p>
+
+<div class="qa-group">
+  <h3>整体与定位 <span class="cnt">4 组</span></h3>
+  <p class="ghint">开场这几问决定他把你当「设计过生产线的人」还是「画了个流程图的人」。答稳了，后面聊工程；答虚了，后面全是质疑。</p>
+
+  <details class="qa" id="factory-01"><summary><span class="qno">01</span>这个工厂到底解决谁的什么问题？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>探你会不会一上来就讲技术。讲技术的，说明没找到真问题。</dd>
+        <dt>答到哪一层</dt><dd>三类人，一个问题：<b>业务方</b>想要自己的 Agent 但不会写 prompt；<b>IT 部门</b>想要能部署在自己内网的东西，不接受「注册个账号就能用」；<b>我们</b>想卖标准化产品，不想每个客户都投三个人做定制。<br>所以工厂的定位不是「生成器」，是<b>把定制需求压成标准件的那道产线</b>——输入是客户的选择，输出是一个能交给他 IT 的包。</dd>
+        <dt>踩雷话</dt><dd>别说「让每个人都能造 Agent」。这个说法三年前就有，至今没有一个客户为它付钱。</dd>
+      </dl>
+      <div class="tip">加分句：「它不是让人人都能造 Agent，是让同一个 Agent 能被十个客户装走——差别在<b>可复制</b>，不在<b>可生成</b>。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-02"><summary><span class="qno">02</span>为什么用卡片，不让用户自由描述？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是最容易挨批的设计：限制用户输入，等于承认「我们处理不了自由文本」。</dd>
+        <dt>答到哪一层</dt><dd>因为<b>自由描述的信息密度极低</b>。客户说「我要一个能自动处理客户咨询的 Agent」，这句话里没有一个可执行的约束——处理什么咨询、答到什么程度、查不到怎么办，全是空的。<br>卡片不是限制，是<b>把访谈提纲前置</b>。原来要一个售前聊 40 分钟才问出来的东西，现在三层选择 3 分钟填完。<b>自由文本留在最后一步</b>——回显确认那一段允许用户改，那才是他真正想说的话。</dd>
+        <dt>踩雷话</dt><dd>别说「用户体验上更简单」。这是偷懒的说法——卡片恰恰更难设计，因为要穷举场景。</dd>
+      </dl>
+      <div class="tip">加分句：「用户的表达是不可靠的，选择是可靠的。三类卡片把『说清楚』变成『选出来』，把 40 分钟的访谈压成 3 分钟。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-03"><summary><span class="qno">03</span>外面都在做「一句话生成」，你为什么反着来？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>他在验你的判断是不是跟着趋势走，还是有独立理由。</dd>
+        <dt>答到哪一层</dt><dd>因为<b>一句话生成出来的东西，客户不敢用</b>。演示很好，但交付时客户会问三件事：这段代码谁审过、它出错我找谁、我改一行会不会崩。<br>我们做的是<b>能进生产的包</b>，不是能跑 demo 的代码。所以宁可前面啰嗦一点（卡片 + 追问），也要让后面每一步都有据可查——Spec 是唯一真源，改哪一行都写在版本里。</dd>
+        <dt>踩雷话</dt><dd>别说「一句话生成不成熟」。它成熟，只是<b>不适用于要被审计的场景</b>。</dd>
+      </dl>
+      <div class="tip">加分句：「演示要的是惊喜，交付要的是可解释。这两件事的工程约束是反的。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-04"><summary><span class="qno">04</span>这套东西的壁垒在哪？别人抄得快吗？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>标准问题，但答「模型好」等于没答。所有人用的都是同一批模型。</dd>
+        <dt>答到哪一层</dt><dd>三层，从薄到厚：<b>① 卡片的颗粒度</b>——哪六类场景、每类下面几个能力卡、边界卡怎么措辞，这是踩了几十个客户才收敛的，抄不走；<b>② 模板库</b>——每类场景的骨架长什么样，哪些槽位必填，这是行业知识不是代码；<b>③ 差量修改的能力</b>——客户改三次还能不崩，这是最难的，因为它要求 Spec 和代码之间有严格的对应关系。<br>模型是最薄的一层，谁都能换。</dd>
+        <dt>踩雷话</dt><dd>别说「我们 prompt 调得好」。prompt 是耗材，不是壁垒。</dd>
+      </dl>
+      <div class="tip">加分句：「壁垒不在模型，在<b>卡片的颗粒度</b>和<b>改不坏的能力</b>——前者决定需求质量，后者决定客户愿不愿意继续用。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>需求获取 <span class="cnt">5 组</span></h3>
+  <p class="ghint">这一段最像产品活：全是取舍，几乎没有技术。也正因如此，答得好坏一眼分得出。</p>
+
+  <details class="qa" id="factory-05"><summary><span class="qno">05</span>卡片的颗粒度怎么定的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是设计里最难的一处，他想知道你是拍脑袋还是试出来的。</dd>
+        <dt>答到哪一层</dt><dd>用两把尺子量：<b>选得完</b>（单层不超过 8 个选项，超过就要再分层）、<b>选得准</b>（相邻两张卡的边界必须能用一句话说清，说不清就说明没切对）。<br>第一版场景卡有 14 张，客户选到第 9 张就烦了，而且经常选两个相近的。砍到 6 张之后，选择时间从 4 分钟降到 1 分半，反而更准——因为<b>相近的选项会让用户犹豫</b>，犹豫就会乱选。</dd>
+        <dt>踩雷话</dt><dd>别说「参考了行业最佳实践」。这个数字是试出来的，说试出来的更有说服力。</dd>
+      </dl>
+      <div class="tip">加分句：「选项不是越多越自由，越多越难选。砍掉一半之后准确率反而上去了——因为犹豫会让人乱选。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-06"><summary><span class="qno">06</span>追问怎么问，才不让用户烦？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>追问是最容易做砸的一环：问多了用户跑，问少了生成不出来。</dd>
+        <dt>答到哪一层</dt><dd>三条规矩：<b>① 只问缺口，不问感受</b>——系统扫五个槽位，缺哪个问哪个，绝不问「您还有什么要补充的」（这句话等于把活推回给用户）；<b>② 一次只问 1–2 个</b>——连着问五个，用户会当成表单填；<b>③ 给选项不给空白</b>——「查不到时是①明说不知道 ②转人工 ③给个近似答案」比「查不到怎么办」好答十倍。<br>最多 3 轮，超过就转人工顾问。三轮填不满，说明这个需求超出卡片覆盖面，硬生成只会返工。</dd>
+        <dt>踩雷话</dt><dd>别说「问得越细越好」。细是代价，不是优点。</dd>
+      </dl>
+      <div class="tip">加分句：「追问不是聊天，是<b>补槽位</b>。每次只补一个，补完立刻回显给他看——他能看见进度，就愿意继续。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-07"><summary><span class="qno">07</span>五个槽位（角色/输入/输出/边界/验收）是怎么定下来的？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这个结构像方法论，他想知道它有没有被真实需求检验过。</dd>
+        <dt>答到哪一层</dt><dd>不是设计出来的，是<b>从失败里倒推的</b>。第一版只有三个槽位（角色/输入/输出），生成的 Agent 十有八九能跑但没法用——问题全出在缺的这两项：<br><b>边界</b>（它不该做什么）——不写，模型什么都敢答；<b>验收</b>（怎么样算成）——不写，客户永远说「不太对」，改到第十版也不知道哪里不对。<br>所以这两个槽位现在是<b>硬门槛</b>：没填满不许进生成环节，宁可多问一轮。</dd>
+        <dt>踩雷话</dt><dd>别说「参考了 prompt 工程的最佳结构」。它来自返工，不来自书本。</dd>
+      </dl>
+      <div class="tip">加分句：「三个槽位能生成，五个槽位才能验收。多的那两个——边界和验收——是返工教我的。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-08"><summary><span class="qno">08</span>用户选了自相矛盾的组合怎么办？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>边界情况，最能看出你有没有真的跑过这条路。</dd>
+        <dt>答到哪一层</dt><dd>三类冲突，三种处理：<b>硬冲突</b>（选了「完全离线」又选了「需要联网检索最新资料」）——直接拦，告诉他二选一，并说清代价；<b>软冲突</b>（「回答要简短」又选了「要给出完整依据」）——不拦，但回显时标出来：「这两条我们按『先给结论再展开依据』处理，可以吗」；<b>资源冲突</b>（选了本地部署又选了 72B 模型）——提示硬件门槛，让他自己决定。<br>关键原则：<b>不替用户消解冲突</b>。静默选一个，等于埋一颗雷。</dd>
+        <dt>踩雷话</dt><dd>别说「系统会自动优化」。自动优化是黑箱，客户最怕这个。</dd>
+      </dl>
+      <div class="tip">加分句：「冲突必须显式摆在界面上。用户可以选错，但不能不知道自己选了什么。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-09"><summary><span class="qno">09</span>需求获取做到什么程度算「够了」？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是产品判断力的核心题：什么时候停止收集，开始生成。</dd>
+        <dt>答到哪一层</dt><dd>不看「问了多少轮」，看<b>能不能写出验收用例</b>。判据很硬：如果现在让你写三条「这个 Agent 做对了长什么样」，写不出来就是没够。<br>所以我把它做成了系统判据——五个槽位里「验收」这一格填的不是文字，是<b>三条可判定的例子</b>。例子写不出来，系统不放行。<br>这条也顺带解决了后面的评测：验收用例直接变成评测集的第一批样本。</dd>
+        <dt>踩雷话</dt><dd>别说「收集得越充分越好」。充分是个无底洞，客户的时间是有成本的。</dd>
+      </dl>
+      <div class="tip">加分句：「能不能写出三条验收用例，是需求够不够的唯一判据。写不出来，就是还没想清楚。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>生成与验证 <span class="cnt">6 组</span></h3>
+  <p class="ghint">这一段是真工程。答得好，他知道你不是只画了流程图；答不好，前面那些产品判断也会被一起打折。</p>
+
+  <details class="qa" id="factory-10"><summary><span class="qno">10</span>为什么不让大模型直接把代码全写出来？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是「你到底懂不懂生成式工程」的分水岭。现在模型确实能写整套代码，说不让写要给出硬理由。</dd>
+        <dt>答到哪一层</dt><dd>四层结构，模型只写最薄的一层：<b>① 编排骨架</b>——人写，模板固定；<b>② 工具定义</b>——人写，schema 固定；<b>③ Prompt 与配置</b>——模型填，但要过 schema 校验；<b>④ 胶水代码</b>——模型写，只允许调白名单里的方法。<br>直写有三个塌方点：<b>无法静态检查</b>（一堆自由代码，只能跑起来才知道错）、<b>出错无法定位</b>（是模型写错了还是模板有问题，说不清）、<b>改一个字全身重跑</b>（没有边界，就没有差量）。</dd>
+        <dt>踩雷话</dt><dd>别说「现在模型写代码很强」。强和可维护是两件事——强只说明它能写对一次，不说明它能每次都写对。</dd>
+      </dl>
+      <div class="tip">加分句：「不让它写最擅长的部分，是为了它写错的时候我能一眼看出来。可审计比聪明值钱。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-11"><summary><span class="qno">11</span>「平台内验证」到底验什么？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>「验证」是最容易说空话的词，他要具体清单。</dd>
+        <dt>答到哪一层</dt><dd>三件事，按顺序：<b>能不能跑起来</b>——schema 合法、工具都存在、权限不越界；<b>跑得对不对</b>——20 例评测通过率 ≥ 80%；<b>跑得贵不贵</b>——单次调用 token 在预算内、P95 延迟在 3 秒内。<br>三件事都过才放行。少一件，客户拿到手就会发现。<br>这也是为什么验证在<b>云端</b>做——用户机器上没法保证环境一致，测出来的结果不算数。</dd>
+        <dt>踩雷话</dt><dd>别说「我们有人工 review」。人工是兜底，不是验证——验证要能自动跑、能重复跑。</dd>
+      </dl>
+      <div class="tip">加分句：「验证的目标不是证明它好，是<b>尽快证明它不好</b>。晚一步发现，返工成本翻十倍。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-12"><summary><span class="qno">12</span>20 例评测是怎么来的？为什么是 20？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>数字一旦没有出处，就是编的。他要知道这 20 例背后有没有逻辑。</dd>
+        <dt>答到哪一层</dt><dd>来源有三个：<b>① 五槽位里「验收」那三条</b>（用户自己写的可判定例子）、<b>② 边界卡的反例</b>（他勾了「不做」的那些，正好用来测该不该拒绝）、<b>③ 模板自带的高频用例</b>（同类场景跑过的真实提问）。<br>为什么 20：少于 10 例测不出稳定性——一次全对可能是运气；多于 30 例首次生成要等太久，客户等不了 5 分钟。20 是「能看出问题」和「等得起」的交叉点。<br>结构是 8 / 5 / 4 / 3：正常 8 例、边界 5 例、该拒绝 4 例、格式 3 例。</dd>
+        <dt>踩雷话</dt><dd>别说「越多越好」。首次生成有等待上限，评测集不是越大越好，是越对越好。</dd>
+      </dl>
+      <div class="tip">加分句：「20 例不是为了测准，是为了<b>快速筛掉明显不能用的</b>。真正准不准，要看客户跑一周的真实流量。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-13"><summary><span class="qno">13</span>打包为什么不在用户机器上打？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>「云端打包」意味着要传代码上去，他要确认你想清楚了代价。</dd>
+        <dt>答到哪一层</dt><dd>用户机器上有三种死法：<b>没装 Python</b>、<b>装了但版本不对</b>（3.8 和 3.12 的包不通用）、<b>有杀软拦编译过程</b>。<br>云端打的好处是环境可控、依赖能锁版本、能统一签名。代价是<b>包会大</b>（带运行时要 40–80MB）、<b>客户环境仍可能拦</b>。<br>所以流程上先给平台内试用，客户觉得行再下载——把「跑不起来」的风险放在他还没投入的时候暴露。</dd>
+        <dt>踩雷话</dt><dd>别说「PyInstaller 一行命令就行」。那是 hello world，真实项目里第一版包在别人机器上大概率跑不起来。</dd>
+      </dl>
+      <div class="tip">加分句：「打包不难，难的是打出来的包<b>在别人的机器上第一次就能跑</b>。所以这件事必须我们在云端做，不能扔给客户。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-14"><summary><span class="qno">14</span>模型为什么不打进包里？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>「能下载 exe」听起来就该是完全离线的，他想知道你怎么处理这个落差。</dd>
+        <dt>答到哪一层</dt><dd>三个硬理由：<b>体积</b>——7B 量化后 4–5GB，一个「下载即用」的工具不该是这个量级；<b>授权</b>——多数模型的开源协议不允许再分发权重；<b>更新</b>——客户拿到的包是半年前的能力，模型进包就等于冻结。<br>所以包内只放<b>调用层</b>：模型走客户自己的推理服务，或我们的私有端点。<br>真要完全离线，换小模型（3B 量化 1.5–2GB），但只做分类和抽取类任务，能力降一档——这个代价必须提前说。</dd>
+        <dt>踩雷话</dt><dd>别说「可以内置小模型」而不提能力损失。客户会以为内外一样强。</dd>
+      </dl>
+      <div class="tip">加分句：「包是壳，模型是电。壳可以给他，电要走表——不然你不知道他用到什么程度，也没法升级。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-15"><summary><span class="qno">15</span>exe 在客户内网跑不起来，谁负责？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是交付现场最常打的架，他想看你有没有预案。</dd>
+        <dt>答到哪一层</dt><dd>三种死法：<b>DNS 出不去</b>（包要调模型）、<b>杀软拦</b>（PyInstaller 打的包有特征）、<b>缺 VC++ 运行库</b>。<br>责任划法是<b>把环境要求写进交付清单</b>，让客户 IT 提前签字确认：需要能访问哪个域名、需要放行哪类可执行、需要装哪个运行库。<br>另外包里带一个 <code>--doctor</code> 自检命令，跑一下直接输出缺什么——比电话里猜半小时快。</dd>
+        <dt>踩雷话</dt><dd>别说「那不是我们的问题」。客户不关心是谁的问题，只关心什么时候能用。</dd>
+      </dl>
+      <div class="tip">加分句：「交付清单上写清三条环境要求，比事后解释一百句有用。这一条是我被现场教会的。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>二次修改 <span class="cnt">4 组</span></h3>
+  <p class="ghint">这一段全部是产品判断。技术上一句话能说完（差量 Patch），难的是<b>听懂客户在说什么</b>。</p>
+
+  <details class="qa" id="factory-16"><summary><span class="qno">16</span>二次修改为什么不能直接重新生成一遍？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>重新生成在工程上最简单，你不这么做，得有理由。</dd>
+        <dt>答到哪一层</dt><dd>重新生成的代价全在客户身上：<b>前面填的全丢</b>、<b>改好的部分可能变坏</b>、<b>没法解释为什么这次不一样</b>。<br>差量 Patch 的逻辑是：Spec 是唯一真源，客户这次不满，只定位到 <b>1–2 个字段</b>，其余冻结不动。改完跑回归，过了出 v2，不过回滚。<br>所以对客户来说，他看到的是「改了一点」，不是「又生成了一版」——这两种感觉，决定他还愿不愿意继续改。</dd>
+        <dt>踩雷话</dt><dd>别说「重新生成更简单」。对你简单，对他不简单。</dd>
+      </dl>
+      <div class="tip">加分句：「<b>改一个字段和重填一遍，对客户是两种产品。</b>第一种他愿意改第三次，第二种改第二次就走了。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-17"><summary><span class="qno">17</span>用户说「太啰嗦」，你怎么翻译成参数？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这道题考「需求翻译」——AI PM 最核心的一项能力，也是最难自动化的一步。</dd>
+        <dt>答到哪一层</dt><dd>三类不满，对应三类参数，不能混：<br><b>「太啰嗦」</b>→ 输出长度上限 + 强制分点结构（不是改模型，是改约束）；<b>「太生硬」</b>→ 语气示例（给一个例句让它照着说）+ 人称统一；<b>「答得像机器」</b>→ 开场句模板 + 允许保留不确定表达（「这个我不确定，可能需要你确认」比硬答好）。<br>关键：<b>不让客户调 temperature</b>——他不懂，调坏了也不知道为什么。只让他选形容词、给例句。</dd>
+        <dt>踩雷话</dt><dd>别说「让他自己改 prompt」。把参数暴露给业务方，等于把调试成本转嫁给他。</dd>
+      </dl>
+      <div class="tip">加分句：「客户说不出 temperature，但他能说『像我同事那样说话』——我们要做的是把这句话翻成参数，而不是让他学参数。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-18"><summary><span class="qno">18</span>改了 A 结果坏了 B，怎么防？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是所有可配置系统的通病，他想看你有没有做依赖管理和回归。</dd>
+        <dt>答到哪一层</dt><dd>三层防：<b>① Spec 层</b>——字段之间声明依赖（改输出格式会触发哪些模板重算），改 A 时先把 B 标成「受影响」；<b>② 用例层</b>——回归集是老 20 例 + 这条新 case，B 挂了立刻能看出来；<b>③ 版本层</b>——每次修改生成新版本，任意一版可回滚。<br>三层里最重要的是第二层：<b>没有回归集，「改坏了」这件事你根本不会知道</b>。</dd>
+        <dt>踩雷话</dt><dd>别说「我们测试很充分」。充分是不可验证的形容词，只会让对方更怀疑。</dd>
+      </dl>
+      <div class="tip">加分句：「改坏了不可怕，<b>改坏了我不知道</b>才可怕。回归集存在的唯一意义就是让我知道。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-19"><summary><span class="qno">19</span>修改次数为什么设上限？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>限额是最容易被客户投诉的设计，你得能说清逻辑。</dd>
+        <dt>答到哪一层</dt><dd>三次内免费，超出建议换场景。理由是数据：内部统计下来，<b>第 4 次修改的成功率不到 20%</b>——三次还改不好，通常已经不是参数问题，是<b>场景选错了</b>。<br>所以限额不是省成本，是<b>给客户一个信号：该重新想了</b>。真到了第四次，我们会退回去看场景卡，而不是继续打补丁。</dd>
+        <dt>踩雷话</dt><dd>别说「无限次修改」。没有终点的修改，等于没有验收标准。</dd>
+      </dl>
+      <div class="tip">加分句：「改不动的时候，问题往往不在 Agent，在需求。限额是逼我们双方都回头看的那道闸。」</div>
+    </div>
+  </details>
+</div>
+
+<div class="qa-group">
+  <h3>工程边界 <span class="cnt">3 组</span></h3>
+  <p class="ghint">这三组是收尾。答好了，前面所有内容会被重新加权——因为他会意识到你连「做不到」都想过了。</p>
+
+  <details class="qa" id="factory-20"><summary><span class="qno">20</span>生成的 Agent 质量谁担保？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是所有 AI 交付的终极问题。答「我们担保」是吹，答「不担保」是推责。</dd>
+        <dt>答到哪一层</dt><dd>分三层，担保两件、不担保一件：<br><b>担保能跑通</b>（技术）——三道门全过才交付；<b>担保能改</b>（工程）——差量 Patch + 回滚 + 三次内达到验收；<b>不担保效果好</b>——效果好由客户的数据质量和场景复杂度决定，不是我们能单方面承诺的。<br>所以合同里写的验收标准是「20 例通过率 ≥ 80% 且三次修改内达到」，不是「准确率 95%」。</dd>
+        <dt>踩雷话</dt><dd>别说「我们保证效果」。保证效果的，最后都在打官司。</dd>
+      </dl>
+      <div class="tip">加分句：「担保能跑、能改，不担保效果好——<b>前者是我们的工程，后者是客户的业务</b>。这两件事混着承诺，就是给自己埋雷。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-21"><summary><span class="qno">21</span>客户要「完全离线」怎么办？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>政企客户十个有八个提这个要求，他想知道你是照单全收还是有拆解。</dd>
+        <dt>答到哪一层</dt><dd>先拆词。「离线」在客户嘴里有三种意思：<b>不出这台机器</b>、<b>不出内网</b>、<b>不上公网</b>——成本差十倍。<br>对应三条路：<b>真离线</b>（小模型进包，能力降一档，只做分类抽取）、<b>半离线</b>（客户内网起推理服务，包只放调用层）、<b>假离线</b>（内网代理出网，很多客户说的其实是这个）。<br>判断方法一句话：问他「能不能在内网起一个服务」——能，就是半离线，问题解决八成。</dd>
+        <dt>踩雷话</dt><dd>别说「我们支持完全离线」而不提能力损失。签完合同再说，就是事故。</dd>
+      </dl>
+      <div class="tip">加分句：「先问清『离线』是<b>不出内网</b>还是<b>不出这台机器</b>——这两个答案的成本差十倍，也决定这个项目能不能做。」</div>
+    </div>
+  </details>
+
+  <details class="qa" id="factory-22"><summary><span class="qno">22</span>客户说「我要的不是这个」，前面全废了吗？</summary>
+    <div class="body">
+      <dl class="kv">
+        <dt>他为什么问</dt><dd>这是最难回答的一问：既不能显得白干，也不能甩锅给客户。</dd>
+        <dt>答到哪一层</dt><dd>先拆「不是这个」是哪一种：<br><b>场景选错了</b>（要的是客服，结果选了文档问答）——回退到场景卡重选，卡片选择记录还在，30 秒能重来，前面的工作不算废；<b>场景对但期望错了</b>（想要 99% 准确，实际能做到 80%）——不是废了，是期望要校准，把 20 例评测结果摊给他看，让他知道边界在哪。<br>大部分「不是这个」，属于第二种。</dd>
+        <dt>踩雷话</dt><dd>别说「我们可以重做」。重做是最贵的回答，也是最不需要思考的回答。</dd>
+      </dl>
+      <div class="tip">加分句：「大部分『不是这个』不是做错了，是<b>期望没对齐</b>——所以验收用例必须在生成之前就写，写不出来的就是没想清楚。」</div>
+    </div>
+  </details>
+</div>
+
+<h2><span class="n">5</span>三句话记住这一场</h2>
+<div class="lede">
+  <b>① 锚句：</b>客户不会写 prompt，但会做选择。工厂做的是<b>把选择翻译成规格，把规格翻译成能跑的包</b>。<br>
+  <b>② 壁垒句：</b>壁垒不在模型，在<b>卡片的颗粒度</b>（决定需求质量）和<b>修改的差量能力</b>（决定客户愿不愿意继续用）。<br>
+  <b>③ 边界句：</b>担保能跑通、能改，不担保效果好——<b>效果好由客户的数据和场景决定</b>。
+</div>
+
+</main>
+
+<footer>
+  CAD 审图智能体 · 配套文档：<a href="09-项目经历/CAD智能体/CV多模态-技术可行性分析.md">CV多模态-技术可行性分析.md</a> ·
+  <a href="09-项目经历/CAD智能体/00-素材台账与事实池.md">素材台账与事实池</a> ·
+  口径以事实池为准，任何金额与客户真名不进入对外材料。<br>
+  咖啡门店 · 口径：对外表述为「端侧 YOLO 检测 + 大模型二次分析」，不写「多模态大模型做识别」；门店量写「2000+ 门店在跑，从 50 家测试门店起步」；写到具体批次（如 99 工时）时按 50 家一批的口径；不写营收、不写已上线。<br>
+  海图智能体 · 口径：对外表述为「四个窄口径子智能体 + 一套共享底座，靠意图路由分流」，不写「通用 Agent」；模型边界写「只判模糊语义、不产生数字、不做判定、不碰落库前最后一道门」；不写客户真名与合同金额。<br>
+  智能体工厂 · 口径：对外表述为「企业自助智能体生产线」，不写「一句话生成 Agent」；能力边界写「担保能跑通、能改，不担保效果好」；exe 只带调用层不带权重；不写客户真名与合同金额。
+</footer>
+
+<script>
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('on'); });
+      t.classList.add('on');
+      var el = document.getElementById(t.dataset.jump);
+      if(el){
+        var y = el.getBoundingClientRect().top + window.pageYOffset - 78;
+        window.scrollTo({ top: y, behavior:'smooth' });
+      }
+    });
+  });
+
+  // 滚动时让 tab 跟着当前位置走
+  var TICK = false;
+  window.addEventListener('scroll', function(){
+    if(TICK) return;
+    TICK = true;
+    requestAnimationFrame(function(){
+      TICK = false;
+      var y = window.pageYOffset + 140, idx = 0;
+      tabs.forEach(function(t, i){
+        var el = document.getElementById(t.dataset.jump);
+        if(el && el.getBoundingClientRect().top + window.pageYOffset <= y) idx = i;
+      });
+      tabs.forEach(function(t, i){ t.classList.toggle('on', i === idx); });
+    });
+  }, { passive: true });
+</script>
+
+<script>
+(function(){
+  function openFromHash(){
+    var h=location.hash.slice(1); if(!h) return;
+    var el=document.getElementById(h);
+    if(!el) return;
+    if(el.tagName==='DETAILS'){ el.open=true; }
+    setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
+  }
+  window.addEventListener('hashchange', openFromHash);
+  if(document.readyState!=='loading') openFromHash(); else document.addEventListener('DOMContentLoaded', openFromHash);
+})();
+</script>
+</body>
+</html>
