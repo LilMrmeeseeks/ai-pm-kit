@@ -1194,6 +1194,7 @@ body.fs-on{overflow:hidden}
           ? '<a class="src" href="' + esc(ph) + '" target="_blank" rel="noopener" title="' + esc(it.doc) + '">' + esc(it.doc) + '</a>'
           : '<span class="src" title="' + esc(it.doc) + '（项目资料在本地；线上设置「原文服务」后可点开）">' + esc(it.doc) + '</span>';
       }
+      else if (PUB) docHtml = '<span class="src" title="项目文档在本地，未随站发布">' + esc(it.doc) + '</span>';
       else docHtml = '<a class="src" href="' + esc(isLocal ? localHref(it.doc) : 'jd-interview.html') + '" target="_blank" rel="noopener">' + esc(it.doc) + '</a>';
       return '<p class="kone2">' + esc(it.a) + '</p>'
         + '<div class="krow2"><span class="kk">用到</span><span class="vv">' + pts + '</span></div>'
