@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 产品经理 · 技术底盘与学习计划</title>
+<style>
+  :root{
+    --paper:#fbfaf7; --ink:#1b1917; --ink-2:#4d4842; --ink-3:#6f685f;
+    --line:#e3dfd8; --line-2:#efece6; --accent:#b4441f; --accent-soft:#f6ece6;
+    --card:#ffffff; --ok:#3f5a45; --ok-soft:#f1f4f0; --warn:#8a6524; --warn-soft:#f8f1de;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:15.5px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-feature-settings:"tnum";
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{
+    position:sticky; top:0; z-index:20; background:rgba(251,250,247,.95);
+    backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);
+  }
+  .bar{
+    max-width:1160px; margin:0 auto; padding:13px 24px 11px;
+    display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  }
+  .brand{font-size:17px; font-weight:650; letter-spacing:.01em; white-space:nowrap}
+  .brand span{font-size:12px; color:var(--ink-3); letter-spacing:.06em; margin-left:7px; font-weight:400}
+  .xnav{display:flex; gap:2px; align-items:baseline; margin-left:auto; padding-left:12px; border-left:1px solid var(--line)}
+  .xnav a{font-size:12px; color:var(--ink-3); text-decoration:none; padding:4px 7px; border-radius:6px; white-space:nowrap}
+  .xnav a:hover{color:var(--ink); background:var(--card)}
+  .xnav a.on{color:var(--ink); font-weight:600}
+
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-left:auto}
+  .tab{
+    font-size:13px; padding:5px 12px; border:1px solid var(--line); border-radius:999px;
+    color:var(--ink-2); background:var(--card); cursor:pointer; font-family:inherit;
+  }
+  .tab.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .tab:hover{border-color:var(--ink-3)}
+
+  main{max-width:1160px; margin:0 auto; padding:24px 24px 100px}
+  .panel{display:none; animation:fade .18s ease}
+  .panel.on{display:block}
+  @keyframes fade{from{opacity:0; transform:translateY(3px)} to{opacity:1; transform:none}}
+
+  .lede{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:15px 19px; margin:0 0 24px; font-size:14px; color:var(--ink-2); max-width:50em;
+  }
+  .lede b{color:var(--ink)}
+  .lede .rule{
+    display:block; margin-top:9px; padding-top:9px; border-top:1px dashed var(--line);
+    font-size:13px; color:var(--ink-3);
+  }
+
+  h1{font-size:24px; line-height:1.35; margin:0 0 5px; letter-spacing:-.01em}
+  .sub{font-size:13px; color:var(--ink-3); margin:0 0 22px}
+  h2{font-size:19px; margin:40px 0 14px; padding-bottom:9px; border-bottom:1px solid var(--line)}
+  h2:first-child{margin-top:6px}
+  h2 .n{color:var(--accent); font-weight:700; margin-right:8px}
+  h3{font-size:15.5px; margin:26px 0 8px}
+  p{margin:0 0 12px}
+  .muted{color:var(--ink-3); font-size:13px}
+
+  /* KPI */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:0 0 8px}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px}
+  .kpi em{display:block; font-size:12px; color:var(--ink-3); font-style:normal; letter-spacing:.04em}
+  .kpi b{display:block; font-size:24px; line-height:1.3; margin:4px 0 2px; letter-spacing:-.01em}
+  .kpi small{font-size:12px; color:var(--ink-3)}
+  @media (max-width:820px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+
+  /* 表 */
+  table{width:100%; border-collapse:collapse; margin:12px 0 18px; font-size:13.5px}
+  thead th{
+    text-align:left; font-weight:600; color:var(--ink-2); background:#f7f4ef;
+    padding:9px 11px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  tbody td{padding:9px 11px; border-bottom:1px solid var(--line-2); vertical-align:top}
+  tbody tr:hover{background:#fdfbf8}
+  .tw{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .tw table{min-width:660px}
+  td.num, th.num{text-align:right; font-variant-numeric:tabular-nums}
+
+  /* 覆盖率条 */
+  .cov{display:flex; align-items:center; gap:8px; min-width:120px}
+  .cov .track{flex:1; height:6px; background:var(--line-2); border-radius:99px; overflow:hidden; min-width:52px}
+  .cov .fill{display:block; height:100%; background:var(--accent); border-radius:99px}
+  .cov i{font-style:normal; font-size:12px; color:var(--ink-3); width:32px; text-align:right}
+
+  /* 词条卡 */
+  .terms{display:grid; gap:8px; margin:14px 0 6px}
+  details.t{
+    background:var(--card); border:1px solid var(--line); border-radius:9px; overflow:hidden;
+  }
+  details.t[open]{border-color:#d8cfc2}
+  details.t > summary{
+    list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:12px;
+    font-size:14px;
+  }
+  details.t > summary::-webkit-details-marker{display:none}
+  details.t > summary::after{
+    content:"+"; margin-left:auto; color:var(--ink-3); font-size:15px; font-weight:400;
+  }
+  details.t[open] > summary::after{content:"–"}
+  details.t > summary b{font-weight:600; min-width:9.5em}
+  details.t .body{padding:2px 14px 14px; border-top:1px dashed var(--line-2); margin-top:2px}
+  .row3{display:grid; grid-template-columns:88px 1fr; gap:4px 12px; font-size:13.5px; margin-top:10px}
+  .row3 dt{color:var(--ink-3); font-size:12px; padding-top:2px; letter-spacing:.03em}
+  .row3 dd{margin:0; color:var(--ink-2); line-height:1.7}
+  .row3 dd b{color:var(--ink)}
+  .bad{color:#94402e}
+  .tiertag{font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:999px; padding:1px 7px; margin-left:auto}
+  summary .tiertag{margin-left:0}
+
+  /* 讲解卡 */
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0}
+  .cards.one{grid-template-columns:1fr}
+  @media (max-width:860px){ .cards{grid-template-columns:1fr} }
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px}
+  .card h4{margin:0 0 4px; font-size:15px; display:flex; align-items:baseline; gap:8px}
+  .card h4 span{font-size:12px; color:var(--ink-3); font-weight:400; letter-spacing:.04em}
+  .card p{font-size:13.5px; color:var(--ink-2); margin:8px 0 0}
+  .card .q{font-size:13px; color:var(--ink-2); margin-top:10px; padding-left:10px; border-left:2px solid var(--accent-soft)}
+  .card .q b{color:var(--accent); font-size:12px; letter-spacing:.05em; display:block; margin-bottom:2px}
+
+  /* 代码/公式块 */
+  .code{
+    background:#f7f5f1; border:1px solid var(--line); border-radius:8px;
+    padding:13px 15px; margin:12px 0; overflow-x:auto;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px; line-height:1.85; color:#3d3833; white-space:pre;
+  }
+  .code b{color:var(--accent); font-weight:600}
+
+  /* 日历 */
+  .week{margin:22px 0 4px}
+  .week h3{display:flex; align-items:baseline; gap:10px; margin:0 0 10px}
+  .week h3 em{font-style:normal; font-size:12px; color:var(--ink-3); letter-spacing:.06em}
+  .days{display:grid; gap:8px}
+  .day{
+    display:grid; grid-template-columns:52px 1fr; gap:12px; align-items:start;
+    background:var(--card); border:1px solid var(--line); border-radius:9px; padding:12px 14px;
+  }
+  .day.done{background:var(--ok-soft); border-color:#cfe0d3}
+  .day .d{font-size:12px; color:var(--ink-3); letter-spacing:.04em; padding-top:2px}
+  .day h5{margin:0 0 3px; font-size:14.5px}
+  .day p{margin:0; font-size:13px; color:var(--ink-2); line-height:1.7}
+  .day .chk{
+    display:flex; gap:7px; align-items:flex-start; margin-top:7px; font-size:13px; color:var(--ink-3);
+  }
+  .day input[type=checkbox]{margin:3px 0 0; accent-color:var(--ok); width:14px; height:14px; cursor:pointer}
+  .progress{display:flex; align-items:center; gap:10px; margin:6px 0 18px; font-size:13px; color:var(--ink-3)}
+  .progress .track{flex:1; max-width:260px; height:6px; background:var(--line-2); border-radius:99px; overflow:hidden}
+  .progress .fill{height:100%; background:var(--ok); width:0; transition:width .2s}
+
+  .note{font-size:13px; color:var(--ink-3); border-left:2px solid var(--line); padding-left:11px; margin:14px 0}
+  .pill{display:inline-block; font-size:12px; border:1px solid var(--line); border-radius:999px; padding:1px 8px; color:var(--ink-3); margin:0 4px 4px 0}
+  .hl{background:var(--accent-soft); color:#7e2f18; padding:0 3px; border-radius:3px}
+  .ok-hl{background:var(--ok-soft); color:#2f4a35; padding:0 3px; border-radius:3px}
+
+  @media (max-width:700px){
+    .tw{overflow:visible}
+    .tw table{min-width:0}
+    .tw thead{display:none}
+    .tw tr{display:block; padding:12px 0; border-top:1px solid var(--line-2)}
+    .tw tr:first-child{border-top:0}
+    .tw td{display:block; border:0; padding:2px 0; text-align:left; line-height:1.65}
+    .tw td.num{text-align:left}
+    .tw td:first-child{font-weight:600; font-size:14.5px; padding-bottom:5px}
+    .tw td.num[data-label]::before{display:inline; margin-right:7px}
+    .tw td[data-label]:not(:first-child)::before{
+      content:attr(data-label); display:block; color:var(--ink-3);
+      font-size:12px; line-height:1.5; margin:2px 0 1px
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="brand">技术底盘<span>高频词 · 成本 · 14 天</span></div>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-p="market">市场实况</button>
+      <button class="tab" data-p="terms">JD 高频词</button>
+      <button class="tab" data-p="tech">技术主干</button>
+      <button class="tab" data-p="cost">成本与指标</button>
+      <button class="tab" data-p="map">项目映射</button>
+      <button class="tab" data-p="plan">14 天计划</button>
+    </div>
+    <nav class="xnav" aria-label="页面跳转">
+      <a href="jd-interview.html" title="项目深挖 Q&amp;A">项目 Q&amp;A</a>
+      <a href="handbook.html" title="面试问答手册 · 通用轮次">面试手册</a>
+      <a href="interview-sim.html" title="模拟面试 · HR / 老板 / 技术">模拟面试</a>
+      <a href="kg.html" title="知识图谱 · 79 点 + 79 问">知识图谱</a>
+      <a href="site/index.html" title="个人网站">个人网站</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ========== 1 市场实况 ========== -->
+<section class="panel on" id="p-market">
+  <div class="lede">
+    这一页不是「AI 知识科普」。它回答三个问题：<b>市场在为什么付钱</b>、<b>用人部门会把哪个词写进 JD</b>、<b>你手上四个项目分别能接住哪几句追问</b>。
+    顺序是反的——先看市场要什么，再倒推你要补哪块技术，最后才是学习计划。
+    <span class="rule">数据来源：本机 <code>04-求职执行\_cache</code> 里缓存的 99 个猎聘页面（深圳 · 关键词 AI/AIGC 产品经理），可解析出 84 条岗位、75 份含完整 JD 正文。样本是本地缓存、单一城市，不代表全市场；只用来看「词出现在哪类岗位」和「哪类岗位给多少」。</span>
+  </div>
+
+  <h1>市场实况：84 条深圳岗位拆出来是什么</h1>
+  <p class="sub">猎聘缓存快照 · 深圳 · AI / AIGC / 大模型 / 智能体产品岗 · 2026 年</p>
+
+  <div class="kpis">
+    <div class="kpi"><em>可解析岗位</em><b>84</b><small>其中 75 份有完整 JD 正文</small></div>
+    <div class="kpi"><em>薪资中位区间</em><b>21–40k</b><small>下限中位 21k · 上限中位 40k</small></div>
+    <div class="kpi"><em>平均薪资月数</em><b>13.3 薪</b><small>样本均值，多数写 13–16 薪</small></div>
+    <div class="kpi"><em>年化中位</em><b>≈ 40 万</b><small>(21+40)/2 × 13.3</small></div>
+  </div>
+  <p class="note">这是「写出来的区间」的中位，不是 offer 中位。真实成交通常落在区间下半段，且被经验和上一份薪资压着。用它判断方向，不用它谈薪。</p>
+
+  <h2><span class="n">1</span>岗位分成五族，价差就在这里</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>岗位家族</th><th class="num">条数</th><th>薪资中位</th><th>JD 里的典型写法</th></tr></thead>
+    <tbody>
+      <tr><td data-label="岗位家族"><b>Agent / 智能体产品</b></td><td class="num" data-label="条数">23</td><td data-label="薪资中位"><span class="hl">25–50k</span></td><td data-label="JD 里的典型写法">「Agent 产品经理」「智能体产品经理」「飞书 Agent」「数据 Agent」「Agent 用户体验」</td></tr>
+      <tr><td data-label="岗位家族">AI 应用产品（通用）</td><td class="num" data-label="条数">52</td><td data-label="薪资中位">20–38k</td><td data-label="JD 里的典型写法">「AI 应用产品经理」「AI 产品经理（行业方向）」，量最大，也最容易卷</td></tr>
+      <tr><td data-label="岗位家族">大模型应用 / 平台</td><td class="num" data-label="条数">14</td><td data-label="薪资中位">18–33k</td><td data-label="JD 里的典型写法">「大模型应用平台产品」「大模型策略产品（对话/语音方向）」</td></tr>
+      <tr><td data-label="岗位家族">AIGC / 内容生成</td><td class="num" data-label="条数">9</td><td data-label="薪资中位">20–40k</td><td data-label="JD 里的典型写法">「AIGC 产品经理（出海）」，偏创作工具与内容侧</td></tr>
+      <tr><td data-label="岗位家族">评测 / 策略</td><td class="num" data-label="条数">6</td><td data-label="薪资中位"><span class="hl">25–50k</span></td><td data-label="JD 里的典型写法">「大模型评测产品经理」「大模型测评产品经理」，条数少、单价高</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">家族按岗位名归类，一条岗位可能同时命中多族，所以条数之和大于 84。</p>
+
+  <h2><span class="n">2</span>三条能直接改简历的结论</h2>
+  <div class="cards">
+    <div class="card">
+      <h4>① 溢价在 Agent，而你正好在 Agent 上</h4>
+      <p>Agent / 智能体这一族条数第二多（23 条）、中位最高（25–50k）。你的四个项目——CAD 审图的规则+检索分工、海图四个子智能体的边界切分、咖啡的检测与大模型双通道、智能体工厂的生成流水线——<b>全部是 Agent 工程问题</b>，不是模型训练问题。</p>
+      <p>简历第一行不要写「AI 产品经理」，写「智能体产品：多智能体边界切分 / 规则与模型分工 / 上线验收」。</p>
+    </div>
+    <div class="card">
+      <h4>② 通用「AI 应用」量最大，但那是价格洼地</h4>
+      <p>52 条通用岗中位 20–38k，比 Agent 族低一档。这类岗的 JD 通常只写「懂大模型、能提需求、能推动落地」——门槛低、竞争者多。</p>
+      <p>你要做的不是避开它，而是<b>用同一份经历投两类岗</b>：投通用岗时把项目讲成「落地能力」，投 Agent 岗时把同一段讲成「架构判断」。</p>
+    </div>
+    <div class="card">
+      <h4>③ 评测岗少、贵、且你有一半现成素材</h4>
+      <p>只有 6 条，但中位 25–50k。原因是能定「什么叫做对了」的人稀缺。</p>
+      <p>你手上有三套现成的验收口径：CAD 的 85/70/85 + 80 张读通 60 + ≤3 分钟 + 连续 3 天；海图的四项考核目标；工厂的三道验证门（静态检查 / 沙箱 60 秒 / 20 例）。<b>这就是评测岗的语言</b>。</p>
+    </div>
+    <div class="card">
+      <h4>④ 经验要求：3–5 年是主战场</h4>
+      <p>22 条要 3–5 年，11 条不限经验，9 条要 5–10 年，8 条要 1–3 年。<b>3–5 年这一档竞争最密</b>，也是「项目讲得清」比「年限够」更起作用的一档。</p>
+      <p>所以这一页的重点不是补年限，是把四个项目讲到能被追三层。</p>
+    </div>
+  </div>
+
+  <h2><span class="n">3</span>这份数据不能证明什么</h2>
+  <p>样本是深圳、单平台、关键词页抓下来的，重复岗位没有去重，薪资取的是页面首屏区间。所以：<b>不要用它算「AI PM 平均年薪」</b>，也不要用它推「哪个方向明年还火」。它只能证明一件事——<b>这 75 份 JD 里，哪些词被写下来了</b>。下一页就是这件事。</p>
+</section>
+
+<!-- ========== 2 JD 高频词 ========== -->
+<section class="panel" id="p-terms">
+  <div class="lede">
+    覆盖率 = 75 份 JD 正文里，<b>提到该词的岗位占比</b>（一个词在一份 JD 里出现多次只算一次）。
+    这个排序不是「重要性排序」，是<b>用人部门写在纸面上的期待</b>——它决定你的简历会被哪句话钩住，也决定技术面从哪一层切进来。
+    <span class="rule">用法：先看 Tier 1（≥45%，不答就是硬伤），再扫 Tier 2（25–45%，答得出就拉开差距）。Tier 3/4 是「提到了会加分，没提到别主动展开」。</span>
+  </div>
+
+  <h1>JD 高频词：75 份真实 JD 的覆盖率</h1>
+  <p class="sub">点开任意一条看：JD 原文怎么写 / 面试怎么问 / 你用哪个项目答 / 哪儿容易说过头</p>
+
+  <h2><span class="n">T1</span>必答区（≥45%）：不接住就是硬伤</h2>
+  <div class="terms">
+
+    <details class="t" open>
+      <summary><b>行业 know-how</b><span class="cov"><span class="track"><span class="fill" style="width:95%"></span></span><i>95%</i></span><span class="tiertag">71/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「熟悉 XX 行业业务流程」「有垂直行业落地经验优先」「能快速理解客户业务」。这是全样本覆盖率最高的一条——<b>比「懂大模型」还高</b>。</dd>
+          <dt>怎么问</dt><dd>「你没做过我们这个行业，凭什么三个月能上手？」——注意，他问的不是知识，是<b>进场方法</b>。</dd>
+          <dt>你用哪个答</dt><dd>海图那一场。第一场会你把顺序搞错了（把信息整编、编绘、制图当成三件并列的活），被客户信息部门负责人当场纠正成「一条流水线：整编是输入、编绘是入库、制图是输出」。之后你改成<b>先猜后问、每轮最多三个问题、十条预判错六条</b>，错在定义与权限、不在算法。</dd>
+          <dt>别说</dt><dd class="bad">别说「我学习能力强」。那是形容词；上面那段是方法。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>项目管理 / 落地推进</b><span class="cov"><span class="track"><span class="fill" style="width:92%"></span></span><i>92%</i></span><span class="tiertag">69/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「推动跨部门协作」「对最终交付负责」「协调研发、算法、业务资源」。</dd>
+          <dt>怎么问</dt><dd>「研发说做不了，你怎么办？」「排期要延期，你怎么跟客户说？」</dd>
+          <dt>你用哪个答</dt><dd>两个真实回合：① 你提「直接并发调模型」，算法同事按调用量估了一遍说成本兜不住，<b>你当场收回</b>，改成批量提取 + 结果缓存，顺带把接口抽了一层，后来换国产模型业务代码没动；② 海图十二个接口分属不同部门、你方推不动，改成<b>客户信息部门牵头，我方只出接口清单和优先级</b>。</dd>
+          <dt>别说</dt><dd class="bad">别说「我协调能力很强」。说服对方靠的是数字和归属，不是态度。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>API / 工程协作</b><span class="cov"><span class="track"><span class="fill" style="width:77%"></span></span><i>77%</i></span><span class="tiertag">58/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「能与研发/算法团队高效沟通」「熟悉 API 设计与联调」「理解技术实现路径」。</dd>
+          <dt>怎么问</dt><dd>「你怎么判断研发说的『做不了』是真做不了，还是不想做？」</dd>
+          <dt>你用哪个答</dt><dd>拆成三种「做不了」：<b>能力不行</b>（要证据：换一个样本还能不能复现）、<b>代价太高</b>（要分母：多少条数据、多少调用量、多少钱一次）、<b>责任不清</b>（要归属：判错了谁签字）。你在 CAD 项目上遇到的是第三种——钱总工那句「我就担心你们系统说没问题，最后图审退回来，责任算谁的」，直接把技术路线逼成了规则引擎。</dd>
+          <dt>别说</dt><dd class="bad">别说「我不懂技术，但我懂需求」。这句话在技术负责人面前等于「我不会被追问」。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>B 端 / 企业服务</b><span class="cov"><span class="track"><span class="fill" style="width:75%"></span></span><i>75%</i></span><span class="tiertag">56/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「面向企业客户」「有 ToB 产品经验」「能对接客户业务部门」「私有化交付经验优先」。</dd>
+          <dt>怎么问</dt><dd>「B 端 AI 产品和 C 端有什么不一样？」</dd>
+          <dt>你用哪个答</dt><dd>一句话：<b>C 端优化「惊喜」，B 端优化「不用返工」</b>。B 端的验收发生在别人签字那一刻，所以你的四个项目全部以「草案 + 人签字」收口：CAD 出审查报告草案、海图对外发布一律由人执行、咖啡出告警事件由督导判断、工厂出的 Agent 包要过三道门才能交付。</dd>
+          <dt>别说</dt><dd class="bad">别说「B 端更看重稳定性」——太笼统。要落到「谁承担后果」。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>大模型 / LLM</b><span class="cov"><span class="track"><span class="fill" style="width:73%"></span></span><i>73%</i></span><span class="tiertag">55/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「熟悉大模型能力边界」「了解主流模型差异」「能判断什么场景该用大模型」。</dd>
+          <dt>怎么问</dt><dd>「什么场景不该用大模型？」——这是产品岗最常用来筛人的一题。</dd>
+          <dt>你用哪个答</dt><dd>三句话原则：<b>要可复算的不给它</b>（配筋率计算、工期统计）、<b>要可追责的不给它</b>（判定结论）、<b>要穷举的不给它</b>（8 类 SOP 检测用闭集 YOLO 更便宜更稳）。它该干的活是：把不确定的语义收窄（这句通告是临时作业还是永久变化）、把事件列表翻成人话（「今天先看这三家店」）、把规范条文找出来（带版本号，只引用不生成条号）。</dd>
+          <dt>别说</dt><dd class="bad">别说「大模型什么都能做，看 prompt 写得好不好」。这句话会让技术面直接开始考你。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>Agent / 智能体</b><span class="cov"><span class="track"><span class="fill" style="width:60%"></span></span><i>60%</i></span><span class="tiertag">45/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「有 Agent / 智能体产品设计经验」「理解多智能体协作」「设计过工具调用与任务编排」。</dd>
+          <dt>怎么问</dt><dd>「你为什么把它拆成四个 Agent，而不是一个大 Agent？」「什么时候不该用 Agent？」</dd>
+          <dt>你用哪个答</dt><dd>海图：客户嘴里是「一个 AI 助手」，你拆成四个——<b>A1 负责问、A2 负责派、A3 负责改、A4 负责画</b>。拆的依据不是功能清单，是<b>流水线顺序</b>（整编是输入、编绘是入库、制图是输出）+ <b>每段有独立的责任人和边界</b>。反例也现成：客户原本那套是单体 Agentic RAG，一条链、一个入口，只能查资料；要它去「真的出一张图」就垮了。</dd>
+          <dt>别说</dt><dd class="bad">别说「Agent 就是会自动调工具的 chatbot」。这句话把 Agent 说成了产品形态，而它是<b>职责划分</b>。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>需求 / PRD</b><span class="cov"><span class="track"><span class="fill" style="width:60%"></span></span><i>60%</i></span><span class="tiertag">45/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「独立完成需求分析与 PRD」「能把业务需求转成产品方案」。</dd>
+          <dt>怎么问</dt><dd>「AI 产品的 PRD 和普通 PRD 差在哪？」</dd>
+          <dt>你用哪个答</dt><dd>差在三处必须写死：<b>① 边界</b>（哪些不做——CAD 合同里写了不做 PDF 审图、不做全专业全图、不做三维 BIM、不代替签字）；<b>② 失败态</b>（不确定时输出什么——「疑似违规」这一档，钱总工说这句比「通过」值钱）；<b>③ 验收口径</b>（85/70/85 三条线 + 80 张读通 60 + ≤3 分钟 + 连续 3 天不崩，双签）。普通 PRD 不写这三样，因为普通功能没有「概率」。</dd>
+          <dt>别说</dt><dd class="bad">别说「PRD 都差不多，加个模型调用说明就行」。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">T2</span>常考区（25–45%）：答得出就拉开差距</h2>
+  <div class="terms">
+
+    <details class="t">
+      <summary><b>C 端 / 用户体验</b><span class="cov"><span class="track"><span class="fill" style="width:59%"></span></span><i>59%</i></span><span class="tiertag">44/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「AI 功能怎么设计等待和失败？用户不知道它在想什么怎么办？」</dd>
+          <dt>你用哪个答</dt><dd>海图 A1 的<b>可展开推理</b>：答案下面能点开「模型想了什么、调了哪个工具」。理由不是透明好看，是<b>答错了能倒查是哪一步错</b>——这是业务敢用的前提。另一条：答案必须带数据截至日期，冲突并列、不替人裁决。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>竞品 / 行业研究</b><span class="cov"><span class="track"><span class="fill" style="width:49%"></span></span><i>49%</i></span><span class="tiertag">37/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「你怎么看 XX 家的方案？为什么不做成他们那样？」</dd>
+          <dt>你用哪个答</dt><dd>CAD 那条：<b>否掉「端到端大模型直读图纸」</b>，理由不是模型不行，是合同写着「规则引擎计算逻辑正确，输入正确参数后，计算结果零误差」——概率系统给不了这个承诺。同一逻辑，你在咖啡项目否掉了「端到端 VLM 当主机位」：24×7 连续理解，成本撑不住，而且五类计数根本不需要语义理解。</dd>
+          <dt>别说</dt><dd class="bad">别说「我们比他们更懂业务」。要比就比<b>哪一层被拿掉了、代价是什么</b>。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>指标体系</b><span class="cov"><span class="track"><span class="fill" style="width:48%"></span></span><i>48%</i></span><span class="tiertag">36/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「这个 AI 功能上线，你看哪几个数？」</dd>
+          <dt>你用哪个答</dt><dd>三层，一层不能少：<b>业务层</b>（督导少跑几家店 / 一条通告核对从 2.5 分钟到 40 秒 / 单面墙复核 6 分钟到 1.5 分钟）→ <b>产品层</b>（采纳率、人工改写率、「疑似」档占比、复核时长）→ <b>技术层</b>（召回、精确率、P95 延迟、单次成本）。见「成本与指标」一页。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>数据分析</b><span class="cov"><span class="track"><span class="fill" style="width:41%"></span></span><i>41%</i></span><span class="tiertag">31/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「你怎么证明这个功能有用？」</dd>
+          <dt>你用哪个答</dt><dd>反着说：<b>先定义「错在哪」，再谈准确率</b>。CAD 那次 52% 的复合配筋场景，78% 的误判来自「附加筋漏算」——一个可归因的错因，比一个漂亮的总体准确率有用得多。修完 52%→74%、漏算 78%→9%、标准标注 87.5%→88% 无回退。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>模型评测</b><span class="cov"><span class="track"><span class="fill" style="width:36%"></span></span><i>36%</i></span><span class="tiertag">27/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「你怎么知道它变好了？离线好上线差怎么办？」</dd>
+          <dt>你用哪个答</dt><dd>工厂那三道门就是评测：<b>门 1 静态检查</b>（schema 合法 / 工具真的存在 / 权限不越界）→ <b>门 2 沙箱跑通</b>（独立容器、限时 60 秒、断外网、mock 数据）→ <b>门 3 20 例</b>。三层分别抓「写错」「跑不起来」「跑得不对」。另外一条硬规矩：<b>口头警告必须当场转成测试用例</b>——CAD 那条复合标注的雷，就是 4 月钱总工口头警告了、5 月没转成用例、11 月炸的。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>RAG / 检索增强</b><span class="cov"><span class="track"><span class="fill" style="width:32%"></span></span><i>32%</i></span><span class="tiertag">24/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>JD 怎么写</dt><dd>「熟悉 RAG 原理与优化」「有知识库问答落地经验」。</dd>
+          <dt>怎么问</dt><dd>「RAG 答不准，你从哪一层查？」——答错这一题的人，通常只会说「换更好的 embedding」。</dd>
+          <dt>你用哪个答</dt><dd>按链路定位，四层：<b>切分层</b>（条文被切断、条款号与正文分离）→ <b>召回层</b>（该召回的没进来：同义词、编号、表格）→ <b>排序层</b>（进来了但排到第 8 位被截断）→ <b>生成层</b>（上下文对，模型自己加话）。在 CAD 项目里你的边界更狠：<b>规范检索只负责「把条文找出来带版本号」，不许模型生成条号</b>——因为条号错了整份报告就废了。</dd>
+          <dt>别说</dt><dd class="bad">别说「RAG 就是把文档丢进向量库」。这是 2023 年的话术。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>客服 / 对话</b><span class="cov"><span class="track"><span class="fill" style="width:32%"></span></span><i>32%</i></span><span class="tiertag">24/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「怎么提高自助解决率，又不让用户被绕住？」</dd>
+          <dt>你用哪个答</dt><dd>转人工不是失败，是<b>产品的一部分</b>。你在工厂里定的是：五槽位扫描（角色/输入/输出/边界/验收）缺哪个问哪个，<b>一次只问 1–2 个，最多 3 轮，填不满就转人工顾问</b>——三轮填不满说明需求超出覆盖面，继续问只会更烦。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>微调 / 训练</b><span class="cov"><span class="track"><span class="fill" style="width:31%"></span></span><i>31%</i></span><span class="tiertag">23/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>产品岗问的从来不是「怎么训」，而是<b>「什么时候不该微调」</b>。</dd>
+          <dt>你用哪个答</dt><dd>三个判断：<b>缺知识</b>→ 用 RAG（知识会变，权重不会跟着变）；<b>缺格式/风格</b>→ 用 prompt + 结构化输出；<b>缺能力</b>（模型根本没这本事）→ 才轮到微调，而且要先问「换个更强的模型行不行」。</dd>
+          <dt>别说</dt><dd class="bad">别说「数据够就能微调出效果」。你还得回答「谁标、标多少、错了怎么回滚」——这三问答不出来就是没落过地。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>多模态</b><span class="cov"><span class="track"><span class="fill" style="width:29%"></span></span><i>29%</i></span><span class="tiertag">22/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「这个场景用视觉模型，为什么不用 OCR / 不用规则？」</dd>
+          <dt>你用哪个答</dt><dd>三次不同的选择，正好是一张决策表：<b>CAD 图纸</b>——文字本来就在矢量层，直接取，OCR 只兜扫描件，VLM 直读被判「文档理解成立、工程图纸空间语义推理不成立」；<b>咖啡门店</b>——8 类 SOP 里五类计数用闭集 YOLO（目标稳定、类别可穷举），有效期用「检测框 + OCR + 日期规则」因为要可复算，只有「现在店里有几个员工」这种没装专项的问题才抽一帧给多模态模型现场看；<b>智能体工厂</b>——不用视觉，用卡片把自然语言选择化。</dd>
+          <dt>别说</dt><dd class="bad">别说「多模态就是能看图」。判断点是<b>要可复算还是要泛化</b>，可复算就别上大模型。</dd>
+        </dl>
+      </div>
+    </details>
+
+    <details class="t">
+      <summary><b>Token / 成本</b><span class="cov"><span class="track"><span class="fill" style="width:28%"></span></span><i>28%</i></span><span class="tiertag">21/75 篇</span></summary>
+      <div class="body">
+        <dl class="row3">
+          <dt>怎么问</dt><dd>「这功能一天烧多少钱？怎么砍一半？」</dd>
+          <dt>你用哪个答</dt><dd>见「成本与指标」一页的公式。真实案例：你提的「直接并发调模型」被算法同事按调用量算完否掉，改成<b>批量提取 + 结果缓存</b>——省的不是单价，是<b>调用次数</b>；另一层是<b>路由</b>：能用小模型判的别给大模型（咖啡的「有没有专项算法」先路由，就是这个结构）。</dd>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <h2><span class="n">T3</span>加分区（15–25%）：提到了会加分</h2>
+  <div class="terms">
+    <details class="t">
+      <summary><b>工作流编排</b><span class="cov"><span class="track"><span class="fill" style="width:25%"></span></span><i>25%</i></span><span class="tiertag">19/75 篇</span></summary>
+      <div class="body"><dl class="row3">
+        <dt>一句话</dt><dd>固定流程用编排（可测、可回放），开放任务才用 Agent 自主循环。</dd>
+        <dt>你的锚</dt><dd>海图把外部编排框架换掉、四个引擎自研（推理循环 / 记忆 / 任务编排 / 技能生命周期）。面试要说清<b>为什么换</b>：不是嫌它不好，是要控制「一次任务里哪几步必须确定」。</dd>
+      </dl></div>
+    </details>
+    <details class="t">
+      <summary><b>知识库</b><span class="cov"><span class="track"><span class="fill" style="width:24%"></span></span><i>24%</i></span><span class="tiertag">18/75 篇</span></summary>
+      <div class="body"><dl class="row3">
+        <dt>一句话</dt><dd>知识库的活 80% 在入库前：版本、来源、更新时间、谁能改。</dd>
+        <dt>你的锚</dt><dd>CAD 的 GB 50038 向量化——<b>只引用带版本号的条文</b>，规范更新时能整批替换，而不是让模型记住。</dd>
+      </dl></div>
+    </details>
+    <details class="t">
+      <summary><b>Prompt / 上下文工程</b><span class="cov"><span class="track"><span class="fill" style="width:20%"></span></span><i>20%</i></span><span class="tiertag">15/75 篇</span></summary>
+      <div class="body"><dl class="row3">
+        <dt>一句话</dt><dd>不是「把话说得客气点」，是<b>决定这一轮模型看到什么、看不到什么</b>。</dd>
+        <dt>你的锚</dt><dd>海图的「规则兜底、模型只处理模糊语义」，以及「统计数字一律查询直出，禁止模型复述」——后者是把一段上下文直接不给模型。</dd>
+      </dl></div>
+    </details>
+    <details class="t">
+      <summary><b>MCP / 工具调用</b><span class="cov"><span class="track"><span class="fill" style="width:17%"></span></span><i>17%</i></span><span class="tiertag">13/75 篇</span></summary>
+      <div class="body"><dl class="row3">
+        <dt>一句话</dt><dd>MCP 是让模型调外部工具的协议；产品要管的是<b>工具清单、权限、失败回退</b>，不是协议细节。</dd>
+        <dt>你的锚</dt><dd>海图加了 MCP 网关，把「查」升级成「触发业务动作」（真的去出一张图）；权限边界是「对外发布一律由人执行」。</dd>
+      </dl></div>
+    </details>
+    <details class="t">
+      <summary><b>商业化 / 私有化部署</b><span class="cov"><span class="track"><span class="fill" style="width:16%"></span></span><i>16%</i></span><span class="tiertag">12/75 篇</span></summary>
+      <div class="body"><dl class="row3">
+        <dt>一句话</dt><dd>私有化不是「部署到内网」，是<b>算力档位 + 模型档位 + 信创适配</b>三件事一起定。</dd>
+        <dt>你的锚</dt><dd>转工序线那张档位表：POC 用 1–2 张 96GB 卡跑 Qwen3-235B 量化版；正式版 4–8 卡上 GLM / DeepSeek / Qwen3-Coder；信创走昇腾 + MindIE。<b>金额只内部留存，对外只讲档位和量级</b>。</dd>
+      </dl></div>
+    </details>
+  </div>
+
+  <h2><span class="n">T4</span>信号区（&lt;15%）：覆盖率低，但决定你像不像内行</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>词</th><th class="num">覆盖</th><th>为什么低</th><th>你该怎么用</th></tr></thead>
+    <tbody>
+      <tr><td data-label="词">数据标注 / 治理</td><td class="num" data-label="覆盖">9%</td><td data-label="为什么低">AI PM 岗很少背标注 KPI，这活多在算法/数据侧</td><td data-label="你该怎么用">只在被问「数据从哪来」时提一句：CAD 那 80 张样本、复合标注占比低是根因之一</td></tr>
+      <tr><td data-label="词">幻觉 / 可控性</td><td class="num" data-label="覆盖">8%</td><td data-label="为什么低">JD 不写，但<b>面试必问</b></td><td data-label="你该怎么用">用「结构上不给它机会」答，而非「加一句不许编造」</td></tr>
+      <tr><td data-label="词">Dify / Coze 等平台</td><td class="num" data-label="覆盖">4%</td><td data-label="为什么低">工具名不是能力，写进 JD 反而限制候选人</td><td data-label="你该怎么用">会用就行，别在简历第一行写</td></tr>
+      <tr><td data-label="词">LangChain</td><td class="num" data-label="覆盖">3%</td><td data-label="为什么低">同上，且已不是唯一选择</td><td data-label="你该怎么用"><b>你有更好的答案</b>：在海图把它换掉了。被问「熟不熟 LangChain」时，答「用过，后来换掉了，原因是——」比背 API 值钱十倍</td></tr>
+      <tr><td data-label="词">A/B 测试</td><td class="num" data-label="覆盖">0%</td><td data-label="为什么低">AI 功能的 A/B 往往做不了（样本少、结果随机、上线即体验）</td><td data-label="你该怎么用">主动说「AI 的 A/B 有前提」，比硬套强</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">这一栏是这张表最有信息量的地方：<b>JD 几乎不写框架名，写的是「能不能把 Agent 落到业务里」</b>。所以你的学习时间不要花在背 LangChain 的 API 上，花在能讲清「为什么不用它」上。</p>
+</section>
+
+<!-- ========== 3 技术主干 ========== -->
+<section class="panel" id="p-tech">
+  <div class="lede">
+    只保留产品经理会被追问的那一层：<b>机制一句话 → 你要判断什么 → 你项目里在哪 → 他会怎么问</b>。
+    训练、分布式、并行策略整段删掉了——那三类问题在 AI 产品岗的面试里出现率极低，出现了也只需答「这块不是我的决策范围，我的判断点在选型与验收」。
+    <span class="rule">深度标准：每一讲都能被追三层。第一层说清是什么，第二层说清它会怎么坏，第三层说清你为它付了什么代价。</span>
+  </div>
+
+  <h1>技术主干八讲</h1>
+  <p class="sub">按「被问到的概率 × 你已有的素材」排序，不是按教科书顺序</p>
+
+  <div class="cards">
+
+    <div class="card">
+      <h4>1 · RAG 全链路 <span>你已有 77 篇语料可查</span></h4>
+      <p><b>一句话</b>：把「查得到的资料」在提问那一刻塞进上下文，让模型基于资料回答并给出处。</p>
+      <p><b>六个环节</b>：切分 → 向量化 → 召回（可多路）→ 重排 → 拼上下文 → 生成带引用。<b>答不准时按环节定位，不要一句「换个 embedding」。</b></p>
+      <p><b>你要判断的</b>：这问题该用 RAG 还是长上下文？（资料会变、要出处、要控成本 → RAG；一次性读完整份合同 → 长上下文更省事）</p>
+      <div class="q"><b>他会问</b>RAG 答不准，你从哪一层查？／为什么不用微调？／召回率上不去怎么办？</div>
+    </div>
+
+    <div class="card">
+      <h4>2 · Agent 与工作流 <span>你的主战场</span></h4>
+      <p><b>一句话</b>：工作流是「步骤写死的流水线」，Agent 是「模型自己决定下一步」。前者可测可回放，后者能处理没预料到的输入。</p>
+      <p><b>判断线</b>：步骤能穷举 → 工作流；输入形态不可穷举、但每步动作可枚举 → 工作流 + 模型做判断；连动作都要现场想 → Agent。</p>
+      <p><b>你的锚</b>：海图四个子智能体不是「四个 chatbot」，是<b>按流水线切的四段职责</b>；CAD 里规则引擎负责确定判定、模型只做语义收窄——这是「Agent 里最贵的那部分被拿掉了」。</p>
+      <div class="q"><b>他会问</b>什么时候不该用 Agent？／多 Agent 怎么划边界？／它们之间怎么传状态？</div>
+    </div>
+
+    <div class="card">
+      <h4>3 · 工具调用与 MCP</h4>
+      <p><b>一句话</b>：模型本身只会输出文字；能「查库、发请求、出图」是因为外面挂了一排工具，模型输出「我要调哪个、参数是什么」。MCP 是把这套挂载标准化的协议。</p>
+      <p><b>你要判断的</b>：工具清单要短（每个工具都是一次误调用的机会）、写操作要人确认、失败要有回退话术。</p>
+      <div class="q"><b>他会问</b>模型把参数填错了怎么办？／工具权限怎么控？</div>
+    </div>
+
+    <div class="card">
+      <h4>4 · 多模态 <span>三次不同选择</span></h4>
+      <p><b>一句话</b>：能看图/听音不等于能判断。判断点是<b>要可复算还是要泛化</b>。</p>
+      <p><b>决策表</b>：要可复算 → 专用小模型 / OCR / 规则；要泛化、要处理没见过的问法 → 多模态大模型；两者都要 → 双通道（专用先跑，没覆盖的抽一帧给大模型）。</p>
+      <div class="q"><b>他会问</b>为什么不用 VLM 直接读图？／分辨率怎么处理？／抽帧策略怎么定？</div>
+    </div>
+
+    <div class="card">
+      <h4>5 · Prompt 与上下文工程</h4>
+      <p><b>一句话</b>：不是措辞艺术，是<b>上下文预算管理</b>——这一轮给模型看什么、按什么顺序、留多少给输出。</p>
+      <p><b>四件确定的事</b>：结构化输出（schema / JSON，别让模型自由发挥格式）、少样本要挑「边界样本」而不是「典型样本」、长文档先摘要再问答、把「不许做的事」写成硬约束而不是请求。</p>
+      <div class="q"><b>他会问</b>输出格式老是不稳怎么办？／上下文塞满了怎么取舍？</div>
+    </div>
+
+    <div class="card">
+      <h4>6 · 评测 <span>你最强的差异点</span></h4>
+      <p><b>一句话</b>：评测不是打分，是<b>定义「什么叫做对了」</b>，并让它可重复。</p>
+      <p><b>四层</b>：离线集（有标准答案的 N 条）→ 回归集（历史 badcase 常驻）→ 上线门（静态 / 沙箱 / N 例）→ 线上抽检（人工 + 自动判官）。<b>最贵的是回归集</b>，因为它只能靠事故攒。</p>
+      <div class="q"><b>他会问</b>离线好上线差怎么办？／谁来标？标多少条够？／LLM 当裁判可信吗？</div>
+    </div>
+
+    <div class="card">
+      <h4>7 · 成本</h4>
+      <p><b>一句话</b>：成本 = 调用次数 × 单次 token × 单价。三个乘数各有各的杠杆，<b>先砍次数，再砍 token，最后才谈换便宜模型</b>。</p>
+      <p><b>你的锚</b>：批量提取 + 结果缓存（砍次数）、统计查询直出不复述（砍 token）、按问题路由到不同档位（砍单价）。</p>
+      <div class="q"><b>他会问</b>DAU 一万，一天多少钱？／怎么砍一半？</div>
+    </div>
+
+    <div class="card">
+      <h4>8 · 选型与部署</h4>
+      <p><b>一句话</b>：选型不是选最强，是选<b>「在你客户的机房、你的预算、你的延迟要求下，够用的那个」</b>。</p>
+      <p><b>四个约束</b>：能不能出内网（私有化/信创）、一次调用能等多久（P95）、单次能花多少、要多大上下文。四个一卡，可选范围通常只剩两三个。</p>
+      <div class="q"><b>他会问</b>为什么选这个模型？／国产化要求怎么满足？／换模型要返工吗？</div>
+    </div>
+  </div>
+
+  <h2><span class="n">·</span>三个必须能一句话说清的边界</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>问题</th><th>一句话答法</th><th>为什么这么答</th></tr></thead>
+    <tbody>
+      <tr><td data-label="问题">大模型会不会取代规则引擎？</td><td data-label="一句话答法">不会。规则负责<b>可复算</b>，模型负责<b>可泛化</b>；责任要签字的场景，必须留一条能复算的路。</td><td data-label="为什么这么答">这句话同时挡住了「你是不是不懂 AI」和「你是不是过度迷信 AI」两个陷阱</td></tr>
+      <tr><td data-label="问题">RAG 会不会被长上下文取代？</td><td data-label="一句话答法">看三件事：资料会不会变、要不要出处、调用量多大。三个都是「是/要/大」，RAG 就还在。</td><td data-label="为什么这么答">给判断条件，不给结论，面试官才信你是想过而不是背过</td></tr>
+      <tr><td data-label="问题">多 Agent 是不是比单 Agent 好？</td><td data-label="一句话答法">只有在<b>职责能切开、边界能验收</b>时才更好。切不开的多 Agent 是把一个 bug 变成四个 bug。</td><td data-label="为什么这么答">反向证据你自己有：客户原来那套单体 Agentic RAG 只能查资料，不是它笨，是它没有边界</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ========== 4 成本与指标 ========== -->
+<section class="panel" id="p-cost">
+  <div class="lede">
+    产品经理在成本题上失分，几乎都不是算错，而是<b>没算</b>。这一页给的是能当场写在纸上的三个公式和一张指标表。
+    <span class="rule">下面的数字里，带「假设」的是示意值（换成你的实际报价），带「实测」的是你项目里已经发生的。</span>
+  </div>
+
+  <h1>成本与指标：能当场算给人看</h1>
+  <p class="sub">公式 → 三个杠杆 → 三层指标 → 你的真实数字</p>
+
+  <h2><span class="n">1</span>单次调用成本</h2>
+  <div class="code">单次成本 ≈ 输入 token × 输入单价 + 输出 token × 输出单价
+月成本   ≈ 日活用户 × 人均会话数 × 单会话轮次 × 单次成本 × 30
+
+示例（假设值，替换成实际报价）：
+  输入 3,000 token（系统提示 + 检索到的 3 段资料 + 历史）
+  输出   500 token
+  单价   输入 ¥0.004/千token · 输出 ¥0.012/千token
+  单次 = 3×0.004 + 0.5×0.012 = <b>¥0.018</b>
+  日活 1,000 × 人均 3 会话 × 每会话 4 轮 = 12,000 次/日
+  月成本 = 12,000 × 0.018 × 30 = <b>¥6,480</b>
+
+结论：真正决定账单的是「<b>轮次 × 会话</b>」，不是单价。所以产品层的降本机会最大。</div>
+
+  <h2><span class="n">2</span>三个降本杠杆，按性价比排</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>杠杆</th><th>怎么做</th><th>省的是什么</th><th>代价 / 风险</th></tr></thead>
+    <tbody>
+      <tr><td data-label="杠杆"><b>① 砍调用次数</b></td><td data-label="怎么做">批量代替逐条、结果缓存、同一问题不重复调</td><td data-label="省的是什么">次数（线性省，最有效）</td><td data-label="代价 / 风险">缓存要设计失效条件；批量会拉长时延</td></tr>
+      <tr><td data-label="杠杆"><b>② 砍上下文</b></td><td data-label="怎么做">检索更准（少塞无关段落）、长文档先摘要、历史只留最近 N 轮</td><td data-label="省的是什么">输入 token（通常是成本大头）</td><td data-label="代价 / 风险">召回变差会伤准确率，要盯 badcase</td></tr>
+      <tr><td data-label="杠杆"><b>③ 降档 / 路由</b></td><td data-label="怎么做">简单判断走小模型、复杂才升级；能规则判的不调模型</td><td data-label="省的是什么">单价</td><td data-label="代价 / 风险">多一套路由逻辑和维护成本</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">顺序很重要：很多团队一上来就换便宜模型（③），结果准确率掉了又调回来。<b>先把次数和上下文砍掉，往往已经省了 60%，且不掉效果。</b></p>
+
+  <h2><span class="n">3</span>指标三层，一层都不能少</h2>
+  <div class="tw">
+  <table>
+    <thead><tr><th>层</th><th>看什么</th><th>你项目里的真实例子</th></tr></thead>
+    <tbody>
+      <tr><td data-label="层"><b>业务层</b><br><span class="muted">老板关心</span></td><td data-label="看什么">省了多少人、多少时间、多少误报</td><td data-label="你项目里的真实例子">海图：单条通告人工核对 <b>2.5 分钟 → 40 秒</b>；误画陆地 <b>23% → 0</b><br>CAD：单面墙人工复核 <b>6 分钟 → 1.5 分钟</b></td></tr>
+      <tr><td data-label="层"><b>产品层</b><br><span class="muted">你负责</span></td><td data-label="看什么">采纳率、人工改写率、「疑似」档占比、复核排队长度、转人工率</td><td data-label="你项目里的真实例子">CAD 的<b>置信度三级分流</b>（高置信自动流转 / 中置信人工确认 / 低置信人工编制），阈值由客户业务口确认——分流比例本身就是产品指标</td></tr>
+      <tr><td data-label="层"><b>技术层</b><br><span class="muted">研发负责，你要会读</span></td><td data-label="看什么">召回@k、精确率、P95 延迟、单次成本、失败率</td><td data-label="你项目里的真实例子">CAD 验收线：标准配筋 ≥85%、复合 ≥70%、套管 ≥85%、单次 ≤3 分钟、连续 3 天不崩</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2><span class="n">4</span>你的四个数字，背下来</h2>
+  <div class="cards">
+    <div class="card">
+      <h4>52% → 74%</h4>
+      <p>CAD 复合配筋场景准确率，压线过 70 的验收线。<b>同期标准标注 87.5% → 88% 无回退</b>——修一个坏一个的修法不算修好。</p>
+    </div>
+    <div class="card">
+      <h4>78% → 9%</h4>
+      <p>复合场景误判里「附加筋漏算」的占比。<b>这个数比准确率更能说明你找到了根因</b>：不是模型不行，是解析层把「一条标注」当成「一组筋」。</p>
+    </div>
+    <div class="card">
+      <h4>300–500 米 → &lt;10 米</h4>
+      <p>海图坐标偏移。根因是库里存 CGCS2000、底图是 GCJ-02，中间没转。方案是<b>存储不动、渲染时转</b>，不是入库前统一转——因为转完导给下游专业系统就是错的。</p>
+    </div>
+    <div class="card">
+      <h4>9 天 · 规则引擎零改动</h4>
+      <p>修 52% 那条缺陷用了 9 天，<b>规则引擎一行没改</b>——因为改的是数据模型（「标注即列表，合并靠规则」）。这句话是架构判断的证据。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5 项目映射 ========== -->
+<section class="panel" id="p-map">
+  <div class="lede">
+    面试时最贵的不是「我知道 RAG」，是<b>「这件事我在哪个项目上踩过、代价是多少」</b>。这张表把八类技术点摊到四个项目上，空格不是缺陷——<b>空格就是你不用装懂的地方</b>。
+    <span class="rule">用法：被问某个技术点时，先在表里找自己有的那一格；如果整列都空，就答「这块我没做过决策，我的判断点在 X」。</span>
+  </div>
+
+  <h1>四个项目 × 八类技术点</h1>
+  <p class="sub">CAD 审图 / 咖啡 SOP / 海图四 Agent / 智能体工厂</p>
+
+  <div class="tw">
+  <table>
+    <thead>
+      <tr><th style="min-width:118px">技术点</th><th>CAD 审图智能体</th><th>咖啡门店 SOP</th><th>海图四 Agent</th><th>智能体工厂</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="技术点"><b>RAG / 知识</b></td>
+        <td data-label="CAD 审图智能体">GB 50038 条文向量化；<b>只引用带版本条文，不许生成条号</b></td>
+        <td data-label="咖啡门店 SOP">—</td>
+        <td data-label="海图四 Agent">知识库 + 推理可展开；答案必须带数据截至日期</td>
+        <td data-label="智能体工厂">按场景选骨架、槽位填知识库配置</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>确定性 / 规则</b></td>
+        <td data-label="CAD 审图智能体"><b>核心</b>：规则引擎零误差可复算，是合同验收条款</td>
+        <td data-label="咖啡门店 SOP">日期规则校验（OCR 出字后校验）；计数按时间窗去重</td>
+        <td data-label="海图四 Agent">坐标解析五类写法 + 中国海域范围校验；分类两步漏斗</td>
+        <td data-label="智能体工厂">三道验证门（静态 / 沙箱 / 20 例）</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>Agent 编排</b></td>
+        <td data-label="CAD 审图智能体">单链路：解析 → 判定 → 检索 → 分流 → 出草案</td>
+        <td data-label="咖啡门店 SOP">双通道路由：有专项走检测，没专项抽帧给大模型</td>
+        <td data-label="海图四 Agent"><b>核心</b>：四子智能体按流水线切边界；四个引擎自研</td>
+        <td data-label="智能体工厂"><b>核心</b>：五槽位扫描 → Spec JSON → 模板匹配 → 打包</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>工具调用</b></td>
+        <td data-label="CAD 审图智能体">解析库（RealDWG / ODA）读图</td>
+        <td data-label="咖啡门店 SOP">AI BOX 检测服务、事件库、视频片段</td>
+        <td data-label="海图四 Agent">MCP 网关 + 12 个接口；「查」升级为「触发业务动作」</td>
+        <td data-label="智能体工厂">工具存在性校验（门 1）</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>多模态</b></td>
+        <td data-label="CAD 审图智能体">文字在矢量层直接取；<b>VLM 直读被证伪</b></td>
+        <td data-label="咖啡门店 SOP">端侧 YOLO 8 类 + 按需抽帧给 VLM；有效期用 OCR 求可复算</td>
+        <td data-label="海图四 Agent">专题图出图（图名/比例尺/指北针/经纬网）</td>
+        <td data-label="智能体工厂">用卡片把自然语言「选择化」，不用视觉</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>评测</b></td>
+        <td data-label="CAD 审图智能体">85/70/85 三条线 + 80 张读通 60 + ≤3 分钟 + 连续 3 天；双签</td>
+        <td data-label="咖啡门店 SOP">MVP 只证「8 类能否稳定检出」，商业化另证「督导少跑几家店」</td>
+        <td data-label="海图四 Agent">客户中期检查四项考核目标</td>
+        <td data-label="智能体工厂">门 3：20 例；口头警告必须当场转成测试用例</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>成本</b></td>
+        <td data-label="CAD 审图智能体">规范检索按需调用；一期不出活是地基</td>
+        <td data-label="咖啡门店 SOP">端到端 VLM 当主机位被否：24×7 连续理解撑不住</td>
+        <td data-label="海图四 Agent">被否的并发方案 → 批量提取 + 结果缓存（顺带抽出接口层）</td>
+        <td data-label="智能体工厂">沙箱限时 60 秒、断外网、mock 数据（成本也是约束）</td>
+      </tr>
+      <tr>
+        <td data-label="技术点"><b>部署 / 选型</b></td>
+        <td data-label="CAD 审图智能体">Qwen3 本地 + 私有化</td>
+        <td data-label="咖啡门店 SOP">端侧 AI BOX + 门店网络；物业/电源/进店安装是工程量</td>
+        <td data-label="海图四 Agent">换国产模型业务代码没动（接口提前抽了一层）</td>
+        <td data-label="智能体工厂">生成物是「Agent 包」：代码 + 配置 + 依赖清单</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2><span class="n">·</span>四个项目各自的一句话定位</h2>
+  <div class="cards">
+    <div class="card">
+      <h4>CAD 审图智能体</h4>
+      <p><b>一句话</b>：把「这张图对不对」做成可签字的东西。<b>技术记忆点</b>：确定性归规则、不确定归模型；标注即列表、合并靠规则。</p>
+    </div>
+    <div class="card">
+      <h4>咖啡门店 SOP 检测</h4>
+      <p><b>一句话</b>：把「脏」翻译成可数的违规物。<b>技术记忆点</b>：双通道不是妥协，是成本结构；8 类检测不在一个难度上。</p>
+    </div>
+    <div class="card">
+      <h4>海图四 Agent</h4>
+      <p><b>一句话</b>：把客户嘴里的「一个 AI 助手」拆成四个各有主人的活。<b>技术记忆点</b>：按流水线切边界，不按功能清单堆按钮。</p>
+    </div>
+    <div class="card">
+      <h4>智能体工厂</h4>
+      <p><b>一句话</b>：把「说清楚需求」变成「选出来需求」。<b>技术记忆点</b>：用户的表达不可靠、选择可靠；三道门把「跑不起来」挡在交付前。</p>
+    </div>
+  </div>
+
+  <p class="note">四个项目共用一套底层判断，这句话要能脱口而出：<b>「我的活是决定哪一步必须确定、哪一步可以不确定，以及不确定的时候怎么让人接住。」</b></p>
+</section>
+
+<!-- ========== 6 学习计划 ========== -->
+<section class="panel" id="p-plan">
+  <div class="lede">
+    14 天，每天 60–90 分钟。<b>不按知识体系排，按面试顺序排</b>：先把四个项目讲到能被追三层，再用市场倒查缺口，最后只做输出练习。
+    <span class="rule">每天的验收标准都是同一句话：<b>不看稿，能对着空气说满 3 分钟，且中间不停顿找词</b>。做不到就重来，不要往下走。</span>
+  </div>
+
+  <h1>14 天学习计划</h1>
+  <p class="sub">勾选会记在本机浏览器里，关掉再打开还在</p>
+
+  <div class="progress"><span id="pgtxt">0 / 14 天完成</span><span class="track"><span class="fill" id="pgfill"></span></span></div>
+
+  <div class="week">
+    <h3>第一周 · 先把「你做过什么」变成「你能讲什么」<em>DAY 1–4</em></h3>
+    <div class="days">
+
+      <div class="day" data-d="d1">
+        <div class="d">DAY 1</div>
+        <div>
+          <h5>画一张自己的技术地图</h5>
+          <p>拿「项目映射」那张表，用笔在纸上重画一遍，<b>把空格圈出来</b>——圈出来的就是这 14 天不用装懂的地方。</p>
+          <p class="muted">产出：一张手绘图，四个圈。</p>
+          <label class="chk"><input type="checkbox" data-k="d1"><span>不看表，能默画出四项目 × 四类技术点</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d2">
+        <div class="d">DAY 2</div>
+        <div>
+          <h5>RAG 讲到能定位失败</h5>
+          <p>读 <code>02-知识库\AIPM-Wiki\docs\01-ai-basics\llm\what-is-rag.md</code> 与 <code>rag-evolution-naive-to-agentic.md</code>（共约 1.4 万字，40 分钟）。</p>
+          <p>然后合上文件，写下「答不准的四种可能，各配一个你项目里的例子」。</p>
+          <label class="chk"><input type="checkbox" data-k="d2"><span>能说出四层（切分/召回/排序/生成），且每层有一个具体现象</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d3">
+        <div class="d">DAY 3</div>
+        <div>
+          <h5>规则 vs 模型：把 CAD 那条讲成 90 秒</h5>
+          <p>材料：<code>09-项目经历\CAD智能体\00-素材台账与事实池.md</code> 的 D 节（技术口径）与 F 节（缺陷复盘）。</p>
+          <p>讲法固定五句：合同要求零误差 → 概率系统给不了 → 所以判定归规则引擎 → 模型只做模糊语义 → 出草案、人签字。</p>
+          <label class="chk"><input type="checkbox" data-k="d3"><span>90 秒内讲完，且不出现「多模态审图」这个词</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d4">
+        <div class="d">DAY 4</div>
+        <div>
+          <h5>Agent 边界：把海图四个子智能体讲清</h5>
+          <p>材料：<code>09-项目经历\项目履历一览-海图智能体.md</code> 第二节（口述故事版，两分半）。</p>
+          <p>重点不是四个 Agent 各干什么，是<b>为什么这么切</b>：整编是输入、编绘是入库、制图是输出。</p>
+          <label class="chk"><input type="checkbox" data-k="d4"><span>能答「为什么不做一个大 Agent」，且举出单体那套的能力上限</span></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="week">
+    <h3>第二周 · 补三块你素材薄的技术<em>DAY 5–8</em></h3>
+    <div class="days">
+
+      <div class="day" data-d="d5">
+        <div class="d">DAY 5</div>
+        <div>
+          <h5>评测：把三套验收口径统一成一套说法</h5>
+          <p>读 <code>07-硬核能力\01-评测体系.md</code>。把你三个项目的验收标准写成同一张表：指标 / 阈值 / 谁定的 / 不达标怎么办。</p>
+          <label class="chk"><input type="checkbox" data-k="d5"><span>能答「离线好上线差」，并说出回归集是怎么攒出来的</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d6">
+        <div class="d">DAY 6</div>
+        <div>
+          <h5>成本：手算一遍，不查资料</h5>
+          <p>用「成本与指标」页的公式，假设日活 5,000、人均 2 会话、每会话 5 轮，算出月成本；再给出砍一半的三条具体动作。</p>
+          <label class="chk"><input type="checkbox" data-k="d6"><span>纸上 3 分钟算完，且能说清「先砍次数再砍 token」的理由</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d7">
+        <div class="d">DAY 7</div>
+        <div>
+          <h5>多模态：做一张三选一的决策表</h5>
+          <p>材料：<code>09-项目经历\CAD智能体\CV多模态-技术可行性分析.md</code>（可选，只看结论段）。把 CAD、咖啡、工厂三个选择并排写，第三列写「如果选错，代价是什么」。</p>
+          <label class="chk"><input type="checkbox" data-k="d7"><span>能答「为什么不用 VLM 直读图纸」，且给得出反例</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d8">
+        <div class="d">DAY 8</div>
+        <div>
+          <h5>上下文与 Prompt：只练「不给它机会」</h5>
+          <p>读 <code>02-知识库\AIPM-Wiki\docs\01-ai-basics\prompt-engineering\context-engineering.md</code> 的「失败模式」一节。</p>
+          <p>写下三条你项目里「结构上不让模型出错」的设计（不让它生成条号 / 不让它复述统计 / 不让它定分类阈值）。</p>
+          <label class="chk"><input type="checkbox" data-k="d8"><span>三条都能说出「如果不这么设计，会怎么坏」</span></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="week">
+    <h3>第三周 · 用市场倒查缺口<em>DAY 9–11</em></h3>
+    <div class="days">
+
+      <div class="day" data-d="d9">
+        <div class="d">DAY 9</div>
+        <div>
+          <h5>拿简历对高频词打钩</h5>
+          <p>打开「JD 高频词」页，把 T1 的七个词逐条问自己：<b>我的简历上有没有一句话能对上？</b>对不上的，今天就改那一行。</p>
+          <label class="chk"><input type="checkbox" data-k="d9"><span>T1 七条全部有对应的简历句，且不是形容词</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d10">
+        <div class="d">DAY 10</div>
+        <div>
+          <h5>挑三条最弱的 JD 追问，写答案</h5>
+          <p>从「项目 Q&amp;A」页随机抽三条你没准备过的追问，各写 150 字答案，要求：<b>第一句给结论，第二句给代价，第三句给证据</b>。</p>
+          <label class="chk"><input type="checkbox" data-k="d10"><span>三条都符合「结论—代价—证据」结构</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d11">
+        <div class="d">DAY 11</div>
+        <div>
+          <h5>反向提问清单</h5>
+          <p>准备 5 个只对 Agent 岗有意义的反问（例：你们现在是一个 Agent 还是多个？边界谁定？出错了谁签字？评测集谁维护？）。</p>
+          <label class="chk"><input type="checkbox" data-k="d11"><span>5 个问题都不问「团队规模」「加班多吗」这类通用题</span></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="week">
+    <h3>第四周 · 只做输出<em>DAY 12–14</em></h3>
+    <div class="days">
+
+      <div class="day" data-d="d12">
+        <div class="d">DAY 12</div>
+        <div>
+          <h5>3 分钟项目讲述，录音</h5>
+          <p>选一个项目，手机录音，讲 3 分钟。回放时只记两件事：<b>哪里卡了、哪里说了形容词</b>。改完再录一遍。</p>
+          <label class="chk"><input type="checkbox" data-k="d12"><span>第二遍没有超过 2 秒的停顿，形容词少于 3 个</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d13">
+        <div class="d">DAY 13</div>
+        <div>
+          <h5>被打断练习</h5>
+          <p>让别人（或自己）在你讲到一半时插一句「等一下，这个为什么这么做？」。要求<b>不回到开头</b>，就地回答完再继续。</p>
+          <label class="chk"><input type="checkbox" data-k="d13"><span>三次打断都能就地接住，不重讲</span></label>
+        </div>
+      </div>
+
+      <div class="day" data-d="d14">
+        <div class="d">DAY 14</div>
+        <div>
+          <h5>整轮模拟</h5>
+          <p>打开「模拟面试」页，走完 HR / 老板 / 技术负责人三类各一轮。记下被问住的那几题，回填到「项目 Q&amp;A」页。</p>
+          <label class="chk"><input type="checkbox" data-k="d14"><span>被问住的题 ≤ 2 个，且已经写成答案</span></label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <h2>如果只有 3 天</h2>
+  <div class="cards one">
+    <div class="card">
+      <p><b>DAY A</b>：只做项目的「一句话定位」四句（项目映射页末尾）+ 90 秒 CAD 讲法。<br>
+      <b>DAY B</b>：T1 七个词各写一句简历句 + 成本公式手算一遍。<br>
+      <b>DAY C</b>：录音讲两遍 + 走一轮模拟面试。</p>
+      <p class="muted">三天的目标不是学完，是「不出现硬伤」。硬伤只有两个：把 CAD 说成多模态大模型审图；把 Agent 说成会自动调工具的 chatbot。</p>
+    </div>
+  </div>
+
+  <p class="note">想再往深里读，本机已经有一份 598 篇的语料库：<code>_crawl\yuque-turing-ai-2026\INDEX.md</code>（按主题分组，其中 RAG 与检索增强 77 篇、Agent 与工具调用 44 篇、大模型基础 93 篇）。<b>但不要在这 14 天里读它</b>——那套是按算法岗整理的，现在读会把你的讲述从「项目判断」拉回「知识复述」。</p>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('#tabs .tab');
+  var panels = document.querySelectorAll('.panel');
+  var ids = {market:'p-market', terms:'p-terms', tech:'p-tech', cost:'p-cost', map:'p-map', plan:'p-plan'};
+
+  function show(key, scroll){
+    if(!ids[key]) key = 'market';
+    panels.forEach(function(p){ p.classList.toggle('on', p.id === ids[key]); });
+    tabs.forEach(function(t){ t.classList.toggle('on', t.dataset.p === key); });
+    if(scroll !== false) window.scrollTo({top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto'});
+    try { if(history.replaceState) history.replaceState(null, '', '#' + key); } catch(e) {}
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ show(t.dataset.p); });
+  });
+
+  var initial = (location.hash || '').replace('#','');
+  show(initial || 'market', false);
+
+  // 勾选持久化
+  var KEY = 'aipm-tech-plan-v1';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){ saved = {}; }
+  var boxes = document.querySelectorAll('.day input[type=checkbox]');
+  function refresh(){
+    var done = 0;
+    boxes.forEach(function(b){
+      var on = !!saved[b.dataset.k];
+      b.checked = on;
+      var day = b.closest('.day');
+      if(day) day.classList.toggle('done', on);
+      if(on) done++;
+    });
+    var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+    var t = document.getElementById('pgtxt');
+    var f = document.getElementById('pgfill');
+    if(t) t.textContent = done + ' / ' + boxes.length + ' 天完成';
+    if(f) f.style.width = pct + '%';
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      saved[b.dataset.k] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e){}
+      refresh();
+    });
+  });
+  refresh();
+})();
+</script>
+
+</body>
+</html>

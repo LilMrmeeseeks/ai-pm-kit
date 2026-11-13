@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 产品经理 · 知识图谱与问答</title>
+<style>
+
+  :root{
+    --paper:#fbfaf7; --ink:#1b1917; --ink-2:#4d4842; --ink-3:#6f685f;
+    --line:#e3dfd8; --line-2:#efece6; --accent:#b4441f; --accent-soft:#f6ece6;
+    --card:#ffffff; --ok:#3f5a45; --ok-soft:#f1f4f0; --warn:#8a6524; --warn-soft:#f8f1de;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:15.5px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-feature-settings:"tnum";
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{
+    position:sticky; top:0; z-index:20; background:rgba(251,250,247,.95);
+    backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);
+  }
+  .bar{
+    max-width:1160px; margin:0 auto; padding:13px 24px 11px;
+    display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+  }
+  .brand{font-size:17px; font-weight:650; letter-spacing:.01em; white-space:nowrap}
+  .brand span{font-size:12px; color:var(--ink-3); letter-spacing:.06em; margin-left:7px; font-weight:400}
+  .xnav{display:flex; gap:2px; align-items:baseline; margin-left:auto; padding-left:12px; border-left:1px solid var(--line)}
+  .xnav a{font-size:12px; color:var(--ink-3); text-decoration:none; padding:4px 7px; border-radius:6px; white-space:nowrap}
+  .xnav a:hover{color:var(--ink); background:var(--card)}
+  .xnav a.on{color:var(--ink); font-weight:600}
+
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-left:auto}
+  .tab{
+    font-size:13px; padding:5px 12px; border:1px solid var(--line); border-radius:999px;
+    color:var(--ink-2); background:var(--card); cursor:pointer; font-family:inherit;
+  }
+  .tab.on{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .tab:hover{border-color:var(--ink-3)}
+
+  main{max-width:1160px; margin:0 auto; padding:24px 24px 100px}
+  .panel{display:none; animation:fade .18s ease}
+  .panel.on{display:block}
+  @keyframes fade{from{opacity:0; transform:translateY(3px)} to{opacity:1; transform:none}}
+
+  .lede{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:15px 19px; margin:0 0 24px; font-size:14px; color:var(--ink-2); max-width:50em;
+  }
+  .lede b{color:var(--ink)}
+  .lede .rule{
+    display:block; margin-top:9px; padding-top:9px; border-top:1px dashed var(--line);
+    font-size:13px; color:var(--ink-3);
+  }
+
+  h1{font-size:24px; line-height:1.35; margin:0 0 5px; letter-spacing:-.01em}
+  .sub{font-size:13px; color:var(--ink-3); margin:0 0 22px}
+  h2{font-size:19px; margin:40px 0 14px; padding-bottom:9px; border-bottom:1px solid var(--line)}
+  h2:first-child{margin-top:6px}
+  h2 .n{color:var(--accent); font-weight:700; margin-right:8px}
+  h3{font-size:15.5px; margin:26px 0 8px}
+  p{margin:0 0 12px}
+  .muted{color:var(--ink-3); font-size:13px}
+
+  /* KPI */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:0 0 8px}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px}
+  .kpi em{display:block; font-size:12px; color:var(--ink-3); font-style:normal; letter-spacing:.04em}
+  .kpi b{display:block; font-size:24px; line-height:1.3; margin:4px 0 2px; letter-spacing:-.01em}
+  .kpi small{font-size:12px; color:var(--ink-3)}
+  @media (max-width:820px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+
+  /* 表 */
+  table{width:100%; border-collapse:collapse; margin:12px 0 18px; font-size:13.5px}
+  thead th{
+    text-align:left; font-weight:600; color:var(--ink-2); background:#f7f4ef;
+    padding:9px 11px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  tbody td{padding:9px 11px; border-bottom:1px solid var(--line-2); vertical-align:top}
+  tbody tr:hover{background:#fdfbf8}
+  .tw{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .tw table{min-width:660px}
+  td.num, th.num{text-align:right; font-variant-numeric:tabular-nums}
+
+  /* 覆盖率条 */
+  .cov{display:flex; align-items:center; gap:8px; min-width:120px}
+  .cov .track{flex:1; height:6px; background:var(--line-2); border-radius:99px; overflow:hidden; min-width:52px}
+  .cov .fill{display:block; height:100%; background:var(--accent); border-radius:99px}
+  .cov i{font-style:normal; font-size:12px; color:var(--ink-3); width:32px; text-align:right}
+
+  /* 词条卡 */
+  .terms{display:grid; gap:8px; margin:14px 0 6px}
+  details.t{
+    background:var(--card); border:1px solid var(--line); border-radius:9px; overflow:hidden;
+  }
+  details.t[open]{border-color:#d8cfc2}
+  details.t > summary{
+    list-style:none; cursor:pointer; padding:10px 14px; display:flex; align-items:center; gap:12px;
+    font-size:14px;
+  }
+  details.t > summary::-webkit-details-marker{display:none}
+  details.t > summary::after{
+    content:"+"; margin-left:auto; color:var(--ink-3); font-size:15px; font-weight:400;
+  }
+  details.t[open] > summary::after{content:"–"}
+  details.t > summary b{font-weight:600; min-width:9.5em}
+  details.t .body{padding:2px 14px 14px; border-top:1px dashed var(--line-2); margin-top:2px}
+  .row3{display:grid; grid-template-columns:88px 1fr; gap:4px 12px; font-size:13.5px; margin-top:10px}
+  .row3 dt{color:var(--ink-3); font-size:12px; padding-top:2px; letter-spacing:.03em}
+  .row3 dd{margin:0; color:var(--ink-2); line-height:1.7}
+  .row3 dd b{color:var(--ink)}
+  .bad{color:#94402e}
+  .tiertag{font-size:11px; color:var(--ink-3); border:1px solid var(--line); border-radius:999px; padding:1px 7px; margin-left:auto}
+  summary .tiertag{margin-left:0}
+
+  /* 讲解卡 */
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0}
+  .cards.one{grid-template-columns:1fr}
+  @media (max-width:860px){ .cards{grid-template-columns:1fr} }
+  .card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px}
+  .card h4{margin:0 0 4px; font-size:15px; display:flex; align-items:baseline; gap:8px}
+  .card h4 span{font-size:12px; color:var(--ink-3); font-weight:400; letter-spacing:.04em}
+  .card p{font-size:13.5px; color:var(--ink-2); margin:8px 0 0}
+  .card .q{font-size:13px; color:var(--ink-2); margin-top:10px; padding-left:10px; border-left:2px solid var(--accent-soft)}
+  .card .q b{color:var(--accent); font-size:12px; letter-spacing:.05em; display:block; margin-bottom:2px}
+
+  /* 代码/公式块 */
+  .code{
+    background:#f7f5f1; border:1px solid var(--line); border-radius:8px;
+    padding:13px 15px; margin:12px 0; overflow-x:auto;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px; line-height:1.85; color:#3d3833; white-space:pre;
+  }
+  .code b{color:var(--accent); font-weight:600}
+
+  /* 日历 */
+  .week{margin:22px 0 4px}
+  .week h3{display:flex; align-items:baseline; gap:10px; margin:0 0 10px}
+  .week h3 em{font-style:normal; font-size:12px; color:var(--ink-3); letter-spacing:.06em}
+  .days{display:grid; gap:8px}
+  .day{
+    display:grid; grid-template-columns:52px 1fr; gap:12px; align-items:start;
+    background:var(--card); border:1px solid var(--line); border-radius:9px; padding:12px 14px;
+  }
+  .day.done{background:var(--ok-soft); border-color:#cfe0d3}
+  .day .d{font-size:12px; color:var(--ink-3); letter-spacing:.04em; padding-top:2px}
+  .day h5{margin:0 0 3px; font-size:14.5px}
+  .day p{margin:0; font-size:13px; color:var(--ink-2); line-height:1.7}
+  .day .chk{
+    display:flex; gap:7px; align-items:flex-start; margin-top:7px; font-size:13px; color:var(--ink-3);
+  }
+  .day input[type=checkbox]{margin:3px 0 0; accent-color:var(--ok); width:14px; height:14px; cursor:pointer}
+  .progress{display:flex; align-items:center; gap:10px; margin:6px 0 18px; font-size:13px; color:var(--ink-3)}
+  .progress .track{flex:1; max-width:260px; height:6px; background:var(--line-2); border-radius:99px; overflow:hidden}
+  .progress .fill{height:100%; background:var(--ok); width:0; transition:width .2s}
+
+  .note{font-size:13px; color:var(--ink-3); border-left:2px solid var(--line); padding-left:11px; margin:14px 0}
+  .pill{display:inline-block; font-size:12px; border:1px solid var(--line); border-radius:999px; padding:1px 8px; color:var(--ink-3); margin:0 4px 4px 0}
+  .hl{background:var(--accent-soft); color:#7e2f18; padding:0 3px; border-radius:3px}
+  .ok-hl{background:var(--ok-soft); color:#2f4a35; padding:0 3px; border-radius:3px}
+
+  @media (max-width:700px){
+    .tw{overflow:visible}
+    .tw table{min-width:0}
+    .tw thead{display:none}
+    .tw tr{display:block; padding:12px 0; border-top:1px solid var(--line-2)}
+    .tw tr:first-child{border-top:0}
+    .tw td{display:block; border:0; padding:2px 0; text-align:left; line-height:1.65}
+    .tw td.num{text-align:left}
+    .tw td:first-child{font-weight:600; font-size:14.5px; padding-bottom:5px}
+    .tw td.num[data-label]::before{display:inline; margin-right:7px}
+    .tw td[data-label]:not(:first-child)::before{
+      content:attr(data-label); display:block; color:var(--ink-3);
+      font-size:12px; line-height:1.5; margin:2px 0 1px
+    }
+  }
+
+.wrap{max-width:1080px;margin:0 auto}
+@media(max-width:700px){main{padding:16px 14px 70px}}
+
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 20px}
+.stats>div{flex:1 1 130px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stats b{display:block;font-size:22px;line-height:1.25;letter-spacing:-.01em}
+.stats span{font-size:12px;color:var(--ink-3)}
+
+.filt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 6px}
+.chip{font:inherit;font-size:13px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink-2);cursor:pointer}
+.chip:hover{border-color:var(--ink-3)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip .n{color:var(--ink-3);margin-left:5px;font-size:12px}
+.search{flex:1 1 180px;min-width:150px}
+.search input{width:100%;font:inherit;font-size:14px;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.search input:focus{outline:none;border-color:var(--ink-3)}
+
+.dsec{margin:26px 0 0}
+.dhead{display:flex;align-items:center;gap:9px;margin:0 0 5px}
+.dbar{width:4px;height:17px;border-radius:2px;display:block;flex:0 0 auto}
+.dhead h3{font-size:17px;margin:0;letter-spacing:.01em}
+.dcount{font-size:12px;color:var(--ink-3);margin-left:auto;white-space:nowrap}
+.dnote{font-size:13px;color:var(--ink-3);line-height:1.7;margin:0 0 12px}
+
+.kn{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 8px}
+.kn>summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;align-items:center;gap:9px}
+.kn>summary::-webkit-details-marker{display:none}
+.kn>summary::after{content:"+";margin-left:auto;color:var(--ink-3);font-size:15px;line-height:1}
+.kn[open]>summary::after{content:"\2013"}
+.kn[open]>summary{border-bottom:1px solid var(--line-2)}
+.kt{font-size:15px;font-weight:600;line-height:1.45}
+.lv{font-size:12px;padding:1px 6px;border-radius:5px;border:1px solid var(--line);color:var(--ink-3);flex:0 0 auto;line-height:1.6}
+.lv.L1{color:var(--accent);border-color:#e7d2c9;background:var(--accent-soft)}
+.lv.L2{color:var(--warn);border-color:#e8dcc2;background:var(--warn-soft)}
+.lv.L3{color:var(--ok);border-color:#d3e0d6;background:var(--ok-soft)}
+.mdot{width:5px;height:5px;border-radius:50%;background:var(--ok);flex:0 0 auto;opacity:0}
+.kn.done .mdot{opacity:1}
+.kbody{padding:12px 15px 14px}
+.kn:not([open]) .kbody{display:none}
+.chip.on .n{color:#fff;opacity:.72}
+.kone{font-size:14px;line-height:1.75;margin:0 0 10px;color:var(--ink)}
+.krow{display:flex;gap:10px;margin:0 0 7px;font-size:13.5px;line-height:1.75}
+.krow>.k{flex:0 0 5.4em;color:var(--ink-3);font-size:12px;padding-top:1px}
+.krow>.v{flex:1;color:var(--ink-2);min-width:0}
+.srcs{display:flex;flex-wrap:wrap;gap:5px}
+.src{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.6;background:var(--line-2);border-radius:5px;padding:1px 6px;color:var(--ink-2)}
+.dep{color:var(--accent);border-bottom:1px dashed #dcc6bc;cursor:pointer}
+.goto{display:inline-block;margin-top:9px;font-size:13px;color:var(--accent);cursor:pointer}
+.goto:hover{text-decoration:underline}
+
+.qcard{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:13px 15px;margin:0 0 9px}
+.qh{display:flex;gap:9px;align-items:baseline}
+.qq{font-size:15px;font-weight:600;line-height:1.6;margin:0}
+.qdom{font-size:12px;color:var(--ink-3);margin-left:auto;white-space:nowrap}
+.qact{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.btn{font:inherit;font-size:13px;padding:4px 10px;border-radius:7px;border:1px solid var(--line);background:var(--paper);color:var(--ink-2);cursor:pointer}
+.btn:hover{border-color:var(--ink-3)}
+.btn.on{background:var(--ok-soft);border-color:#cfdcd3;color:var(--ok)}
+.ans{display:none;margin-top:11px;font-size:14px;line-height:1.85;color:var(--ink-2);border-left:2px solid var(--accent-soft);padding-left:12px}
+.qcard.open .ans{display:block}
+.avoid{margin-top:9px;font-size:13px;line-height:1.7;color:#8a5a3a}
+.avoid b{font-weight:600;color:#7a4a2a}
+
+.prog{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:12.5px;color:var(--ink-3)}
+.pbar{flex:0 1 200px;height:4px;background:var(--line-2);border-radius:2px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--ok);width:0}
+
+.planbar{display:flex;gap:8px;margin:0 0 6px}
+.dayrow{display:flex;gap:12px;padding:13px 0;border-top:1px solid var(--line-2)}
+.daytag{flex:0 0 56px;font-size:12px;color:var(--ink-3);padding-top:2px;letter-spacing:.02em}
+.daylist{flex:1;font-size:13.5px;line-height:1.95;min-width:0}
+.daylist a{color:var(--ink-2);border-bottom:1px solid var(--line);text-decoration:none;cursor:pointer}
+.daylist a:hover{color:var(--accent);border-color:#dcc6bc}
+.daylist .lv{margin-left:2px}
+
+.tbl{width:100%;min-width:0;border-collapse:collapse;font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:14px 0 18px}
+.tbl th{text-align:left;font-size:12px;color:var(--ink-3);font-weight:600;padding:9px 11px;border-bottom:1px solid var(--line);background:var(--paper);white-space:nowrap}
+.tbl td{padding:9px 11px;border-bottom:1px solid var(--line-2);vertical-align:top;line-height:1.6}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--ink-3)}
+@media(max-width:700px){
+  .tbl{border:0;background:none;display:block}
+  .tbl thead{display:none}
+  .tbl tbody,.tbl tr{display:block}
+  .tbl tr{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:0 0 8px}
+  .tbl td{display:block;border:0;padding:2px 13px}
+  .tbl td:first-child{padding-top:11px;font-weight:600}
+  .tbl td:last-child{padding-bottom:11px}
+  .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:12px;color:var(--ink-3);margin:4px 0 1px}
+  .krow{display:block}
+  .krow>.k{display:block;margin-bottom:1px}
+  .dcount{margin-left:0}
+  .dhead{flex-wrap:wrap}
+}
+
+.gmapbox{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 8px;margin:4px 0 0}
+.gmap{display:block;width:100%;height:auto}
+.gnode circle{transition:fill-opacity .15s}
+.gnode:hover circle{fill-opacity:.32}
+.gmaphint{margin:8px 0 18px}
+@media(max-width:820px){.gmapbox,.gmaphint{display:none}}
+
+
+/* ---------- 出处徽章 / 链接 ---------- */
+.srcs{display:inline-flex;flex-wrap:wrap;gap:6px;vertical-align:top}
+.src{display:inline-block;max-width:100%;padding:2px 7px;border:1px solid var(--line);border-radius:999px;
+     font-size:12px;line-height:1.5;color:var(--ink-2);background:var(--paper);text-decoration:none;
+     word-break:break-all}
+a.src{border-bottom:1px solid var(--line-2)}
+a.src:hover{color:var(--ink);border-color:var(--ink-3)}
+.src.none{color:var(--ink-3);background:transparent;border-style:dashed}
+.covb{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:4px;font-size:12px;line-height:1.5;
+      color:var(--ink-3);background:var(--line-2);vertical-align:1px}
+.covb.s{color:var(--ok);background:var(--ok-soft)}
+.covb.w{color:var(--warn);background:var(--warn-soft)}
+
+/* ---------- 问答模式切换 ---------- */
+.qmode{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.qmode .chip .n{color:var(--ink-3);font-size:12px;margin-left:5px}
+.qmode .chip.on .n{color:#fff;opacity:.82}
+.pjhead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ptag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;line-height:1.6;
+      border:1px solid currentColor;white-space:nowrap}
+.qcard .pdocs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.qcard .pdocs .lbl{font-size:12px;color:var(--ink-3);margin-right:2px}
+.ptsline{margin-top:6px;font-size:13px;color:var(--ink-2)}
+.ptsline .dep{font-size:13px}
+
+/* ================= 背卡 ================= */
+#p-card{--cw:100%;--ch:clamp(320px,56vh,460px)}
+@media(min-width:821px){#p-card{--cw:420px;--ch:460px}}
+
+.cbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+.cbar .sp{flex:1 1 auto}
+@media(max-width:820px){
+  .cbar{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+        scrollbar-width:none;padding-bottom:2px;margin-bottom:8px}
+  .cbar::-webkit-scrollbar{height:0}
+  .cbar>.chip{flex:0 0 auto}
+}
+
+.cstage{position:relative;width:var(--cw);height:var(--ch);margin:0 auto;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+@media(max-width:820px){.cstage{width:100%}}
+
+.ccard{position:absolute;inset:0;background:var(--card);border:1px solid var(--line);border-radius:16px;
+       box-shadow:0 1px 2px rgba(27,25,23,.04),0 8px 24px -18px rgba(27,25,23,.35);
+       overflow:hidden;will-change:transform;transition:transform .22s ease,opacity .18s ease}
+.ccard.drag{transition:none}
+.ccard.out-l{transform:translateX(-125%) rotate(-7deg);opacity:0}
+.ccard.out-r{transform:translateX(125%) rotate(7deg);opacity:0}
+.ccard.in-l{animation:cin-l .22s ease}
+.ccard.in-r{animation:cin-r .22s ease}
+@keyframes cin-l{from{transform:translateX(-12%) rotate(-2deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes cin-r{from{transform:translateX(12%) rotate(2deg);opacity:0}to{transform:none;opacity:1}}
+
+.face{position:absolute;inset:0;padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;
+      transition:opacity .2s ease,transform .2s ease}
+.face.hide{opacity:0;pointer-events:none;transform:translateY(6px)}
+.face.front{align-items:center;justify-content:center;text-align:center}
+.face.back{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;align-items:stretch}
+.face.back::-webkit-scrollbar{width:0}
+
+.ftop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ftop .cno{font-size:12px;color:var(--ink-3);margin-left:auto}
+
+.fword{font-size:21px;line-height:1.45;font-weight:600;color:var(--ink);letter-spacing:.01em;
+       max-width:22ch;margin:6px 0 2px}
+@media(max-width:400px){.fword{font-size:19px}}
+.fq{font-size:17px;line-height:1.55;font-weight:600;color:var(--ink);text-align:left;margin:4px 0 0}
+@media(max-width:400px){.fq{font-size:16px}}
+.fhint{position:absolute;left:16px;right:16px;bottom:14px;font-size:12px;color:var(--ink-3);text-align:center}
+.fhint b{font-weight:600;color:var(--ink-2)}
+
+.kone2{font-size:15px;line-height:1.7;color:var(--ink)}
+.krow2{display:flex;gap:10px;font-size:13.5px;line-height:1.65}
+.krow2>.kk{flex:0 0 56px;color:var(--ink-3);font-size:12px;padding-top:2px}
+.krow2>.vv{flex:1 1 auto;color:var(--ink-2);min-width:0}
+.krow2>.vv .src{font-size:12px}
+.krow2>.vv .srcs{display:inline-flex;flex-wrap:wrap;gap:4px;vertical-align:top;max-width:100%}
+.krow2>.vv .srcline{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;max-width:100%}
+.krow2>.vv .covb{margin-right:5px}
+.pdocs2{display:flex;gap:6px;flex-wrap:wrap}
+.pdocs2 .src{white-space:normal;line-height:1.55;border-radius:8px;padding:3px 8px;text-align:left;
+             word-break:break-all;max-width:100%}
+
+.cfoot{display:flex;align-items:center;gap:10px;margin:12px auto 0;width:var(--cw)}
+@media(max-width:820px){.cfoot{width:100%}}
+.cfoot .cprog{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.cfoot .cpbar{flex:1 1 auto;height:4px;background:var(--line-2);border-radius:999px;overflow:hidden}
+.cfoot .cpbar>i{display:block;height:100%;width:0;background:var(--ink);transition:width .25s ease}
+
+.cact{display:flex;gap:10px;margin:10px auto 0;width:var(--cw)}
+@media(max-width:820px){.cact{width:100%}}
+.cact button{flex:1 1 0;min-height:46px;border-radius:12px;font-size:15px;font-family:inherit;cursor:pointer;
+             border:1px solid var(--line);background:var(--card);color:var(--ink-2);transition:.15s}
+.cact button:active{transform:scale(.985)}
+.cact button.no{color:var(--warn);border-color:#e6d8bd;background:var(--warn-soft)}
+.cact button.yes{color:#fff;background:var(--ink);border-color:var(--ink)}
+.cnav{display:flex;gap:6px;margin-left:auto}
+.cnav button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);
+             background:var(--card);color:var(--ink-2);font-size:13px;font-family:inherit;cursor:pointer}
+.cnav button:active{background:var(--line-2)}
+
+.cempty{display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink-3);font-size:14px;
+        text-align:center;padding:20px;line-height:1.8}
+.flag{font-size:11px;line-height:1.6;padding:1px 6px;border-radius:999px;color:var(--ink-3);background:var(--line-2)}
+
+</style>
+<script>window.__KG_PUBLISH__=1;</script></head>
+<body>
+<header class="top"><div class="bar">
+  <div class="brand">知识图谱<span>79 点 · 79 问 + 24 项目题</span></div>
+  <div class="tabs">
+    <button class="tab on" data-p="kg">图谱</button>
+    <button class="tab" data-p="qa">问答</button>
+    <button class="tab" data-p="path">路径</button>
+    <button class="tab" data-p="card">背卡</button>
+    <button class="tab" data-p="idx">索引</button>
+  </div>
+  <nav class="xnav" aria-label="页面跳转">
+    <a href="jd-interview.html">项目 Q&amp;A</a>
+    <a href="handbook.html">面试手册</a>
+    <a href="interview-sim.html">模拟面试</a>
+    <a href="tech.html">技术底盘</a>
+    <a href="site/index.html">个人网站</a>
+  </nav>
+</div></header>
+
+<main><div class="wrap">
+
+<section class="panel on" id="p-kg">
+  <div class="lede">
+    这一页只做一件事：把 413 篇语料里的技术点压成 79 个<b>能拿来讲</b>的条目。
+    每条保留三件事——一句话结论、为什么考、出自哪篇原文（出处都可点开核对）。
+    <span class="rule">先看域，域内条目按「一句话能不能说清」排，不是原文顺序。<br>出处旁的「强 / 中 / 弱」＝原文对该点的覆盖程度；标「语料未覆盖」的确实没找到原文。</span>
+  </div>
+  <div class="stats"><div><b>8</b><span>知识域</span></div><div><b>79</b><span>知识点</span></div><div><b>79</b><span>道题</span></div><div><b>31 / 35 / 13</b><span>L1 / L2 / L3</span></div></div>
+  <div class="gmapbox"><div id="kgmap"></div></div>
+  <p class="note gmaphint">圆里是这个域的点数，连线是两个域之间的前置依赖——越粗表示越多条。点任意一个域，下面列表只留它的点。</p>
+  <div class="filt">
+    <div id="kgdom" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <div class="search"><input id="kgq" type="search" placeholder="搜知识点 / 项目关键词，如 检索、置信度、成本"></div>
+  </div>
+  <div id="kghit" class="note" style="border:0;padding:0;margin:2px 0 0"></div>
+  <div id="kglist"></div>
+</section>
+
+<section class="panel" id="p-qa">
+  <div class="lede">
+    两块题：<b>知识点题</b> 79 道——题面就是面试官会问的那一句，答案是一段能直接说出口的话，「别说」是扣分点；
+    <b>项目模拟题</b> 24 道——把知识点压到四个项目上问，练的是「这个判断在我的项目里落到哪」。
+    <span class="rule">用法：先自己答一遍，再点开对照。答得上来的点「标记已掌握」，进度存在本机浏览器里（项目题也单独记）。</span>
+  </div>
+  <div class="prog">
+    <span id="pgtxt">已掌握 0 / 79</span>
+    <span class="pbar"><i id="pgfill"></i></span>
+  </div>
+  <div class="qmode" id="qamode">
+    <button class="chip on" data-qm="kp">知识点题<span class="n">79</span></button>
+    <button class="chip" data-qm="pj">项目模拟题<span class="n">24</span></button>
+  </div>
+  <div class="filt"><div class="search"><input id="qaq" type="search" placeholder="搜题目 / 答案关键词"></div></div>
+  <div id="qalist"></div>
+</section>
+
+<section class="panel" id="p-path">
+  <div class="lede">
+    顺序按<b>级别</b>排，不按语料目录排：L1 是必答（答不上来就掉分），L2 是常考（答出来就拉开差距），L3 是加分（听懂了不装懂就行）。
+    <span class="rule">点任意条目会跳到图谱里那一条；勾选进度在问答面板里。</span>
+  </div>
+  <div class="planbar" id="pathbar">
+    <button class="chip" data-plan="3">只有 3 天<span class="n">L1</span></button>
+    <button class="chip on" data-plan="7">7 天<span class="n">L1+L2</span></button>
+    <button class="chip" data-plan="14">14 天<span class="n">全部</span></button>
+  </div>
+  <div id="pathlist"></div>
+</section>
+
+<section class="panel" id="p-card"></section>
+
+<section class="panel" id="p-idx">
+  <div class="lede">
+    一屏看全：域 · 知识点 · 级别 · 一句话 · 语料出处（点文件名直接打开那篇原文）。用来倒查——面试被问到某个词，回来找它属于哪个域、原来在哪篇。
+    <span class="rule">语料库在 _crawl\yuque-turing-ai-2026\（598 篇，其中 413 篇有正文；185 篇只有 PDF 附件、没有可检索正文，所以它们的标题只作线索，不作为出处）。</span>
+  </div>
+  <div id="idxtable"></div>
+</section>
+
+</div></main>
+
+<script id="kg-data" type="application/json">{"domains":[{"id":"llm","name":"模型能力与边界","color":"#b4441f","note":"先把「模型能做什么、不能做什么」说清楚，后面的 RAG、Agent、成本都是在这个边界上做取舍。"},{"id":"ctx","name":"Prompt 与上下文工程","color":"#8a6524","note":"成本最低、见效最快的一层。产品经理能自己动手改的，基本都在这里。"},{"id":"rag","name":"RAG 与知识供给","color":"#2f5d62","note":"RAG 不是「接个向量库」，是一条从解析、切分、召回到引用、评测的链路，断一环整条就不可信。"},{"id":"agent","name":"Agent 与工作流","color":"#3f5a45","note":"Agent 的价值在「多步且需要判断」，代价是不可预测；能不能说清边界，决定它是产品还是玩具。"},{"id":"multi","name":"多模态与端侧","color":"#5b4b8a","note":"多模态不是「能看图」，是「图里的什么信息值得花算力去看」。分工错了，成本翻十倍还更不准。"},{"id":"eval","name":"评测与验收","color":"#7a3e5d","note":"AI 产品的评测是产品问题，不是算法问题：口径、样本、阈值、谁来签字，都得产品定。"},{"id":"cost","name":"成本与性能","color":"#4a6fa5","note":"成本不是财务问题，是产品设计问题：轮次、上下文、模型档位都是产品能定的参数。"},{"id":"land","name":"落地与商业化","color":"#7d5a35","note":"从 demo 到生产，差的不是模型能力，是边界、责任、成本和组织。"}],"nodes":[{"id":"llm-token","d":"llm","t":"Token 与分词","lv":"L1","one":"模型不是按「字」算的，是按 token；一个汉字约 1–1.5 token，英文一个词约 1.3 token。","why":"所有成本、上下文上限、延迟的换算都以 token 为单位；说不清 token 就没法谈成本。","src":[["HuggingFace 核心组件及应用实战","438-14.HuggingFace 核心组件及应用实战.md"],["AI大模型领域核心概念","510-85.AI大模型领域核心概念.md"]],"deps":[],"qa":[{"lv":"L1","q":"为什么同一个需求，两个团队报的成本差三倍？","a":"先看是不是同一个计价口径。差三倍通常是三件事：① 输入输出单价混着算（输出一般贵 2–4 倍）；② 有没有把检索片段、系统提示、历史对话都算进输入；③ 轮次假设不同——单次便宜、但一轮对话四轮调用。我会先把「单次 token 构成」摊开，再谈单价。","avoid":"别直接说「用的模型便宜所以省钱」，单价只是三个变量里的一个。"}],"cov":"strong"},{"id":"llm-ctx","d":"llm","t":"上下文窗口与有效上下文","lv":"L1","one":"窗口是上限，不等于有效；模型对中段信息的利用率明显低于开头和结尾。","why":"很多人以为「窗口够大就不用 RAG」，实际是长上下文会掉精度、且贵。","src":[["大模型长文本处理的优化方案","264-36.大模型长文本处理的优化方案.md"],["大模型应用如何保证实时性和多轮对话一致性","461-1.大模型应用如何保证实时性和多轮对话一致性.md"]],"deps":["llm-token"],"qa":[{"lv":"L2","q":"窗口已经到 100 万 token 了，还需要 RAG 吗？","a":"要，但边界变了。窗口解决「塞得下」，RAG 解决「找得准 + 算得起」。长文里中段信息召回会衰减，且每次调用都按全量计费。判断标准是：知识是否频繁更新、是否需要引用出处、单次成本能不能接受。三个里有一个是「否」，就该上 RAG。","avoid":"别说「窗口大了 RAG 就淘汰」——这是最容易被追问的一句。"}],"cov":"strong"},{"id":"llm-temp","d":"llm","t":"温度与采样参数","lv":"L1","one":"temperature 控随机性，top_p 控候选范围；抽取、判定类任务要低温，创意类才调高。","why":"同一个 prompt 两次结果不一致，八成是采样参数没定死，不是模型坏了。","src":[["OpenAI应用开发快速入门","518-86.OpenAI应用开发快速入门.md"],["基于Prompt的模型行为控制技术","220-14.基于Prompt的模型行为控制技术.md"]],"deps":[],"qa":[{"lv":"L1","q":"怎么让模型输出稳定、可复现？","a":"四件事：温度压到 0–0.2、约束成结构化输出（JSON+schema）、关键判定交给确定性代码或规则、把「不确定」设计成一个可输出的档位（疑似/待人工）而不是硬猜。最后一步最容易被忽略，也是能不能上生产的分水岭。","avoid":"别说「调低温度就 100% 稳定」，它只降低方差，不消除。"}],"cov":"mid"},{"id":"llm-halluc","d":"llm","t":"幻觉的成因与分类","lv":"L1","one":"幻觉不是「模型坏」，是它在补全最可能的文本；分三类：事实错、来源编造、指令偏移。","why":"面试官问幻觉，考的是你有没有把它拆成可治理的几类，而不是一句「加 RAG」。","src":[["模型幻觉的检测与抑制技术","223-54.模型幻觉的检测与抑制技术.md"],["怎么解决大模型幻觉问题","347-19.怎么解决大模型幻觉问题.md"]],"deps":["llm-ctx"],"qa":[{"lv":"L1","q":"你们怎么解决幻觉？","a":"先分类再对症：事实错→接检索并强制引用原文片段；来源编造→只允许从给定片段里摘，禁止自由生成编号/链接；指令偏移→结构化输出 + 校验层。最后一定有一条兜底：低置信度不进自动流程，转人工。我在 CAD 里就是用「模型不判、规则判」把最容易出错的那类幻觉直接消掉。","avoid":"别说「用了 RAG 就没有幻觉」，RAG 只降低，不能消除。"}],"cov":"strong"},{"id":"llm-cutoff","d":"llm","t":"知识截止与时效性","lv":"L2","one":"模型只知道训练截止前的东西；时效性需求必须外接数据源，不能靠模型记忆。","why":"行业类产品（规范、价格、政策）最常见的翻车点就是拿了过期版本。","src":[],"deps":["llm-ctx"],"qa":[{"lv":"L2","q":"规范/政策更新了，你的系统怎么跟上？","a":"不让模型「记住」，而是让知识库「带版本」。条文进库时打版本号和生效日期，检索时按当前作业日期过滤；更新走重灌+回归测试，不动模型。好处是可追溯：任何一条判定都能回溯到哪一版条文。","avoid":"别说「等模型更新就好了」——这是时效类产品最致命的回答。"}],"cov":"weak"},{"id":"llm-reasoning","d":"llm","t":"推理模型 vs 通用模型","lv":"L2","one":"推理模型（R1/o 系列）擅长多步推导但慢且贵；通用模型擅长抽取、改写、格式转换。","why":"选错档位是最常见的成本浪费：抽取任务用推理模型，钱花了三倍、效果没变化。","src":[["DeepSeek背后核心技术揭秘","478-36.DeepSeek背后核心技术揭秘.md"],["阿里QwQ-32B性能比肩DeepSeek满血版","344-46.阿里QwQ-32B性能比肩DeepSeek满血版.md"]],"deps":["llm-temp"],"qa":[{"lv":"L2","q":"什么任务该上推理模型？","a":"看它需不需要「多步、且中间结果要正确」。需要跨多条依据做一致性推导（合规审查、方案比对）值得上；单点抽取、分类、格式转换不值得。判断方法是拿 20 条真实样本跑两档，比准确率和单次成本，而不是比榜单。","avoid":"别说「推理模型更强所以都用它」——成本和延迟会直接把产品体验拖垮。"}],"cov":"mid"},{"id":"llm-emerge","d":"llm","t":"参数规模与涌现能力","lv":"L2","one":"能力不是线性增长的；小模型在复杂推理上会断崖式失败，而不是「差一点」。","why":"决定「能不能用 7B 私有化替代云端大模型」的，是这个断崖在哪，不是平均分。","src":[["解释大模型中的“涌现能力”及产生原因","251-23.解释大模型中的“涌现能力”及产生原因.md"],["大模型基础面试题","182-91.大模型基础面试题.md"]],"deps":["llm-reasoning"],"qa":[{"lv":"L3","q":"客户要求私有化，只能用 7B 模型，你怎么评估可行性？","a":"不看平均分，看任务链最弱那环。把任务拆成抽取、判定、生成三段，用 30 条真实样本分段测；哪一段断崖，就用工程手段补——判定交规则、生成缩范围、复杂推导留在云端做混合部署。私有化不是「全本地」，是「敏感数据不出域」。","avoid":"别说「7B 也够用」，没有分段测试数据的判断在技术面试里站不住。"}],"cov":"strong"},{"id":"llm-moe","d":"llm","t":"MoE 与稀疏激活","lv":"L3","one":"MoE 是「参数多、每次只用一部分」，用显存换推理成本；不是所有场景都划算。","why":"它解释了两件事：为什么大模型能便宜，以及为什么私有化部署仍然吃显存。","src":[["混合专家模型（MoE）如何降低计算成本？","258-35.混合专家模型（MoE）如何降低计算成本？.md"],["模型稀疏化的实践方法","245-40.模型稀疏化的实践方法.md"]],"deps":["llm-emerge"],"qa":[{"lv":"L3","q":"MoE 模型便宜在哪，贵在哪？","a":"便宜在算力：每次只激活部分专家，同样效果推理 FLOPs 低。贵在显存和调度：参数总量还得装下，专家路由不好会有负载不均。所以「云端 API 便宜」和「私有化便宜」是两件事。","avoid":"别把 MoE 说成「参数少」，它参数更多、只是激活少。"}],"cov":"strong"},{"id":"llm-select","d":"llm","t":"模型选型矩阵","lv":"L1","one":"选型看五个维度：能力达标、单次成本、延迟、数据合规、可运维性；没有全能冠军。","why":"这是产品经理最常被问、也最能体现判断力的一题——因为它有取舍，不是背参数。","src":[["大模型服务GPU选型","236-58.大模型服务GPU选型.md"],["AI大模型领域核心概念","510-85.AI大模型领域核心概念.md"]],"deps":["llm-reasoning","llm-emerge"],"qa":[{"lv":"L1","q":"你怎么选模型？","a":"先定硬约束（数据能不能出院、延迟上限），再定能力线（拆任务测最弱环节），最后算单位经济学（单次成本×调用量）。三条都过才进候选，然后在候选里比运维成本。我一般会给一张表：任务段 / 候选模型 / 达标率 / 单次成本 / 延迟，让决策可见。","avoid":"别开口就报模型名和榜单分数，那说明你在选「最强」而不是在选「合适」。"}],"qa2":null,"cov":"mid"},{"id":"llm-lostmiddle","d":"llm","t":"Lost in the Middle","lv":"L3","one":"长输入里，位于中段的信息被利用的概率显著低于首尾——这是结构性的，不是偶然。","why":"它直接决定了 RAG 的「喂多少」和「喂哪段」，也解释了为什么堆上下文反而变差。","src":[],"deps":["llm-ctx"],"qa":[{"lv":"L3","q":"同样的上下文，为什么把关键信息换个位置，效果就变了？","a":"因为注意力对位置敏感，中段利用率最低。工程上的做法：关键约束前置并在末尾复述、检索结果按相关度排序而非按时间、把长文档做摘要+定位而不是整段塞。这不是玄学，是可复现的现象。","avoid":"别说「模型注意力机制完美」，这题就是在考你知道它不完美。"}],"cov":"weak"},{"id":"llm-multiturn","d":"llm","t":"多轮对话的一致性","lv":"L2","one":"多轮不是「把历史都带上」，而是要有选择地保留：状态、约束、已确认结论。","why":"多轮跑偏、前后矛盾，是 To B 对话产品最高频的线上问题。","src":[["大模型应用如何保证实时性和多轮对话一致性","461-1.大模型应用如何保证实时性和多轮对话一致性.md"],["多轮对话的上下文建模方法","204-7.多轮对话的上下文建模方法.md"]],"deps":["llm-ctx","llm-lostmiddle"],"qa":[{"lv":"L2","q":"用户聊了二十轮之后开始胡言乱语，怎么修？","a":"先分清是「记不住」还是「记错了」。做法：把会话状态抽成结构化字段（谁、什么任务、已确认哪些口径），每轮只喂状态+最近 N 轮原文；数值类结果一律走接口取，不让模型复述。这样轮次再多也不漂。","avoid":"别说「加大窗口就行」，窗口解决长度不解决冲突。"}],"cov":"strong"},{"id":"llm-limit","d":"llm","t":"模型能力边界的表达方式","lv":"L2","one":"对客户讲边界，要讲「哪类输入会失败」，不要讲「准确率 92%」。","why":"面试官判断你是不是做过交付，就看你会不会主动说边界。","src":[["AI大模型领域核心概念","510-85.AI大模型领域核心概念.md"],["大模型安全防护方案","234-5.大模型安全防护方案.md"]],"deps":["llm-halluc"],"qa":[{"lv":"L2","q":"你们的准确率是多少？","a":"不给单一数字，给分段口径。CAD 是标准配筋 85%、复合场景 70%、套管 85%，另有 80 张图读通率 60% 的门槛和连续 3 天稳定性要求；剩下 15–30% 不进自动流程，走「疑似违规」人工复核。这样客户知道什么时候能信它。","avoid":"别报一个笼统的 95%，追问一句「哪类样本」就露。"}],"cov":"mid"},{"id":"ctx-4parts","d":"ctx","t":"结构化 Prompt 四要素","lv":"L1","one":"角色与目标、输入与约束、输出格式、失败时怎么办——四条缺一条，输出就不稳。","why":"这是产品经理能自己改、且立刻见效的部分，也是「Prompt 工程」唯一值得背的框架。","src":[["大模型提示词工程最佳实践","516-88.大模型提示词工程最佳实践.md"],["提示词工程能解决什么问题?","456-1.提示词工程能解决什么问题_.md"]],"deps":[],"qa":[{"lv":"L1","q":"你怎么写 prompt？","a":"四段式：先定角色和目标（你是谁、这次只做什么），再给输入和硬约束（依据哪些资料、不许做什么），再固定输出格式（字段、长度、枚举值），最后写失败路径（资料不足时输出什么、不许猜）。第四段决定它能不能上生产。","avoid":"别背「你是一个资深专家」这种开场，那是模板不是工程。"}],"cov":"strong"},{"id":"ctx-schema","d":"ctx","t":"结构化输出与 schema 约束","lv":"L1","one":"要机器可用的输出，就给 schema（字段、类型、枚举），而不是让它「输出 JSON」。","why":"下游要解析、要入库、要算指标，格式不稳等于全链路不稳。","src":[["大模型输出格式如何控制","230-52.大模型输出格式如何控制.md"],["LangChain提示词工程应用实践","424-2.LangChain提示词工程应用实践.md"]],"deps":["ctx-4parts"],"qa":[{"lv":"L1","q":"模型偶尔返回不合格式的 JSON，怎么办？","a":"三层：① schema 约束 + 枚举收窄，减少自由度；② 解析失败自动重试一次（附上错误信息让它修）；③ 仍失败就降级到模板输出或转人工。关键是把「格式失败率」当指标监控，而不是当偶发 bug。","avoid":"别只说「加个正则提取」，那是在给不稳定的上游擦屁股。"}],"cov":"strong"},{"id":"ctx-fewshot","d":"ctx","t":"Few-shot 示例的选择","lv":"L2","one":"示例不是越多越好，是要覆盖「易错的那类」，并且包含一个反例。","why":"示例质量决定分类边界，尤其在有行业术语的场景。","src":[["大模型提示词工程最佳实践","516-88.大模型提示词工程最佳实践.md"],["Prompting相关面试题","172-102.Prompting相关面试题.md"]],"deps":["ctx-4parts"],"qa":[{"lv":"L2","q":"示例给几个合适？","a":"2–5 个，按「易混淆对」挑，而不是按随机抽样挑。每个易错类别配一个正例一个反例，比给二十个正例有效。超过这个量，收益递减但 token 成本线性涨。","avoid":"别说「越多越好」，成本会立刻被追问。"}],"cov":"strong"},{"id":"ctx-cot","d":"ctx","t":"思维链与显式推理","lv":"L2","one":"让模型先列依据再给结论，能提升复杂判断的准确率，但会拉长输出、增加成本。","why":"它和「可审计」直接相关：审查类产品要能把依据摆在结论前面。","src":[["Prompting相关面试题","172-102.Prompting相关面试题.md"],["深度剖析Agent四大能力架构设计","485-62.深度剖析Agent四大能力架构设计.md"]],"deps":["ctx-4parts"],"qa":[{"lv":"L2","q":"什么时候该让模型「一步一步想」？","a":"当结论依赖多条依据的组合、且错了代价高时。反过来，抽取、分类、格式转换不需要，加了只是费 token。另外要注意：显式推理的输出可以给用户看（可审计），但中间推理不保证正确——它提升的是准确率，不是保证。","avoid":"别把思维链当「让模型更聪明」的开关，它是取舍。"}],"cov":"mid"},{"id":"ctx-ctxeng","d":"ctx","t":"上下文工程（不只是 prompt）","lv":"L1","one":"上下文工程管的是「这一轮到底喂什么」：系统约束、检索片段、工具返回、历史状态、格式示例。","why":"从「调 prompt」升级到「设计信息流」，是 AI 产品经理和 prompt 玩家的分界线。","src":[["大模型应用如何保证实时性和多轮对话一致性","461-1.大模型应用如何保证实时性和多轮对话一致性.md"],["Harness Engineering 从入门到精通实战","005-285.Harness Engineering 从入门到精通实战.md"]],"deps":["ctx-4parts","llm-ctx"],"qa":[{"lv":"L1","q":"Prompt 工程和上下文工程差在哪？","a":"Prompt 工程是「把话说清楚」，上下文工程是「把料配对」。前者管指令，后者管这一轮进来的所有信息：检索片段怎么选、工具结果怎么裁剪、历史保留几轮、格式示例放哪。产品复杂度一上来，瓶颈几乎都在后者。","avoid":"别把两者混成一个词，这是区分层级的关键一问。"}],"cov":"mid"},{"id":"ctx-inject","d":"ctx","t":"提示注入与越权","lv":"L2","one":"只要模型会读外部内容（网页、文档、邮件），就存在「内容里藏指令」的风险。","why":"To B 落地必然接外部数据，这是安全评审的必问项。","src":[],"deps":["ctx-ctxeng"],"qa":[{"lv":"L2","q":"文档里写了「忽略之前的指令」，你的系统会怎样？","a":"分层防：① 外部内容一律当数据不当指令（包在明确的数据区里）；② 工具权限最小化，读文档的 agent 不许有写权限；③ 危险动作（发邮件、改数据）走人工确认；④ 沙箱执行 + 出网白名单。四层里任何一层单独都不够。","avoid":"别说「加一句不要被注入的提示词」，那是安慰剂。"}],"cov":"weak"},{"id":"ctx-evalprompt","d":"ctx","t":"Prompt 的评测与回归","lv":"L2","one":"改 prompt 必须有固定样本集跑回归，否则就是「感觉变好了」。","why":"prompt 是最容易「改好一处、坏三处」的地方。","src":[["基于Prompt的模型行为控制技术","220-14.基于Prompt的模型行为控制技术.md"],["自动化测试框架在LLM开发中的应用","207-70.自动化测试框架在LLM开发中的应用.md"]],"deps":["ctx-schema"],"qa":[{"lv":"L2","q":"你怎么证明这次改 prompt 是有效的？","a":"固定样本集 + 分段指标 + 不回退约束。样本集要含历史失败案例；指标按场景分段（不是总分）；每次改动记录改了什么、哪段涨了、哪段掉了。没有这套，改动就没法归因，也没法回滚。","avoid":"别说「我们试了几个 case 效果不错」，样本量和方法会被继续追。"}],"cov":"mid"},{"id":"ctx-compress","d":"ctx","t":"压缩、摘要与记忆分层","lv":"L2","one":"长期对话要分层：短期原文、中期摘要、长期结构化档案；全塞原文既贵又漂。","why":"这是多轮产品能不能跑到几十轮还稳定的关键设计。","src":[["多轮对话的上下文建模方法","204-7.多轮对话的上下文建模方法.md"],["Coze知识库和记忆","489-68.Coze知识库和记忆.md"]],"deps":["llm-multiturn","ctx-ctxeng"],"qa":[{"lv":"L2","q":"对话很长，怎么控制上下文？","a":"三层记忆：最近 N 轮留原文（保语气和指代）、更早的压成摘要（保事件）、硬约束抽成结构化字段（保准确）。摘要会丢细节，所以凡是「数字、口径、承诺」都不能只存在摘要里。","avoid":"别说「定时清空历史」，那会直接丢掉任务状态。"}],"cov":"mid"},{"id":"ctx-vote","d":"ctx","t":"多次采样与自洽投票","lv":"L3","one":"同一问题采样多次取多数，能提升稳定性，代价是成本按倍数涨。","why":"它是「用钱换稳定性」的典型手段，要能算清值不值。","src":[["Prompting相关面试题","172-102.Prompting相关面试题.md"],["基于Prompt的模型行为控制技术","220-14.基于Prompt的模型行为控制技术.md"]],"deps":["llm-temp","ctx-cot"],"qa":[{"lv":"L3","q":"怎么在不换模型的前提下提升准确率？","a":"几个可算账的手段：多次采样投票（成本×n）、关键判定拆成两步（先抽取后判定，各自可校验）、把易错样本做成 few-shot、低置信度转人工。按性价比排序，前两个先看有没有预算，最后一个几乎总是最划算。","avoid":"别说「多跑几次就好了」，要给出成本倍数。"}],"cov":"mid"},{"id":"ctx-roleboundary","d":"ctx","t":"角色设定不是权限","lv":"L2","one":"「你是只读助手」是提示，不是权限控制；权限必须由系统强制。","why":"这是安全评审里的经典陷阱：把 prompt 当访问控制。","src":[["基于Prompt的模型行为控制技术","220-14.基于Prompt的模型行为控制技术.md"],["提示词工程能解决什么问题?","456-1.提示词工程能解决什么问题_.md"]],"deps":["ctx-inject"],"qa":[{"lv":"L2","q":"怎么保证 agent 不会做危险操作？","a":"靠系统不靠提示。三件事：工具集里根本不给危险能力（最小权限）、危险动作要二次确认或人签发、执行放沙箱并断外网。提示词只负责让它「愿意配合」，不负责让它「不能做」。","avoid":"别说「在 prompt 里禁止了」，这句话在安全评审里等于没做。"}],"cov":"mid"},{"id":"rag-why","d":"rag","t":"RAG 到底解决什么","lv":"L1","one":"解决三件事：知识时效（不用重训）、私有知识（模型没见过）、可溯源（答案能指到原文）。","why":"被问「为什么不用微调」时，答案就在这三件事里，而不是「RAG 更便宜」。","src":[["RAG系统的核心组件及工作逻辑","225-48.RAG系统的核心组件及工作逻辑.md"],["详细说下RAG的流程","459-1.详细说下RAG的流程.md"]],"deps":["llm-cutoff"],"qa":[{"lv":"L1","q":"为什么用 RAG，不直接微调？","a":"看知识属性。知识频繁变、要求可溯源、数据敏感不能出域——这三条命中就选 RAG；要改的是「说话方式、格式、领域语气」，才考虑微调。两者不互斥：常见组合是微调管风格、RAG 管事实。","avoid":"别说「RAG 便宜所以用它」，这句话把产品判断降级成了成本比较。"}],"cov":"strong"},{"id":"rag-chunk","d":"rag","t":"切分策略","lv":"L1","one":"切分的目标是「一块讲一件事」；按语义/标题切优于按字数硬切，重叠是为了不切断上下文。","why":"检索质量的上限在切分就定了；切坏了，后面重排再好也救不回。","src":[["LangChain多类型文本分割","328-48.LangChain多类型文本分割.md"],["RAG项目优化最佳实践","490-59.RAG项目优化最佳实践.md"]],"deps":["rag-why"],"qa":[{"lv":"L1","q":"文档怎么切块？","a":"先看结构再决定：有条款/标题就按结构切，保留层级和编号；没有结构再按语义段落切，块间留 10–20% 重叠。块大小按「一个问题能否被一块答完」来定，通常 300–800 字。表格和图片单独处理，别混进正文切。","avoid":"别说「固定 512 token 切」，这是最容易被追问「为什么是 512」的回答。"}],"cov":"strong"},{"id":"rag-embed","d":"rag","t":"Embedding 与向量检索","lv":"L1","one":"embedding 把文本压成向量，用余弦相似度找「意思接近」的片段；它不懂逻辑，只懂相似。","why":"它是召回的地基，也解释了为什么「同义不同词」能召回、「反义近词」会误召。","src":[["Embedding模型面试题","176-98.Embedding模型面试题.md"],["大模型时代为什么需要向量数据库?","440-15.大模型时代为什么需要向量数据库_.md"]],"deps":["rag-chunk"],"qa":[{"lv":"L1","q":"向量检索为什么有时召不回明显相关的内容？","a":"三个常见原因：① 块切得太碎，语义不完整；② embedding 模型和领域不匹配（专业术语被压到通用语义空间）；③ 查询本身太短或含指代。对应解法是合并小块、换/微调 embedding、加查询改写，而不是一味调 top-k。","avoid":"别说「调大 top-k 就行」，那会引入更多噪声、拖垮重排。"}],"cov":"strong"},{"id":"rag-rerank","d":"rag","t":"召回-重排两段式","lv":"L1","one":"先用便宜的方法粗召回（几十条），再用重排模型精排（前 3–5 条），准确率和成本都更优。","why":"这是 RAG 最标准也最有效的结构，说不出两段式就说明没做过。","src":[["LangChain高效检索器最佳实践","339-38.LangChain高效检索器最佳实践.md"],["RAG项目优化最佳实践","490-59.RAG项目优化最佳实践.md"]],"deps":["rag-embed"],"qa":[{"lv":"L1","q":"为什么要两段式检索？","a":"因为两件事的成本差一个量级：向量召回快但粗，重排准但慢。先用召回把候选压到几十条，再让重排在小集合里精排，既保住召回率又控住延迟。一段式要么召回不全，要么把贵模型用在成千上万条上。","avoid":"别说「直接用最好的模型检索」，成本与延迟会被追问。"}],"cov":"mid"},{"id":"rag-hybrid","d":"rag","t":"混合检索（关键词 + 向量）","lv":"L2","one":"向量擅长语义，BM25/关键词擅长精确匹配（编号、型号、专名），两者互补。","why":"行业文档里大量「GB 50038」「A-3 段」这种精确串，纯向量必漏。","src":[["Dify基于RAG知识库搭建智能客服","295-128.Dify基于RAG知识库搭建智能客服.md"],["文档问答系统的检索召回率提升方案","205-68.文档问答系统的检索召回率提升方案.md"]],"deps":["rag-rerank"],"qa":[{"lv":"L2","q":"用户搜「GB 50038 第 3.2.1 条」，纯向量能搜到吗？","a":"大概率不能，编号在向量空间里没有语义。所以要混合：编号、型号、专名走精确匹配（BM25/倒排），语义问题走向量，两路合并后用重排统一排序。行业文档里这个组合几乎是标配。","avoid":"别坚持「向量能解决一切」，编号类查询是它的天然盲区。"}],"cov":"mid"},{"id":"rag-query","d":"rag","t":"查询改写与多轮消解","lv":"L2","one":"用户第三轮问「那它呢」，要先补全成完整问题再检索，否则召回全废。","why":"多轮 RAG 的头号失败点不在检索器，在查询本身。","src":[["文档问答系统的检索召回率提升方案","205-68.文档问答系统的检索召回率提升方案.md"],["如何解决RAG中的语义鸿沟问题","226-49.如何解决RAG中的语义鸿沟问题.md"]],"deps":["rag-hybrid"],"qa":[{"lv":"L2","q":"多轮对话里 RAG 为什么越来越不准？","a":"因为查询本身退化了：指代、省略、承接让问题变短，检索器拿到的是一个信息不足的串。解法是查询改写——用会话状态把问题补全成独立可检索的句子，再走检索。这一步的成本只有一次小模型调用，收益最大。","avoid":"别归因到「向量库不够好」，先看查询。"}],"cov":"mid"},{"id":"rag-cite","d":"rag","t":"引用与溯源","lv":"L1","one":"答案必须能落到具体片段（文档+位置+版本），这是 To B 产品的信任基础。","why":"没有引用的 RAG 只是「看起来像查过」，出了错无法追责、无法修。","src":[["基于LlamaIndex开发AI法律助手","484-64.基于LlamaIndex开发AI法律助手.md"],["RAG系统的核心组件及工作逻辑","225-48.RAG系统的核心组件及工作逻辑.md"]],"deps":["rag-rerank"],"qa":[{"lv":"L1","q":"怎么保证答案不是编的？","a":"三段式：只允许从给定片段里摘（不许自由生成编号和链接）、输出必带引用定位（文档+条/页+版本）、引用与结论做一致性校验（条号不在召回集合里就判失败）。最后这条是关键，很多系统只做前两条，编造照样过。","avoid":"别说「加了 RAG 就不会编」，引用校验才是那道理。"}],"cov":"mid"},{"id":"rag-eval","d":"rag","t":"RAG 的三层评测","lv":"L1","one":"分开测：召回有没有找对（recall@k）、答得是否忠于原文（faithfulness）、答得是否解决问题（correctness）。","why":"不分层就分不清「没找到」和「找到了但答歪」，也就不知道改哪。","src":[["详细说下RAG的流程","459-1.详细说下RAG的流程.md"],["文档问答系统的检索召回率提升方案","205-68.文档问答系统的检索召回率提升方案.md"]],"deps":["rag-cite"],"qa":[{"lv":"L1","q":"RAG 效果不好，怎么定位问题？","a":"分层测：先看召回——正确片段在不在 top-k 里，不在就是解析/切分/检索的问题；在的话看生成——回答是否忠于片段、有没有答非所问。两层各建一个 50–100 条的小集子，比看总准确率有用得多。","avoid":"别说「整体准确率 80%」，那不能指导任何修改。"}],"cov":"mid"},{"id":"rag-agentic","d":"rag","t":"Agentic RAG","lv":"L3","one":"让模型自己决定「查不查、查几次、换个说法再查」，把检索变成动作而不是前置步骤。","why":"复杂问题的关键信息常分散在多处，一次检索不够；但多轮检索会拉长延迟和成本。","src":[],"deps":["rag-query","agent-react"],"qa":[{"lv":"L3","q":"什么情况下值得把检索做成 Agent？","a":"当问题需要「多次、不同角度」的信息才能答，且单次召回明显不足时。代价是延迟不可预测、成本翻倍、失败模式变多。所以一定要设上限（最多几轮、超时怎么办）并留兜底话术，否则用户等 30 秒拿到「我不知道」。","avoid":"别说「Agentic RAG 是下一代所以要用」，先给判断条件。"}],"cov":"weak"},{"id":"rag-graph","d":"rag","t":"GraphRAG 与结构化知识","lv":"L3","one":"把实体和关系建成图，解决「跨文档、多跳」的问题；代价是构建与维护成本高。","why":"它是「关系型问题」的正解，但不能替代向量检索。","src":[["如何构建领域专属的知识图谱","239-63.如何构建领域专属的知识图谱.md"]],"deps":["rag-hybrid"],"qa":[{"lv":"L3","q":"什么时候该上知识图谱而不是向量库？","a":"当问题主要是「关系」而不是「相似」时：A 影响哪些 B、这条规则依赖哪几条上游规则。这类问题用图/关系表能给出确定答案，向量只能给「看起来相关」。判断口径：答案是否需要沿关系走两三跳才能得出。","avoid":"别说「图谱更先进」，它是另一类工具，不是升级版。"}],"cov":"strong"},{"id":"rag-longctx","d":"rag","t":"长上下文 vs RAG 的取舍","lv":"L2","one":"文档少而固定 → 直塞长上下文；文档多、常更新、要引用 → RAG。","why":"这是选型题，答错方向会白做一个季度。","src":[["大模型长文本处理的优化方案","264-36.大模型长文本处理的优化方案.md"],["如何针对超长文本进行微调训练","444-17.如何针对超长文本进行微调训练.md"]],"deps":["llm-ctx","rag-why"],"qa":[{"lv":"L2","q":"有了长上下文，还需要向量库吗？","a":"看知识规模与更新频率。几十页、很少变、每次都要全量参考——直接塞，简单可控。上百份文档、天天更新、要指到具体条文——必须检索。中间地带可以用「分层」：先检索定位到章节，再把整章塞进去。","avoid":"别给绝对答案，这题的分数就在「分情况」。"}],"cov":"mid"},{"id":"rag-parse","d":"rag","t":"解析与版面（PDF/表格/图纸）","lv":"L1","one":"真实文档的难点在解析：扫描件、表格跨页、双栏、图注。解析错了，后面全错。","why":"To B 项目 60% 的工期花在这里，面试里能说出来就是「真做过」。","src":[["Dify基于视觉模型实现多票据识别","268-151.Dify基于视觉模型实现多票据识别.md"],["对话系统的多模态输入处理流程","222-18.对话系统的多模态输入处理流程.md"]],"deps":["rag-chunk"],"qa":[{"lv":"L1","q":"你们的文档解析怎么做的？","a":"先分类再选路：电子版直接抽结构化（PDF 表格、DWG 图层），扫描件才走 OCR/VLM，且输出带版面坐标。表格单独成块并保留表头，别拍平成文本。原则是「能用规则和坐标解决的，不交给模型猜」。","avoid":"别说「全部丢给多模态模型读」，成本和稳定性都撑不住。"}],"cov":"mid"},{"id":"agent-what","d":"agent","t":"Agent 的四要素","lv":"L1","one":"目标与规划、工具、记忆、循环（观察-决策-行动）；缺工具就只是聊天，缺循环就只是工作流。","why":"这是最标准的定义框架，也是判断「该不该做 Agent」的尺子。","src":[["Agent如何搭建?可以用那些框架","458-2.Agent如何搭建_可以用那些框架.md"],["揭秘Agent核心原理与企业级应用场景","487-61.揭秘Agent核心原理与企业级应用场景.md"]],"deps":["ctx-ctxeng"],"qa":[{"lv":"L1","q":"什么需求该用 Agent，什么该用工作流？","a":"看路径是否确定。步骤固定、可枚举 → 工作流（可测、可审计、便宜）；需要根据中间结果决定下一步、且分支不可枚举 → Agent。我一般默认先做工作流，只在「必须现场判断」的那一步放 Agent。","avoid":"别说「Agent 更智能所以都用 Agent」，这题考的是克制。"}],"cov":"strong"},{"id":"agent-tool","d":"agent","t":"工具调用（Function Calling）","lv":"L1","one":"把能力包成带 schema 的函数（名字、参数、返回、错误），模型只负责选和填参。","why":"工具设计质量决定 Agent 成败：参数太自由会乱填，错误码不清会死循环。","src":[["LangChain自定义工具调用","428-7.LangChain自定义工具调用.md"],["Day1: MCP核心架构与快速实战","188-Day1_ MCP核心架构与快速实战.md"]],"deps":["agent-what","ctx-schema"],"qa":[{"lv":"L1","q":"工具怎么设计模型才用得对？","a":"四条：名字用动词短语（查通告、改草案）、参数收窄到枚举和必填、返回结构化且带可读的错误原因、一个工具只做一件事。最容易被忽略的是错误设计——没有明确失败原因，模型会反复重试同一个错。","avoid":"别把十个动作塞进一个工具加个 action 参数，模型选不准。"}],"cov":"strong"},{"id":"agent-react","d":"agent","t":"ReAct 循环","lv":"L1","one":"想一步、做一步、看结果、再想——用观察结果纠正下一步，而不是一次规划到底。","why":"它是最常用的 Agent 骨架，也解释了「为什么 Agent 慢」。","src":[["Agent的ReAct框架原理","227-50.Agent的ReAct框架原理.md"],["Agent如何搭建?可以用那些框架","458-2.Agent如何搭建_可以用那些框架.md"]],"deps":["agent-tool"],"qa":[{"lv":"L1","q":"ReAct 为什么会越跑越慢？","a":"每一轮都是一次完整的模型调用 + 工具往返，轮次线性叠加延迟和成本；还会出现「绕圈」（反复查同一个东西）。工程上必须设步数上限、超时、以及重复动作检测——这三条是能不能上生产的分界。","avoid":"别说「Agent 慢是因为模型慢」，慢在轮次。"}],"cov":"strong"},{"id":"agent-plan","d":"agent","t":"规划与任务分解","lv":"L2","one":"把大目标拆成可验证的小步，每步有明确的完成判据；拆不出判据的步骤就是风险点。","why":"规划能力直接决定多步任务的成败率，也是「自动」和「可控」的平衡点。","src":[["深度剖析Agent四大能力架构设计","485-62.深度剖析Agent四大能力架构设计.md"],["如何设计一个多Agent协作系统架构","233-55.如何设计一个多Agent协作系统架构.md"]],"deps":["agent-react"],"qa":[{"lv":"L2","q":"怎么让 Agent 少走弯路？","a":"把「规划」从自由生成变成半结构化：给定步骤模板和每步的验收判据，只让模型在有限分支里选；再加一个前置的槽位检查，信息不全就先问人，不硬跑。弯路的成本通常远高于多问一句。","avoid":"别说「换个更强的模型规划就好了」，那是把问题推给模型。"}],"cov":"mid"},{"id":"agent-memory","d":"agent","t":"记忆体系","lv":"L2","one":"会话内（短期）、任务级（状态）、跨会话（档案）三层；每层的生命周期和存储方式都不同。","why":"记忆设计错了，Agent 会「记得不该记的、忘了必须记的」。","src":[["Coze知识库和记忆","489-68.Coze知识库和记忆.md"],["LangGraph持久化管理","331-50.LangGraph持久化管理.md"]],"deps":["ctx-compress","agent-what"],"qa":[{"lv":"L2","q":"Agent 的记忆怎么设计？","a":"按生命周期分三层：会话内保留原文（语气、指代）、任务级存结构化状态（文号、进度、已确认项）、跨会话存档案（偏好、口径、历史结论）。要明确哪些「永不遗忘」（合规口径、承诺），哪些「过期即弃」（临时参数）。","avoid":"别把所有历史塞进向量库当「记忆」，检索到的旧状态会污染当前任务。"}],"cov":"strong"},{"id":"agent-multi","d":"agent","t":"多 Agent 的边界切分","lv":"L2","one":"按「职责/流水线阶段」切，不按「人格」切；切完必须能画出输入输出契约。","why":"多 Agent 最常见的失败是职责重叠，互相调用、结论打架。","src":[["DeepSeek结合AutoGen构建多Agent应用","449-28.DeepSeek结合AutoGen构建多Agent应用.md"],["如何设计一个多Agent协作系统架构","233-55.如何设计一个多Agent协作系统架构.md"]],"deps":["agent-what","agent-memory"],"qa":[{"lv":"L2","q":"为什么要拆成四个 Agent，一个大 Agent 不行吗？","a":"因为四段的输入、工具、验收标准不同：混在一起，提示词会互相打架，出错也无法定位。拆开后每个 Agent 的工具集和状态都最小化，谁错了一眼看得出来。但拆的前提是边界清楚——画不出输入输出契约，就别拆。","avoid":"别说「多 Agent 更强大」，这题考的是「为什么拆、凭什么拆」。"}],"cov":"strong"},{"id":"agent-orchestration","d":"agent","t":"工作流编排（DAG 与自由 Agent）","lv":"L2","one":"能用固定图跑通的，不要交给模型自由决定；编排的确定性是可运维性的来源。","why":"生产环境要的是可复现、可回滚，而不是每次路径都不一样。","src":[["LangGraph快速构建Agent工作流应用","435-11.LangGraph快速构建Agent工作流应用.md"],["LangChain工作流编排","429-3.LangChain工作流编排.md"]],"deps":["agent-react"],"qa":[{"lv":"L2","q":"工作流和 Agent 怎么配合？","a":"外层工作流、内层 Agent：用有向图把阶段固定（解析→检索→判定→生成→校验），每个阶段内部允许模型做判断。这样既保留确定性（可测、可回滚），又拿到灵活性（判断不写死）。全自由的 Agent 只适合探索期。","avoid":"别说「全交给 Agent 编排最先进」，运维会立刻反问你出问题怎么复现。"}],"cov":"strong"},{"id":"agent-hitl","d":"agent","t":"人工介入与置信度分流","lv":"L1","one":"按置信度分三档：高置信自动、中置信人工确认、低置信人工处理；阈值由业务方定。","why":"这是「AI 产品能不能落地」的核心机制，也是责任划分的落点。","src":[["LangGraph工作流人机交互","330-52.LangGraph工作流人机交互.md"],["大模型应用如何保证实时性和多轮对话一致性","461-1.大模型应用如何保证实时性和多轮对话一致性.md"]],"deps":["agent-what","llm-limit"],"qa":[{"lv":"L1","q":"AI 判错了谁负责？","a":"制度上：最终签字的人负责，所以设计上要让「人有机会看」。机制上：按置信度分流，低置信强制人工，且每条结论可回溯到依据（条文版本、原始片段）。技术上：规则引擎判的可以复算，模型只做辅助——把责任链和证据链都留出来。","avoid":"别说「AI 只是辅助所以不负责」，这会被追问「那为什么要上线」。"}],"cov":"strong"},{"id":"agent-mcp","d":"agent","t":"MCP 协议","lv":"L2","one":"把「工具/数据源」标准化成可被任意模型客户端调用的服务，解决 N×M 的重复适配。","why":"它是当前 Agent 生态的事实标准，问「工具怎么接」几乎必然提到。","src":[["企业级MCP集成方案与应用实践","190-06.企业级MCP集成方案与应用实践.md"],["MCP基础概念与快速入门","201-01.MCP基础概念与快速入门.md"]],"deps":["agent-tool"],"qa":[{"lv":"L2","q":"MCP 解决了什么问题？","a":"把「模型调用外部能力」的适配从 N×M 降到 N+M：工具方按协议实现一次，任何支持该协议的客户端都能用。对企业来说真正的价值是治理——权限、审计、限流可以统一放在网关层，而不是散在每个 agent 里。","avoid":"别把它说成「又一个插件规范」，重点是解耦与治理。"}],"cov":"strong"},{"id":"agent-framework","d":"agent","t":"框架取舍（LangChain/LangGraph/Dify/Coze/自研）","lv":"L2","one":"按「谁维护、要不要改内部逻辑、能不能私有化」选；框架省的是起步时间，欠的是可控性。","why":"JD 里几乎不写框架名，但面试会问「为什么换掉」，考的是判断而非 API。","src":[["LangGraph快速入门与底层原理剖析","434-10.LangGraph快速入门与底层原理剖析.md"],["详细说下LangChain框架应用场景","471-14.详细说下LangChain框架应用场景.md"]],"deps":["agent-orchestration"],"qa":[{"lv":"L2","q":"你为什么从 LangChain 换掉？","a":"不是框架不好，是需求变了：链路从「一条问答链」变成「四个 Agent + 任务编排 + 记忆分层」，框架的抽象开始挡路——想改推理循环要绕它的约定。换自研的判据是「改内部逻辑的频率」：偶尔用框架，天天改就自己写。","avoid":"别说「LangChain 太臃肿」，要给出你自己那条判据。"}],"cov":"strong"},{"id":"agent-fail","d":"agent","t":"Agent 的失败模式与兜底","lv":"L2","one":"四类常见失败：绕圈、工具误用、上下文污染、静默降级；每类都要有可观测信号。","why":"能列出失败模式并给出兜底，才说明你真跑过线上。","src":[["Harness Engineering 从入门到精通实战","005-285.Harness Engineering 从入门到精通实战.md"],["自动化测试框架在LLM开发中的应用","207-70.自动化测试框架在LLM开发中的应用.md"]],"deps":["agent-react","agent-hitl"],"qa":[{"lv":"L2","q":"Agent 线上出问题，你怎么发现？","a":"盯四个信号：步数分布（突然变长=绕圈）、工具失败率（某个接口挂）、重复调用率（同一工具同参数反复）、人工接管率（静默降级）。再配一条：每次任务留完整轨迹，出问题能回放。没有轨迹的 Agent 等于不可运维。","avoid":"别只说「看日志」，要说清看哪几个指标、异常长什么样。"}],"cov":"mid"},{"id":"multi-what","d":"multi","t":"多模态能做什么、不能做什么","lv":"L1","one":"能：描述、分类、读图里的字、按指令抽取。不能：精确计数、稳定复算、跨图比对细微差异。","why":"把「不能」的部分提前说清楚，项目就不会在验收时翻车。","src":[["如何利用大模型实现多模态任务","465-9.如何利用大模型实现多模态任务.md"],["多模态大模型的跨模态对齐方法","228-53.多模态大模型的跨模态对齐方法.md"]],"deps":["llm-limit"],"qa":[{"lv":"L1","q":"多模态模型能替代 OCR 吗？","a":"常见场景能，但不能全替。清晰印刷体，VLM 读得又快又省事；表格、票据、密集小字、跨页，专用 OCR + 版面分析仍更稳、更可复算。我的做法是「OCR 出结构，VLM 做理解」，两者串起来而不是二选一。","avoid":"别说「VLM 什么图都能读」，一追问密集表格就崩。"}],"cov":"strong"},{"id":"multi-vlm-ocr","d":"multi","t":"VLM 与 OCR 的分工","lv":"L1","one":"OCR 负责「把字拿出来且可复算」，VLM 负责「这些字和版面意味着什么」。","why":"选错分工，要么贵十倍，要么数字不可信。","src":[["Dify基于视觉模型实现多票据识别","268-151.Dify基于视觉模型实现多票据识别.md"],["对话系统的多模态输入处理流程","222-18.对话系统的多模态输入处理流程.md"]],"deps":["multi-what","rag-parse"],"qa":[{"lv":"L1","q":"票据/单据这类任务怎么设计？","a":"两段：版面分析+OCR 出字段（可复算、可核对），VLM 只处理「这张单子是什么类型、有没有异常」这种语义判断。金额、日期、编号这类硬字段绝不交给生成式模型直接输出。","avoid":"别让 VLM 直接吐金额，错了没法解释。"}],"cov":"mid"},{"id":"multi-detect","d":"multi","t":"检测模型与语义模型的分工","lv":"L1","one":"闭集、要计数的用检测（YOLO 类）；开放语义、要解释的用 VLM。","why":"这是端侧 AI 成本结构的核心：检测便宜到可以在每个门店跑 24×7，VLM 不行。","src":[["Dify基于视觉模型实现多票据识别","268-151.Dify基于视觉模型实现多票据识别.md"],["对话系统的多模态输入处理流程","222-18.对话系统的多模态输入处理流程.md"]],"deps":["multi-what"],"qa":[{"lv":"L1","q":"为什么不用端到端多模态大模型做门店巡检？","a":"两个原因：成本和一个可复算性。2000 家店 × 24 小时连续理解，算力账单撑不住；而且「货架上还剩几箱」这种计数，检测框能给确定数字，生成式模型给的是「大概」，督导不会认。所以主链路用检测，语义兜底才用 VLM。","avoid":"别说「大模型更准」，这题考的是成本与可复算。"}],"cov":"mid"},{"id":"multi-video","d":"multi","t":"视频理解与抽帧策略","lv":"L2","one":"视频不是「逐帧看图」，关键是抽哪几帧、留多久、留不留证据。","why":"抽帧策略直接决定成本与可追溯性。","src":[],"deps":["multi-detect"],"qa":[{"lv":"L2","q":"视频怎么处理才不烧钱？","a":"三层过滤：先用便宜的检测在端侧筛事件（大部分时间没事件），有事件才留关键帧+前后几秒，需要语义判断时才把这几秒送 VLM。全程不把原始流上传，既省钱也过隐私关。","avoid":"别说「全量上传云端分析」，带宽和合规都过不去。"}],"cov":"weak"},{"id":"multi-edge","d":"multi","t":"端侧 vs 云端","lv":"L2","one":"端侧换的是带宽、隐私、时延；云端换的是能力和可迭代性。","why":"这是 To B 硬件类项目的第一个架构决策，选错整条产品线都改不了。","src":[["基于知识蒸馏的小模型部署方案","214-83.基于知识蒸馏的小模型部署方案.md"],["vllm的推理加速是怎么实现的","473-18.vllm的推理加速是怎么实现的.md"]],"deps":["multi-detect"],"qa":[{"lv":"L2","q":"端侧和云端怎么选？","a":"看四个约束：数据能不能出（隐私/合规）、网络稳不稳、时延要求、模型多久更新一次。视频类 To B 几乎必然端侧；需要复杂推理的走云端；多数项目是混合——端侧筛、云端判。","avoid":"别只谈「端侧省带宽」，合规往往才是决定项。"}],"cov":"mid"},{"id":"multi-visual-rag","d":"multi","t":"视觉文档检索（图文档 RAG）","lv":"L2","one":"图纸、扫描件、图表不能只抽文字，要保留版面与坐标；检索维度也应包含图元。","why":"工程类文档的价值一半在图里，纯文本 RAG 会丢掉这一半。","src":[["Transformers多模态数据预处理","317-98.Transformers多模态数据预处理.md"],["如何利用大模型实现多模态任务","465-9.如何利用大模型实现多模态任务.md"]],"deps":["rag-parse","multi-vlm-ocr"],"qa":[{"lv":"L2","q":"图纸类知识怎么做检索？","a":"先判断源文件是不是矢量的：DWG/DXF 直接读实体和图层，坐标、标注、块引用都是结构化的，比 OCR 准一个量级；只有扫描件才退到图像识别。检索单位不是「段落」而是「构件/标注/条文」，这样才能做规则比对。","avoid":"别说「图纸先转成图片再让模型看」，这是把一个确定性问题变成概率问题。"}],"cov":"mid"},{"id":"multi-clip","d":"multi","t":"CLIP 与图文对齐","lv":"L3","one":"把图和文映射到同一向量空间，实现「以文搜图」；它是多模态检索的基础设施。","why":"理解它就知道「以文搜图」为什么能work、又为什么在专业图上会失灵。","src":[["如何利用大模型实现多模态任务","465-9.如何利用大模型实现多模态任务.md"],["多模态大模型的跨模态对齐方法","228-53.多模态大模型的跨模态对齐方法.md"]],"deps":["rag-embed","multi-what"],"qa":[{"lv":"L3","q":"以文搜图为什么在专业领域不好用？","a":"CLIP 学的是通用图文对齐，专业符号（人防门编号、海图图式）在训练数据里几乎没有，向量空间里它们和自然语言对不上。要用就得用自己的图库做微调，或者干脆改用结构化检索——后者通常更划算。","avoid":"别把 CLIP 当万能检索器，领域偏移是硬伤。"}],"cov":"mid"},{"id":"multi-eval","d":"multi","t":"多模态评测的特殊性","lv":"L3","one":"多模态错误往往「看起来对」：描述流畅但漏关键项、数字差一点。要看字段级准确率。","why":"用文本评测那套（整体打分）测多模态，会把致命错误平均掉。","src":[["LLaMA Factory模型评估","282-136.LLaMA Factory模型评估.md"],["Swift多模态模型训练","300-120.Swift多模态模型训练.md"]],"deps":["multi-what","eval-set"],"qa":[{"lv":"L3","q":"多模态效果怎么测？","a":"按字段测，不按整体测。给每个要抽取的字段单独算准确率（日期、金额、类别、数量），再算一个「关键字段全对」的严格通过率——这个数字通常比人感觉的低很多，但它才是能签验收的。","avoid":"别用「人工看 20 张觉得还行」当结论。"}],"cov":"mid"},{"id":"eval-why","d":"eval","t":"评测是产品问题","lv":"L1","one":"评测要回答「什么叫对了」；这个定义来自业务，不来自算法。","why":"没有验收口径的 AI 项目，最后一定扯皮：客户觉得不准，你说准确率 90%。","src":[["LLaMA Factory模型评估","282-136.LLaMA Factory模型评估.md"],["自动化测试框架在LLM开发中的应用","207-70.自动化测试框架在LLM开发中的应用.md"]],"deps":["llm-limit"],"qa":[{"lv":"L1","q":"AI 项目的验收标准怎么定？","a":"三条原则：可测（有明确样本和算法）、分段（不同场景不同阈值，不给总分）、带稳定性（连续几天不崩、P95 延迟）。再加一条兜底：不达标的部分怎么处理（人工兜底/降级），写清楚才签得下来。","avoid":"别写「准确率 90% 以上」这一条，追问「哪类样本」就废。"}],"cov":"strong"},{"id":"eval-set","d":"eval","t":"离线评测集的构建","lv":"L1","one":"样本要覆盖「真实分布 + 已知失败 + 边界」，50–200 条就能开工，但要持续加。","why":"评测集是资产，不是一次性作业；它决定你能不能安全地改东西。","src":[["多模态预训练数据集构建流程","215-78.多模态预训练数据集构建流程.md"],["LLaMA Factory模型评估","282-136.LLaMA Factory模型评估.md"]],"deps":["eval-why"],"qa":[{"lv":"L1","q":"评测集怎么建？多大才够？","a":"先 50 条能覆盖主场景的，跑起来比攒 500 条更急。构成按比例：60% 真实高频、25% 已知失败（这是回归价值最高的）、15% 边界和对抗。之后每遇到一次线上错例就补一条——评测集是长出来的，不是设计出来的。","avoid":"别说「等数据够了再评测」，那等于永远不评测。"}],"cov":"mid"},{"id":"eval-accept","d":"eval","t":"验收口径的三个数字","lv":"L1","one":"达标率（分段）、稳定性（连续运行/回退率）、可解释性（能不能给依据）。","why":"客户签不签字，看的是这三个，不是榜单分数。","src":[["大模型评估指标BLEU、ROUGE、Perplexity适用场景","259-28.大模型评估指标BLEU、ROUGE、Perplexity适用场景.md"],["大模型监控指标设计","232-4.大模型监控指标设计.md"]],"deps":["eval-why"],"qa":[{"lv":"L1","q":"客户问「能不能保证不出错」，怎么答？","a":"不承诺不出错，承诺三件事：出错率的分段上限、出错时的可发现机制（置信度/引用校验）、以及发现后的人工处理路径。把「零错误」换成「错误可控」，这是 AI 产品能签合同的唯一方式。","avoid":"别说「我们会持续优化」，那是表态不是方案。"}],"cov":"strong"},{"id":"eval-human","d":"eval","t":"人工评测与标注一致性","lv":"L2","one":"人评要先统一口径（评分细则+示例），并算标注者一致性；否则人评本身不可信。","why":"两个人对同一条给出不同判断时，指标就没有意义。","src":[["LLaMA Factory模型评估","282-136.LLaMA Factory模型评估.md"],["模型微调怎么评估效果","463-5.模型微调怎么评估效果.md"]],"deps":["eval-set"],"qa":[{"lv":"L2","q":"人工评测怎么做得可信？","a":"三步：写评分细则（每条给正例反例）、双人盲评一小批算一致率（低于阈值先对齐口径再继续）、争议条目由业务专家裁定并回流成细则。不做这三步，人评就是三个人的主观平均。","avoid":"别说「我们人工看了 100 条」，一致率是必问项。"}],"cov":"mid"},{"id":"eval-judge","d":"eval","t":"LLM-as-judge","lv":"L2","one":"用模型当裁判能规模化，但要防三件事：位置偏好、长度偏好、自己评自己。","why":"它是把评测从「几十条」做到「几千条」的唯一现实手段，但必须先验裁判。","src":[["大模型评估指标BLEU、ROUGE、Perplexity适用场景","259-28.大模型评估指标BLEU、ROUGE、Perplexity适用场景.md"],["LLaMA Factory模型评估","282-136.LLaMA Factory模型评估.md"]],"deps":["eval-human"],"qa":[{"lv":"L2","q":"能用模型来给模型打分吗？","a":"能，但要三件事：① 裁判 prompt 里给评分细则和反例；② 与人评对齐过（一致率 80% 以上才用）；③ 定期抽检，防漂移。另外要防偏好——同一对答案换顺序再判一次，结论应该一致。","avoid":"别说「GPT-4 打分就是标准答案」，位置偏好和长度偏好是实证过的。"}],"cov":"weak"},{"id":"eval-online","d":"eval","t":"线上指标与埋点","lv":"L2","one":"离线测「答得对不对」，线上测「有没有被用」：采纳率、改写率、接管率、留存。","why":"离线达标但没人用的产品很多；线上指标才是产品价值的证据。","src":[["大模型监控指标设计","232-4.大模型监控指标设计.md"],["自动化测试框架在LLM开发中的应用","207-70.自动化测试框架在LLM开发中的应用.md"]],"deps":["eval-accept"],"qa":[{"lv":"L2","q":"上线后看哪些指标？","a":"四个：采纳率（结论被直接用的比例）、改写率（人改了多少）、人工接管率（转人工的比例）、单位任务时长（省了多少时间）。前两个看质量，后两个看价值。再加一个稳定性的：失败率和 P95。","avoid":"别只报 DAU/调用量，那不能说明 AI 有用。"}],"cov":"mid"},{"id":"eval-regress","d":"eval","t":"回归与灰度","lv":"L2","one":"任何改动（模型、prompt、知识库、规则）都要跑回归；上线按灰度放量并留回滚。","why":"AI 系统的耦合比传统软件更隐晦：换模型可能悄悄改掉三个场景的行为。","src":[["模型版本管理系统的实现要点","216-12.模型版本管理系统的实现要点.md"],["自动化测试框架在LLM开发中的应用","207-70.自动化测试框架在LLM开发中的应用.md"]],"deps":["eval-set","eval-online"],"qa":[{"lv":"L2","q":"换模型/改 prompt 怎么保证不退化？","a":"三件套：固定评测集跑全量对比（分段看，不只看总分）、灰度放量（先 5%–10% 看线上指标）、保留回滚开关（模型版本、prompt 版本都可切）。再记一份变更日志，出问题能定位到是哪次改动。","avoid":"别说「测了几个 case 没问题就上了」。"}],"cov":"mid"},{"id":"eval-contam","d":"eval","t":"评测集污染与过拟合","lv":"L3","one":"拿公开集调参，分数会虚高；拿同一批样本反复调，等于在训练集上评测。","why":"它是「演示很好、上线很糟」的常见原因之一。","src":[],"deps":["eval-set"],"qa":[{"lv":"L3","q":"怎么防止评测分数虚高？","a":"留一份「只测不看」的保留集，调参期间绝不碰；主集调完再用保留集验一次，两个数差太多说明过拟合了。另外样本要定期换血——线上真实分布会变，半年前的集子测不出今天的问题。","avoid":"别说「我们的集子很大所以没问题」，大小不解决污染。"}],"cov":"weak"},{"id":"eval-layer","d":"eval","t":"分层评测：能力/场景/端到端","lv":"L3","one":"能力层测单项（抽取准不准）、场景层测组合（这个业务能否跑通）、端到端测用户任务完成率。","why":"只测端到端，出问题不知道改哪；只测能力，不知道产品有没有用。","src":[["大模型监控指标设计","232-4.大模型监控指标设计.md"],["大模型评估指标BLEU、ROUGE、Perplexity适用场景","259-28.大模型评估指标BLEU、ROUGE、Perplexity适用场景.md"]],"deps":["eval-accept","eval-online"],"qa":[{"lv":"L3","q":"怎么设计一套完整的评测体系？","a":"三层：能力层（单项准确率，定位问题）、场景层（业务能否跑通，定验收）、端到端（任务完成率与耗时，定价值）。三层用同一批真实样本的不同切法，指标口径写死。上线后线上指标接第三层，形成闭环。","avoid":"别只给一层，尤其别只给端到端的「用户满意度」。"}],"cov":"mid"},{"id":"cost-formula","d":"cost","t":"单次成本公式","lv":"L1","one":"单次成本 = 输入 token × 输入单价 + 输出 token × 输出单价；输出通常贵 2–4 倍。","why":"这是所有成本讨论的起点，说不出来就没法谈优化。","src":[["如何降低大模型API服务的推理延迟和成本","457-10.如何降低大模型API服务的推理延迟和成本.md"],["大模型API的限流熔断设计","212-11.大模型API的限流熔断设计.md"]],"deps":["llm-token"],"qa":[{"lv":"L1","q":"一次调用大概多少钱？","a":"拆成输入和输出分别算：输入 =（系统提示+检索片段+历史）× 单价，输出 = 生成长度 × 单价（通常贵 2–4 倍）。给一个具体量级更好：3k 输入 + 0.5k 输出，在国内主流模型上大约 ¥0.02/次。这个数字比「很便宜」有说服力。","avoid":"别说「几百块能用很久」，没有单次成本就没法 scaling 到月。"}],"cov":"strong"},{"id":"cost-month","d":"cost","t":"月成本模型","lv":"L1","one":"月成本 = 日活 × 人均会话 × 每会话轮次 × 单次成本 × 30；真正放大的是中间两个乘数。","why":"老板问「这个产品一个月烧多少钱」，要能当场算。","src":[["如何降低大模型API服务的推理延迟和成本","457-10.如何降低大模型API服务的推理延迟和成本.md"],["大模型API服务部署优化","237-56.大模型API服务部署优化.md"]],"deps":["cost-formula"],"qa":[{"lv":"L1","q":"这个产品的成本能撑住吗？","a":"算到月：日活×会话数×轮次×单次成本×30，得到量级；再对比客单价算毛利。撑不住时先动乘数——减轮次（缓存/批处理）、减上下文（裁剪/摘要）、降档（路由），最后才动单价（换模型）。顺序反了会掉效果。","avoid":"别说「先上线再看成本」，B 端按坐席收费时这个数直接决定亏不亏。"}],"cov":"mid"},{"id":"cost-levers","d":"cost","t":"三个降本杠杆","lv":"L1","one":"砍调用次数 > 砍上下文 > 降模型档位；换便宜模型放最后，因为它最容易掉效果。","why":"顺序错了会出现「省了钱、效果崩、又调回来」的来回。","src":[["如何降低大模型API服务的推理延迟和成本","457-10.如何降低大模型API服务的推理延迟和成本.md"],["RAG项目优化最佳实践","490-59.RAG项目优化最佳实践.md"]],"deps":["cost-month"],"qa":[{"lv":"L1","q":"成本太高，怎么降？","a":"按性价比排序：① 减少调用次数（缓存、批量、规则前置过滤）——通常能省 50%+ 且不掉效果；② 压缩上下文（检索更准、历史裁剪、长文摘要）——输入是成本大头；③ 分档路由（简单走小模型）；④ 换模型/蒸馏量化。前三步做完往往已经省 60–70%。","avoid":"别一上来就说「换个便宜的模型」，这是最贵的一步。"}],"cov":"strong"},{"id":"cost-cache","d":"cost","t":"缓存：结果缓存与前缀缓存","lv":"L2","one":"结果缓存省重复问题，前缀缓存省固定长系统提示；两者都能砍掉大半输入成本。","why":"To B 场景里重复问题极多（同一个规范、同一类图），缓存收益常被低估。","src":[["如何降低大模型API服务的推理延迟和成本","457-10.如何降低大模型API服务的推理延迟和成本.md"]],"deps":["cost-levers"],"qa":[{"lv":"L2","q":"缓存怎么设计才不出错？","a":"关键是缓存键和失效条件。键要包含「问题+上下文版本+知识库版本」，知识更新或规范换版必须失效；对时效敏感的问题（今天的数据）干脆不缓存。再加一条：缓存命中也要记指标，命中率低说明缓存设计没对上真实分布。","avoid":"别说「加个 Redis 就行」，失效策略才是坑。"}],"cov":"strong"},{"id":"cost-route","d":"cost","t":"模型分档与路由","lv":"L2","one":"按任务难度分档：简单判定走小模型、复杂推导走大模型，路由规则本身就产品化。","why":"一刀切用最强模型是最常见的浪费；一刀切用最便宜则会在关键环节崩。","src":[["大模型服务GPU选型","236-58.大模型服务GPU选型.md"],["基于知识蒸馏的小模型部署方案","214-83.基于知识蒸馏的小模型部署方案.md"]],"deps":["cost-levers","llm-select"],"qa":[{"lv":"L2","q":"分档路由会不会让效果不稳定？","a":"会，所以要设计「升级路径」：小模型给出低置信或格式失败时自动升级到大模型重跑一次，并把升级率当指标。稳定在 5–15% 的升级率是健康的；太高说明分档判据不准，太低可能小模型在硬扛。","avoid":"别说「路由很简单，按关键词分」，判据本身要评测。"}],"cov":"mid"},{"id":"cost-latency","d":"cost","t":"延迟分解与 P95","lv":"L2","one":"总延迟 = 排队 + 首 token + 输出 + 工具往返；用户体验看 P95，不看平均值。","why":"「平均 1.2 秒」这种说法在 To B 验收里会被直接打回。","src":[["大模型推理性能优化方案","240-61.大模型推理性能优化方案.md"],["vllm的推理加速是怎么实现的","473-18.vllm的推理加速是怎么实现的.md"]],"deps":["cost-month"],"qa":[{"lv":"L2","q":"响应慢，怎么优化？","a":"先分解再优化：排队（并发/限流）、首 token（模型档位、前缀缓存）、输出（限制长度、流式）、工具往返（并行调用、超时）。用户感知最强的是首 token，所以流式输出往往比换模型更有效。验收口径一定用 P95。","avoid":"别只报平均延迟，追问 P95 就露。"}],"cov":"strong"},{"id":"cost-distill","d":"cost","t":"蒸馏与量化什么时候用","lv":"L3","one":"量化省显存、几乎不掉效果；蒸馏要训练数据和工期，只有高频稳定任务才划算。","why":"这是「私有化 + 降本」的最后一招，但经常被当成第一招。","src":[["模型蒸馏的蒸馏策略对比","238-64.模型蒸馏的蒸馏策略对比.md"],["解释下模型蒸馏和模型量化","468-15.解释下模型蒸馏和模型量化.md"]],"deps":["cost-levers","llm-emerge"],"qa":[{"lv":"L3","q":"什么情况下值得做蒸馏？","a":"三个条件同时满足才做：任务高频（调用量大到能摊平训练成本）、任务边界稳定（输入形态不太变）、有可用标注或高质量教师输出。否则量化+路由的性价比高得多。我一般把它放到第二期。","avoid":"别把蒸馏说成「常规优化手段」，它是重工程。"}],"cov":"strong"},{"id":"cost-unit","d":"cost","t":"单位经济学","lv":"L2","one":"每单/每店/每张图的 AI 成本 vs 它省下的人力成本，才是产品成立与否的判据。","why":"技术可行不等于商业可行，这一层是产品经理的核心职责。","src":[["如何降低大模型API服务的推理延迟和成本","457-10.如何降低大模型API服务的推理延迟和成本.md"],["RAG项目优化最佳实践","490-59.RAG项目优化最佳实践.md"]],"deps":["cost-month","land-scene"],"qa":[{"lv":"L2","q":"这个 AI 功能值不值得做？","a":"算三个数：单位 AI 成本、它替代的人力成本、以及规模化后的边际成本（B 端常常是「一次性部署 + 每月算力」）。替代价值不显著高于成本时，先别做——除非它能带来别的东西（数据资产、客户黏性）。","avoid":"别说「AI 能提升效率」这种没有数字的话。"}],"cov":"mid"},{"id":"land-scene","d":"land","t":"场景选择：四象限","lv":"L1","one":"按「价值×可行性」筛：高频低风险先做，低频高价值做辅助，高风险一律加人。","why":"选错场景是 AI 项目失败的第一原因，比技术难更常见。","src":[["揭秘Agent核心原理与企业级应用场景","487-61.揭秘Agent核心原理与企业级应用场景.md"],["基于DeepSeek R1搭建企业级知识库","450-24.基于DeepSeek R1搭建企业级知识库.md"]],"deps":["llm-limit","eval-why"],"qa":[{"lv":"L1","q":"怎么选第一个 AI 场景？","a":"三个筛子：① 判断标准能不能写下来（写不下来就没法验收）；② 错了的代价可不可控（能人工兜底才敢上）；③ 数据在不在手上。三条都过再谈技术。我倾向从「重复、有明确对错、有人愿意签字」的地方切。","avoid":"别说「先做个大而全的助手」，那是 demo 不是项目。"}],"cov":"mid"},{"id":"land-poc","d":"land","t":"POC 到生产的三道门","lv":"L1","one":"门 1 静态检查（配置/权限/依赖）、门 2 沙箱跑通（限时断网）、门 3 真实样本达标。","why":"这三道门把「能演示」和「能交付」分开，是工程化的最小闭环。","src":[],"deps":["eval-accept"],"qa":[{"lv":"L1","q":"POC 做出来了，怎么保证能上线？","a":"设三道门：能不能配起来（配置/权限/依赖齐全）、能不能在隔离环境跑通（限时、断网、mock 数据）、真实样本能不能达标。不过门不进生产。这三道门最好是自动化的，否则规模一上来就靠人盯。","avoid":"别说「POC 效果不错就可以上线」，中间隔着工程化。"}],"cov":"weak"},{"id":"land-prd","d":"land","t":"AI 需求拆解与 PRD","lv":"L1","one":"AI 产品的 PRD 多三块：模型边界（哪类输入会失败）、置信度与兜底、验收口径。","why":"传统 PRD 写完开发就能做；AI PRD 不写这三块，做出来一定扯皮。","src":[],"deps":["land-scene","eval-accept"],"qa":[{"lv":"L1","q":"AI 产品的 PRD 和普通 PRD 有什么不同？","a":"多三节：① 能力边界——哪类输入会失败、怎么识别；② 置信度与兜底——低置信走哪条路、谁签字；③ 验收口径——分段阈值、样本量、稳定性要求。另外要写「不做什么」，这一节能救整个项目。","avoid":"别只写功能和流程，那说明你还没做过 AI 交付。"}],"cov":"weak"},{"id":"land-private","d":"land","t":"私有化与合规","lv":"L2","one":"私有化不是「全部本地」，而是「敏感数据不出域 + 可审计」；混合部署通常最优。","why":"政企客户的硬约束，也直接决定架构与成本。","src":[["Dify私有化部署与快速入门","291-123.Dify私有化部署与快速入门.md"],["DeepSeek-R1 模型本地部署保姆教程","447-21.DeepSeek-R1 模型本地部署保姆教程.md"]],"deps":["land-poc","llm-select"],"qa":[{"lv":"L2","q":"客户要求数据不出内网，方案怎么设计？","a":"分层：敏感数据（图纸、通告）只在本地模型处理；非敏感（通用问答、格式化）可走云端。本地侧做量化部署 + 检索库，云端只收到脱敏后的请求。再加审计日志与出网白名单。私有化不等于全本地，等于「数据边界清楚」。","avoid":"别说「买个一体机就行」，合规问的是数据流向。"}],"cov":"strong"},{"id":"land-gap","d":"land","t":"演示到生产的鸿沟","lv":"L2","one":"demo 拼的是最好那一例，生产拼的是最差那一例；差距来自长尾、并发、异常输入。","why":"客户看完 demo 说「不错」，上线后说「不好用」，中间就是这个鸿沟。","src":[],"deps":["land-poc","eval-set"],"qa":[{"lv":"L2","q":"demo 很好，上线为什么不行？","a":"因为 demo 是「最好的输入 + 人在旁边解释」，生产是「最差的输入 + 没人管」。差距来自三处：输入长尾（格式乱、缺字段）、并发与超时、异常处理（失败时说什么）。补的办法是把长尾样本进评测集、把失败路径写进产品设计。","avoid":"别说「客户不会用」，先看是不是失败时没有兜底话术。"}],"cov":"weak"},{"id":"land-price","d":"land","t":"定价与商业模式","lv":"L3","one":"按坐席、按调用量、按效果分成三种；AI 成本是变动成本，定价必须能覆盖边际成本。","why":"按坐席卖但成本随用量涨，是最常见的亏钱结构。","src":[],"deps":["cost-unit","land-private"],"qa":[{"lv":"L3","q":"AI 产品怎么定价？","a":"先看成本结构：变动成本高（按 token）就别纯按坐席卖，否则重度用户会吃掉毛利；用「坐席+额度」或「按任务量」。再看客户采购习惯：政企走项目制+年维护，连锁走硬件+订阅。定价不是数学题，是「成本结构 × 采购方式」的匹配。","avoid":"别说「参考竞品定价」，成本结构不同时参考会亏。"}],"cov":"weak"},{"id":"land-org","d":"land","t":"组织与协作","lv":"L3","one":"AI 项目要三种人同桌：懂业务的（定口径）、懂模型的（定边界）、懂工程的（定落地）。","why":"三方缺一，项目就会在「这个需求能不能做」上耗掉一半时间。","src":[],"deps":["land-prd"],"qa":[{"lv":"L3","q":"AI 项目团队怎么配？","a":"最小配置是「业务口径人 + 产品 + 算法/工程」，其中业务口径人必须是能签字的那位，不能是转述者。规模上去再加评测与数据标注。最常见的失败配置是「只有产品和算法，业务靠猜」。","avoid":"别说「招个算法就行」，需求侧没人定口径等于没起点。"}],"cov":"weak"},{"id":"land-roadmap","d":"land","t":"一期边界与路线","lv":"L2","one":"一期只做「能验收的最小闭环」，把不可控的部分明确推到二期，并写清触发条件。","why":"范围失控是 AI 项目延期的主因，比技术难更致命。","src":[],"deps":["land-scene","land-poc"],"qa":[{"lv":"L2","q":"一期范围怎么划？","a":"划三条线：能验收的（写进合同）、能演示的（不进验收）、明确不做的（写清触发条件，比如「图纸标准化率达到 X 再启动」）。第三条最容易被忽略，但它决定了二期谈判的起点。","avoid":"别说「先做全，做不完的再说」，那是延期模板。"}],"cov":"weak"},{"id":"land-vendor","d":"land","t":"自建 vs 采购","lv":"L3","one":"差异化在数据与流程上就自建，在通用能力上就采购；中间的用「网关+可替换」隔离。","why":"这是架构决策，也是成本决策：自建要人和时间，采购要绑定和费用。","src":[["向量数据库选型对比","229-51.向量数据库选型对比.md"],["大模型服务GPU选型","236-58.大模型服务GPU选型.md"]],"deps":["land-private","agent-mcp"],"qa":[{"lv":"L3","q":"这块要自建还是买？","a":"看两件事：它是不是你的差异化、以及供应商锁定风险。差异化（行业规则、专属数据、验收口径）自建；通用能力（OCR、向量库、模型）采购；接口用网关隔离，保证能换。中间地带先买、留抽象层。","avoid":"别说「全都自研更可控」，工期和运维会教你做人。"}],"cov":"mid"}],"pqa":{"note":"项目模拟题：问题形式是「项目 × 知识点」，用来练把知识落到自己项目上。答案只用项目里真实发生过的判断与数字。","projects":[{"id":"cad","name":"CAD 审图智能体","color":"#b4441f"},{"id":"chart","name":"海图四个子 Agent","color":"#2f5d62"},{"id":"coffee","name":"咖啡门店 SOP","color":"#3f5a45"},{"id":"factory","name":"智能体工厂","color":"#5b4b8a"}],"items":[{"p":"cad","q":"CAD 审图这个项目，为什么不让大模型直接判「这张图对不对」？","a":"判定必须可复算、可签字。真实链路是 DWG 矢量解析 + 规则引擎判定 + 规范检索辅助：模型只做两件事——把规范条文检出来、在语义不确定处给置信度，最终结论由规则和工程师签字。三条理由：错判代价是审图责任、规则零误差可复算、检索能引用带版本条文而模型会编条号。","pts":["llm-limit","rag-why","rag-cite","agent-hitl"],"doc":"09-项目经历\\CAD智能体\\00-素材台账与事实池.md"},{"p":"cad","q":"置信度三级分流的阈值是谁定的？怎么证明阈值合理？","a":"阈值由客户业务口拍，我们提供的是分流后的成本与风险对照：高置信自动流转、中置信人工确认、低置信转人工编制。验证看两个数——中置信占比 × 人工复核耗时、低置信里被改掉的比例。阈值调高，自动流转变多但错放风险上升，这条曲线要摆给客户看。","pts":["agent-hitl","eval-accept","cost-levers"],"doc":"09-项目经历\\CAD智能体\\CAD智能体项目-方案评审到交付落地全过程记录.md"},{"p":"cad","q":"规范检索怎么保证不编条号？","a":"两层约束：检索层只返回带版本号的条文（GB 50038 按版本入库），生成层被限定为「只引用检索到的条文 id」，落地前做引用一致性校验，引不出来就退回「疑似违规」档。这跟 RAG 的引用来路是同一个问题——模型能生成合理但不存在的东西，所以要给它可核验的锚点。","pts":["rag-cite","llm-halluc","rag-eval"],"doc":"09-项目经历\\CAD智能体\\CAD智能体系统（审图+转工序）-需求文档（提交研发版）.md"},{"p":"cad","q":"复合标注漏算那个缺陷，为什么 9 天能修完、规则引擎零改动？","a":"因为缺陷在解析层不在判定层：标注的语义结构没被完整还原，规则拿到的是残缺列表。修的是解析与合并逻辑，判定规则没动，回归基线还在。原则是「标注即列表，合并靠规则」——把语义还原和业务判定拆开，出问题时定位面才小。","pts":["rag-parse","agent-fail","eval-regress"],"doc":"09-项目经历\\CAD智能体\\配筋率审查复合标注漏算异常-复盘记录.md"},{"p":"cad","q":"验收线 85 / 70 / 85 是怎么定的？为什么不是 95？","a":"按「人工现状 + 客户能接受的人工兜底量」倒推：标准配筋 ≥85，因为这类图人工复核本来就快；复合场景只要 ≥70，因为它依赖跨图层推断，且允许低置信转人工。95 意味着一期不可能验收，也不符合「AI 辅助 + 人签字」的责任结构。","pts":["eval-accept","eval-set","land-poc"],"doc":"09-项目经历\\CAD智能体\\CAD智能体项目-方案评审到交付落地全过程记录.md"},{"p":"cad","q":"图纸里 XREF 未绑定、图层命名不统一、换院图例失效，产品上怎么兜？","a":"三类雷都在入口兜：XREF 未绑定直接拒单并给修复指引；图层命名走映射表 + 置信度提示；换院导致图例失效的场景降到「疑似违规」不硬判。产品上宁可少判也不给错判——错判一次，工程师就不信这个系统了。","pts":["rag-parse","agent-fail","eval-accept"],"doc":"09-项目经历\\CAD智能体\\CAD智能审图-需求获取阶段会议纪要（四轮调研）.md"},{"p":"chart","q":"海图的问答智能体是怎么解决幻觉的？","a":"四层：只答有出处的（口径按文号 + 作业段检索）、引用必须回指原文条目、统计类问题禁止模型复述（改成查表/算数）、答不了就说明缺哪份材料。本质是把「生成」压成「检索 + 组装」，模型只在语义理解上出力。","pts":["llm-halluc","rag-cite","rag-why","agent-tool"],"doc":"09-项目经历\\02-技术问答预案-海图智能体.md"},{"p":"chart","q":"四个 Agent 为什么按流水线切，而不是按功能切？","a":"因为业务本身就是流水线：整编是输入、编绘是入库、制图是输出。按流水线切，每个 Agent 的输入输出和边界都能对着现成作业段落，验收也能一段一段验；按功能切会出现四个 Agent 都碰同一份数据、边界说不清。落地是 A1 问 / A2 派 / A3 改 / A4 画。","pts":["agent-multi","agent-orchestration","land-prd"],"doc":"09-项目经历\\AI海图精灵四大智能体-需求文档（提交研发版）.md"},{"p":"chart","q":"原来是单体 Agentic RAG + LangChain 链，为什么换成自研四引擎？","a":"链式框架适合一次性问答，不适合长任务：推理循环、记忆、任务编排、技能生命周期这四件事在链里没有稳定位置，出问题只能改链。换成四引擎后每件事有独立位置和日志，MCP 网关把工具统一收口。这也是 JD 里几乎不写框架名的原因——框架是手段不是答案。","pts":["agent-framework","agent-orchestration","cost-formula"],"doc":"09-项目经历\\Agent-3方案评审到上线落地-讨论与修正全过程记录.md"},{"p":"chart","q":"坐标系 300–500 米偏移是怎么发现、怎么修的？","a":"发现靠对图：同一要素在两套基准下位置对不上。修的原则是「存储不动、渲染时转」——CGCS2000 存储不变，输出到 GCJ-02 的环节做转换，避免历史数据被批量改写。修完误画陆地 23%→0，单条核对 2.5 分钟→40 秒。","pts":["agent-tool","llm-limit","eval-accept"],"doc":"09-项目经历\\Agent-3坐标系偏移异常复盘-故事记录.md"},{"p":"chart","q":"「统计类问题不许模型复述」这条规则背后是什么判断？","a":"统计要的是可复算。模型复述数字等于把准确率交给采样，而且无法回溯是哪条数据。所以统计走查询和计算，模型只负责把问题翻译成查询条件、把结果说成人话。","pts":["rag-cite","eval-accept","cost-route"],"doc":"09-项目经历\\02-技术问答预案-海图智能体.md"},{"p":"chart","q":"MCP 网关在这个项目里解决什么问题？","a":"工具从 12 个接口长起来后，每个 Agent 各接会失控：权限、超时、失败重试口径都不一样。网关做三件事——统一注册与鉴权、统一超时与重试、统一日志。加一个工具只改网关，不动 Agent。","pts":["agent-mcp","agent-tool","agent-fail"],"doc":"09-项目经历\\项目履历一览-海图智能体.md"},{"p":"coffee","q":"为什么端到端 VLM 当主相机被否了？","a":"两条：24×7 连续理解的成本撑不住；而且我们要的判断（数量、有没有、有效期）不需要语义理解——闭集检测 + OCR + 日期规则更便宜也更可复算。VLM 留在「没有专项规则」的兜底路径上，抽帧再问。","pts":["cost-formula","multi-what","multi-vlm-ocr","cost-route"],"doc":"jd-interview.html（咖啡门店 SOP 检测 小节）"},{"p":"coffee","q":"8 类闭集目标是怎么定出来的？","a":"从 SOP 里能变成「可数 / 可见」的条款倒推：客区清洁、柜面清洁、备料/饮料/物料/货物/打印耗材数量、有效期。定不出来的一律不进一期——闭集的意义是每类都能给出验收口径，不是覆盖全部 SOP。","pts":["multi-detect","eval-set","land-poc"],"doc":"jd-interview.html（咖啡门店 SOP 检测 小节）"},{"p":"coffee","q":"「脏」这种模糊要求怎么变成可验收的指标？","a":"翻译成可数的违规物：地面有纸屑、台面有杯具残留、垃圾超过线。每条给判定区域、时间窗和置信度阈值，事件带关键帧和前后 5 秒视频留证。模糊词不翻译，验收就没法签字。","pts":["eval-accept","land-prd","multi-detect"],"doc":"jd-interview.html（咖啡门店 SOP 检测 小节）"},{"p":"coffee","q":"有效期检查为什么要检测框 + OCR + 日期规则三件套？","a":"检测负责找到标签、OCR 负责读出日期、规则负责判断是否过期——三段都能单独验错。只让 VLM 看一眼说「过期了」，错了没法定位是没找到、没读对还是算错。","pts":["multi-vlm-ocr","eval-accept","agent-fail"],"doc":"jd-interview.html（咖啡门店 SOP 检测 小节）"},{"p":"coffee","q":"视频和关键帧为什么留本地？","a":"门店视频涉及员工和顾客，长期回传既贵也不合适。端侧 AI BOX 只回传事件和证据片段，原始视频留在本地按周期覆盖。这是成本和解耦一起决定的。","pts":["multi-edge","land-private","cost-formula"],"doc":"jd-interview.html（咖啡门店 SOP 检测 小节）"},{"p":"coffee","q":"「有专项走事件、没专项抽帧给多模态」，这个路由怎么定？","a":"按「能不能写成规则」分：能写成检测/计数/日期判断的走专项事件，稳定且便宜；写不成规则的（比如动作是否规范）才抽帧交给多模态。判据是成本与可复算性，不是模型能力。","pts":["agent-orchestration","cost-route","multi-what"],"doc":"jd-interview.html（咖啡门店 SOP 检测 小节）"},{"p":"factory","q":"智能体工厂的五槽位扫描，为什么一次只问 1–2 个问题？","a":"一次问五个，用户会开始编答案。五槽位（角色 / 输入 / 输出 / 边界 / 验收）缺哪个问哪个，最多 3 轮，还缺就转人工顾问。目标是拿到能生成 Spec 的最小信息，不是把需求文档写完。","pts":["land-prd","ctx-4parts","agent-hitl"],"doc":"jd-interview.html（智能体工厂 小节）"},{"p":"factory","q":"生成出来的 Agent 怎么保证能跑？","a":"产出不是一段 prompt，而是 Agent 包（代码 + 配置 + 依赖），过三道门：静态检查（schema、工具是否存在、权限）、沙箱跑通（独立容器、60 秒、断外网、mock 数据）、20 例验收。任何一门不过就不交付。","pts":["agent-fail","eval-accept","agent-tool"],"doc":"jd-interview.html（智能体工厂 小节）"},{"p":"factory","q":"三道门分别拦什么？","a":"门 1 拦「根本装不上」——结构错、工具不存在、权限越界；门 2 拦「装上了跑不通」——依赖、超时、外部调用；门 3 拦「跑通了但不对」——用 20 例看输出是否可用。三门的失败原因分别对应工程层、环境层、业务层。","pts":["eval-accept","eval-set","agent-fail"],"doc":"jd-interview.html（智能体工厂 小节）"},{"p":"factory","q":"为什么用模板匹配 + 槽位填充，而不是让模型自由生成配置？","a":"自由生成的配置不可枚举、不可回归：同一句话两次生成可能不一样，坏了也不知道坏在哪。模板 + 槽位把可变性收在槽位里，模板本身能被测试和版本化。模型只在「理解用户这句话」上出力。","pts":["agent-framework","llm-limit","eval-regress"],"doc":"jd-interview.html（智能体工厂 小节）"},{"p":"factory","q":"智能体工厂的边界在哪？","a":"只做「结构化程度够、验收能写成例」的场景。开放域、需要长期运营调优、或者数据边界不清的，转人工顾问做定制。这条边界是为了让工厂的产出可承诺，而不是什么都能生成。","pts":["land-scene","land-vendor","land-poc"],"doc":"jd-interview.html（智能体工厂 小节）"},{"p":"factory","q":"20 例验收怎么选，才不至于自己骗自己？","a":"按槽位和失败模式分层选：正常路径 8 例、边界 6 例、已知易错 6 例，例子里要包含「应该拒答」的情况。只选顺利的 20 例，等于没验。","pts":["eval-set","eval-contam","eval-human"],"doc":"jd-interview.html（智能体工厂 小节）"}]}}</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById('kg-data').textContent);
+  var doms = DATA.domains, nodes = DATA.nodes;
+  var PQA = DATA.pqa || { projects: [], items: [] };
+  var pjById = {};
+  (PQA.projects || []).forEach(function (p) { pjById[p.id] = p; });
+  var byId = {}, domById = {}, domIndex = {};
+  nodes.forEach(function (n) { byId[n.id] = n; });
+  doms.forEach(function (d, i) { domById[d.id] = d; domIndex[d.id] = i; });
+
+  var MKEY = 'aipm-kg-mastered-v1';
+  var mastered = {};
+  try {
+    (JSON.parse(localStorage.getItem(MKEY) || '[]') || []).forEach(function (id) { mastered[id] = 1; });
+  } catch (e) {}
+  function saveMastered() {
+    try {
+      var arr = [];
+      for (var k in mastered) if (mastered[k]) arr.push(k);
+      localStorage.setItem(MKEY, JSON.stringify(arr));
+    } catch (e) {}
+  }
+  /* 背卡改了进度时，把本页状态重新读一遍 */
+  function reloadMastered() {
+    mastered = {};
+    try {
+      (JSON.parse(localStorage.getItem(MKEY) || '[]') || []).forEach(function (id) { mastered[id] = 1; });
+    } catch (e) {}
+  }
+  window.addEventListener('kg-mastered-changed', function () {
+    reloadMastered();
+    updateProgress();
+    nodes.forEach(function (n) {
+      var el = document.getElementById('kn-' + n.id);
+      if (el) el.classList.toggle('done', !!mastered[n.id]);
+    });
+    var btns = document.querySelectorAll('[data-master]');
+    for (var i = 0; i < btns.length; i++) {
+      var k = btns[i].getAttribute('data-master');
+      btns[i].classList.toggle('on', !!mastered[k]);
+      btns[i].textContent = mastered[k] ? '已掌握' : '标记已掌握';
+    }
+  });
+
+  var LVN = { L1: 1, L2: 2, L3: 3 };  var COVN = { strong: ['s', '强'], mid: ['', '中'], weak: ['w', '弱'] };
+  var fdom = 'all', fq = '', fqa = '', planN = 7, qmode = 'kp';
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function lvHtml(lv) { return '<span class="lv ' + (lv || 'L1') + '">' + (lv || 'L1') + '</span>'; }
+
+  /* ---------- 出处：可点开原文件（发布版只留标题，不带链接） ---------- */
+  var PUB = !!window.__KG_PUBLISH__;
+  function docHref(name) {
+    return 'about:blank#' + encodeURIComponent(name);
+  }
+  function srcTag(title, file, tipPrefix) {
+    if (PUB) return '<span class="src" title="' + esc(title) + '（原文未随站发布）">' + esc(title) + '</span>';
+    return '<a class="src" href="' + esc(docHref(file)) + '" target="_blank" rel="noopener" title="' + esc(tipPrefix || '') + esc(file) + '">' + esc(title) + '</a>';
+  }
+  function localHref(p) {
+    return encodeURI(p.replace(/\\/g, '/')).replace(/%2F/g, '/');
+  }
+  function covHtml(cov) {
+    var c = COVN[cov] || COVN.mid;
+    return '<span class="covb ' + c[0] + '">' + c[1] + '</span>';
+  }
+  function srcHtml(n) {
+    var s = n.src || [];
+    if (!s.length) return '<span class="src none">语料未覆盖</span>' + covHtml('weak');
+    return '<span class="srcs">' + s.map(function (x) {
+      return srcTag(x[0], x[1], '打开原文件：');
+    }).join('') + '</span>' + covHtml(n.cov);
+  }
+
+  /* ---------- 面板切换 ---------- */
+  var panels = ['kg', 'qa', 'path', 'idx', 'card'];
+  function showPanel(k) {
+    if (panels.indexOf(k) < 0) k = 'kg';
+    panels.forEach(function (p) {
+      var el = document.getElementById('p-' + p);
+      if (el) el.classList.toggle('on', p === k);
+    });
+    var btns = document.querySelectorAll('.tab[data-p]');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('on', btns[i].getAttribute('data-p') === k);
+    try { history.replaceState(null, '', '#' + k); } catch (e) {}
+  }
+  var tabWrap = document.querySelector('.tabs');
+  if (tabWrap) tabWrap.addEventListener('click', function (e) {
+    var b = e.target.closest('.tab[data-p]');
+    if (b) showPanel(b.getAttribute('data-p'));
+  });
+
+  /* ---------- 图谱 ---------- */
+  function matchNode(n) {
+    if (!fq) return true;
+    var s = (n.t + ' ' + (n.one || '') + ' ' + (n.why || '') + ' ' + n.id).toLowerCase();
+    (n.src || []).forEach(function (x) { s += ' ' + String(x[0]).toLowerCase(); });
+    return s.indexOf(fq) >= 0;
+  }
+  function depsHtml(n) {
+    var d = n.deps || [];
+    if (!d.length) return '<span style="color:var(--ink-3)">无</span>';
+    return d.map(function (id) {
+      var t = byId[id] ? byId[id].t : id;
+      return '<span class="dep" data-jump="' + esc(id) + '">' + esc(t) + '</span>';
+    }).join('、');
+  }
+  function nodeHtml(n) {
+    return '<details class="kn' + (mastered[n.id] ? ' done' : '') + '" id="kn-' + esc(n.id) + '" data-id="' + esc(n.id) + '">'
+      + '<summary><i class="mdot"></i><span class="kt">' + esc(n.t) + '</span>' + lvHtml(n.lv) + '</summary>'
+      + '<div class="kbody">'
+      + '<p class="kone">' + esc(n.one) + '</p>'
+      + '<div class="krow"><span class="k">为什么考</span><span class="v">' + esc(n.why) + '</span></div>'
+      + '<div class="krow"><span class="k">语料出处</span><span class="v">' + srcHtml(n) + '</span></div>'
+      + '<div class="krow"><span class="k">前置</span><span class="v">' + depsHtml(n) + '</span></div>'
+      + '<span class="goto" data-qa="' + esc(n.id) + '">去答这道题 →</span>'
+      + '</div></details>';
+  }
+  function renderDomChips() {
+    var host = document.getElementById('kgdom');
+    if (!host) return;
+    var h = '<button class="chip' + (fdom === 'all' ? ' on' : '') + '" data-dom="all">全部<span class="n">' + nodes.length + '</span></button>';
+    doms.forEach(function (d) {
+      var c = nodes.filter(function (n) { return n.d === d.id; }).length;
+      h += '<button class="chip' + (fdom === d.id ? ' on' : '') + '" data-dom="' + esc(d.id) + '">' + esc(d.name) + '<span class="n">' + c + '</span></button>';
+    });
+    host.innerHTML = h;
+  }
+  function renderKg() {
+    var host = document.getElementById('kglist');
+    if (!host) return;
+    var out = [], shown = 0;
+    doms.forEach(function (d) {
+      if (fdom !== 'all' && fdom !== d.id) return;
+      var all = nodes.filter(function (n) { return n.d === d.id; });
+      var list = all.filter(matchNode);
+      if (!list.length) return;
+      shown += list.length;
+      out.push('<section class="dsec"><div class="dhead"><i class="dbar" style="background:' + d.color + '"></i>'
+        + '<h3>' + esc(d.name) + '</h3><span class="dcount">' + list.length + ' / ' + all.length + ' 点</span></div>'
+        + '<p class="dnote">' + esc(d.note) + '</p>');
+      list.forEach(function (n) { out.push(nodeHtml(n)); });
+      out.push('</section>');
+    });
+    host.innerHTML = out.length ? out.join('') : '<p class="note">没有匹配的知识点，换个词试试。</p>';
+    var hit = document.getElementById('kghit');
+    if (hit) hit.textContent = fq ? ('匹配 ' + shown + ' 点') : '';
+  }
+  function gotoNode(id) {
+    showPanel('kg');
+    if (fdom !== 'all' && byId[id] && byId[id].d !== fdom) { fdom = 'all'; renderDomChips(); }
+    if (fq) { fq = ''; var q = document.getElementById('kgq'); if (q) q.value = ''; }
+    renderKg();
+    var el = document.getElementById('kn-' + id);
+    if (!el) return;
+    el.open = true;
+    try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { el.scrollIntoView(); }
+  }
+
+  /* ---------- 域关系图 ---------- */
+  function renderGraph() {
+    var host = document.getElementById('kgmap');
+    if (!host) return;
+    var W = 1000, H = 460, cx = W / 2, cy = H / 2, rx = 316, ry = 148;
+    var pos = {};
+    doms.forEach(function (d, i) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / doms.length;
+      pos[d.id] = { x: cx + Math.cos(a) * rx, y: cy + Math.sin(a) * ry };
+    });
+    var edges = {};
+    nodes.forEach(function (n) {
+      (n.deps || []).forEach(function (dep) {
+        var o = byId[dep];
+        if (!o || o.d === n.d) return;
+        var k = o.d + '>' + n.d;
+        edges[k] = (edges[k] || 0) + 1;
+      });
+    });
+    var lines = Object.keys(edges).map(function (k) {
+      var p = k.split('>'), a = pos[p[0]], b = pos[p[1]];
+      if (!a || !b) return '';
+      var w = edges[k];
+      return '<line x1="' + a.x.toFixed(1) + '" y1="' + a.y.toFixed(1) + '" x2="' + b.x.toFixed(1) + '" y2="' + b.y.toFixed(1)
+        + '" stroke="#b4441f" stroke-opacity="' + (0.10 + Math.min(0.22, w * 0.05)).toFixed(2) + '" stroke-width="' + (1 + Math.min(3, w * 0.5)).toFixed(1) + '" />';
+    }).join('');
+    var gn = doms.map(function (d) {
+      var p = pos[d.id];
+      var c = nodes.filter(function (x) { return x.d === d.id; }).length;
+      return '<g class="gnode" data-dom="' + esc(d.id) + '" style="cursor:pointer">'
+        + '<title>' + esc(d.name) + ' · ' + c + ' 点</title>'
+        + '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="18" fill="' + d.color + '" fill-opacity=".13" stroke="' + d.color + '" stroke-width="1.3" />'
+        + '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 4.5).toFixed(1) + '" text-anchor="middle" font-size="12.5" fill="#4d4842">' + c + '</text>'
+        + '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 26).toFixed(1) + '" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1b1917">' + esc(d.name) + '</text>'
+        + '</g>';
+    }).join('');
+    host.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="gmap" role="img" aria-label="知识域关系图">' + lines
+      + '<text x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-size="13" fill="#6f685f">' + doms.length + ' 个域 · ' + nodes.length + ' 个点</text>'
+      + '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="12" fill="#a6a4a1">点一个域，筛下面的列表</text>'
+      + gn + '</svg>';
+  }
+
+  /* ---------- 问答 ---------- */
+  function kpItems() {
+    var out = [];
+    nodes.forEach(function (n) {
+      (n.qa || []).forEach(function (q, i) { out.push({ n: n, q: q, i: i }); });
+    });
+    return out;
+  }
+  function kpCard(x) {
+    var d = domById[x.n.d];
+    var key = x.n.id;
+    return '<div class="qcard" data-id="' + esc(key) + '">'
+      + '<div class="qh">' + lvHtml(x.q.lv || x.n.lv) + '<p class="qq">' + esc(x.q.q) + '</p>'
+      + '<span class="qdom">' + esc(d ? d.name : '') + '</span></div>'
+      + '<div class="qact">'
+      + '<button class="btn" data-toggle="1">显示答案</button>'
+      + '<button class="btn' + (mastered[key] ? ' on' : '') + '" data-master="' + esc(key) + '">' + (mastered[key] ? '已掌握' : '标记已掌握') + '</button>'
+      + '<span class="qdom" style="margin-left:0">' + esc(x.n.t) + '</span>'
+      + '</div>'
+      + '<div class="ans">' + esc(x.q.a) + (x.q.avoid ? '<div class="avoid"><b>别说：</b>' + esc(String(x.q.avoid).replace(/^别说[：:，,。\s]*/, '')) + '</div>' : '') + '</div>'
+      + '</div>';
+  }
+  function pjCard(it, idx) {
+    var p = pjById[it.p] || { name: it.p, color: '#666' };
+    var key = 'pj-' + idx;
+    var pts = (it.pts || []).map(function (id) {
+      var t = byId[id] ? byId[id].t : id;
+      return '<span class="dep" data-jump="' + esc(id) + '">' + esc(t) + '</span>';
+    }).join('、');
+    var docIsLocal = /^09-项目经历/.test(it.doc || '');
+    var docHtml = it.doc
+      ? '<a class="src" href="' + esc(docIsLocal ? localHref(it.doc) : 'jd-interview.html') + '" target="_blank" rel="noopener">' + esc(it.doc) + '</a>'
+      : '<span class="src none">未附</span>';
+    return '<div class="qcard" data-id="' + esc(key) + '">'
+      + '<div class="qh"><span class="ptag" style="color:' + esc(p.color) + '">' + esc(p.name) + '</span>'
+      + '<p class="qq">' + esc(it.q) + '</p></div>'
+      + '<div class="qact">'
+      + '<button class="btn" data-toggle="1">显示答案</button>'
+      + '<button class="btn' + (mastered[key] ? ' on' : '') + '" data-master="' + esc(key) + '">' + (mastered[key] ? '已掌握' : '标记已掌握') + '</button>'
+      + '</div>'
+      + '<div class="ans">' + esc(it.a)
+      + (pts ? '<div class="ptsline">用到：' + pts + '</div>' : '')
+      + '<div class="pdocs"><span class="lbl">项目文档</span>' + docHtml + '</div>'
+      + '</div></div>';
+  }
+  function renderQa() {
+    var host = document.getElementById('qalist');
+    if (!host) return;
+    var html;
+    if (qmode === 'pj') {
+      var items = (PQA.items || []).map(function (it, i) { return { it: it, i: i }; });
+      if (fqa) {
+        items = items.filter(function (x) {
+          return ((x.it.q + ' ' + x.it.a + ' ' + (pjById[x.it.p] ? pjById[x.it.p].name : '')).toLowerCase()).indexOf(fqa) >= 0;
+        });
+      }
+      html = items.map(function (x) { return pjCard(x.it, x.i); }).join('') || '<p class="note">没有匹配的题目。</p>';
+    } else {
+      var list = kpItems().filter(function (x) {
+        if (!fqa) return true;
+        var s = (x.q.q + ' ' + x.q.a + ' ' + x.n.t + ' ' + (x.n.one || '')).toLowerCase();
+        return s.indexOf(fqa) >= 0;
+      });
+      html = list.map(kpCard).join('') || '<p class="note">没有匹配的题目。</p>';
+    }
+    host.innerHTML = html;
+    var mb = document.querySelectorAll('#qamode .chip');
+    for (var i = 0; i < mb.length; i++) mb[i].classList.toggle('on', mb[i].getAttribute('data-qm') === qmode);
+    updateProgress();
+  }
+  function updateProgress() {
+    var total = kpItems().length;
+    var done = 0;
+    for (var k in mastered) if (mastered[k] && byId[k]) done++;
+    var t = document.getElementById('pgtxt'), f = document.getElementById('pgfill');
+    if (t) t.textContent = '已掌握 ' + done + ' / ' + total;
+    if (f) f.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+  }
+  function openQa(id) {
+    showPanel('qa');
+    qmode = 'kp';
+    fqa = '';
+    var q = document.getElementById('qaq'); if (q) q.value = '';
+    renderQa();
+    var card = document.querySelector('.qcard[data-id="' + id + '"]');
+    if (!card) return;
+    card.classList.add('open');
+    var b = card.querySelector('[data-toggle]'); if (b) b.textContent = '收起答案';
+    try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { card.scrollIntoView(); }
+  }
+
+  /* ---------- 学习路径 ---------- */
+  function ordered() {
+    return nodes.slice().sort(function (a, b) {
+      var la = LVN[a.lv] || 1, lb = LVN[b.lv] || 1;
+      if (la !== lb) return la - lb;
+      return (domIndex[a.d] || 0) - (domIndex[b.d] || 0);
+    });
+  }
+  function buildPlan(n) {
+    var all = ordered(), sel;
+    if (n === 3) sel = all.filter(function (x) { return x.lv === 'L1'; }).slice(0, 15);
+    else if (n === 7) sel = all.filter(function (x) { return x.lv !== 'L3'; }).slice(0, 42);
+    else sel = all;
+    var per = Math.ceil(sel.length / n), days = [];
+    for (var i = 0; i < n; i++) days.push(sel.slice(i * per, (i + 1) * per));
+    return days;
+  }
+  function renderPath() {
+    var host = document.getElementById('pathlist');
+    if (!host) return;
+    var days = buildPlan(planN), out = [];
+    var tip = {
+      3: '只有三天：只看 L1，一天 5 个点。目标是「不出现硬伤」，不是学完。',
+      7: '一周：L1 + L2 全过一遍，每个点只要求说得出「一句话 + 出处是哪篇」。',
+      14: '两周：全部点覆盖，L3 的点只需要能听懂追问、不装懂。'
+    };
+    out.push('<p class="note">' + tip[planN] + '</p>');
+    days.forEach(function (list, i) {
+      if (!list.length) return;
+      out.push('<div class="dayrow"><div class="daytag">DAY ' + (i + 1) + '</div><div class="daylist">'
+        + list.map(function (n) {
+          return '<a data-jump="' + esc(n.id) + '">' + esc(n.t) + '</a>' + lvHtml(n.lv);
+        }).join('<br>')
+        + '</div></div>');
+    });
+    host.innerHTML = out.join('');
+    var btns = document.querySelectorAll('#pathbar .chip');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle('on', Number(btns[i].getAttribute('data-plan')) === planN);
+    }
+  }
+
+  /* ---------- 索引表 ---------- */
+  function renderIdx() {
+    var host = document.getElementById('idxtable');
+    if (!host) return;
+    var rows = ordered().map(function (n) {
+      var d = domById[n.d];
+      var s = (n.src || [])[0];
+      var src = s
+        ? (PUB
+          ? '<span class="src" title="' + esc(s[1]) + '（原文未随站发布）">' + esc(s[1]) + '</span>'
+          : '<a class="src" href="' + esc(docHref(s[1])) + '" target="_blank" rel="noopener" title="' + esc(s[1]) + '">' + esc(s[1]) + '</a>')
+        : '<span class="src none">未覆盖</span>';
+      return '<tr>'
+        + '<td data-label="域"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:' + (d ? d.color : '#999') + ';margin-right:5px"></span>' + esc(d ? d.name : '') + '</td>'
+        + '<td data-label="知识点"><a data-jump="' + esc(n.id) + '" style="cursor:pointer;border-bottom:1px solid var(--line)">' + esc(n.t) + '</a></td>'
+        + '<td data-label="级别">' + lvHtml(n.lv) + '</td>'
+        + '<td data-label="一句话">' + esc(n.one) + '</td>'
+        + '<td data-label="语料">' + src + covHtml(n.cov) + '</td>'
+        + '</tr>';
+    }).join('');
+    host.innerHTML = '<table class="tbl"><thead><tr><th>域</th><th>知识点</th><th>级别</th><th>一句话</th><th>语料出处</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- 事件 ---------- */
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var chip = t.closest ? t.closest('[data-dom]') : null;
+    if (chip) {
+      fdom = chip.getAttribute('data-dom');
+      renderDomChips(); renderKg();
+      var lst = document.getElementById('kgdom');
+      if (lst && chip.tagName !== 'BUTTON' && lst.scrollIntoView) { try { lst.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e2) { lst.scrollIntoView(); } }
+      return;
+    }
+
+    var qm = t.closest ? t.closest('.chip[data-qm]') : null;
+    if (qm) { qmode = qm.getAttribute('data-qm'); renderQa(); return; }
+
+    var pl = t.closest ? t.closest('.chip[data-plan]') : null;
+    if (pl) { planN = Number(pl.getAttribute('data-plan')); renderPath(); return; }
+
+    var tg = t.closest ? t.closest('[data-toggle]') : null;
+    if (tg) {
+      var card = tg.closest('.qcard');
+      card.classList.toggle('open');
+      tg.textContent = card.classList.contains('open') ? '收起答案' : '显示答案';
+      return;
+    }
+    var ms = t.closest ? t.closest('[data-master]') : null;
+    if (ms) {
+      var id = ms.getAttribute('data-master');
+      if (mastered[id]) { delete mastered[id]; ms.classList.remove('on'); ms.textContent = '标记已掌握'; }
+      else { mastered[id] = 1; ms.classList.add('on'); ms.textContent = '已掌握'; }
+      saveMastered();
+      var kn = document.getElementById('kn-' + id);
+      if (kn) kn.classList.toggle('done', !!mastered[id]);
+      updateProgress();
+      try { window.dispatchEvent(new CustomEvent('kg-mastered-changed', { detail: { key: id, on: !!mastered[id] } })); } catch (e3) {}
+      return;
+    }
+    var jp = t.closest ? t.closest('[data-jump]') : null;
+    if (jp) { gotoNode(jp.getAttribute('data-jump')); return; }
+    var qq = t.closest ? t.closest('[data-qa]') : null;
+    if (qq) { openQa(qq.getAttribute('data-qa')); return; }
+  });
+
+  var kgq = document.getElementById('kgq');
+  if (kgq) kgq.addEventListener('input', function () { fq = this.value.trim().toLowerCase(); renderKg(); });
+  var qaq = document.getElementById('qaq');
+  if (qaq) qaq.addEventListener('input', function () { fqa = this.value.trim().toLowerCase(); renderQa(); });
+
+  /* ---------- 启动 ---------- */
+  renderDomChips();
+  renderGraph();
+  renderKg();
+  renderQa();
+  renderPath();
+  renderIdx();
+  var init = (location.hash || '').replace('#', '');
+  showPanel(init && panels.indexOf(init) >= 0 ? init : 'kg');
+})();
+
+</script>
+<script>
+/* ================= 背卡：单词卡式复习 ================= */
+(function () {
+  var host = document.getElementById('p-card');
+  if (!host) return;
+
+  var DATA = JSON.parse(document.getElementById('kg-data').textContent);
+  var doms = DATA.domains || [], nodes = DATA.nodes || [];
+  var PQA = DATA.pqa || { projects: [], items: [] };
+  var projs = PQA.projects || [], pitems = PQA.items || [];
+
+  var byId = {}, domById = {};
+  nodes.forEach(function (n) { byId[n.id] = n; });
+  doms.forEach(function (d) { domById[d.id] = d; });
+  var pjById = {};
+  projs.forEach(function (p) { pjById[p.id] = p; });
+
+  var MKEY = 'aipm-kg-mastered-v1';
+  var PUB = !!window.__KG_PUBLISH__;
+  var mastered = {};
+  function loadMastered() {
+    mastered = {};
+    try {
+      (JSON.parse(localStorage.getItem(MKEY) || '[]') || []).forEach(function (k) { mastered[k] = 1; });
+    } catch (e) {}
+  }
+  function setMastered(key, on) {
+    if (on) mastered[key] = 1; else delete mastered[key];
+    try {
+      var arr = [];
+      for (var k in mastered) if (mastered[k]) arr.push(k);
+      localStorage.setItem(MKEY, JSON.stringify(arr));
+    } catch (e) {}
+    try { window.dispatchEvent(new CustomEvent('kg-mastered-changed', { detail: { key: key, on: !!on } })); } catch (e) {}
+  }
+  loadMastered();
+
+  var src = 'kp';      /* kp = 知识点卡, pj = 项目题卡 */
+  var filt = 'all';    /* all | todo | 域 id | 项目 id */
+  var shuffle = false;
+  var order = [], idx = 0, flipped = false;
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function lvHtml(lv) { return '<span class="lv ' + (lv || 'L1') + '">' + (lv || 'L1') + '</span>'; }
+  function docHref(name) { return 'about:blank#' + encodeURIComponent(name); }
+  function localHref(p) { return encodeURI(String(p).replace(/\\/g, '/')).replace(/%2F/g, '/'); }
+  var COVN = { strong: ['s', '强'], mid: ['', '中'], weak: ['w', '弱'] };
+  function covHtml(cov) {
+    var c = COVN[cov] || COVN.mid;
+    return '<span class="covb ' + c[0] + '">' + c[1] + '</span>';
+  }
+
+  /* ---------- 牌堆 ---------- */
+  function pool() {
+    if (src === 'pj') {
+      return pitems.map(function (it, i) { return { kind: 'pj', key: 'pj-' + i, i: i, it: it }; });
+    }
+    return nodes.map(function (n) { return { kind: 'kp', key: n.id, n: n }; });
+  }
+  function passFilt(c) {
+    if (src === 'pj') {
+      if (filt === 'todo') return !mastered[c.key];
+      if (filt === 'all') return true;
+      return c.it.p === filt;
+    }
+    if (filt === 'todo') return !mastered[c.key];
+    if (filt === 'all') return true;
+    return c.n.d === filt;
+  }
+  function rebuild(keepKey) {
+    var base = pool().filter(passFilt);
+    order = base.slice();
+    if (shuffle) {
+      for (var i = order.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = order[i]; order[i] = order[j]; order[j] = t;
+      }
+    }
+    var at = -1;
+    if (keepKey) for (var k = 0; k < order.length; k++) if (order[k].key === keepKey) { at = k; break; }
+    idx = at >= 0 ? at : 0;
+    flipped = false;
+    render();
+  }
+
+  /* ---------- 卡面 ---------- */
+  function frontHtml(c, no) {
+    if (c.kind === 'pj') {
+      var p = pjById[c.it.p] || { name: c.it.p, color: '#666' };
+      return '<div class="face front" data-face="front">'
+        + '<div class="ftop" style="justify-content:center"><span class="ptag" style="color:' + esc(p.color) + '">' + esc(p.name) + '</span>'
+        + '<span class="flag">项目题</span><span class="cno">' + no + '</span></div>'
+        + '<p class="fq">' + esc(c.it.q) + '</p>'
+        + '<div class="fhint">心里先答一遍 → 点卡<b>看答案</b>，左右滑换题</div>'
+        + '</div>';
+    }
+    var n = c.n, d = domById[n.d];
+    return '<div class="face front" data-face="front">'
+      + '<div class="ftop" style="justify-content:center">' + lvHtml(n.lv)
+      + '<span class="flag">' + esc(d ? d.name : '') + '</span><span class="cno">' + no + '</span></div>'
+      + '<p class="fword">' + esc(n.t) + '</p>'
+      + '<div class="fhint">想清楚再翻 → 点卡<b>看答案</b>，左右滑换卡</div>'
+      + '</div>';
+  }
+  function srcChips(n) {
+    var s = n.src || [];
+    if (!s.length) return '<span class="srcline"><span class="src none">语料未覆盖</span>' + covHtml('weak') + '</span>';
+    var pub = PUB;
+    return '<span class="srcline">' + covHtml(n.cov) + '<span class="srcs">' + s.map(function (x) {
+      if (pub) return '<span class="src" title="' + esc(x[1]) + '（原文未随站发布）">' + esc(x[0]) + '</span>';
+      return '<a class="src" href="' + esc(docHref(x[1])) + '" target="_blank" rel="noopener" title="' + esc(x[1]) + '">' + esc(x[0]) + '</a>';
+    }).join('') + '</span></span>';
+  }
+  function backHtml(c, no) {
+    if (c.kind === 'pj') {
+      var it = c.it;
+      var pts = (it.pts || []).map(function (id) {
+        var t = byId[id] ? byId[id].t : id;
+        return '<span class="dep" data-jump="' + esc(id) + '">' + esc(t) + '</span>';
+      }).join('、') || '—';
+      var isLocal = /^09-项目经历/.test(it.doc || '');
+      var docHtml;
+      if (!it.doc) docHtml = '<span class="src none">未附</span>';
+      else if (isLocal && PUB) docHtml = '<span class="src" title="本地项目资料，未随站发布">' + esc(it.doc) + '</span>';
+      else docHtml = '<a class="src" href="' + esc(isLocal ? localHref(it.doc) : 'jd-interview.html') + '" target="_blank" rel="noopener">' + esc(it.doc) + '</a>';
+      return '<div class="face back hide" data-face="back">'
+        + '<div class="ftop"><span class="flag">答案</span><span class="cno">' + no + '</span></div>'
+        + '<p class="kone2">' + esc(it.a) + '</p>'
+        + '<div class="krow2"><span class="kk">用到</span><span class="vv">' + pts + '</span></div>'
+        + '<div class="krow2"><span class="kk">文档</span><span class="vv pdocs2">' + docHtml + '</span></div>'
+        + '</div>';
+    }
+    var n = c.n;
+    var deps = (n.deps || []).map(function (id) {
+      var t = byId[id] ? byId[id].t : id;
+      return '<span class="dep" data-jump="' + esc(id) + '">' + esc(t) + '</span>';
+    }).join('、') || '无';
+    return '<div class="face back hide" data-face="back">'
+      + '<div class="ftop"><span class="flag">答案</span><span class="cno">' + no + '</span></div>'
+      + '<p class="kone2">' + esc(n.one) + '</p>'
+      + '<div class="krow2"><span class="kk">为什么考</span><span class="vv">' + esc(n.why) + '</span></div>'
+      + '<div class="krow2"><span class="kk">出处</span><span class="vv">' + srcChips(n) + '</span></div>'
+      + '<div class="krow2"><span class="kk">前置</span><span class="vv">' + deps + '</span></div>'
+      + '</div>';
+  }
+
+  /* ---------- 渲染 ---------- */
+  function frame() {
+    if (!order.length) {
+      return '<div class="ccard"><div class="cempty">这一组已经清空。<br>换个筛选，或把「未掌握」关掉。</div></div>';
+    }
+    var c = order[idx];
+    return '<div class="ccard" id="ccard">' + frontHtml(c, (idx + 1) + ' / ' + order.length) + backHtml(c, (idx + 1) + ' / ' + order.length) + '</div>';
+  }
+  function render() {
+    var stage = host.querySelector('#cstage');
+    if (!stage) return;
+    stage.innerHTML = frame();
+    var card = stage.querySelector('#ccard');
+    if (card) {
+      card.classList.toggle('flip', flipped);
+      var f = card.querySelector('[data-face="front"]'), b = card.querySelector('[data-face="back"]');
+      if (f && b) { f.classList.toggle('hide', flipped); b.classList.toggle('hide', !flipped); }
+    }
+    updFoot();
+  }
+  function updFoot() {
+    var total = order.length;
+    var done = order.filter(function (c) { return mastered[c.key]; }).length;
+    var pt = host.querySelector('#cpnum'), pf = host.querySelector('#cpfill');
+    if (pt) pt.textContent = total ? ((idx + 1) + ' / ' + total + ' · 会了 ' + done) : '0 / 0';
+    if (pf) pf.style.width = (total ? Math.round((idx + 1) / total * 100) : 0) + '%';
+    var cur = order[idx];
+    var yes = host.querySelector('.cact .yes'), no = host.querySelector('.cact .no');
+    if (yes) yes.textContent = (cur && mastered[cur.key]) ? '会了 ✓' : '会了';
+    if (no) no.textContent = '再练';
+  }
+
+  /* ---------- 动作 ---------- */
+  function flip() {
+    if (!order.length) return;
+    flipped = !flipped;
+    var card = host.querySelector('#ccard');
+    if (!card) return;
+    card.classList.toggle('flip', flipped);
+    var f = card.querySelector('[data-face="front"]'), b = card.querySelector('[data-face="back"]');
+    if (f && b) { f.classList.toggle('hide', flipped); b.classList.toggle('hide', !flipped); }
+    if (flipped && b) b.scrollTop = 0;
+  }
+  function go(step) {
+    if (!order.length) return;
+    var dir = step > 0 ? 'l' : 'r';
+    var card = host.querySelector('#ccard');
+    flipped = false;
+    if (!card) { idx = (idx + step + order.length) % order.length; render(); return; }
+    card.classList.add('out-' + dir);
+    setTimeout(function () {
+      idx = (idx + step + order.length) % order.length;
+      render();
+      var nc = host.querySelector('#ccard');
+      if (nc) {
+        nc.classList.add('in-' + dir);
+        setTimeout(function () { nc.classList.remove('in-' + dir); }, 240);
+      }
+    }, 150);
+  }
+  function mark(on) {
+    if (!order.length) return;
+    var cur = order[idx];
+    setMastered(cur.key, on);
+    updFoot();
+    setTimeout(function () { go(1); }, 120);
+  }
+
+  /* ---------- 手势 ---------- */
+  var sx = 0, sy = 0, dx = 0, dy = 0, drag = null, locked = null, t0 = 0;
+  function cardEl() { return host.querySelector('#ccard'); }
+
+  host.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('a,button')) return;
+    drag = cardEl();
+    if (!drag) return;
+    sx = e.clientX; sy = e.clientY; dx = 0; dy = 0; locked = null; t0 = Date.now();
+    drag.classList.add('drag');
+  });
+  host.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    dx = e.clientX - sx; dy = e.clientY - sy;
+    if (!locked) {
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) locked = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      else return;
+    }
+    if (locked === 'x') {
+      var w = Math.min(1, Math.abs(dx) / 320);
+      drag.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx / 22).toFixed(2) + 'deg)';
+      drag.style.opacity = String(1 - w * 0.25);
+    }
+  });
+  function endDrag(e, isUp) {
+    if (!drag) return;
+    var el = drag; drag = null;
+    el.classList.remove('drag');
+    el.style.transform = '';
+    el.style.opacity = '';
+    var dt = Date.now() - t0;
+    var wasLocked = locked;
+    locked = null;
+    if (wasLocked === 'x' && Math.abs(dx) > 60) { go(dx < 0 ? 1 : -1); return; }
+    /* 只有真正的抬手才算「点一下」；pointerleave/cancel 不翻面 */
+    if (isUp && Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 500) flip();
+  }
+  host.addEventListener('pointerup', function (e) { endDrag(e, true); });
+  host.addEventListener('pointercancel', function (e) { endDrag(e, false); });
+  host.addEventListener('pointerleave', function (e) { if (drag) endDrag(e, false); });
+
+  /* ---------- 控件 ---------- */
+  function chipsHtml() {
+    var h = '';
+    if (src === 'kp') {
+      h += '<button class="chip' + (filt === 'all' ? ' on' : '') + '" data-cf="all">全部<span class="n">' + nodes.length + '</span></button>';
+      var todo = nodes.filter(function (n) { return !mastered[n.id]; }).length;
+      h += '<button class="chip' + (filt === 'todo' ? ' on' : '') + '" data-cf="todo">未掌握<span class="n">' + todo + '</span></button>';
+      doms.forEach(function (d) {
+        var c = nodes.filter(function (n) { return n.d === d.id; }).length;
+        h += '<button class="chip' + (filt === d.id ? ' on' : '') + '" data-cf="' + esc(d.id) + '">' + esc(d.name) + '<span class="n">' + c + '</span></button>';
+      });
+    } else {
+      h += '<button class="chip' + (filt === 'all' ? ' on' : '') + '" data-cf="all">全部<span class="n">' + pitems.length + '</span></button>';
+      var todo2 = pitems.filter(function (it, i) { return !mastered['pj-' + i]; }).length;
+      h += '<button class="chip' + (filt === 'todo' ? ' on' : '') + '" data-cf="todo">未掌握<span class="n">' + todo2 + '</span></button>';
+      projs.forEach(function (p) {
+        var c = pitems.filter(function (it) { return it.p === p.id; }).length;
+        h += '<button class="chip' + (filt === p.id ? ' on' : '') + '" data-cf="' + esc(p.id) + '">' + esc(p.name) + '<span class="n">' + c + '</span></button>';
+      });
+    }
+    return h;
+  }
+  function renderChips() {
+    var box = host.querySelector('#cardfilt');
+    if (box) box.innerHTML = chipsHtml();
+  }
+
+  /* ---------- 骨架 ---------- */
+  host.innerHTML = ''
+    + '<div class="lede">把知识点当单词卡背：<b>正面只给题，点一下翻答案</b>，左右滑换下一张。'
+    + '<span class="rule">「会了」会写进问答面板的「已掌握」，两处同一套进度；翻面后卡背可上下滚（左右滑仍换卡）。</span></div>'
+    + '<div class="cbar" id="cardsrc">'
+    + '<button class="chip on" data-cs="kp">知识点 79</button>'
+    + '<button class="chip" data-cs="pj">项目题 24</button>'
+    + '<button class="chip" id="cshuffle" data-sh="1">打乱</button>'
+    + '</div>'
+    + '<div class="cbar" id="cardfilt"></div>'
+    + '<div class="cstage" id="cstage"></div>'
+    + '<div class="cfoot"><span class="cprog" id="cpnum">0 / 0</span><span class="cpbar"><i id="cpfill"></i></span>'
+    + '<span class="cnav"><button data-step="-1">上一张</button><button data-step="1">下一张</button></span></div>'
+    + '<div class="cact"><button class="no" data-mark="0">再练</button><button class="yes" data-mark="1">会了</button></div>';
+
+  /* 把真实数量写进来源按钮 */
+  (function () {
+    var btns = host.querySelectorAll('#cardsrc .chip[data-cs]');
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].getAttribute('data-cs') === 'kp') btns[i].innerHTML = '知识点 <span class="n">' + nodes.length + '</span>';
+      else btns[i].innerHTML = '项目题 <span class="n">' + pitems.length + '</span>';
+    }
+  })();
+
+  host.addEventListener('click', function (e) {
+    var t = e.target;
+    var cs = t.closest('[data-cs]');
+    if (cs) {
+      src = cs.getAttribute('data-cs'); filt = 'all';
+      var all = host.querySelectorAll('#cardsrc .chip[data-cs]');
+      for (var i = 0; i < all.length; i++) all[i].classList.toggle('on', all[i] === cs);
+      renderChips(); rebuild(); return;
+    }
+    var sh = t.closest('#cshuffle');
+    if (sh) { shuffle = !shuffle; sh.classList.toggle('on', shuffle); rebuild(order.length ? order[idx].key : null); return; }
+    var cf = t.closest('[data-cf]');
+    if (cf) {
+      filt = cf.getAttribute('data-cf');
+      renderChips(); rebuild(); return;
+    }
+    var st = t.closest('[data-step]');
+    if (st) { go(Number(st.getAttribute('data-step'))); return; }
+    var mk = t.closest('[data-mark]');
+    if (mk) { mark(mk.getAttribute('data-mark') === '1'); return; }
+    if (t.closest('#cardfilt')) return;
+    /* 点卡的翻面由 pointerup 统一处理，这里不再重复触发（否则一次点击翻两下） */
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!host.classList.contains('on')) return;
+    if (/^(INPUT|TEXTAREA)$/.test(document.activeElement && document.activeElement.tagName)) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    else if (e.key === ' ') { e.preventDefault(); flip(); }
+  });
+
+  /* 别处（图谱/问答）改了已掌握，这里跟着刷新 */
+  window.addEventListener('kg-mastered-changed', function () {
+    loadMastered(); renderChips(); updFoot();
+  });
+
+  renderChips();
+  rebuild();
+
+  /* 调试/外部调用钩子（不影响 UI） */
+  window.__kgcard = {
+    flip: flip, go: go, mark: mark, rebuild: rebuild,
+    state: function () { return { src: src, filt: filt, idx: idx, n: order.length, flipped: flipped }; }
+  };
+})();
+
+</script>
+</body>
+</html>
