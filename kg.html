@@ -330,7 +330,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;
   font-size:12px;color:var(--ink-3);margin:0 0 6px;
 }
-.exc .exh b{font-weight:600;color:var(--ink-2);font-size:12.5px}
+.exc .exh b{font-weight:600;color:var(--ink-2);font-size:13px}
 .exc .exb{
   font-size:14px;line-height:1.85;color:var(--ink-2);
 }
@@ -338,7 +338,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 .exc .exb p:last-child{margin-bottom:0}
 .exc.none{
   border-left-color:transparent;border:1px dashed var(--line);
-  border-radius:8px;padding:9px 11px;color:var(--ink-3);font-size:12.5px;
+  border-radius:8px;padding:9px 11px;color:var(--ink-3);font-size:13px;
 }
 
 .knote{
@@ -354,7 +354,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 
 .fdot{
   display:inline-block;margin-left:5px;padding:1px 5px;border-radius:5px;
-  background:var(--ok-soft);color:var(--ok);font-size:11px;line-height:1.5;
+  background:var(--ok-soft);color:var(--ok);font-size:12px;line-height:1.5;
   vertical-align:1px;
 }
 
@@ -362,7 +362,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 .kmore{
   display:inline-flex;align-items:center;gap:5px;margin:10px 0 0;
   border:1px solid var(--line);background:#fff;border-radius:999px;
-  padding:5px 11px;font-size:12.5px;color:var(--ink-2);cursor:pointer;
+  padding:5px 11px;font-size:13px;color:var(--ink-2);cursor:pointer;
 }
 .kmore:hover{border-color:var(--ink-3);color:var(--ink)}
 .kmore.on{background:var(--ink);border-color:var(--ink);color:#fff}
@@ -399,7 +399,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 .exc .exb table.xtbl th{background:var(--line2);font-weight:600;color:var(--ink-2)}
 .exc .exb ul,.exc .exb ol{margin:6px 0 10px;padding-left:20px}
 .exc .exb li{margin:0 0 4px}
-.exc .exb code{background:#fff;border:1px solid var(--line);border-radius:5px;padding:0 4px;font-size:12.5px}
+.exc .exb code{background:#fff;border:1px solid var(--line);border-radius:5px;padding:0 4px;font-size:13px}
 
 /* 标签不拆行 */
 .krow2>.kk{white-space:nowrap}
@@ -407,7 +407,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 /* 手机端 6 个 tab 别折成两行 */
 @media(max-width:520px){
   .tabs{gap:4px}
-  .tab{font-size:12.5px;padding:5px 9px}
+  .tab{font-size:13px;padding:5px 9px}
 }
 
 /* 应用题面板里标签用的是 .k2 */
@@ -425,7 +425,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 /* 触控高度：桌面也保证 44px（对指针用户无副作用，只是更好点） */
 .tabs .tab{min-height:44px;display:inline-flex;align-items:center}
 .xnav a{min-height:44px;display:inline-flex;align-items:center}
-.exc .exb.cut{color:var(--ink-3);font-size:12.5px;line-height:1.8;background:var(--line2);border-radius:7px;padding:8px 10px}
+.exc .exb.cut{color:var(--ink-3);font-size:13px;line-height:1.8;background:var(--line2);border-radius:7px;padding:8px 10px}
 
 /* 筛选 chip 也保证 44px 触控高度 */
 #kgdom .chip{min-height:44px}
@@ -469,11 +469,11 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 .lockbar.on{background:var(--ok-soft,#edf3ee);border-color:#d6e4da}
 .lockbar b{font-size:14px}
 .locki{font-size:15px;line-height:1}
-.lockt{font-size:12.5px;color:var(--ink-3)}
-.lockbar input{flex:0 0 128px;min-height:38px;padding:6px 10px;border:1px solid var(--line);
+.lockt{font-size:13px;color:var(--ink-3)}
+.lockbar input{flex:0 0 128px;min-height:44px;padding:6px 10px;border:1px solid var(--line);
   border-radius:8px;font-size:14px;background:var(--paper)}
-.lockbar .btn{min-height:38px}
-.lockmsg{font-size:12.5px;color:var(--accent)}
+.lockbar .btn{min-height:44px}
+.lockmsg{font-size:13px;color:var(--accent)}
 .lockbar.on .btn{background:#fff}
 @media(max-width:520px){
   .lockbar{gap:8px;padding:12px 12px 10px}
@@ -483,6 +483,11 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   .lockbar input{flex:1 1 auto;min-width:0}
   .lockmsg{flex:1 1 100%;order:4}
 }
+/* 卡背摘录正文 */
+.cdet .cext{display:block;margin:4px 0 12px;padding:9px 11px;background:var(--paper);
+  border-left:2px solid var(--line);border-radius:0 8px 8px 0;
+  font-size:13.5px;line-height:1.75;color:var(--ink-2)}
+.cdet .cext.cut{color:var(--ink-3);font-size:13px;background:transparent;border-left-style:dashed}
 /* ================= 背卡 ================= */
 #p-card{--cw:100%;--ch:clamp(320px,56vh,460px)}
 @media(min-width:821px){#p-card{--cw:420px;--ch:460px}}
@@ -560,7 +565,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 
 .cempty{display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink-3);font-size:14px;
         text-align:center;padding:20px;line-height:1.8}
-.flag{font-size:11px;line-height:1.6;padding:1px 6px;border-radius:999px;color:var(--ink-3);background:var(--line-2)}
+.flag{font-size:12px;line-height:1.6;padding:1px 6px;border-radius:999px;color:var(--ink-3);background:var(--line-2)}
 
 /* ---------- 发布版：原文服务设置条 ---------- */
 .srcset{
@@ -795,6 +800,10 @@ body.fs-on{overflow:hidden}
 <script>
 (function () {
   var DATA = JSON.parse(document.getElementById('kg-data').textContent);
+  /* 背卡脚本共用同一份数据对象：解密写回后才能同步看到明文 */
+  window.__KGDATA = DATA;
+  /* 卡背复用同一套 Markdown 渲染 */
+  window.__kgPara = paraHtml;
   var doms = DATA.domains, nodes = DATA.nodes;
   var PQA = DATA.pqa || { projects: [], items: [] };
   var APPQ = DATA.appq || { groups: [], items: [] };
@@ -1629,7 +1638,8 @@ body.fs-on{overflow:hidden}
   var host = document.getElementById('p-card');
   if (!host) return;
 
-  var DATA = JSON.parse(document.getElementById('kg-data').textContent);
+  /* 优先复用图谱脚本那份 DATA（解锁后它已被写入明文），避免各自解析出两份拷贝 */
+  var DATA = window.__KGDATA || JSON.parse(document.getElementById('kg-data').textContent);
   var doms = DATA.domains || [], nodes = DATA.nodes || [];
   var PQA = DATA.pqa || { projects: [], items: [] };
   var APPQ = DATA.appq || { groups: [], items: [] };
@@ -1811,7 +1821,9 @@ body.fs-on{overflow:hidden}
           return '<div class="cex">'
             + (head ? '<span class="cexh">' + esc(head) + '</span>' : '')
             + '<span class="cexf">' + srcRef(e.title || '', e.file || '') + '</span>'
-            + (e.cut ? '<span class="cext">（原文已加密 · 在「图谱」页解锁后显示）</span>' : '')
+            + (e.text
+                ? '<div class="cext">' + (window.__kgPara ? window.__kgPara(e.text) : esc(e.text)) + '</div>'
+                : (e.cut ? '<div class="cext cut">（原文已加密 · 在「图谱」页解锁后显示）</div>' : ''))
             + '</div>';
         }).join('');
       } else {
