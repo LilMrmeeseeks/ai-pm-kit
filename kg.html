@@ -388,6 +388,118 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
         text-align:center;padding:20px;line-height:1.8}
 .flag{font-size:11px;line-height:1.6;padding:1px 6px;border-radius:999px;color:var(--ink-3);background:var(--line-2)}
 
+/* ---------- 发布版：原文服务设置条 ---------- */
+.srcset{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  border:1px dashed var(--line);border-radius:10px;background:#fdfcf9;
+  padding:9px 11px;margin:0 0 12px;
+}
+.srcset .lb{font-size:12px;color:var(--ink-3);white-space:nowrap}
+.srcset input{
+  flex:1 1 220px;min-width:0;height:32px;padding:0 10px;font-size:13px;
+  border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);
+  font-family:inherit;outline:none;
+}
+.srcset input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.srcset .btn{height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+.srcset .hint{flex:1 1 100%;font-size:12px;color:var(--ink-3);line-height:1.6}
+@media(max-width:640px){
+  .srcset{gap:6px;padding:8px 9px}
+  .srcset input{flex:1 1 100%;order:3}
+  .srcset .btn{order:4;flex:0 0 auto}
+  .srcset .lb{order:1}
+  .srcset .hint{order:5}
+}
+
+/* ---------- 背卡：列表（手机入口） ---------- */
+.clist{display:flex;flex-direction:column;gap:8px;margin:2px 0 0}
+.crow{
+  display:block;width:100%;text-align:left;font-family:inherit;cursor:pointer;
+  background:var(--card);border:1px solid var(--line-2,#efece6);border-radius:11px;
+  padding:11px 13px;color:var(--ink);
+}
+.crow:active{border-color:var(--line,#e3dfd8)}
+.crowtop{display:flex;align-items:flex-start;gap:8px}
+.crowt{flex:1 1 auto;font-size:15px;font-weight:600;line-height:1.45}
+.crowsub{display:block;font-size:12px;color:var(--ink-3,#6f685f);margin-top:4px}
+.crow.done .crowt{color:var(--ink-3,#6f685f)}
+.crow.done::after{content:"✓";float:right;color:var(--ok,#3f5a45);font-size:13px}
+.cmore{font-size:12px;color:var(--ink-3,#6f685f);text-align:center;margin:10px 0 0}
+
+@media(min-width:900px){ .clist{display:none} .cstage{display:block} }
+@media(max-width:899px){ .clist{display:flex} .cstage{display:none} .cfoot .cnav{display:none} }
+
+/* ---------- 背卡：全屏 ---------- */
+body.fs-on{overflow:hidden}
+#fs{
+  position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;
+  background:var(--paper,#fbfaf7);overscroll-behavior:contain;
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+#fs[hidden]{display:none}
+.fs-top{
+  flex:0 0 auto;display:flex;align-items:center;gap:10px;
+  padding:10px 14px 6px;
+}
+.fs-x{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line,#e3dfd8);
+  background:var(--card,#fff);color:var(--ink-2,#4d4842);font-size:18px;line-height:1;
+  cursor:pointer;font-family:inherit;
+}
+.fs-count{font-size:13px;color:var(--ink-2,#4d4842);font-variant-numeric:tabular-nums}
+.fs-done{margin-left:auto;font-size:12px;color:var(--ink-3,#6f685f)}
+.fs-body{
+  flex:1 1 auto;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;padding:2px 14px 10px;
+}
+.fscard{
+  position:relative;flex:1 1 auto;display:flex;flex-direction:column;min-height:100%;background:var(--card,#fff);border:1px solid var(--line-2,#efece6);
+  border-radius:16px;padding:18px 16px 16px;
+  transition:transform .16s ease,opacity .16s ease;
+  will-change:transform;
+  box-shadow:0 1px 2px rgba(27,25,23,.04);
+}
+.fscard.go-l{transform:translateX(-24px);opacity:0}
+.fscard.go-r{transform:translateX(24px);opacity:0}
+.fscard.in-l{animation:fsInL .22s ease}
+.fscard.in-r{animation:fsInR .22s ease}
+@keyframes fsInL{from{transform:translateX(26px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fsInR{from{transform:translateX(-26px);opacity:0}to{transform:none;opacity:1}}
+.fs-in{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.fs-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.fs-meta .cno{margin-left:auto;font-size:12px;color:var(--ink-3,#6f685f)}
+.fs-q{
+  font-size:22px;line-height:1.45;font-weight:650;letter-spacing:.01em;
+  margin:18px 2px 14px;text-align:center;
+}
+.fs-q.pjq{font-size:18.5px;line-height:1.6;text-align:left;margin-top:14px}
+.fsans{border-top:1px dashed var(--line,#e3dfd8);padding-top:12px;margin-top:2px}
+.fsans[hidden]{display:none}
+.fsans .kone2{font-size:16px;line-height:1.7;margin:0 0 12px}
+.fsans .krow2{display:flex;gap:10px;font-size:14px;line-height:1.7;margin:0 0 9px}
+.fsans .krow2 .kk{flex:0 0 4.2em;color:var(--ink-3,#6f685f);font-size:13px;padding-top:2px}
+.fsans .krow2 .vv{flex:1 1 auto;min-width:0}
+.fshint{
+  position:absolute;left:0;right:0;bottom:14px;margin:0;padding:0 12px;text-align:center;
+  font-size:12px;color:var(--ink-3,#6f685f);
+}
+.fscard.has-ans .fs-in{justify-content:flex-start}
+.fs-foot{
+  flex:0 0 auto;padding:8px 14px 12px;border-top:1px solid var(--line-2,#efece6);
+  background:rgba(251,250,247,.96);
+}
+.fs-foot .cpbar{display:block;height:3px;border-radius:2px;background:var(--line-2,#efece6);overflow:hidden;margin:0 0 9px}
+.fs-foot .cpbar i{display:block;height:100%;background:var(--accent,#b4441f);border-radius:2px;transition:width .2s ease}
+.fs-act{display:flex;gap:10px}
+.fs-act button{
+  flex:1 1 0;height:44px;border-radius:12px;font-size:15px;font-family:inherit;
+  cursor:pointer;border:1px solid var(--line,#e3dfd8);background:var(--card,#fff);color:var(--ink);
+}
+.fs-act .yes{background:var(--ink,#1b1917);border-color:var(--ink,#1b1917);color:#fff;font-weight:600}
+.fs-act .no{background:var(--accent-soft,#f6ece6);border-color:transparent;color:var(--accent,#b4441f)}
+.fs-empty{padding:40px 20px;text-align:center;color:var(--ink-3,#6f685f);font-size:14px}
+.fs-empty button{margin-top:12px;font-family:inherit;padding:7px 14px;border-radius:9px;border:1px solid var(--line,#e3dfd8);background:#fff}
+
 </style>
 <script>window.__KG_PUBLISH__=1;</script></head>
 <body>
@@ -527,14 +639,27 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   }
   function lvHtml(lv) { return '<span class="lv ' + (lv || 'L1') + '">' + (lv || 'L1') + '</span>'; }
 
-  /* ---------- 出处：可点开原文件（发布版只留标题，不带链接） ---------- */
+  /* ---------- 出处：本地直开；发布版可接自己的「原文服务」 ---------- */
   var PUB = !!window.__KG_PUBLISH__;
+  function readBase() {
+    try { return localStorage.getItem('aipm-src-base') || ''; } catch (e) { return ''; }
+  }
+  var SBASE = readBase();
+  function baseUrl() { return SBASE ? String(SBASE).replace(/\/+$/, '') + '/' : ''; }
   function docHref(name) {
+    var key = String(name).replace(/\\/g, '/');
+    if (PUB) {
+      var b = baseUrl();
+      return b ? b + '#d=' + encodeURIComponent(key) : '';
+    }
     return 'about:blank#' + encodeURIComponent(name);
   }
   function srcTag(title, file, tipPrefix) {
-    if (PUB) return '<span class="src" title="' + esc(title) + '（原文未随站发布）">' + esc(title) + '</span>';
-    return '<a class="src" href="' + esc(docHref(file)) + '" target="_blank" rel="noopener" title="' + esc(tipPrefix || '') + esc(file) + '">' + esc(title) + '</a>';
+    var href = docHref(file);
+    if (!href) {
+      return '<span class="src" title="' + esc(title) + '（原文在本地；线上填了「原文服务」地址后可点开）">' + esc(title) + '</span>';
+    }
+    return '<a class="src" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(tipPrefix || '') + esc(file) + '">' + esc(title) + '</a>';
   }
   function localHref(p) {
     return encodeURI(p.replace(/\\/g, '/')).replace(/%2F/g, '/');
@@ -882,7 +1007,34 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   var qaq = document.getElementById('qaq');
   if (qaq) qaq.addEventListener('input', function () { fqa = this.value.trim().toLowerCase(); renderQa(); });
 
+  /* ---------- 发布版：原文服务地址设置条 ---------- */
+  function renderSrcSet() {
+    if (!PUB) return;
+    var host = document.getElementById('p-kg');
+    if (!host || document.getElementById('srcset')) return;
+    var bar = document.createElement('div');
+    bar.className = 'srcset';
+    bar.id = 'srcset';
+    bar.innerHTML = '<span class="lb">原文服务</span>'
+      + '<input id="srcbase" type="url" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="http://192.168.1.5:8000/" value="' + esc(SBASE) + '">'
+      + '<button class="btn" id="srcsave">保存</button>'
+      + '<span class="hint" id="srchint">' + (SBASE ? '已接入你自己的阅读器，点出处会跳过去' : '没填时出处只显示标题；填上自己电脑的地址就能点开原文') + '</span>';
+    var anchor = document.getElementById('kgdom');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(bar, anchor);
+    else host.appendChild(bar);
+    var save = document.getElementById('srcsave');
+    save.addEventListener('click', function () {
+      var v = (document.getElementById('srcbase').value || '').trim();
+      try { if (v) localStorage.setItem('aipm-src-base', v); else localStorage.removeItem('aipm-src-base'); } catch (e) {}
+      SBASE = v;
+      document.getElementById('srchint').textContent = SBASE ? '已保存，出处链接已生效' : '已清除，出处只显示标题';
+      renderKg();
+      if (window.__kgcard && window.__kgcard.rebuild) window.__kgcard.rebuild();
+    });
+  }
+
   /* ---------- 启动 ---------- */
+  renderSrcSet();
   renderDomChips();
   renderGraph();
   renderKg();
@@ -895,7 +1047,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 
 </script>
 <script>
-/* ================= 背卡：单词卡式复习 ================= */
+/* ================= 背卡：单词卡式复习（列表 + 全屏卡） ================= */
 (function () {
   var host = document.getElementById('p-card');
   if (!host) return;
@@ -935,6 +1087,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   var filt = 'all';    /* all | todo | 域 id | 项目 id */
   var shuffle = false;
   var order = [], idx = 0, flipped = false;
+  var ansOpen = false;
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
@@ -942,7 +1095,16 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
     });
   }
   function lvHtml(lv) { return '<span class="lv ' + (lv || 'L1') + '">' + (lv || 'L1') + '</span>'; }
-  function docHref(name) { return 'about:blank#' + encodeURIComponent(name); }
+  function docHref(name) {
+    var key = String(name).replace(/\\/g, '/');
+    if (PUB) {
+      var b = '';
+      try { b = localStorage.getItem('aipm-src-base') || ''; } catch (e) {}
+      b = b ? b.replace(/\/+$/, '') + '/' : '';
+      return b ? b + '#d=' + encodeURIComponent(key) : '';
+    }
+    return 'about:blank#' + encodeURIComponent(name);
+  }
   function localHref(p) { return encodeURI(String(p).replace(/\\/g, '/')).replace(/%2F/g, '/'); }
   var COVN = { strong: ['s', '强'], mid: ['', '中'], weak: ['w', '弱'] };
   function covHtml(cov) {
@@ -980,16 +1142,19 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
     if (keepKey) for (var k = 0; k < order.length; k++) if (order[k].key === keepKey) { at = k; break; }
     idx = at >= 0 ? at : 0;
     flipped = false;
+    ansOpen = false;
     render();
+    renderList();
+    if (fs && !fs.hidden) renderFs();
   }
 
-  /* ---------- 卡面 ---------- */
+  /* ---------- 卡面（面板内，桌面用） ---------- */
   function frontHtml(c, no) {
     if (c.kind === 'pj') {
       var p = pjById[c.it.p] || { name: c.it.p, color: '#666' };
       return '<div class="face front" data-face="front">'
         + '<div class="ftop" style="justify-content:center"><span class="ptag" style="color:' + esc(p.color) + '">' + esc(p.name) + '</span>'
-        + '<span class="flag">项目题</span><span class="cno">' + no + '</span></div>'
+        + '<span class="flag">项目题</span></div>'
         + '<p class="fq">' + esc(c.it.q) + '</p>'
         + '<div class="fhint">心里先答一遍 → 点卡<b>看答案</b>，左右滑换题</div>'
         + '</div>';
@@ -997,7 +1162,7 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
     var n = c.n, d = domById[n.d];
     return '<div class="face front" data-face="front">'
       + '<div class="ftop" style="justify-content:center">' + lvHtml(n.lv)
-      + '<span class="flag">' + esc(d ? d.name : '') + '</span><span class="cno">' + no + '</span></div>'
+      + '<span class="flag">' + esc(d ? d.name : '') + '</span></div>'
       + '<p class="fword">' + esc(n.t) + '</p>'
       + '<div class="fhint">想清楚再翻 → 点卡<b>看答案</b>，左右滑换卡</div>'
       + '</div>';
@@ -1005,13 +1170,15 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   function srcChips(n) {
     var s = n.src || [];
     if (!s.length) return '<span class="srcline"><span class="src none">语料未覆盖</span>' + covHtml('weak') + '</span>';
-    var pub = PUB;
     return '<span class="srcline">' + covHtml(n.cov) + '<span class="srcs">' + s.map(function (x) {
-      if (pub) return '<span class="src" title="' + esc(x[1]) + '（原文未随站发布）">' + esc(x[0]) + '</span>';
-      return '<a class="src" href="' + esc(docHref(x[1])) + '" target="_blank" rel="noopener" title="' + esc(x[1]) + '">' + esc(x[0]) + '</a>';
+      var href = docHref(x[1]);
+      if (!href) return '<span class="src" title="' + esc(x[1]) + '（原文在本地；线上设置「原文服务」后可点开）">' + esc(x[0]) + '</span>';
+      return '<a class="src" href="' + esc(href) + '" target="_blank" rel="noopener" title="' + esc(x[1]) + '">' + esc(x[0]) + '</a>';
     }).join('') + '</span></span>';
   }
-  function backHtml(c, no) {
+
+  /* 答案正文（卡背与全屏共用） */
+  function answerInner(c) {
     if (c.kind === 'pj') {
       var it = c.it;
       var pts = (it.pts || []).map(function (id) {
@@ -1021,36 +1188,41 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
       var isLocal = /^09-项目经历/.test(it.doc || '');
       var docHtml;
       if (!it.doc) docHtml = '<span class="src none">未附</span>';
-      else if (isLocal && PUB) docHtml = '<span class="src" title="本地项目资料，未随站发布">' + esc(it.doc) + '</span>';
+      else if (isLocal && PUB) {
+        var ph = docHref(it.doc);
+        docHtml = ph
+          ? '<a class="src" href="' + esc(ph) + '" target="_blank" rel="noopener" title="' + esc(it.doc) + '">' + esc(it.doc) + '</a>'
+          : '<span class="src" title="' + esc(it.doc) + '（项目资料在本地；线上设置「原文服务」后可点开）">' + esc(it.doc) + '</span>';
+      }
       else docHtml = '<a class="src" href="' + esc(isLocal ? localHref(it.doc) : 'jd-interview.html') + '" target="_blank" rel="noopener">' + esc(it.doc) + '</a>';
-      return '<div class="face back hide" data-face="back">'
-        + '<div class="ftop"><span class="flag">答案</span><span class="cno">' + no + '</span></div>'
-        + '<p class="kone2">' + esc(it.a) + '</p>'
+      return '<p class="kone2">' + esc(it.a) + '</p>'
         + '<div class="krow2"><span class="kk">用到</span><span class="vv">' + pts + '</span></div>'
-        + '<div class="krow2"><span class="kk">文档</span><span class="vv pdocs2">' + docHtml + '</span></div>'
-        + '</div>';
+        + '<div class="krow2"><span class="kk">文档</span><span class="vv pdocs2">' + docHtml + '</span></div>';
     }
     var n = c.n;
     var deps = (n.deps || []).map(function (id) {
       var t = byId[id] ? byId[id].t : id;
       return '<span class="dep" data-jump="' + esc(id) + '">' + esc(t) + '</span>';
     }).join('、') || '无';
-    return '<div class="face back hide" data-face="back">'
-      + '<div class="ftop"><span class="flag">答案</span><span class="cno">' + no + '</span></div>'
-      + '<p class="kone2">' + esc(n.one) + '</p>'
+    return '<p class="kone2">' + esc(n.one) + '</p>'
       + '<div class="krow2"><span class="kk">为什么考</span><span class="vv">' + esc(n.why) + '</span></div>'
       + '<div class="krow2"><span class="kk">出处</span><span class="vv">' + srcChips(n) + '</span></div>'
-      + '<div class="krow2"><span class="kk">前置</span><span class="vv">' + deps + '</span></div>'
-      + '</div>';
+      + '<div class="krow2"><span class="kk">前置</span><span class="vv">' + deps + '</span></div>';
+  }
+  function backHtml(c, no) {
+    return '<div class="face back hide" data-face="back">'
+      + '<div class="ftop"><span class="flag">答案</span></div>'
+      + answerInner(c) + '</div>';
   }
 
-  /* ---------- 渲染 ---------- */
+  /* ---------- 面板内渲染（桌面卡片） ---------- */
   function frame() {
     if (!order.length) {
       return '<div class="ccard"><div class="cempty">这一组已经清空。<br>换个筛选，或把「未掌握」关掉。</div></div>';
     }
     var c = order[idx];
-    return '<div class="ccard" id="ccard">' + frontHtml(c, (idx + 1) + ' / ' + order.length) + backHtml(c, (idx + 1) + ' / ' + order.length) + '</div>';
+    var no = (idx + 1) + ' / ' + order.length;
+    return '<div class="ccard" id="ccard">' + frontHtml(c, no) + backHtml(c, no) + '</div>';
   }
   function render() {
     var stage = host.querySelector('#cstage');
@@ -1076,7 +1248,139 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
     if (no) no.textContent = '再练';
   }
 
-  /* ---------- 动作 ---------- */
+  /* ---------- 列表（手机入口） ---------- */
+  function rowLabel(c) {
+    if (c.kind === 'pj') {
+      var p = pjById[c.it.p] || { name: c.it.p, color: '#666' };
+      return '<span class="ptag" style="color:' + esc(p.color) + '">' + esc(p.name) + '</span>';
+    }
+    return lvHtml(c.n.lv);
+  }
+  function rowTitle(c) {
+    return c.kind === 'pj' ? c.it.q : c.n.t;
+  }
+  function renderList() {
+    var box = host.querySelector('#clist');
+    if (!box) return;
+    if (!order.length) {
+      box.innerHTML = '<div class="cempty">这一组已经清空。<br>换个筛选，或把「未掌握」关掉。</div>';
+      return;
+    }
+    var shown = order.slice(0, 300);
+    box.innerHTML = shown.map(function (c, i) {
+      var done = mastered[c.key] ? ' done' : '';
+      var sub = c.kind === 'pj'
+        ? ((c.it.pts || []).length + ' 个知识点')
+        : (domById[c.n.d] ? domById[c.n.d].name : '');
+      return '<button class="crow' + done + '" data-ci="' + i + '" type="button">'
+        + '<span class="crowtop">' + rowLabel(c) + '<span class="crowt">' + esc(rowTitle(c)) + '</span></span>'
+        + '<span class="crowsub">' + esc(sub) + (mastered[c.key] ? ' · 已会' : '') + '</span>'
+        + '</button>';
+    }).join('') + (order.length > shown.length ? '<p class="cmore">先显示前 300 条，用上面的筛选缩小范围</p>' : '');
+  }
+
+  /* ---------- 全屏卡 ---------- */
+  var fs = document.createElement('div');
+  fs.id = 'fs';
+  fs.hidden = true;
+  document.body.appendChild(fs);
+
+  function currentTotal() { return order.length; }
+  function doneCount() {
+    return order.filter(function (c) { return mastered[c.key]; }).length;
+  }
+  function fsCardHtml(c) {
+    var no = (idx + 1) + ' / ' + order.length;
+    var head, q;
+    if (c.kind === 'pj') {
+      var p = pjById[c.it.p] || { name: c.it.p, color: '#666' };
+      head = '<span class="ptag" style="color:' + esc(p.color) + '">' + esc(p.name) + '</span><span class="flag">项目题</span>';
+      q = c.it.q;
+    } else {
+      head = lvHtml(c.n.lv) + '<span class="flag">' + esc(domById[c.n.d] ? domById[c.n.d].name : '') + '</span>';
+      q = c.n.t;
+    }
+    return '<div class="fscard' + (c.kind === 'pj' ? ' is-pj' : '') + (ansOpen ? ' has-ans' : '') + '" id="fscard">'
+      + '<div class="fs-in">'
+      + '<div class="fs-meta">' + head + '</div>'
+      + '<p class="fs-q' + (c.kind === 'pj' ? ' pjq' : '') + '">' + esc(q) + '</p>'
+      + '<div class="fsans" id="fsans"' + (ansOpen ? '' : ' hidden') + '>' + answerInner(c) + '</div>'
+      + '<p class="fshint" id="fshint">' + (ansOpen ? '答案在上面 · 下滑或右滑换下一道' : '点卡看答案 · 下滑或右滑换下一道') + '</p>'
+      + '</div></div>';
+  }
+  function renderFs() {
+    if (fs.hidden) return;
+    var c = order[idx];
+    if (!c) {
+      fs.innerHTML = '<div class="fs-empty">这一组已经清空。<button data-fsx="1">退出</button></div>';
+      return;
+    }
+    fs.innerHTML = ''
+      + '<div class="fs-top">'
+      + '<button class="fs-x" data-fsx="1" aria-label="退出全屏">×</button>'
+      + '<span class="fs-count">' + (idx + 1) + ' / ' + order.length + '</span>'
+      + '<span class="fs-done">会了 ' + doneCount() + '</span>'
+      + '</div>'
+      + '<div class="fs-body">' + fsCardHtml(c) + '</div>'
+      + '<div class="fs-foot">'
+      + '<span class="cpbar"><i id="fsfill" style="width:' + (order.length ? Math.round((idx + 1) / order.length * 100) : 0) + '%"></i></span>'
+      + '<div class="fs-act"><button class="no" data-fsm="0" type="button">再练</button><button class="yes" data-fsm="1" type="button">' + (mastered[c.key] ? '会了 ✓' : '会了') + '</button></div>'
+      + '</div>';
+  }
+  function openFs(i) {
+    if (!order.length) return;
+    idx = typeof i === 'number' ? i : 0;
+    ansOpen = false;
+    fs.hidden = false;
+    document.body.classList.add('fs-on');
+    renderFs();
+    var body = fs.querySelector('.fs-body');
+    if (body) body.scrollTop = 0;
+    if (window.__kgcard) window.__kgcard.open = true;
+    try { history.pushState({ kgfs: 1 }, '', location.hash); } catch (e) {}
+  }
+  function closeFs(fromPop) {
+    if (fs.hidden) return;
+    fs.hidden = true;
+    document.body.classList.remove('fs-on');
+    ansOpen = false;
+    if (window.__kgcard) window.__kgcard.open = false;
+    renderList();
+    updFoot();
+    if (!fromPop) { try { history.back(); } catch (e) {} }
+  }
+  window.addEventListener('popstate', function () { if (!fs.hidden) closeFs(true); });
+
+  function toggleAns() {
+    ansOpen = !ansOpen;
+    var box = fs.querySelector('#fsans');
+    var hint = fs.querySelector('#fshint');
+    if (box) box.hidden = !ansOpen;
+    if (hint) hint.textContent = ansOpen ? '答案在上面 · 下滑或右滑换下一道' : '点卡看答案 · 下滑或右滑换下一道';
+    var body = fs.querySelector('.fs-body');
+    if (ansOpen && body) { /* 把题目留在视野：轻微下滚一点 */ }
+  }
+  function goFs(step) {
+    if (!order.length) return;
+    var card = fs.querySelector('#fscard');
+    var dir = step > 0 ? 'l' : 'r';
+    ansOpen = false;
+    if (!card) { idx = (idx + step + order.length) % order.length; renderFs(); return; }
+    card.classList.add('go-' + dir);
+    setTimeout(function () {
+      idx = (idx + step + order.length) % order.length;
+      renderFs();
+      var nc = fs.querySelector('#fscard');
+      if (nc) {
+        nc.classList.add('in-' + dir);
+        setTimeout(function () { nc.classList.remove('in-' + dir); }, 230);
+      }
+      var body = fs.querySelector('.fs-body');
+      if (body) body.scrollTop = 0;
+    }, 140);
+  }
+
+  /* ---------- 动作（面板内） ---------- */
   function flip() {
     if (!order.length) return;
     flipped = !flipped;
@@ -1089,10 +1393,11 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   }
   function go(step) {
     if (!order.length) return;
+    if (!fs.hidden) { goFs(step); return; }
     var dir = step > 0 ? 'l' : 'r';
     var card = host.querySelector('#ccard');
     flipped = false;
-    if (!card) { idx = (idx + step + order.length) % order.length; render(); return; }
+    if (!card) { idx = (idx + step + order.length) % order.length; render(); renderList(); return; }
     card.classList.add('out-' + dir);
     setTimeout(function () {
       idx = (idx + step + order.length) % order.length;
@@ -1104,15 +1409,24 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
       }
     }, 150);
   }
-  function mark(on) {
+  function mark(on, fromFs) {
     if (!order.length) return;
     var cur = order[idx];
     setMastered(cur.key, on);
     updFoot();
-    setTimeout(function () { go(1); }, 120);
+    renderList();
+    if (fromFs) {
+      var yes = fs.querySelector('.fs-act .yes');
+      if (yes) yes.textContent = mastered[cur.key] ? '会了 ✓' : '会了';
+      var d = fs.querySelector('.fs-done');
+      if (d) d.textContent = '会了 ' + doneCount();
+      setTimeout(function () { goFs(1); }, 120);
+    } else {
+      setTimeout(function () { go(1); }, 120);
+    }
   }
 
-  /* ---------- 手势 ---------- */
+  /* ---------- 手势：面板内 ---------- */
   var sx = 0, sy = 0, dx = 0, dy = 0, drag = null, locked = null, t0 = 0;
   function cardEl() { return host.querySelector('#ccard'); }
 
@@ -1146,12 +1460,74 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
     var wasLocked = locked;
     locked = null;
     if (wasLocked === 'x' && Math.abs(dx) > 60) { go(dx < 0 ? 1 : -1); return; }
-    /* 只有真正的抬手才算「点一下」；pointerleave/cancel 不翻面 */
     if (isUp && Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 500) flip();
   }
   host.addEventListener('pointerup', function (e) { endDrag(e, true); });
   host.addEventListener('pointercancel', function (e) { endDrag(e, false); });
   host.addEventListener('pointerleave', function (e) { if (drag) endDrag(e, false); });
+
+  /* ---------- 手势：全屏 ---------- */
+  var fx = 0, fy = 0, fdx = 0, fdy = 0, fdrag = null, flocked = null, ft0 = 0, fscrollTop = 0;
+  fs.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('a,button')) return;
+    var card = fs.querySelector('#fscard');
+    if (!card) return;
+    fdrag = card;
+    fx = e.clientX; fy = e.clientY; fdx = 0; fdy = 0; flocked = null; ft0 = Date.now();
+    var body = fs.querySelector('.fs-body');
+    fscrollTop = body ? body.scrollTop : 0;
+  });
+  fs.addEventListener('pointermove', function (e) {
+    if (!fdrag) return;
+    fdx = e.clientX - fx; fdy = e.clientY - fy;
+    if (!flocked) {
+      if (Math.abs(fdx) > 12 || Math.abs(fdy) > 12) flocked = Math.abs(fdx) > Math.abs(fdy) ? 'x' : 'y';
+      else return;
+    }
+    if (flocked === 'x') {
+      var w = Math.min(1, Math.abs(fdx) / 320);
+      fdrag.style.transform = 'translate(' + fdx + 'px,' + (fdy * 0.25) + 'px) rotate(' + (fdx / 30).toFixed(2) + 'deg)';
+      fdrag.style.opacity = String(1 - w * 0.22);
+    }
+  });
+  function endFsDrag(isUp) {
+    if (!fdrag) return;
+    var el = fdrag; fdrag = null;
+    el.style.transform = '';
+    el.style.opacity = '';
+    var dt = Date.now() - ft0;
+    var was = flocked;
+    flocked = null;
+    var body = fs.querySelector('.fs-body');
+    var st = body ? body.scrollTop : 0;
+
+    if (was === 'x') {
+      if (Math.abs(fdx) > 70) { goFs(fdx > 0 ? 1 : -1); return; }   /* 右滑=下一道，左滑=上一道 */
+    } else if (was === 'y') {
+      /* 下滑=下一道：只在内容已经滚到顶时生效；上滑留给读答案 */
+      if (fdy > 70 && st <= 1) { goFs(1); return; }
+    }
+    if (isUp && Math.abs(fdx) < 10 && Math.abs(fdy) < 10 && dt < 500) toggleAns();
+  }
+  fs.addEventListener('pointerup', function () { endFsDrag(true); });
+  fs.addEventListener('pointercancel', function () { endFsDrag(false); });
+
+  fs.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.closest('[data-fsx]')) { closeFs(false); return; }
+    var mk = t.closest('[data-fsm]');
+    if (mk) { mark(mk.getAttribute('data-fsm') === '1', true); return; }
+    var jp = t.closest('[data-jump]');
+    if (jp) {
+      var id = jp.getAttribute('data-jump');
+      closeFs(false);
+      setTimeout(function () {
+        var d = document.querySelector('#kn-' + id);
+        if (d) { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      }, 120);
+      return;
+    }
+  });
 
   /* ---------- 控件 ---------- */
   function chipsHtml() {
@@ -1182,14 +1558,16 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
 
   /* ---------- 骨架 ---------- */
   host.innerHTML = ''
-    + '<div class="lede">把知识点当单词卡背：<b>正面只给题，点一下翻答案</b>，左右滑换下一张。'
-    + '<span class="rule">「会了」会写进问答面板的「已掌握」，两处同一套进度；翻面后卡背可上下滚（左右滑仍换卡）。</span></div>'
+    + '<div class="lede">把知识点当单词卡背：<b>点一条进全屏</b>，点卡展开答案；'
+    + '<b>下滑或右滑</b>换下一道，左滑回上一道。'
+    + '<span class="rule">「会了」会写进问答面板的「已掌握」，两处同一套进度；答案长时可上下滚，滚到顶再下滑才换卡。</span></div>'
     + '<div class="cbar" id="cardsrc">'
     + '<button class="chip on" data-cs="kp">知识点 79</button>'
     + '<button class="chip" data-cs="pj">项目题 24</button>'
     + '<button class="chip" id="cshuffle" data-sh="1">打乱</button>'
     + '</div>'
     + '<div class="cbar" id="cardfilt"></div>'
+    + '<div class="clist" id="clist"></div>'
     + '<div class="cstage" id="cstage"></div>'
     + '<div class="cfoot"><span class="cprog" id="cpnum">0 / 0</span><span class="cpbar"><i id="cpfill"></i></span>'
     + '<span class="cnav"><button data-step="-1">上一张</button><button data-step="1">下一张</button></span></div>'
@@ -1220,25 +1598,31 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
       filt = cf.getAttribute('data-cf');
       renderChips(); rebuild(); return;
     }
+    var ci = t.closest('[data-ci]');
+    if (ci) { openFs(Number(ci.getAttribute('data-ci'))); return; }
     var st = t.closest('[data-step]');
     if (st) { go(Number(st.getAttribute('data-step'))); return; }
     var mk = t.closest('[data-mark]');
-    if (mk) { mark(mk.getAttribute('data-mark') === '1'); return; }
+    if (mk) { mark(mk.getAttribute('data-mark') === '1', false); return; }
     if (t.closest('#cardfilt')) return;
     /* 点卡的翻面由 pointerup 统一处理，这里不再重复触发（否则一次点击翻两下） */
   });
 
   document.addEventListener('keydown', function (e) {
-    if (!host.classList.contains('on')) return;
+    var fsOpen = !fs.hidden;
+    if (!fsOpen && !host.classList.contains('on')) return;
     if (/^(INPUT|TEXTAREA)$/.test(document.activeElement && document.activeElement.tagName)) return;
+    if (e.key === 'Escape' && fsOpen) { e.preventDefault(); closeFs(false); return; }
     if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
-    else if (e.key === ' ') { e.preventDefault(); flip(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); go(-1); }
+    else if (e.key === ' ') { e.preventDefault(); if (fsOpen) toggleAns(); else flip(); }
   });
 
   /* 别处（图谱/问答）改了已掌握，这里跟着刷新 */
   window.addEventListener('kg-mastered-changed', function () {
-    loadMastered(); renderChips(); updFoot();
+    loadMastered(); renderChips(); updFoot(); renderList();
   });
 
   renderChips();
@@ -1247,7 +1631,10 @@ a.src:hover{color:var(--ink);border-color:var(--ink-3)}
   /* 调试/外部调用钩子（不影响 UI） */
   window.__kgcard = {
     flip: flip, go: go, mark: mark, rebuild: rebuild,
-    state: function () { return { src: src, filt: filt, idx: idx, n: order.length, flipped: flipped }; }
+    openFs: openFs, closeFs: closeFs, toggleAns: toggleAns, goFs: goFs,
+    state: function () {
+      return { src: src, filt: filt, idx: idx, n: order.length, flipped: flipped, ansOpen: ansOpen, fs: !fs.hidden };
+    }
   };
 })();
 
